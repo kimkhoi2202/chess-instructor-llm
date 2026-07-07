@@ -1,0 +1,373 @@
+{
+  "n": 40,
+  "attempts_hist": {
+    "4": 12,
+    "1": 28
+  },
+  "before_fabrication_rate": 0.3,
+  "after_fabrication_rate": 0.0,
+  "fallback_rate": 0.3,
+  "mean_regenerations": 0.9,
+  "rows": [
+    {
+      "id": "yTjIRay8_32",
+      "tier": "beginner",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "Rb8",
+      "after_violations": []
+    },
+    {
+      "id": "IKFxmHWR_22",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Nd8",
+      "after_violations": []
+    },
+    {
+      "id": "jEFIU8MJ_25",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Nxc6",
+      "after_violations": []
+    },
+    {
+      "id": "KB0rBPfu_25",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Nd6",
+      "after_violations": []
+    },
+    {
+      "id": "IKFxmHWR_44",
+      "tier": "intermediate",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "Nxd7",
+      "after_violations": []
+    },
+    {
+      "id": "jEFIU8MJ_42",
+      "tier": "advanced",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "Qb7+",
+      "after_violations": []
+    },
+    {
+      "id": "KB0rBPfu_43",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Qa3",
+      "after_violations": []
+    },
+    {
+      "id": "Q2IOLJ1C_27",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Nb5",
+      "after_violations": []
+    },
+    {
+      "id": "jEFIU8MJ_58",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Qf3+",
+      "after_violations": []
+    },
+    {
+      "id": "QJKEDhuM_19",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Bxc5",
+      "after_violations": []
+    },
+    {
+      "id": "6bl7WKUu_20",
+      "tier": "intermediate",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "exd4",
+      "after_violations": []
+    },
+    {
+      "id": "Q2IOLJ1C_20",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "O-O",
+      "after_violations": []
+    },
+    {
+      "id": "QJKEDhuM_23",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "exd5",
+      "after_violations": []
+    },
+    {
+      "id": "6bl7WKUu_26",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "a5",
+      "after_violations": []
+    },
+    {
+      "id": "Q2IOLJ1C_34",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Ne4",
+      "after_violations": []
+    },
+    {
+      "id": "QJKEDhuM_27",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "hxg4",
+      "after_violations": []
+    },
+    {
+      "id": "6bl7WKUu_32",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Bxf6",
+      "after_violations": []
+    },
+    {
+      "id": "I5gqYIqs_18",
+      "tier": "advanced",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "Qc7",
+      "after_violations": []
+    },
+    {
+      "id": "8sb8K8ui_70",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "cxd6",
+      "after_violations": []
+    },
+    {
+      "id": "oZj8lboC_37",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "h4",
+      "after_violations": []
+    },
+    {
+      "id": "I5gqYIqs_21",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Nxe4",
+      "after_violations": []
+    },
+    {
+      "id": "FrxRxdSC_39",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Nf5",
+      "after_violations": []
+    },
+    {
+      "id": "oZj8lboC_79",
+      "tier": "intermediate",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "h3",
+      "after_violations": []
+    },
+    {
+      "id": "I5gqYIqs_24",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Bd7",
+      "after_violations": []
+    },
+    {
+      "id": "FrxRxdSC_85",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "f5",
+      "after_violations": []
+    },
+    {
+      "id": "oZj8lboC_121",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Rd7",
+      "after_violations": []
+    },
+    {
+      "id": "lXMsWlyq_29",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "c4",
+      "after_violations": []
+    },
+    {
+      "id": "sdm5uupP_25",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Qxe2",
+      "after_violations": []
+    },
+    {
+      "id": "8vJ1acJN_33",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Rad1",
+      "after_violations": []
+    },
+    {
+      "id": "lXMsWlyq_55",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Re2",
+      "after_violations": []
+    },
+    {
+      "id": "sdm5uupP_43",
+      "tier": "beginner",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "gxf6+",
+      "after_violations": []
+    },
+    {
+      "id": "8vJ1acJN_67",
+      "tier": "intermediate",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Kg4",
+      "after_violations": []
+    },
+    {
+      "id": "lXMsWlyq_80",
+      "tier": "advanced",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "Kf8",
+      "after_violations": []
+    },
+    {
+      "id": "sdm5uupP_61",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Kd2",
+      "after_violations": []
+    },
+    {
+      "id": "8vJ1acJN_101",
+      "tier": "intermediate",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "Qf2+",
+      "after_violations": []
+    },
+    {
+      "id": "yXvxzean_21",
+      "tier": "advanced",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "e4",
+      "after_violations": []
+    },
+    {
+      "id": "0VkxOn3q_18",
+      "tier": "beginner",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "c6",
+      "after_violations": []
+    },
+    {
+      "id": "mFx5yK0n_21",
+      "tier": "intermediate",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "b4",
+      "after_violations": []
+    },
+    {
+      "id": "yXvxzean_30",
+      "tier": "advanced",
+      "attempts": 4,
+      "verified_fallback": true,
+      "after_clean": true,
+      "rec": "a5",
+      "after_violations": []
+    },
+    {
+      "id": "0VkxOn3q_21",
+      "tier": "beginner",
+      "attempts": 1,
+      "verified_fallback": false,
+      "after_clean": true,
+      "rec": "Bd2",
+      "after_violations": []
+    }
+  ]
+}

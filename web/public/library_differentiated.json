@@ -1,0 +1,5916 @@
+[
+  {
+    "id": "mr9QjWOC_23",
+    "label": "Advanced · opening · played Be3 · tiers B:Qc4+/I:Qc4+/A:Bxd7+",
+    "fen": "2kr1b1r/p2bnppp/1q1p4/1B6/Q2Nn3/2P5/PP3PPP/RNB1K2R w KQ - 5 12",
+    "tier": "advanced",
+    "phase": "opening",
+    "severity": "inaccuracy",
+    "student_move": "Be3",
+    "coach": {
+      "recommended_move_san": "Bxd7+",
+      "recommended_move_uci": "b5d7",
+      "coaching": "I'd play Bxd7+. Be3 is understandable because it develops a piece and defends the bishop on b5, but it does not use the pressure Black is already creating on your queen. Play Bxd7+: your bishop takes the bishop on d7, so Black’s queen is no longer hanging on c8; if Black recaptures with Rxd7, you have traded off that hanging piece. After that, you can continue developing and improving your pieces while keeping pressure on the center.",
+      "takeaway": "When an opponent has hanging pieces, look for a clean capture that removes pressure before developing a new piece.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Qc4+",
+        "best_cp": 275,
+        "sound_pool": [
+          {
+            "san": "Qc4+",
+            "uci": "a4c4",
+            "cp": 275,
+            "pv": [
+              "Qc4+",
+              "Qc7",
+              "Qxf7",
+              "Bxb5",
+              "Nxb5",
+              "Qb6"
+            ]
+          },
+          {
+            "san": "Na3",
+            "uci": "b1a3",
+            "cp": 268,
+            "pv": [
+              "Na3",
+              "d5",
+              "Be3",
+              "Ng6",
+              "O-O",
+              "Ne5"
+            ]
+          },
+          {
+            "san": "O-O",
+            "uci": "e1g1",
+            "cp": 261,
+            "pv": [
+              "O-O",
+              "Nc5",
+              "Bxd7+",
+              "Rxd7",
+              "Qc2",
+              "g6"
+            ]
+          },
+          {
+            "san": "Bxd7+",
+            "uci": "b5d7",
+            "cp": 255,
+            "pv": [
+              "Bxd7+",
+              "Rxd7",
+              "O-O",
+              "Nc5",
+              "Qc2",
+              "g6"
+            ]
+          },
+          {
+            "san": "Nd2",
+            "uci": "b1d2",
+            "cp": 249,
+            "pv": [
+              "Nd2",
+              "Bxb5",
+              "Qxb5",
+              "Qxb5",
+              "Nxb5",
+              "Nxd2"
+            ]
+          },
+          {
+            "san": "Qa6+",
+            "uci": "a4a6",
+            "cp": 204,
+            "pv": [
+              "Qa6+",
+              "Qxa6",
+              "Bxa6+",
+              "Kc7",
+              "O-O",
+              "d5"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "c1e3",
+            "cp": 183,
+            "pv": [
+              "Be3",
+              "Nc5",
+              "Qc4",
+              "Bxb5",
+              "Nxb5",
+              "Nf5"
+            ]
+          },
+          {
+            "san": "g3",
+            "uci": "g2g3",
+            "cp": 178,
+            "pv": [
+              "g3",
+              "Bxb5",
+              "Qxb5",
+              "Qxb5",
+              "Nxb5",
+              "Nc6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Be3",
+          "uci": "c1e3",
+          "cp_loss": 94,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Bxd7+",
+          "uci": "b5d7",
+          "policy": 0.5571
+        },
+        {
+          "san": "Be3",
+          "uci": "c1e3",
+          "policy": 0.1193
+        },
+        {
+          "san": "Ba6+",
+          "uci": "b5a6",
+          "policy": 0.053099999999999994
+        },
+        {
+          "san": "Nd2",
+          "uci": "b1d2",
+          "policy": 0.0277
+        },
+        {
+          "san": "Na3",
+          "uci": "b1a3",
+          "policy": 0.016399999999999998
+        },
+        {
+          "san": "f3",
+          "uci": "f2f3",
+          "policy": 0.013300000000000001
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "b92oJhdS_51",
+    "label": "Advanced · middlegame · played Rd3 · tiers B:Nc4/I:Nc4/A:Be3",
+    "fen": "8/1p4p1/pNkb1p1p/P7/3B4/8/1PP2PPP/3R2K1 w - - 0 26",
+    "tier": "advanced",
+    "phase": "middlegame",
+    "severity": "none",
+    "student_move": "Rd3",
+    "coach": {
+      "recommended_move_san": "Be3",
+      "recommended_move_uci": "d4e3",
+      "coaching": "I'd play Be3. Your idea is right: you want to challenge the bishop on d6 and keep your c-pawn defended. The difference is whether you use the right piece. Be3 is the cleaner move because it attacks the bishop while defending the c-pawn and also keeps pressure on f6. If Black tries Bc7, you can answer with Nc4, so your pieces are not just reacting to one threat but improving your counterplay.",
+      "takeaway": "When an attacked pawn is defended, choose the piece that attacks the bishop while defending the pawn and keeping counterplay.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Nc4",
+        "best_cp": 821,
+        "sound_pool": [
+          {
+            "san": "Nc4",
+            "uci": "b6c4",
+            "cp": 821,
+            "pv": [
+              "Nc4",
+              "Bc5",
+              "c3",
+              "Kb5",
+              "b3",
+              "Bxd4"
+            ]
+          },
+          {
+            "san": "f3",
+            "uci": "f2f3",
+            "cp": 819,
+            "pv": [
+              "f3",
+              "Bb8",
+              "Nc4",
+              "Kb5",
+              "b3",
+              "Kb4"
+            ]
+          },
+          {
+            "san": "Nc8",
+            "uci": "b6c8",
+            "cp": 819,
+            "pv": [
+              "Nc8",
+              "Bc7",
+              "Na7+",
+              "Kd7",
+              "Bb6+",
+              "Bd6"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "d4e3",
+            "cp": 815,
+            "pv": [
+              "Be3",
+              "Bc7",
+              "f3",
+              "Bxb6",
+              "axb6"
+            ]
+          },
+          {
+            "san": "Bc3",
+            "uci": "d4c3",
+            "cp": 812,
+            "pv": [
+              "Bc3",
+              "Bc7",
+              "Nc4",
+              "b5",
+              "axb6",
+              "Bxb6"
+            ]
+          },
+          {
+            "san": "Kf1",
+            "uci": "g1f1",
+            "cp": 812,
+            "pv": [
+              "Kf1",
+              "Bxh2",
+              "g3",
+              "h5",
+              "Rd3",
+              "h4"
+            ]
+          },
+          {
+            "san": "b3",
+            "uci": "b2b3",
+            "cp": 811,
+            "pv": [
+              "b3",
+              "Bb4",
+              "Nc4",
+              "Kb5",
+              "Kf1",
+              "Bxa5"
+            ]
+          },
+          {
+            "san": "g3",
+            "uci": "g2g3",
+            "cp": 810,
+            "pv": [
+              "g3",
+              "Bb4",
+              "Bc3",
+              "Bxc3",
+              "bxc3",
+              "h5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Rd3",
+          "uci": "d1d3",
+          "cp_loss": 34,
+          "severity": "none"
+        }
+      },
+      "maia": [
+        {
+          "san": "c4",
+          "uci": "c2c4",
+          "policy": 0.16440000000000002
+        },
+        {
+          "san": "Be3",
+          "uci": "d4e3",
+          "policy": 0.1548
+        },
+        {
+          "san": "Nc4",
+          "uci": "b6c4",
+          "policy": 0.10890000000000001
+        },
+        {
+          "san": "Nc8",
+          "uci": "b6c8",
+          "policy": 0.1056
+        },
+        {
+          "san": "Bc3",
+          "uci": "d4c3",
+          "policy": 0.1013
+        },
+        {
+          "san": "Bxf6",
+          "uci": "d4f6",
+          "policy": 0.0758
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "GEHbHVSu_23",
+    "label": "Intermediate · middlegame · played O-O · tiers B:cxb4/I:cxb4/A:Bxc6+",
+    "fen": "r3k2r/ppp2ppp/2n5/q3p3/1b6/2PPBB2/P4PPP/R2QK2R w KQkq - 0 12",
+    "tier": "intermediate",
+    "phase": "middlegame",
+    "severity": "blunder",
+    "student_move": "O-O",
+    "coach": {
+      "recommended_move_san": "cxb4",
+      "recommended_move_uci": "c3b4",
+      "coaching": "I'd play cxb4. Your castling is understandable, but it lets Black keep the active bishop on b4 while your pawn on c3 is attacked. Play cxb4 instead: remove the bishop first, so Black has to deal with the pawn pressure, and if Black recaptures with Qxb4+, you can follow with Qd2, attacking the queen on a5.",
+      "takeaway": "When an attacked pawn is also defended by a piece, remove the defender before you castle on the side where the pawn is hanging.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Bxc6+",
+        "best_cp": 418,
+        "sound_pool": [
+          {
+            "san": "Bxc6+",
+            "uci": "f3c6",
+            "cp": 418,
+            "pv": [
+              "Bxc6+",
+              "bxc6",
+              "cxb4",
+              "Qxb4+",
+              "Bd2",
+              "Qd6"
+            ]
+          },
+          {
+            "san": "cxb4",
+            "uci": "c3b4",
+            "cp": 413,
+            "pv": [
+              "cxb4",
+              "Qxb4+",
+              "Qd2",
+              "Qxd2+",
+              "Kxd2",
+              "f5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "O-O",
+          "uci": "e1g1",
+          "cp_loss": 406,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "cxb4",
+          "uci": "c3b4",
+          "policy": 0.3236
+        },
+        {
+          "san": "Bxc6+",
+          "uci": "f3c6",
+          "policy": 0.15810000000000002
+        },
+        {
+          "san": "Bd2",
+          "uci": "e3d2",
+          "policy": 0.1492
+        },
+        {
+          "san": "Qb3",
+          "uci": "d1b3",
+          "policy": 0.102
+        },
+        {
+          "san": "Qc2",
+          "uci": "d1c2",
+          "policy": 0.0492
+        },
+        {
+          "san": "Qd2",
+          "uci": "d1d2",
+          "policy": 0.025
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "VsykaIN0_82",
+    "label": "Beginner · endgame · played f6 · tiers B:Kf6/I:Kf6/A:Ra3",
+    "fen": "8/5p2/r2p2k1/3R1p2/5P2/5NKP/8/8 b - - 9 41",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "none",
+    "student_move": "f6",
+    "coach": {
+      "recommended_move_san": "Kf6",
+      "recommended_move_uci": "g6f6",
+      "coaching": "I'd play Kf6. Your f6-knight is a very natural capture, but it leaves your king on f6 undefended. Play Kf6 instead: your king defends the f5 and f7 pawns, and your rook on a8 is still attacking the knight on f3.",
+      "takeaway": "When you can capture a piece, try to defend the square where your king is; do not capture only for the capture.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Ra3",
+        "best_cp": -358,
+        "sound_pool": [
+          {
+            "san": "Ra3",
+            "uci": "a6a3",
+            "cp": -358,
+            "pv": [
+              "Ra3",
+              "Rxd6+",
+              "Kh5",
+              "Rf6",
+              "Ra5",
+              "Rc6"
+            ]
+          },
+          {
+            "san": "Ra1",
+            "uci": "a6a1",
+            "cp": -421,
+            "pv": [
+              "Ra1",
+              "Nh4+",
+              "Kf6",
+              "Nxf5",
+              "Ke6",
+              "Rb5"
+            ]
+          },
+          {
+            "san": "Rc6",
+            "uci": "a6c6",
+            "cp": -428,
+            "pv": [
+              "Rc6",
+              "Nh4+",
+              "Kf6",
+              "Rxf5+",
+              "Ke6",
+              "Rg5"
+            ]
+          },
+          {
+            "san": "Ra8",
+            "uci": "a6a8",
+            "cp": -429,
+            "pv": [
+              "Ra8",
+              "Nh4+",
+              "Kf6",
+              "Rxd6+",
+              "Kg7",
+              "Nxf5+"
+            ]
+          },
+          {
+            "san": "Kf6",
+            "uci": "g6f6",
+            "cp": -447,
+            "pv": [
+              "Kf6",
+              "Nd4",
+              "Ra3+",
+              "Kh4",
+              "Ke7",
+              "Nxf5+"
+            ]
+          },
+          {
+            "san": "Ra2",
+            "uci": "a6a2",
+            "cp": -430,
+            "pv": [
+              "Ra2",
+              "Nh4+",
+              "Kf6",
+              "Rxd6+",
+              "Kg7",
+              "Nxf5+"
+            ]
+          },
+          {
+            "san": "Ra7",
+            "uci": "a6a7",
+            "cp": -433,
+            "pv": [
+              "Ra7",
+              "Nh4+",
+              "Kf6",
+              "Nxf5",
+              "Ke6",
+              "Rb5"
+            ]
+          },
+          {
+            "san": "Ra4",
+            "uci": "a6a4",
+            "cp": -434,
+            "pv": [
+              "Ra4",
+              "Nh4+",
+              "Kf6",
+              "Nxf5",
+              "Ke6",
+              "Rb5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "f6",
+          "uci": "f7f6",
+          "cp_loss": 21,
+          "severity": "none"
+        }
+      },
+      "maia": [
+        {
+          "san": "Kf6",
+          "uci": "g6f6",
+          "policy": 0.2401
+        },
+        {
+          "san": "f6",
+          "uci": "f7f6",
+          "policy": 0.1722
+        },
+        {
+          "san": "Ra3",
+          "uci": "a6a3",
+          "policy": 0.1082
+        },
+        {
+          "san": "Rc6",
+          "uci": "a6c6",
+          "policy": 0.09849999999999999
+        },
+        {
+          "san": "Kh5",
+          "uci": "g6h5",
+          "policy": 0.08839999999999999
+        },
+        {
+          "san": "Ra2",
+          "uci": "a6a2",
+          "policy": 0.064
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "X1nwiPgj_124",
+    "label": "Intermediate · endgame · played Kf6 · tiers B:f5/I:Ra4/A:Ra4",
+    "fen": "R7/P4p2/4k1p1/4p3/5rPP/6K1/8/8 b - - 1 62",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "inaccuracy",
+    "student_move": "Kf6",
+    "coach": {
+      "recommended_move_san": "Ra4",
+      "recommended_move_uci": "f4a4",
+      "coaching": "I'd play Ra4. Kf6 is understandable because it defends f7, but it lets White keep the active rook on b4 and the pawn on g4 while your rook on a4 is still undeveloped. Play Ra4 instead: it attacks g4, keeps your rook active, and if White recaptures with Re8+, you can simply play Kf6 and keep pressure on the center.",
+      "takeaway": "When you have an active rook and an undeveloped rook, look for a rook move that attacks the center pawn while keeping your rook active.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "f5",
+        "best_cp": -576,
+        "sound_pool": [
+          {
+            "san": "f5",
+            "uci": "f7f5",
+            "cp": -576,
+            "pv": [
+              "f5",
+              "gxf5+",
+              "Ke7",
+              "Rb8",
+              "Ra4",
+              "a8=Q"
+            ]
+          },
+          {
+            "san": "Kd7",
+            "uci": "e6d7",
+            "cp": -586,
+            "pv": [
+              "Kd7",
+              "Rb8",
+              "Ra4",
+              "a8=Q",
+              "Rxa8",
+              "Rxa8"
+            ]
+          },
+          {
+            "san": "Ke7",
+            "uci": "e6e7",
+            "cp": -615,
+            "pv": [
+              "Ke7",
+              "Rb8",
+              "Ra4",
+              "a8=Q",
+              "Rxa8",
+              "Rxa8"
+            ]
+          },
+          {
+            "san": "Ra4",
+            "uci": "f4a4",
+            "cp": -575,
+            "pv": [
+              "Ra4",
+              "Re8+",
+              "Kf6",
+              "a8=Q",
+              "Rxa8",
+              "Rxa8"
+            ]
+          },
+          {
+            "san": "Rb4",
+            "uci": "f4b4",
+            "cp": -588,
+            "pv": [
+              "Rb4",
+              "Rb8",
+              "Ra4",
+              "Re8+",
+              "Kf6",
+              "a8=Q"
+            ]
+          },
+          {
+            "san": "Kf6",
+            "uci": "e6f6",
+            "cp": -600,
+            "pv": [
+              "Kf6",
+              "Re8",
+              "Ra4",
+              "a8=Q",
+              "Rxa8",
+              "g5+"
+            ]
+          },
+          {
+            "san": "Rd4",
+            "uci": "f4d4",
+            "cp": -600,
+            "pv": [
+              "Rd4",
+              "Re8+",
+              "Kf6",
+              "a8=Q",
+              "Rd3+",
+              "Qf3+"
+            ]
+          },
+          {
+            "san": "Rc4",
+            "uci": "f4c4",
+            "cp": -604,
+            "pv": [
+              "Rc4",
+              "Re8+",
+              "Kf6",
+              "a8=Q",
+              "Rc3+",
+              "Qf3+"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kf6",
+          "uci": "e6f6",
+          "cp_loss": 92,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Ra4",
+          "uci": "f4a4",
+          "policy": 0.4341
+        },
+        {
+          "san": "Rb4",
+          "uci": "f4b4",
+          "policy": 0.0861
+        },
+        {
+          "san": "f5",
+          "uci": "f7f5",
+          "policy": 0.07980000000000001
+        },
+        {
+          "san": "Kd6",
+          "uci": "e6d6",
+          "policy": 0.0458
+        },
+        {
+          "san": "Rd4",
+          "uci": "f4d4",
+          "policy": 0.0446
+        },
+        {
+          "san": "Kd5",
+          "uci": "e6d5",
+          "policy": 0.0443
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "fnBHKTnz_125",
+    "label": "Advanced · endgame · played Ra7 · tiers B:Ra7/I:Ra7/A:Ra1",
+    "fen": "8/2p3Kp/6p1/R7/1pk4r/6r1/8/8 w - - 2 63",
+    "tier": "advanced",
+    "phase": "endgame",
+    "severity": "none",
+    "student_move": "Ra7",
+    "coach": {
+      "recommended_move_san": "Ra1",
+      "recommended_move_uci": "a5a1",
+      "coaching": "I'd play Ra7. Ra7 is a very natural rook move because it attacks c7, so the pawn is under pressure. The problem is that it leaves your rook on a1, where it can be chased by c5 and your king is still on c4. Play Ra7 instead: if Black tries c5, you have ...Ra1, keeping pressure on c7 while your rook is still active on a1.",
+      "takeaway": "When an attacked pawn is available, do not just move the rook; ask whether you can keep pressure on it while improving your active rook.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Ra7",
+        "best_cp": -782,
+        "sound_pool": [
+          {
+            "san": "Ra7",
+            "uci": "a5a7",
+            "cp": -782,
+            "pv": [
+              "Ra7",
+              "c5",
+              "Ra1",
+              "Kd4",
+              "Kg8",
+              "Ra3"
+            ]
+          },
+          {
+            "san": "Ra1",
+            "uci": "a5a1",
+            "cp": -783,
+            "pv": [
+              "Ra1",
+              "Ra3",
+              "Rc1+",
+              "Rc3",
+              "Ra1",
+              "c5"
+            ]
+          },
+          {
+            "san": "Ra2",
+            "uci": "a5a2",
+            "cp": -786,
+            "pv": [
+              "Ra2",
+              "c5",
+              "Kf6",
+              "Kd4",
+              "Ra7",
+              "Kc3"
+            ]
+          },
+          {
+            "san": "Kf6",
+            "uci": "g7f6",
+            "cp": -787,
+            "pv": [
+              "Kf6",
+              "c5",
+              "Ra1",
+              "Ra3",
+              "Re1",
+              "Rc3"
+            ]
+          },
+          {
+            "san": "Ra6",
+            "uci": "a5a6",
+            "cp": -795,
+            "pv": [
+              "Ra6",
+              "c5",
+              "Kf6",
+              "Rd4",
+              "Ra7",
+              "b3"
+            ]
+          },
+          {
+            "san": "Ra8",
+            "uci": "a5a8",
+            "cp": -800,
+            "pv": [
+              "Ra8",
+              "c5",
+              "Ra6",
+              "Rd3",
+              "Kf6",
+              "Kc3"
+            ]
+          },
+          {
+            "san": "Re5",
+            "uci": "a5e5",
+            "cp": -810,
+            "pv": [
+              "Re5",
+              "c5",
+              "Re1",
+              "b3",
+              "Kf6",
+              "b2"
+            ]
+          },
+          {
+            "san": "Kf7",
+            "uci": "g7f7",
+            "cp": -786,
+            "pv": [
+              "Kf7",
+              "Rf3+",
+              "Kg8",
+              "Ra3",
+              "Re5",
+              "b3"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Ra7",
+          "uci": "a5a7",
+          "cp_loss": 36,
+          "severity": "none"
+        }
+      },
+      "maia": [
+        {
+          "san": "Ra7",
+          "uci": "a5a7",
+          "policy": 0.22030000000000002
+        },
+        {
+          "san": "Kf6",
+          "uci": "g7f6",
+          "policy": 0.193
+        },
+        {
+          "san": "Ra1",
+          "uci": "a5a1",
+          "policy": 0.12359999999999999
+        },
+        {
+          "san": "Ra8",
+          "uci": "a5a8",
+          "policy": 0.0858
+        },
+        {
+          "san": "Ra6",
+          "uci": "a5a6",
+          "policy": 0.0814
+        },
+        {
+          "san": "Re5",
+          "uci": "a5e5",
+          "policy": 0.0533
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "p8rjXmuV_127",
+    "label": "Beginner · endgame · played f6 · picks Kd4 over engine f6",
+    "fen": "8/5k2/8/r2pKP2/8/8/8/8 w - - 1 64",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "blunder",
+    "student_move": "f6",
+    "coach": {
+      "recommended_move_san": "Kd4",
+      "recommended_move_uci": "e5d4",
+      "coaching": "I'd play Kd4. Your f6 idea is understandable because it attacks d5, but it lets Black’s rook on e4 stay active while your king is still on e5. Play Kd4 instead: your king moves out of the rook’s line and attacks d5, so Black’s rook has to deal with your king first.",
+      "takeaway": "When your king is attacked, look for a safe king move that attacks the loose rook or pawn.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "f6",
+        "best_cp": -1247,
+        "sound_pool": [
+          {
+            "san": "f6",
+            "uci": "f5f6",
+            "cp": -1247,
+            "pv": [
+              "f6",
+              "Rb5",
+              "Kf5",
+              "Rb8",
+              "Ke5",
+              "Rd8"
+            ]
+          },
+          {
+            "san": "Kd4",
+            "uci": "e5d4",
+            "cp": -1248,
+            "pv": [
+              "Kd4",
+              "Kf6",
+              "Kc3",
+              "Kxf5",
+              "Kb4",
+              "Ra8"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "f6",
+          "uci": "f5f6",
+          "cp_loss": 98800,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "f6",
+          "uci": "f5f6",
+          "policy": 0.575
+        },
+        {
+          "san": "Kd4",
+          "uci": "e5d4",
+          "policy": 0.1772
+        },
+        {
+          "san": "Kf4",
+          "uci": "e5f4",
+          "policy": 0.142
+        },
+        {
+          "san": "Kd6",
+          "uci": "e5d6",
+          "policy": 0.1059
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "flY6Tk8T_19",
+    "label": "Advanced · opening · played Nxc6 · tiers B:Nxg4/I:Bxc6/A:Bxc6",
+    "fen": "2rq1rk1/pp2bppp/2n1pn2/1BppN3/Q2P2b1/P1P1P3/1P1N1PPP/R1B1K2R w KQ - 7 10",
+    "tier": "advanced",
+    "phase": "opening",
+    "severity": "mistake",
+    "student_move": "Nxc6",
+    "coach": {
+      "recommended_move_san": "Bxc6",
+      "recommended_move_uci": "b5c6",
+      "coaching": "I'd play Bxc6. Nxc6 is understandable because it removes a loose piece, but it leaves Black’s active bishop on c6 and your queen on a4 still defended. Play Bxc6 instead: remove the bishop that is attacking your queen, and if Black recaptures with bxc6, you have traded off that active piece while keeping your queen defended.",
+      "takeaway": "When an opponent’s active piece is attacking your queen, prefer recapturing it over capturing the same piece again.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Nxg4",
+        "best_cp": 54,
+        "sound_pool": [
+          {
+            "san": "Nxg4",
+            "uci": "e5g4",
+            "cp": 54,
+            "pv": [
+              "Nxg4",
+              "Nxg4",
+              "dxc5",
+              "f5",
+              "h3",
+              "Nf6"
+            ]
+          },
+          {
+            "san": "Bxc6",
+            "uci": "b5c6",
+            "cp": 49,
+            "pv": [
+              "Bxc6",
+              "bxc6",
+              "Nxg4",
+              "Nxg4",
+              "dxc5",
+              "f5"
+            ]
+          },
+          {
+            "san": "f3",
+            "uci": "f2f3",
+            "cp": -7,
+            "pv": [
+              "f3",
+              "Bf5",
+              "Bxc6",
+              "bxc6",
+              "Nxc6",
+              "Qc7"
+            ]
+          },
+          {
+            "san": "O-O",
+            "uci": "e1g1",
+            "cp": -10,
+            "pv": [
+              "O-O",
+              "Qc7"
+            ]
+          },
+          {
+            "san": "h3",
+            "uci": "h2h3",
+            "cp": -39,
+            "pv": [
+              "h3",
+              "Bf5",
+              "Bxc6",
+              "bxc6",
+              "Nxc6",
+              "Qd7"
+            ]
+          },
+          {
+            "san": "Ndf3",
+            "uci": "d2f3",
+            "cp": -89,
+            "pv": [
+              "Ndf3",
+              "Nxe5",
+              "Nxe5",
+              "c4",
+              "Nxg4",
+              "Nxg4"
+            ]
+          },
+          {
+            "san": "Nxc6",
+            "uci": "e5c6",
+            "cp": -93,
+            "pv": [
+              "Nxc6",
+              "bxc6",
+              "Bxc6",
+              "c4",
+              "e4",
+              "Qc7"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Nxc6",
+          "uci": "e5c6",
+          "cp_loss": 160,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Bxc6",
+          "uci": "b5c6",
+          "policy": 0.3921
+        },
+        {
+          "san": "Nxc6",
+          "uci": "e5c6",
+          "policy": 0.2888
+        },
+        {
+          "san": "Nxg4",
+          "uci": "e5g4",
+          "policy": 0.0697
+        },
+        {
+          "san": "h3",
+          "uci": "h2h3",
+          "policy": 0.051100000000000007
+        },
+        {
+          "san": "f3",
+          "uci": "f2f3",
+          "policy": 0.0285
+        },
+        {
+          "san": "Qxa7",
+          "uci": "a4a7",
+          "policy": 0.0281
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "szINDRzX_104",
+    "label": "Advanced · endgame · played Be3 · tiers B:Bg7/I:Bg7/A:Bd2",
+    "fen": "8/5k2/1p5b/pN2PK2/P2P4/8/8/8 b - - 1 52",
+    "tier": "advanced",
+    "phase": "endgame",
+    "severity": "inaccuracy",
+    "student_move": "Be3",
+    "coach": {
+      "recommended_move_san": "Bd2",
+      "recommended_move_uci": "h6d2",
+      "coaching": "I'd play Be3. Be3 is a very natural developing move because it defends the pawn on d4 and keeps your pieces active. The problem with Be3 is that it leaves your bishop on d2 undefended, so White can play ...d5 and start attacking your center. A cleaner move is Be3 with Bd2: if White plays ...d5, you have defended the pawn on d4 and can recapture with Be1, while your bishop on g7 is still active.",
+      "takeaway": "When defending a center pawn, choose the recapture that keeps your active pieces intact over a quiet recapture.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Bg7",
+        "best_cp": -606,
+        "sound_pool": [
+          {
+            "san": "Bg7",
+            "uci": "h6g7",
+            "cp": -606,
+            "pv": [
+              "Bg7",
+              "d5",
+              "Bxe5",
+              "Kxe5",
+              "Ke7",
+              "d6+"
+            ]
+          },
+          {
+            "san": "Ke8",
+            "uci": "f7e8",
+            "cp": -646,
+            "pv": [
+              "Ke8",
+              "d5",
+              "Bf8",
+              "d6",
+              "Bxd6",
+              "Nxd6+"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "h6e3",
+            "cp": -666,
+            "pv": [
+              "Be3",
+              "d5",
+              "Ke8",
+              "d6",
+              "Bh6",
+              "e6"
+            ]
+          },
+          {
+            "san": "Bd2",
+            "uci": "h6d2",
+            "cp": -526,
+            "pv": [
+              "Bd2",
+              "d5",
+              "Be1",
+              "d6",
+              "Bh4",
+              "e6+"
+            ]
+          },
+          {
+            "san": "Kf8",
+            "uci": "f7f8",
+            "cp": -528,
+            "pv": [
+              "Kf8",
+              "d5",
+              "Be3",
+              "d6",
+              "Bf2",
+              "e6"
+            ]
+          },
+          {
+            "san": "Bf8",
+            "uci": "h6f8",
+            "cp": -566,
+            "pv": [
+              "Bf8",
+              "d5",
+              "Be7",
+              "e6+",
+              "Kg7",
+              "Ke5"
+            ]
+          },
+          {
+            "san": "Kg8",
+            "uci": "f7g8",
+            "cp": -570,
+            "pv": [
+              "Kg8",
+              "d5",
+              "Bf8",
+              "Ke6",
+              "Kg7",
+              "d6"
+            ]
+          },
+          {
+            "san": "Kg7",
+            "uci": "f7g7",
+            "cp": -589,
+            "pv": [
+              "Kg7",
+              "d5",
+              "Be3",
+              "d6",
+              "Bf2",
+              "Ke6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Be3",
+          "uci": "h6e3",
+          "cp_loss": 96,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Be3",
+          "uci": "h6e3",
+          "policy": 0.3986
+        },
+        {
+          "san": "Ke7",
+          "uci": "f7e7",
+          "policy": 0.1519
+        },
+        {
+          "san": "Bd2",
+          "uci": "h6d2",
+          "policy": 0.15
+        },
+        {
+          "san": "Bg7",
+          "uci": "h6g7",
+          "policy": 0.1219
+        },
+        {
+          "san": "Bf8",
+          "uci": "h6f8",
+          "policy": 0.11199999999999999
+        },
+        {
+          "san": "Bc1",
+          "uci": "h6c1",
+          "policy": 0.0392
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "S7XkYxxe_103",
+    "label": "Intermediate · endgame · played Kc3 · tiers B:Kc3/I:Kd4/A:Kd4",
+    "fen": "8/5pp1/4p1p1/1k1pP3/1P3P2/3K4/8/8 w - - 1 52",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "blunder",
+    "student_move": "Kc3",
+    "coach": {
+      "recommended_move_san": "Kd4",
+      "recommended_move_uci": "d3d4",
+      "coaching": "I'd play Kd4. Kc3 is understandable because it defends b4, but it leaves Black’s active pawn on f4 hanging. Play Kd4 instead: it defends e5 while attacking d5, so you are defending your center and forcing Black to spend a tempo on that pawn.",
+      "takeaway": "When you have a loose pawn, look for a move that defends it while also attacking another loose pawn.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Kc3",
+        "best_cp": -732,
+        "sound_pool": [
+          {
+            "san": "Kc3",
+            "uci": "d3c3",
+            "cp": -732,
+            "pv": [
+              "Kc3",
+              "Ka4"
+            ]
+          },
+          {
+            "san": "Ke2",
+            "uci": "d3e2",
+            "cp": -786,
+            "pv": [
+              "Ke2",
+              "Kxb4",
+              "Kd2",
+              "Kc4",
+              "Ke3",
+              "Kc3"
+            ]
+          },
+          {
+            "san": "Ke3",
+            "uci": "d3e3",
+            "cp": -787,
+            "pv": [
+              "Ke3",
+              "Kc4",
+              "Kd2",
+              "Kxb4",
+              "Kd3",
+              "Kc5"
+            ]
+          },
+          {
+            "san": "Kd4",
+            "uci": "d3d4",
+            "cp": -787,
+            "pv": [
+              "Kd4",
+              "Kxb4",
+              "Kd3",
+              "Kc5",
+              "Ke3",
+              "Kc4"
+            ]
+          },
+          {
+            "san": "Kc2",
+            "uci": "d3c2",
+            "cp": -787,
+            "pv": [
+              "Kc2",
+              "Kxb4",
+              "Kd2",
+              "Kc4",
+              "Ke3",
+              "Kc3"
+            ]
+          },
+          {
+            "san": "f5",
+            "uci": "f4f5",
+            "cp": -818,
+            "pv": [
+              "f5",
+              "gxf5",
+              "Ke2",
+              "Kxb4",
+              "Kf1",
+              "Kc5"
+            ]
+          },
+          {
+            "san": "Kd2",
+            "uci": "d3d2",
+            "cp": -659,
+            "pv": [
+              "Kd2",
+              "Kxb4",
+              "Kd3",
+              "Kc5",
+              "Kc3",
+              "d4+"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kc3",
+          "uci": "d3c3",
+          "cp_loss": 629,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "Kc3",
+          "uci": "d3c3",
+          "policy": 0.6082
+        },
+        {
+          "san": "Kd4",
+          "uci": "d3d4",
+          "policy": 0.24480000000000002
+        },
+        {
+          "san": "Ke3",
+          "uci": "d3e3",
+          "policy": 0.1167
+        },
+        {
+          "san": "Ke2",
+          "uci": "d3e2",
+          "policy": 0.0109
+        },
+        {
+          "san": "Kc2",
+          "uci": "d3c2",
+          "policy": 0.0084
+        },
+        {
+          "san": "Kd2",
+          "uci": "d3d2",
+          "policy": 0.006
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "diZkf8wa_37",
+    "label": "Beginner · opening · played d4 · tiers B:Be1/I:Ne2/A:Be1",
+    "fen": "4rrk1/pppq2p1/3bb1np/3n1p2/4p3/P2PP1PP/1PPB2BN/R1Q2RNK w - - 0 19",
+    "tier": "beginner",
+    "phase": "opening",
+    "severity": "mistake",
+    "student_move": "d4",
+    "coach": {
+      "recommended_move_san": "Be1",
+      "recommended_move_uci": "d2e1",
+      "coaching": "I'd play Be1. Your d4 push is understandable because it attacks the knight on d5, but it does not solve the bigger problem: your queen on c1 is undefended and Black can simply take it. Play Be1 instead: develop the bishop, defend the queen on c1, and make Black react to your queen trade.",
+      "takeaway": "When your queen is undefended, first ask if you can trade it off with a developing piece before pushing another pawn.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Ne2",
+        "best_cp": -186,
+        "sound_pool": [
+          {
+            "san": "Ne2",
+            "uci": "g1e2",
+            "cp": -186,
+            "pv": [
+              "Ne2",
+              "Nf6",
+              "Bc3",
+              "Bd5",
+              "Bxf6",
+              "Rxf6"
+            ]
+          },
+          {
+            "san": "dxe4",
+            "uci": "d3e4",
+            "cp": -202,
+            "pv": [
+              "dxe4",
+              "Nf6",
+              "exf5",
+              "Bxf5",
+              "Be1",
+              "Ne5"
+            ]
+          },
+          {
+            "san": "Be1",
+            "uci": "d2e1",
+            "cp": -204,
+            "pv": [
+              "Be1",
+              "Ne5",
+              "Qd2",
+              "Bc5",
+              "Bf2",
+              "Nf6"
+            ]
+          },
+          {
+            "san": "Qe1",
+            "uci": "c1e1",
+            "cp": -221,
+            "pv": [
+              "Qe1",
+              "exd3",
+              "cxd3",
+              "Qb5",
+              "Ne2",
+              "Qxd3"
+            ]
+          },
+          {
+            "san": "c4",
+            "uci": "c2c4",
+            "cp": -302,
+            "pv": [
+              "c4",
+              "Nf6",
+              "dxe4",
+              "Nxe4",
+              "Ne2",
+              "Rf7"
+            ]
+          },
+          {
+            "san": "Qd1",
+            "uci": "c1d1",
+            "cp": -302,
+            "pv": [
+              "Qd1",
+              "exd3",
+              "cxd3",
+              "Bxg3",
+              "Ne2",
+              "Bd6"
+            ]
+          },
+          {
+            "san": "a4",
+            "uci": "a3a4",
+            "cp": -313,
+            "pv": [
+              "a4",
+              "exd3",
+              "Nhf3",
+              "Bxg3",
+              "cxd3",
+              "Bf7"
+            ]
+          },
+          {
+            "san": "Ba5",
+            "uci": "d2a5",
+            "cp": -325,
+            "pv": [
+              "Ba5",
+              "Bxg3",
+              "dxe4",
+              "fxe4",
+              "Be1",
+              "Bxe1"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "d4",
+          "uci": "d3d4",
+          "cp_loss": 159,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "dxe4",
+          "uci": "d3e4",
+          "policy": 0.2169
+        },
+        {
+          "san": "Ne2",
+          "uci": "g1e2",
+          "policy": 0.1524
+        },
+        {
+          "san": "Be1",
+          "uci": "d2e1",
+          "policy": 0.12480000000000001
+        },
+        {
+          "san": "c4",
+          "uci": "c2c4",
+          "policy": 0.111
+        },
+        {
+          "san": "Qe1",
+          "uci": "c1e1",
+          "policy": 0.068
+        },
+        {
+          "san": "g4",
+          "uci": "g3g4",
+          "policy": 0.051699999999999996
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "PMeAhtxf_81",
+    "label": "Advanced · endgame · played Rf5+ · picks Rc4 over engine Ke3",
+    "fen": "5k2/6r1/8/2R5/1p2P3/1P1P4/P1PK4/7r w - - 1 41",
+    "tier": "advanced",
+    "phase": "endgame",
+    "severity": "none",
+    "student_move": "Rf5+",
+    "coach": {
+      "recommended_move_san": "Rc4",
+      "recommended_move_uci": "c5c4",
+      "coaching": "I'd play Rc4. Rf5+ is understandable because it gives check, but it leaves Black’s rook on b4 as a clear target. Play Rc4 instead: it attacks that rook while defending c2 and e4, so you are removing a concrete pressure point before Black can use it.",
+      "takeaway": "When your opponent has a loose rook, look for a rook move that attacks it while defending another pawn or square.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Ke3",
+        "best_cp": -213,
+        "sound_pool": [
+          {
+            "san": "Ke3",
+            "uci": "d2e3",
+            "cp": -213,
+            "pv": [
+              "Ke3",
+              "Ra7",
+              "Rc4",
+              "Rxa2",
+              "d4",
+              "Rh2"
+            ]
+          },
+          {
+            "san": "Rc4",
+            "uci": "c5c4",
+            "cp": -229,
+            "pv": [
+              "Rc4",
+              "Rb7",
+              "Ke3",
+              "Ke7",
+              "Rc6",
+              "Kd7"
+            ]
+          },
+          {
+            "san": "Rc8+",
+            "uci": "c5c8",
+            "cp": -227,
+            "pv": [
+              "Rc8+",
+              "Ke7",
+              "Ke3",
+              "Rg2",
+              "Rc4",
+              "Rhh2"
+            ]
+          },
+          {
+            "san": "Ke2",
+            "uci": "d2e2",
+            "cp": -258,
+            "pv": [
+              "Ke2",
+              "Rg3",
+              "Kd2",
+              "Rg2+",
+              "Ke3",
+              "Rc1"
+            ]
+          },
+          {
+            "san": "Rc6",
+            "uci": "c5c6",
+            "cp": -262,
+            "pv": [
+              "Rc6",
+              "Rg2+",
+              "Ke3",
+              "Rhh2",
+              "c3",
+              "bxc3"
+            ]
+          },
+          {
+            "san": "a4",
+            "uci": "a2a4",
+            "cp": -263,
+            "pv": [
+              "a4",
+              "bxa3",
+              "Ra5",
+              "Ra1",
+              "Ra8+",
+              "Ke7"
+            ]
+          },
+          {
+            "san": "Rf5+",
+            "uci": "c5f5",
+            "cp": -270,
+            "pv": [
+              "Rf5+",
+              "Ke8",
+              "Ke3",
+              "Rg2",
+              "Re5+",
+              "Kd7"
+            ]
+          },
+          {
+            "san": "Rb5",
+            "uci": "c5b5",
+            "cp": -271,
+            "pv": [
+              "Rb5",
+              "Rg2+",
+              "Ke3",
+              "Rh3+",
+              "Kd4",
+              "Rxc2"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Rf5+",
+          "uci": "c5f5",
+          "cp_loss": 46,
+          "severity": "none"
+        }
+      },
+      "maia": [
+        {
+          "san": "Rc4",
+          "uci": "c5c4",
+          "policy": 0.21309999999999998
+        },
+        {
+          "san": "Rb5",
+          "uci": "c5b5",
+          "policy": 0.1673
+        },
+        {
+          "san": "Rf5+",
+          "uci": "c5f5",
+          "policy": 0.1623
+        },
+        {
+          "san": "d4",
+          "uci": "d3d4",
+          "policy": 0.1162
+        },
+        {
+          "san": "Rc8+",
+          "uci": "c5c8",
+          "policy": 0.08460000000000001
+        },
+        {
+          "san": "Ke3",
+          "uci": "d2e3",
+          "policy": 0.06849999999999999
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "I72qKqM7_69",
+    "label": "Beginner · endgame · played Ne6 · tiers B:Nc6+/I:Nc6+/A:Kf4",
+    "fen": "3N4/4k1pp/R4p2/8/4K1PP/6r1/8/8 w - - 3 35",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "mistake",
+    "student_move": "Ne6",
+    "coach": {
+      "recommended_move_san": "Nc6+",
+      "recommended_move_uci": "d8c6",
+      "coaching": "I'd play Nc6+. Ne6 is understandable because it attacks g7, but it leaves your king on e7 undefended. Play Nc6+ instead: your knight attacks the king on e7 while also defending the pawn on g4. If Black replies Kd7, then Kf4 is a clean follow-up, attacking the rook on g3 and defending g4.",
+      "takeaway": "When your king is attacked, look for a move that defends it while attacking an opponent piece.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Kf4",
+        "best_cp": 215,
+        "sound_pool": [
+          {
+            "san": "Kf4",
+            "uci": "e4f4",
+            "cp": 215,
+            "pv": [
+              "Kf4",
+              "Rh3",
+              "Nc6+",
+              "Ke8",
+              "Ra8+",
+              "Kd7"
+            ]
+          },
+          {
+            "san": "Nc6+",
+            "uci": "d8c6",
+            "cp": 184,
+            "pv": [
+              "Nc6+",
+              "Kd7",
+              "Kf4",
+              "Rh3",
+              "h5",
+              "Rd3"
+            ]
+          },
+          {
+            "san": "Ne6",
+            "uci": "d8e6",
+            "cp": 90,
+            "pv": [
+              "Ne6",
+              "Rxg4+"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Ne6",
+          "uci": "d8e6",
+          "cp_loss": 180,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Nc6+",
+          "uci": "d8c6",
+          "policy": 0.2507
+        },
+        {
+          "san": "Ne6",
+          "uci": "d8e6",
+          "policy": 0.2078
+        },
+        {
+          "san": "Ra7+",
+          "uci": "a6a7",
+          "policy": 0.12480000000000001
+        },
+        {
+          "san": "Nb7",
+          "uci": "d8b7",
+          "policy": 0.0858
+        },
+        {
+          "san": "Kf4",
+          "uci": "e4f4",
+          "policy": 0.0824
+        },
+        {
+          "san": "Ra8",
+          "uci": "a6a8",
+          "policy": 0.06849999999999999
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "Fr1dRrTh_21",
+    "label": "Beginner · opening · played Kh1 · picks Be3 over engine Na4",
+    "fen": "r1bq1rk1/1pp1nppp/3p1n2/p1bPp3/4P3/P1NB1N2/1PPB1PPP/R2QR1K1 w - - 0 11",
+    "tier": "beginner",
+    "phase": "opening",
+    "severity": "blunder",
+    "student_move": "Kh1",
+    "coach": {
+      "recommended_move_san": "Be3",
+      "recommended_move_uci": "d2e3",
+      "coaching": "I'd play Be3. Your knight on c3 is attacked by the bishop on c5, so you need to move it. Be3 is a clean defensive move: it attacks the bishop on c5 while defending the pawn on f2.",
+      "takeaway": "When one of your pieces is attacked, look for a safe square that defends a loose pawn or piece.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Na4",
+        "best_cp": 22,
+        "sound_pool": [
+          {
+            "san": "Na4",
+            "uci": "c3a4",
+            "cp": 22,
+            "pv": [
+              "Na4",
+              "Ba7",
+              "c4",
+              "Bg4",
+              "h3",
+              "Bh5"
+            ]
+          },
+          {
+            "san": "h3",
+            "uci": "h2h3",
+            "cp": -20,
+            "pv": [
+              "h3",
+              "Ng6",
+              "Ne2",
+              "c6",
+              "b4",
+              "axb4"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "d2e3",
+            "cp": -33,
+            "pv": [
+              "Be3",
+              "Bxe3",
+              "Rxe3",
+              "h6",
+              "Nd2",
+              "Nh7"
+            ]
+          },
+          {
+            "san": "Bg5",
+            "uci": "d2g5",
+            "cp": -36,
+            "pv": [
+              "Bg5",
+              "Ng6",
+              "h3",
+              "Kh8",
+              "Na4",
+              "Ba7"
+            ]
+          },
+          {
+            "san": "b3",
+            "uci": "b2b3",
+            "cp": -37,
+            "pv": [
+              "b3",
+              "Ng6",
+              "Na4",
+              "Ba7",
+              "c4",
+              "Nh5"
+            ]
+          },
+          {
+            "san": "Rb1",
+            "uci": "a1b1",
+            "cp": -40,
+            "pv": [
+              "Rb1",
+              "a4",
+              "h3",
+              "Bd7",
+              "Be3",
+              "Bxe3"
+            ]
+          },
+          {
+            "san": "Rc1",
+            "uci": "a1c1",
+            "cp": -42,
+            "pv": [
+              "Rc1",
+              "Bd7",
+              "h3",
+              "Ng6",
+              "Be3",
+              "Bxe3"
+            ]
+          },
+          {
+            "san": "Qe2",
+            "uci": "d1e2",
+            "cp": -43,
+            "pv": [
+              "Qe2",
+              "h6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kh1",
+          "uci": "g1h1",
+          "cp_loss": 274,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "Be3",
+          "uci": "d2e3",
+          "policy": 0.155
+        },
+        {
+          "san": "h3",
+          "uci": "h2h3",
+          "policy": 0.1085
+        },
+        {
+          "san": "b4",
+          "uci": "b2b4",
+          "policy": 0.0901
+        },
+        {
+          "san": "Na4",
+          "uci": "c3a4",
+          "policy": 0.0833
+        },
+        {
+          "san": "Bg5",
+          "uci": "d2g5",
+          "policy": 0.0705
+        },
+        {
+          "san": "Nb5",
+          "uci": "c3b5",
+          "policy": 0.0603
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "RMuVaYQJ_66",
+    "label": "Beginner · endgame · played Kxa2 · picks Ka4 over engine Kxa2",
+    "fen": "8/5p1p/6p1/p1B1P3/8/k1K5/P4P1P/8 b - - 0 33",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "inaccuracy",
+    "student_move": "Kxa2",
+    "coach": {
+      "recommended_move_san": "Ka4",
+      "recommended_move_uci": "a3a4",
+      "coaching": "I'd play Ka4. Kxa2 is understandable because it takes a pawn, but it leaves your king on a3 where White’s bishop on b6 can simply take it. Play Ka4 instead: your king moves to a safe square while defending the pawn on a5.",
+      "takeaway": "When you can take a pawn, choose the square that also defends your king.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Kxa2",
+        "best_cp": -469,
+        "sound_pool": [
+          {
+            "san": "Kxa2",
+            "uci": "a3a2",
+            "cp": -469,
+            "pv": [
+              "Kxa2",
+              "Bb6",
+              "h5",
+              "Bxa5",
+              "g5",
+              "Bd8"
+            ]
+          },
+          {
+            "san": "Ka4",
+            "uci": "a3a4",
+            "cp": -524,
+            "pv": [
+              "Ka4",
+              "Be7",
+              "Kb5",
+              "Kd4",
+              "Kc6",
+              "a4"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kxa2",
+          "uci": "a3a2",
+          "cp_loss": 81,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Kxa2",
+          "uci": "a3a2",
+          "policy": 0.8044
+        },
+        {
+          "san": "Ka4",
+          "uci": "a3a4",
+          "policy": 0.1956
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "G18ICJyg_100",
+    "label": "Intermediate · endgame · played a4 · tiers B:Kc3/I:Kc4/A:Kc3",
+    "fen": "8/8/6P1/pp5K/1k6/7P/8/8 b - - 0 50",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "mistake",
+    "student_move": "a4",
+    "coach": {
+      "recommended_move_san": "Kc4",
+      "recommended_move_uci": "b4c4",
+      "coaching": "I'd play Kc4. a4 is understandable because it defends b5, but it lets White play g7 and keep pressure on your center. A cleaner move is Kc4: your king defends b5 while also defending c5, so White cannot simply recapture on c5.",
+      "takeaway": "When you are defending a center pawn, choose the square that also defends another loose center square.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Kc3",
+        "best_cp": -595,
+        "sound_pool": [
+          {
+            "san": "Kc3",
+            "uci": "b4c3",
+            "cp": -595,
+            "pv": [
+              "Kc3",
+              "g7",
+              "b4",
+              "g8=Q",
+              "b3",
+              "Qg7+"
+            ]
+          },
+          {
+            "san": "Kb3",
+            "uci": "b4b3",
+            "cp": -728,
+            "pv": [
+              "Kb3",
+              "g7",
+              "Kc4",
+              "g8=Q+",
+              "Kd4",
+              "Qa2"
+            ]
+          },
+          {
+            "san": "Ka4",
+            "uci": "b4a4",
+            "cp": -669,
+            "pv": [
+              "Ka4",
+              "g7",
+              "b4",
+              "g8=Q",
+              "Ka3",
+              "Qd5"
+            ]
+          },
+          {
+            "san": "Kc4",
+            "uci": "b4c4",
+            "cp": -669,
+            "pv": [
+              "Kc4",
+              "g7",
+              "Kc5",
+              "g8=Q",
+              "a4",
+              "Qe6"
+            ]
+          },
+          {
+            "san": "Kc5",
+            "uci": "b4c5",
+            "cp": -669,
+            "pv": [
+              "Kc5",
+              "g7",
+              "Kb4",
+              "g8=Q",
+              "Ka3"
+            ]
+          },
+          {
+            "san": "a4",
+            "uci": "a5a4",
+            "cp": -735,
+            "pv": [
+              "a4",
+              "g7",
+              "Kc5",
+              "g8=Q",
+              "Kb4",
+              "Qa2"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "a4",
+          "uci": "a5a4",
+          "cp_loss": 228,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "a4",
+          "uci": "a5a4",
+          "policy": 0.7822
+        },
+        {
+          "san": "Kc4",
+          "uci": "b4c4",
+          "policy": 0.055
+        },
+        {
+          "san": "Kc3",
+          "uci": "b4c3",
+          "policy": 0.052199999999999996
+        },
+        {
+          "san": "Kb3",
+          "uci": "b4b3",
+          "policy": 0.040999999999999995
+        },
+        {
+          "san": "Kc5",
+          "uci": "b4c5",
+          "policy": 0.0379
+        },
+        {
+          "san": "Ka3",
+          "uci": "b4a3",
+          "policy": 0.016200000000000003
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "rKymuRxn_25",
+    "label": "Intermediate · opening · played c4 · tiers B:a4/I:Re1/A:Re1",
+    "fen": "1nbq1rk1/r4ppp/3p1b2/pppB4/4P3/2P2N2/PP1N1PPP/R2Q1RK1 w - - 0 13",
+    "tier": "intermediate",
+    "phase": "opening",
+    "severity": "mistake",
+    "student_move": "c4",
+    "coach": {
+      "recommended_move_san": "Re1",
+      "recommended_move_uci": "f1e1",
+      "coaching": "I'd play Re1. c4 is understandable because it attacks b5, but it leaves your queen on d1 undefended and your rook on f1 still hanging. Play Re1 instead: it defends the queen while also attacking b5, so Black cannot use the same pawn break again.",
+      "takeaway": "When an undefended queen is hanging, defend it before making a pawn break on the same square.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "a4",
+        "best_cp": 39,
+        "sound_pool": [
+          {
+            "san": "a4",
+            "uci": "a2a4",
+            "cp": 39,
+            "pv": [
+              "a4",
+              "Ba6",
+              "axb5",
+              "Bxb5",
+              "Nc4",
+              "Nd7"
+            ]
+          },
+          {
+            "san": "Re1",
+            "uci": "f1e1",
+            "cp": -6,
+            "pv": [
+              "Re1",
+              "a4",
+              "a3",
+              "g6",
+              "Nf1",
+              "Bg7"
+            ]
+          },
+          {
+            "san": "a3",
+            "uci": "a2a3",
+            "cp": -6,
+            "pv": [
+              "a3",
+              "Nd7",
+              "Re1",
+              "Nb6",
+              "Bc6",
+              "Bd7"
+            ]
+          },
+          {
+            "san": "Qe2",
+            "uci": "d1e2",
+            "cp": -7,
+            "pv": [
+              "Qe2",
+              "Nd7",
+              "Rfe1",
+              "Nb6",
+              "Qxb5",
+              "Nxd5"
+            ]
+          },
+          {
+            "san": "Qb3",
+            "uci": "d1b3",
+            "cp": -17,
+            "pv": [
+              "Qb3",
+              "Ba6",
+              "Rfd1",
+              "a4",
+              "Qc2",
+              "Nd7"
+            ]
+          },
+          {
+            "san": "h3",
+            "uci": "h2h3",
+            "cp": -35,
+            "pv": [
+              "h3",
+              "a4",
+              "Qe2",
+              "Qb6",
+              "Rfe1",
+              "Nc6"
+            ]
+          },
+          {
+            "san": "Rb1",
+            "uci": "a1b1",
+            "cp": -39,
+            "pv": [
+              "Rb1",
+              "a4",
+              "Qe2",
+              "Qb6",
+              "Rfd1",
+              "Nd7"
+            ]
+          },
+          {
+            "san": "Rc1",
+            "uci": "a1c1",
+            "cp": -42,
+            "pv": [
+              "Rc1",
+              "a4"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "c4",
+          "uci": "c3c4",
+          "cp_loss": 113,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Re1",
+          "uci": "f1e1",
+          "policy": 0.1966
+        },
+        {
+          "san": "Qe2",
+          "uci": "d1e2",
+          "policy": 0.12380000000000001
+        },
+        {
+          "san": "Qc2",
+          "uci": "d1c2",
+          "policy": 0.0958
+        },
+        {
+          "san": "h3",
+          "uci": "h2h3",
+          "policy": 0.0728
+        },
+        {
+          "san": "c4",
+          "uci": "c3c4",
+          "policy": 0.0699
+        },
+        {
+          "san": "Nb3",
+          "uci": "d2b3",
+          "policy": 0.0693
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "KHUJlsaJ_29",
+    "label": "Beginner · middlegame · played Nd1 · picks Be3 over engine Ne4",
+    "fen": "3rkb1r/p4pnp/2p1p1p1/4P3/8/2N5/PPP3PP/R1B2RK1 w k - 0 15",
+    "tier": "beginner",
+    "phase": "middlegame",
+    "severity": "mistake",
+    "student_move": "Nd1",
+    "coach": {
+      "recommended_move_san": "Be3",
+      "recommended_move_uci": "c1e3",
+      "coaching": "I'd play Be3. Nd1 is understandable because it develops a piece, but it leaves your bishop on c1 undeveloped and your rook on b1 undeveloped. Be3 develops both pieces and attacks the pawn on a7, so you gain a tempo while improving your pieces.",
+      "takeaway": "When you develop a piece, look for a move that develops another piece and attacks a loose pawn.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Ne4",
+        "best_cp": 149,
+        "sound_pool": [
+          {
+            "san": "Ne4",
+            "uci": "c3e4",
+            "cp": 149,
+            "pv": [
+              "Ne4",
+              "Be7",
+              "Be3",
+              "a6",
+              "g4",
+              "h5"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "c1e3",
+            "cp": 136,
+            "pv": [
+              "Be3",
+              "Nf5",
+              "Bxa7",
+              "Ra8",
+              "Bf2",
+              "Bg7"
+            ]
+          },
+          {
+            "san": "Bf4",
+            "uci": "c1f4",
+            "cp": 63,
+            "pv": [
+              "Bf4",
+              "Bc5+",
+              "Kh1",
+              "h5",
+              "Ne4",
+              "Be7"
+            ]
+          },
+          {
+            "san": "Rb1",
+            "uci": "a1b1",
+            "cp": 61,
+            "pv": [
+              "Rb1",
+              "Bc5+",
+              "Kh1",
+              "h5",
+              "Ne4",
+              "Be7"
+            ]
+          },
+          {
+            "san": "a4",
+            "uci": "a2a4",
+            "cp": 60,
+            "pv": [
+              "a4",
+              "Nf5"
+            ]
+          },
+          {
+            "san": "Bg5",
+            "uci": "c1g5",
+            "cp": 62,
+            "pv": [
+              "Bg5",
+              "Bc5+",
+              "Kh1",
+              "Be7",
+              "Be3",
+              "c5"
+            ]
+          },
+          {
+            "san": "g4",
+            "uci": "g2g4",
+            "cp": 55,
+            "pv": [
+              "g4",
+              "Rd4",
+              "Rf4",
+              "Rxf4",
+              "Bxf4",
+              "h5"
+            ]
+          },
+          {
+            "san": "Kh1",
+            "uci": "g1h1",
+            "cp": 54,
+            "pv": [
+              "Kh1",
+              "Be7",
+              "Be3",
+              "a6",
+              "Rfd1",
+              "Nf5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Nd1",
+          "uci": "c3d1",
+          "cp_loss": 167,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Bg5",
+          "uci": "c1g5",
+          "policy": 0.4364
+        },
+        {
+          "san": "Be3",
+          "uci": "c1e3",
+          "policy": 0.1134
+        },
+        {
+          "san": "Ne4",
+          "uci": "c3e4",
+          "policy": 0.1003
+        },
+        {
+          "san": "Bh6",
+          "uci": "c1h6",
+          "policy": 0.0603
+        },
+        {
+          "san": "Bf4",
+          "uci": "c1f4",
+          "policy": 0.0512
+        },
+        {
+          "san": "Na4",
+          "uci": "c3a4",
+          "policy": 0.030899999999999997
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "RN4HUhJJ_86",
+    "label": "Intermediate · endgame · played d4 · tiers B:Rb7/I:Rb1/A:Rb1",
+    "fen": "8/4k3/4P3/3p1KN1/1r6/R7/8/8 b - - 1 43",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "blunder",
+    "student_move": "d4",
+    "coach": {
+      "recommended_move_san": "Rb1",
+      "recommended_move_uci": "b4b1",
+      "coaching": "I'd play Rb1. Your d4 idea is understandable because it tries to gain space, but it misses the more urgent problem: White’s rook on b1 is attacking your d5 pawn. Play Rb1 instead. If White recaptures with Ra7+, then at least your rook is defended and you can recapture on e6.",
+      "takeaway": "When an attacked pawn is hanging, first ask whether you can recapture it with a rook before making a slow space-gaining move.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Rb7",
+        "best_cp": -463,
+        "sound_pool": [
+          {
+            "san": "Rb7",
+            "uci": "b4b7",
+            "cp": -463,
+            "pv": [
+              "Rb7",
+              "Rh3",
+              "Rb1",
+              "Rh7+",
+              "Ke8",
+              "Ra7"
+            ]
+          },
+          {
+            "san": "Rb8",
+            "uci": "b4b8",
+            "cp": -470,
+            "pv": [
+              "Rb8",
+              "Nf7",
+              "Rb7",
+              "Ne5",
+              "d4",
+              "Rg3"
+            ]
+          },
+          {
+            "san": "Kd6",
+            "uci": "e7d6",
+            "cp": -526,
+            "pv": [
+              "Kd6",
+              "Ra6+",
+              "Kc7",
+              "e7",
+              "Kd7",
+              "Ra7+"
+            ]
+          },
+          {
+            "san": "d4",
+            "uci": "d5d4",
+            "cp": -594,
+            "pv": [
+              "d4",
+              "Ra7+",
+              "Kd6",
+              "Nf7+",
+              "Kc5",
+              "e7"
+            ]
+          },
+          {
+            "san": "Rb1",
+            "uci": "b4b1",
+            "cp": -534,
+            "pv": [
+              "Rb1",
+              "Ra7+",
+              "Ke8",
+              "Nf7",
+              "Kf8",
+              "Nd6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "d4",
+          "uci": "d5d4",
+          "cp_loss": 274,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "d4",
+          "uci": "d5d4",
+          "policy": 0.33909999999999996
+        },
+        {
+          "san": "Rb5",
+          "uci": "b4b5",
+          "policy": 0.1448
+        },
+        {
+          "san": "Rb6",
+          "uci": "b4b6",
+          "policy": 0.1144
+        },
+        {
+          "san": "Rb1",
+          "uci": "b4b1",
+          "policy": 0.07719999999999999
+        },
+        {
+          "san": "Rb8",
+          "uci": "b4b8",
+          "policy": 0.055099999999999996
+        },
+        {
+          "san": "Rc4",
+          "uci": "b4c4",
+          "policy": 0.0499
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "y0dqRVgi_86",
+    "label": "Beginner · endgame · played Kf2 · picks Ke3 over engine Kf2",
+    "fen": "8/8/2N5/7K/P7/2P2k2/1P2p3/R7 b - - 0 43",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "blunder",
+    "student_move": "Kf2",
+    "coach": {
+      "recommended_move_san": "Ke3",
+      "recommended_move_uci": "f3e3",
+      "coaching": "I'd play Ke3. Kf2 is understandable because it defends e2, but it leaves your king on f3 where White can simply play Kg6 and take your e2 pawn. Play Ke3 instead: your king moves off the e-file and defends e2 while staying active on the e-file.",
+      "takeaway": "When defending a pawn, choose the square that also keeps your king active and makes your next threat more concrete.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Kf2",
+        "best_cp": -1258,
+        "sound_pool": [
+          {
+            "san": "Kf2",
+            "uci": "f3f2",
+            "cp": -1258,
+            "pv": [
+              "Kf2",
+              "Kg6",
+              "e1=Q",
+              "Rxe1",
+              "Kxe1",
+              "a5"
+            ]
+          },
+          {
+            "san": "Ke3",
+            "uci": "f3e3",
+            "cp": -1185,
+            "pv": [
+              "Ke3",
+              "Kg6",
+              "e1=Q",
+              "Rxe1+",
+              "Kd2",
+              "a5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kf2",
+          "uci": "f3f2",
+          "cp_loss": 98858,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "Kf2",
+          "uci": "f3f2",
+          "policy": 0.7209
+        },
+        {
+          "san": "Ke3",
+          "uci": "f3e3",
+          "policy": 0.1946
+        },
+        {
+          "san": "e1=Q",
+          "uci": "e2e1q",
+          "policy": 0.0392
+        },
+        {
+          "san": "Ke4",
+          "uci": "f3e4",
+          "policy": 0.0178
+        },
+        {
+          "san": "Kg2",
+          "uci": "f3g2",
+          "policy": 0.010700000000000001
+        },
+        {
+          "san": "Kg3",
+          "uci": "f3g3",
+          "policy": 0.0068000000000000005
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "tdDp83CH_37",
+    "label": "Intermediate · opening · played Qc2 · tiers B:Ra2/I:Nf4/A:Nf4",
+    "fen": "2r1r1k1/pp2qpp1/1b2pn1p/1P1p4/P1nP3B/2P2B2/4NPPP/R1Q1R1K1 w - - 1 19",
+    "tier": "intermediate",
+    "phase": "opening",
+    "severity": "inaccuracy",
+    "student_move": "Qc2",
+    "coach": {
+      "recommended_move_san": "Nf4",
+      "recommended_move_uci": "e2f4",
+      "coaching": "I'd play Nf4. Qc2 is understandable because it defends the e2 knight, but it does not challenge Black’s active center. Play Nf4 instead: it attacks the e6 pawn while defending the knight on g2. If Black answers with ...g5, you have improved your pieces and kept pressure on the center.",
+      "takeaway": "When defending a loose piece, look for a move that also attacks an active center pawn or creates a counterattack.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Ng3",
+        "best_cp": -107,
+        "sound_pool": [
+          {
+            "san": "Ng3",
+            "uci": "e2g3",
+            "cp": -107,
+            "pv": [
+              "Ng3",
+              "Nd6",
+              "Nh5",
+              "Bxd4",
+              "Qf4",
+              "Nxh5"
+            ]
+          },
+          {
+            "san": "h3",
+            "uci": "h2h3",
+            "cp": -155,
+            "pv": [
+              "h3",
+              "g5",
+              "Bg3",
+              "Ne4",
+              "Qc2",
+              "f5"
+            ]
+          },
+          {
+            "san": "Ra2",
+            "uci": "a1a2",
+            "cp": -164,
+            "pv": [
+              "Ra2",
+              "g5",
+              "Bg3",
+              "Ne4",
+              "Bxe4",
+              "dxe4"
+            ]
+          },
+          {
+            "san": "Nf4",
+            "uci": "e2f4",
+            "cp": -170,
+            "pv": [
+              "Nf4",
+              "g5"
+            ]
+          },
+          {
+            "san": "Bg4",
+            "uci": "f3g4",
+            "cp": -154,
+            "pv": [
+              "Bg4",
+              "g5",
+              "Bxg5",
+              "hxg5",
+              "Qxg5+",
+              "Kh8"
+            ]
+          },
+          {
+            "san": "g4",
+            "uci": "g2g4",
+            "cp": -155,
+            "pv": [
+              "g4",
+              "Nd6",
+              "Qa3",
+              "Ba5",
+              "Kg2",
+              "g5"
+            ]
+          },
+          {
+            "san": "Kh1",
+            "uci": "g1h1",
+            "cp": -165,
+            "pv": [
+              "Kh1",
+              "g5",
+              "Bg3",
+              "Bd8",
+              "Qb1"
+            ]
+          },
+          {
+            "san": "Bg3",
+            "uci": "h4g3",
+            "cp": -171,
+            "pv": [
+              "Bg3",
+              "Ba5",
+              "Rd1",
+              "Nd6",
+              "Qc2"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Qc2",
+          "uci": "c1c2",
+          "cp_loss": 93,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Nf4",
+          "uci": "e2f4",
+          "policy": 0.2926
+        },
+        {
+          "san": "Ng3",
+          "uci": "e2g3",
+          "policy": 0.1465
+        },
+        {
+          "san": "Qf4",
+          "uci": "c1f4",
+          "policy": 0.096
+        },
+        {
+          "san": "Bg3",
+          "uci": "h4g3",
+          "policy": 0.0817
+        },
+        {
+          "san": "h3",
+          "uci": "h2h3",
+          "policy": 0.0629
+        },
+        {
+          "san": "Qc2",
+          "uci": "c1c2",
+          "policy": 0.058899999999999994
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "Em8mFeWp_35",
+    "label": "Beginner · middlegame · played fxe4 · picks Qxd8 over engine Qc3",
+    "fen": "r2qr1k1/p4pp1/1bp2n1p/1p6/1P2p3/P4P2/BBPQ2PP/2KR3R w - - 0 18",
+    "tier": "beginner",
+    "phase": "middlegame",
+    "severity": "mistake",
+    "student_move": "fxe4",
+    "coach": {
+      "recommended_move_san": "Qxd8",
+      "recommended_move_uci": "d2d8",
+      "coaching": "I'd play Qxd8. fxe4 is understandable because it removes a loose piece, but it lets Black recapture with Bxd8 and gain a tempo on your queen. Play Qxd8 instead: your queen attacks the queen on d8, so Black cannot recapture while gaining a tempo on your queen.",
+      "takeaway": "When you can recapture with tempo, do it before playing a normal capture.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Qc3",
+        "best_cp": -9,
+        "sound_pool": [
+          {
+            "san": "Qc3",
+            "uci": "d2c3",
+            "cp": -9,
+            "pv": [
+              "Qc3",
+              "Qc7",
+              "fxe4",
+              "Rxe4",
+              "Rhe1",
+              "Rae8"
+            ]
+          },
+          {
+            "san": "Qxd8",
+            "uci": "d2d8",
+            "cp": -23,
+            "pv": [
+              "Qxd8",
+              "Bxd8",
+              "fxe4",
+              "Rxe4",
+              "Rhe1",
+              "Rxe1"
+            ]
+          },
+          {
+            "san": "Qe2",
+            "uci": "d2e2",
+            "cp": -38,
+            "pv": [
+              "Qe2",
+              "Qe7",
+              "fxe4",
+              "Nxe4",
+              "Qg4",
+              "Qg5+"
+            ]
+          },
+          {
+            "san": "Qf4",
+            "uci": "d2f4",
+            "cp": -58,
+            "pv": [
+              "Qf4",
+              "Nd5",
+              "Qg3",
+              "Qg5+",
+              "Qxg5",
+              "hxg5"
+            ]
+          },
+          {
+            "san": "Qe1",
+            "uci": "d2e1",
+            "cp": -58,
+            "pv": [
+              "Qe1",
+              "Nd5",
+              "Qg3",
+              "Qg5+",
+              "Qxg5",
+              "hxg5"
+            ]
+          },
+          {
+            "san": "Qd6",
+            "uci": "d2d6",
+            "cp": -93,
+            "pv": [
+              "Qd6",
+              "Qxd6",
+              "Rxd6",
+              "e3",
+              "Bxf6",
+              "gxf6"
+            ]
+          },
+          {
+            "san": "fxe4",
+            "uci": "f3e4",
+            "cp": -97,
+            "pv": [
+              "fxe4",
+              "Qxd2+",
+              "Kxd2",
+              "Nxe4+",
+              "Kc1",
+              "Re7"
+            ]
+          },
+          {
+            "san": "Rhe1",
+            "uci": "h1e1",
+            "cp": -102,
+            "pv": [
+              "Rhe1",
+              "Qxd2+",
+              "Kxd2",
+              "exf3",
+              "gxf3",
+              "Nd5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "fxe4",
+          "uci": "f3e4",
+          "cp_loss": 104,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Qxd8",
+          "uci": "d2d8",
+          "policy": 0.1654
+        },
+        {
+          "san": "Qc3",
+          "uci": "d2c3",
+          "policy": 0.1316
+        },
+        {
+          "san": "Bxf6",
+          "uci": "b2f6",
+          "policy": 0.1286
+        },
+        {
+          "san": "Qe2",
+          "uci": "d2e2",
+          "policy": 0.0973
+        },
+        {
+          "san": "Qf4",
+          "uci": "d2f4",
+          "policy": 0.06570000000000001
+        },
+        {
+          "san": "fxe4",
+          "uci": "f3e4",
+          "policy": 0.0644
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "870dfTAs_88",
+    "label": "Intermediate · endgame · played f3+ · picks axb5 over engine Kh5",
+    "fen": "8/8/p7/1P6/P4pk1/8/1P4K1/8 b - - 0 44",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "blunder",
+    "student_move": "f3+",
+    "coach": {
+      "recommended_move_san": "axb5",
+      "recommended_move_uci": "a6b5",
+      "coaching": "I'd play axb5. f3+ is understandable because it gives check, but it does not solve the main problem: White’s pawn on a4 is still attacking your king. Play axb5 instead. That removes the hanging pawn while your king on g4 is still defended, so you can recapture on a4 and keep pressure on White’s center.",
+      "takeaway": "When an opponent has hanging material, remove it before giving a check or starting a fork.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Kh5",
+        "best_cp": -1057,
+        "sound_pool": [
+          {
+            "san": "Kh5",
+            "uci": "g4h5",
+            "cp": -1057,
+            "pv": [
+              "Kh5",
+              "bxa6",
+              "Kg4",
+              "a7",
+              "f3+",
+              "Kf2"
+            ]
+          },
+          {
+            "san": "Kg5",
+            "uci": "g4g5",
+            "cp": -1100,
+            "pv": [
+              "Kg5",
+              "bxa6",
+              "Kf5",
+              "Kf3",
+              "Ke6",
+              "a7"
+            ]
+          },
+          {
+            "san": "Kh4",
+            "uci": "g4h4",
+            "cp": -1136,
+            "pv": [
+              "Kh4",
+              "bxa6",
+              "Kg4",
+              "a7",
+              "f3+",
+              "Kf2"
+            ]
+          },
+          {
+            "san": "f3+",
+            "uci": "f4f3",
+            "cp": -1203,
+            "pv": [
+              "f3+",
+              "Kf2",
+              "axb5",
+              "a5",
+              "Kf5",
+              "a6"
+            ]
+          },
+          {
+            "san": "axb5",
+            "uci": "a6b5",
+            "cp": -1206,
+            "pv": [
+              "axb5",
+              "a5",
+              "Kf5",
+              "a6",
+              "f3+",
+              "Kxf3"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "f3+",
+          "uci": "f4f3",
+          "cp_loss": 6956,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "axb5",
+          "uci": "a6b5",
+          "policy": 0.4189
+        },
+        {
+          "san": "f3+",
+          "uci": "f4f3",
+          "policy": 0.326
+        },
+        {
+          "san": "a5",
+          "uci": "a6a5",
+          "policy": 0.1553
+        },
+        {
+          "san": "Kf5",
+          "uci": "g4f5",
+          "policy": 0.08380000000000001
+        },
+        {
+          "san": "Kg5",
+          "uci": "g4g5",
+          "policy": 0.0115
+        },
+        {
+          "san": "Kh4",
+          "uci": "g4h4",
+          "policy": 0.0036
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "0cCJhq9E_38",
+    "label": "Beginner · middlegame · played Kg7 · tiers B:Kf6/I:c4/A:c4",
+    "fen": "r6r/pp2bk1p/6p1/2p2n2/8/1B6/PPPP1PPP/RNB1R1K1 b - - 9 19",
+    "tier": "beginner",
+    "phase": "middlegame",
+    "severity": "none",
+    "student_move": "Kg7",
+    "coach": {
+      "recommended_move_san": "Kf6",
+      "recommended_move_uci": "f7f6",
+      "coaching": "I'd play Kg7. Kg7 is a very natural defensive move because it defends the bishop on e7 and the pawn on h7. The problem with Kf6 is that it leaves your king on e8, so White can play Nc3 and start attacking your bishop. Play Kg7 instead: your king defends the bishop on e7 and the pawn on h7, so White cannot use that bishop against you.",
+      "takeaway": "When your king is attacked, choose the square that defends the most important loose piece.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Kg7",
+        "best_cp": -564,
+        "sound_pool": [
+          {
+            "san": "Kg7",
+            "uci": "f7g7",
+            "cp": -564,
+            "pv": [
+              "Kg7",
+              "Nc3",
+              "Rhe8",
+              "d3",
+              "Bf6",
+              "Bd2"
+            ]
+          },
+          {
+            "san": "c4",
+            "uci": "c5c4",
+            "cp": -597,
+            "pv": [
+              "c4",
+              "Bxc4+",
+              "Kg7",
+              "g4",
+              "Rhc8",
+              "gxf5"
+            ]
+          },
+          {
+            "san": "Kf8",
+            "uci": "f7f8",
+            "cp": -617,
+            "pv": [
+              "Kf8",
+              "Nc3",
+              "c4",
+              "Bxc4",
+              "Nd4",
+              "Nd5"
+            ]
+          },
+          {
+            "san": "Kf6",
+            "uci": "f7f6",
+            "cp": -620,
+            "pv": [
+              "Kf6",
+              "Nc3",
+              "Rhe8",
+              "d3",
+              "Kg7",
+              "Ba4"
+            ]
+          },
+          {
+            "san": "Ke8",
+            "uci": "f7e8",
+            "cp": -628,
+            "pv": [
+              "Ke8",
+              "d3",
+              "Kd7",
+              "Be6+",
+              "Kd8",
+              "c3"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kg7",
+          "uci": "f7g7",
+          "cp_loss": 25,
+          "severity": "none"
+        }
+      },
+      "maia": [
+        {
+          "san": "Kg7",
+          "uci": "f7g7",
+          "policy": 0.3665
+        },
+        {
+          "san": "Kf6",
+          "uci": "f7f6",
+          "policy": 0.3011
+        },
+        {
+          "san": "Kf8",
+          "uci": "f7f8",
+          "policy": 0.147
+        },
+        {
+          "san": "Ke8",
+          "uci": "f7e8",
+          "policy": 0.12300000000000001
+        },
+        {
+          "san": "c4",
+          "uci": "c5c4",
+          "policy": 0.0623
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "koGdNw9A_31",
+    "label": "Advanced · middlegame · played b3 · tiers B:Bb7/I:Bb7/A:Nc3",
+    "fen": "2r1kbnr/4pppp/p7/2p5/1nP2B2/7P/1P2NPBP/1K1R3R w k - 2 16",
+    "tier": "advanced",
+    "phase": "middlegame",
+    "severity": "mistake",
+    "student_move": "b3",
+    "coach": {
+      "recommended_move_san": "Nc3",
+      "recommended_move_uci": "e2c3",
+      "coaching": "I'd play Nc3. Your b3 jump is understandable because it attacks the rook on c8, but it leaves your rook on d1 undefended and gives Black a clean tempo to recapture. A cleaner move is Nc3: it defends the rook on d1 while also attacking the c8 rook, so Black cannot recapture with Rd8+ and you can recapture with Rxd8.",
+      "takeaway": "When an attacked rook is defended by another rook, choose the recapture that keeps your active pieces intact over the jump that lets Black recapture with tempo.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Bb7",
+        "best_cp": 204,
+        "sound_pool": [
+          {
+            "san": "Bb7",
+            "uci": "g2b7",
+            "cp": 204,
+            "pv": [
+              "Bb7",
+              "Rd8",
+              "Rxd8+",
+              "Kxd8",
+              "Rd1+",
+              "Ke8"
+            ]
+          },
+          {
+            "san": "Nc3",
+            "uci": "e2c3",
+            "cp": 160,
+            "pv": [
+              "Nc3",
+              "e6",
+              "Bb7",
+              "Rd8",
+              "Rxd8+",
+              "Kxd8"
+            ]
+          },
+          {
+            "san": "Rd2",
+            "uci": "d1d2",
+            "cp": 134,
+            "pv": [
+              "Rd2",
+              "e6",
+              "Rhd1",
+              "Be7",
+              "Nc3",
+              "Nf6"
+            ]
+          },
+          {
+            "san": "h4",
+            "uci": "h3h4",
+            "cp": 110,
+            "pv": [
+              "h4",
+              "e6",
+              "Bb7",
+              "Rd8",
+              "Rxd8+",
+              "Kxd8"
+            ]
+          },
+          {
+            "san": "Ng3",
+            "uci": "e2g3",
+            "cp": 104,
+            "pv": [
+              "Ng3",
+              "Nc6"
+            ]
+          },
+          {
+            "san": "Bg3",
+            "uci": "f4g3",
+            "cp": 97,
+            "pv": [
+              "Bg3",
+              "e6",
+              "Bb7",
+              "Rd8",
+              "Rxd8+",
+              "Kxd8"
+            ]
+          },
+          {
+            "san": "Rhe1",
+            "uci": "h1e1",
+            "cp": 95,
+            "pv": [
+              "Rhe1",
+              "e6",
+              "Bb7",
+              "Rd8",
+              "Rxd8+",
+              "Kxd8"
+            ]
+          },
+          {
+            "san": "Nc1",
+            "uci": "e2c1",
+            "cp": 95,
+            "pv": [
+              "Nc1",
+              "Nc6",
+              "Rd2",
+              "e6",
+              "Rhd1",
+              "Nge7"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "b3",
+          "uci": "b2b3",
+          "cp_loss": 196,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Nc3",
+          "uci": "e2c3",
+          "policy": 0.3019
+        },
+        {
+          "san": "Bb7",
+          "uci": "g2b7",
+          "policy": 0.212
+        },
+        {
+          "san": "Rd2",
+          "uci": "d1d2",
+          "policy": 0.07440000000000001
+        },
+        {
+          "san": "Rhe1",
+          "uci": "h1e1",
+          "policy": 0.0673
+        },
+        {
+          "san": "Ng3",
+          "uci": "e2g3",
+          "policy": 0.061799999999999994
+        },
+        {
+          "san": "b3",
+          "uci": "b2b3",
+          "policy": 0.0304
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "ZUvOK6o6_95",
+    "label": "Intermediate · endgame · played Bc3 · tiers B:Bc3/I:Bd4/A:Bd4",
+    "fen": "8/1k6/5B2/1r3P2/2p1K3/8/p7/8 w - - 0 48",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "mistake",
+    "student_move": "Bc3",
+    "coach": {
+      "recommended_move_san": "Bd4",
+      "recommended_move_uci": "f6d4",
+      "coaching": "I'd play Bd4. Bc3 is understandable because it attacks the rook on b1, but it leaves your bishop on c3 hanging and your king still on e7. Play Bd4 instead: it attacks the rook on b1 while keeping your c3 bishop active. If Black tries ...Kc6, you can answer with f6, so your bishop stays in the center and your king is no longer a loose target.",
+      "takeaway": "When an attacked piece is hanging, look for a move that keeps it active while attacking the loose rook or queen.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Bc3",
+        "best_cp": -501,
+        "sound_pool": [
+          {
+            "san": "Bc3",
+            "uci": "f6c3",
+            "cp": -501,
+            "pv": [
+              "Bc3",
+              "Rb1",
+              "f6",
+              "a1=Q",
+              "Bxa1",
+              "Rxa1"
+            ]
+          },
+          {
+            "san": "Bd4",
+            "uci": "f6d4",
+            "cp": -612,
+            "pv": [
+              "Bd4",
+              "Kc6",
+              "f6",
+              "Rb1",
+              "f7",
+              "Rf1"
+            ]
+          },
+          {
+            "san": "Ke3",
+            "uci": "e4e3",
+            "cp": -576,
+            "pv": [
+              "Ke3",
+              "Rb3+",
+              "Ke2",
+              "c3",
+              "Be5",
+              "Rb2+"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Bc3",
+          "uci": "f6c3",
+          "cp_loss": 223,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Bc3",
+          "uci": "f6c3",
+          "policy": 0.3265
+        },
+        {
+          "san": "Bb2",
+          "uci": "f6b2",
+          "policy": 0.1487
+        },
+        {
+          "san": "Ba1",
+          "uci": "f6a1",
+          "policy": 0.1216
+        },
+        {
+          "san": "Be5",
+          "uci": "f6e5",
+          "policy": 0.0796
+        },
+        {
+          "san": "Kd4",
+          "uci": "e4d4",
+          "policy": 0.0717
+        },
+        {
+          "san": "Bd4",
+          "uci": "f6d4",
+          "policy": 0.058899999999999994
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "dQtHL9Sm_23",
+    "label": "Beginner · opening · played Re1 · picks Bxg5 over engine Bb5+",
+    "fen": "r2qkb1r/p4pp1/B5bp/2p1p1n1/6P1/3P3P/PPP2P2/RNBQ1RK1 w kq - 0 12",
+    "tier": "beginner",
+    "phase": "opening",
+    "severity": "mistake",
+    "student_move": "Re1",
+    "coach": {
+      "recommended_move_san": "Bxg5",
+      "recommended_move_uci": "c1g5",
+      "coaching": "I'd play Bxg5. Re1 is understandable because it develops a piece, but it leaves Black’s queen on d8 hanging. Play Bxg5 instead: your bishop takes the hanging knight, and if Black recaptures with hxg5, you have traded off that queen for a bishop on b7.",
+      "takeaway": "When you can trade off an undefended hanging piece, do it before developing a new piece.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Bb5+",
+        "best_cp": 249,
+        "sound_pool": [
+          {
+            "san": "Bb5+",
+            "uci": "a6b5",
+            "cp": 249,
+            "pv": [
+              "Bb5+",
+              "Ke7",
+              "Nc3",
+              "Nxh3+",
+              "Kg2",
+              "Ng5"
+            ]
+          },
+          {
+            "san": "Bxg5",
+            "uci": "c1g5",
+            "cp": 228,
+            "pv": [
+              "Bxg5",
+              "hxg5",
+              "Bb5+",
+              "Ke7",
+              "Qf3",
+              "Rb8"
+            ]
+          },
+          {
+            "san": "h4",
+            "uci": "h3h4",
+            "cp": 193,
+            "pv": [
+              "h4",
+              "Qb6",
+              "Bc4",
+              "Ne6",
+              "h5",
+              "Bh7"
+            ]
+          },
+          {
+            "san": "Bb7",
+            "uci": "a6b7",
+            "cp": 183,
+            "pv": [
+              "Bb7",
+              "Be7",
+              "Bxg5",
+              "hxg5",
+              "Qf3",
+              "Rb8"
+            ]
+          },
+          {
+            "san": "Nc3",
+            "uci": "b1c3",
+            "cp": 180,
+            "pv": [
+              "Nc3",
+              "Bd6",
+              "Bb5+",
+              "Kf8",
+              "h4",
+              "Ne6"
+            ]
+          },
+          {
+            "san": "Qe2",
+            "uci": "d1e2",
+            "cp": 162,
+            "pv": [
+              "Qe2",
+              "Be7",
+              "Bxg5",
+              "hxg5",
+              "Bb5+",
+              "Kf8"
+            ]
+          },
+          {
+            "san": "Re1",
+            "uci": "f1e1",
+            "cp": 135,
+            "pv": [
+              "Re1",
+              "Bd6",
+              "h4",
+              "Nh3+",
+              "Kg2",
+              "h5"
+            ]
+          },
+          {
+            "san": "Na3",
+            "uci": "b1a3",
+            "cp": 134,
+            "pv": [
+              "Na3",
+              "Be7",
+              "h4",
+              "Nh3+",
+              "Kg2",
+              "h5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Re1",
+          "uci": "f1e1",
+          "cp_loss": 124,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Bb5+",
+          "uci": "a6b5",
+          "policy": 0.1997
+        },
+        {
+          "san": "Bxg5",
+          "uci": "c1g5",
+          "policy": 0.1704
+        },
+        {
+          "san": "h4",
+          "uci": "h3h4",
+          "policy": 0.0984
+        },
+        {
+          "san": "Nc3",
+          "uci": "b1c3",
+          "policy": 0.08439999999999999
+        },
+        {
+          "san": "Re1",
+          "uci": "f1e1",
+          "policy": 0.0655
+        },
+        {
+          "san": "Bb7",
+          "uci": "a6b7",
+          "policy": 0.06509999999999999
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "W0cpvSQS_49",
+    "label": "Advanced · middlegame · played Bc3 · tiers B:Qf4+/I:Qf4+/A:Qe3+",
+    "fen": "rnbq3B/1p6/2pp2pk/p6p/P1P5/1K3Q2/3P1PPP/4RB1R w - - 0 25",
+    "tier": "advanced",
+    "phase": "middlegame",
+    "severity": "mistake",
+    "student_move": "Bc3",
+    "coach": {
+      "recommended_move_san": "Qe3+",
+      "recommended_move_uci": "f3e3",
+      "coaching": "I'd play Qe3+. Bc3 is understandable because it attacks the pawn on d6, but it misses the more urgent problem: your queen on f3 is hanging. Play Qe3+ instead. The queen checks along the diagonal toward h6, so Black has to respond to the check before you can recapture on d2.",
+      "takeaway": "When your queen is hanging, look for a check that also attacks the loose king; do not solve the hanging queen problem with a pawn capture that does not create a forcing check.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Qf4+",
+        "best_cp": 810,
+        "sound_pool": [
+          {
+            "san": "Qf4+",
+            "uci": "f3f4",
+            "cp": 810,
+            "pv": [
+              "Qf4+",
+              "Kh7",
+              "Qf7+",
+              "Kxh8",
+              "Re8+",
+              "Qxe8"
+            ]
+          },
+          {
+            "san": "Qe3+",
+            "uci": "f3e3",
+            "cp": 687,
+            "pv": [
+              "Qe3+",
+              "Qg5",
+              "Bg7+",
+              "Kxg7",
+              "Qxg5",
+              "Na6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Bc3",
+          "uci": "h8c3",
+          "cp_loss": 232,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Bf6",
+          "uci": "h8f6",
+          "policy": 0.2552
+        },
+        {
+          "san": "Qe3+",
+          "uci": "f3e3",
+          "policy": 0.1588
+        },
+        {
+          "san": "Qf4+",
+          "uci": "f3f4",
+          "policy": 0.1127
+        },
+        {
+          "san": "Bd3",
+          "uci": "f1d3",
+          "policy": 0.0851
+        },
+        {
+          "san": "Bd4",
+          "uci": "h8d4",
+          "policy": 0.044500000000000005
+        },
+        {
+          "san": "Qf7",
+          "uci": "f3f7",
+          "policy": 0.0361
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "ZZfTdxBS_23",
+    "label": "Intermediate · opening · played Qb3 · tiers B:O-O/I:Bxd5/A:Bxd5",
+    "fen": "r1bq1r1k/ppp3pp/2n2p2/2bn4/2B5/2P2N2/PP1BNPPP/R2QK2R w KQ - 1 12",
+    "tier": "intermediate",
+    "phase": "opening",
+    "severity": "mistake",
+    "student_move": "Qb3",
+    "coach": {
+      "recommended_move_san": "Bxd5",
+      "recommended_move_uci": "c4d5",
+      "coaching": "I'd play Bxd5. Qb3 is understandable because it defends f2, but it does not solve the main problem: your bishop on c1 is hanging and your rook on f1 is also hanging. Play Bxd5 instead. That recaptures the hanging bishop while defending f1, so your next job is to keep pressure on c6 and a2.",
+      "takeaway": "When one of your pieces is hanging, look for a recapture that defends it and also attacks an active hanging piece.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "O-O",
+        "best_cp": -8,
+        "sound_pool": [
+          {
+            "san": "O-O",
+            "uci": "e1g1",
+            "cp": -8,
+            "pv": [
+              "O-O",
+              "Nb6",
+              "Bb3",
+              "Bg4",
+              "Bf4",
+              "Bxf3"
+            ]
+          },
+          {
+            "san": "Ng3",
+            "uci": "e2g3",
+            "cp": -37,
+            "pv": [
+              "Ng3",
+              "Bg4",
+              "Be2",
+              "f5",
+              "O-O",
+              "Qd6"
+            ]
+          },
+          {
+            "san": "Bxd5",
+            "uci": "c4d5",
+            "cp": -37,
+            "pv": [
+              "Bxd5",
+              "Qxd5",
+              "Be3",
+              "Qh5",
+              "Bxc5",
+              "Qxc5"
+            ]
+          },
+          {
+            "san": "Nc1",
+            "uci": "e2c1",
+            "cp": -47,
+            "pv": [
+              "Nc1",
+              "Bg4",
+              "Be2",
+              "Bb6",
+              "O-O",
+              "Qd6"
+            ]
+          },
+          {
+            "san": "Bc1",
+            "uci": "d2c1",
+            "cp": -48,
+            "pv": [
+              "Bc1",
+              "Be6",
+              "Bb3",
+              "Qe8",
+              "O-O",
+              "Rd8"
+            ]
+          },
+          {
+            "san": "h3",
+            "uci": "h2h3",
+            "cp": -75,
+            "pv": [
+              "h3",
+              "Ne5",
+              "Nxe5",
+              "fxe5",
+              "O-O",
+              "Rxf2"
+            ]
+          },
+          {
+            "san": "Bb3",
+            "uci": "c4b3",
+            "cp": -78,
+            "pv": [
+              "Bb3",
+              "Ne5"
+            ]
+          },
+          {
+            "san": "Bb5",
+            "uci": "c4b5",
+            "cp": -77,
+            "pv": [
+              "Bb5",
+              "Ne5",
+              "Ned4",
+              "Bg4",
+              "h3",
+              "Bh5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Qb3",
+          "uci": "d1b3",
+          "cp_loss": 149,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Qc2",
+          "uci": "d1c2",
+          "policy": 0.1003
+        },
+        {
+          "san": "Qb3",
+          "uci": "d1b3",
+          "policy": 0.0603
+        },
+        {
+          "san": "Bxd5",
+          "uci": "c4d5",
+          "policy": 0.056299999999999996
+        },
+        {
+          "san": "b4",
+          "uci": "b2b4",
+          "policy": 0.0478
+        },
+        {
+          "san": "Nf4",
+          "uci": "e2f4",
+          "policy": 0.0421
+        },
+        {
+          "san": "Ng3",
+          "uci": "e2g3",
+          "policy": 0.0406
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "hhrgEQ3q_27",
+    "label": "Advanced · opening · played Nf3 · tiers B:Qe1/I:Qe1/A:g3",
+    "fen": "N1bk1b1r/pp1p1ppp/8/5P2/1n1NPBnq/7P/PPP1K1P1/R2Q1B1R w - - 1 14",
+    "tier": "advanced",
+    "phase": "opening",
+    "severity": "blunder",
+    "student_move": "Nf3",
+    "coach": {
+      "recommended_move_san": "g3",
+      "recommended_move_uci": "g2g3",
+      "coaching": "I'd play g3. Nf3 is understandable because it attacks the bishop on f4, but it leaves Black’s queen on h4 and your rook on a1 defended by f1. Play g3 instead: it attacks the queen on h4 while defending the rook on a1 and also attacks the bishop on f4. If Black recaptures with Qe7, then Bc7+ is a clean follow-up, using the same queen trade while your pieces are better defended.",
+      "takeaway": "When you have a queen on h4 and a rook on a1, look for a pawn capture that defends the rook and attacks the queen at the same time.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Qe1",
+        "best_cp": 544,
+        "sound_pool": [
+          {
+            "san": "Qe1",
+            "uci": "d1e1",
+            "cp": 544,
+            "pv": [
+              "Qe1",
+              "Qh5",
+              "Qg3",
+              "Nf6+",
+              "Ke1",
+              "Nxe4"
+            ]
+          },
+          {
+            "san": "Bc7+",
+            "uci": "f4c7",
+            "cp": 508,
+            "pv": [
+              "Bc7+",
+              "Ke8",
+              "g3",
+              "Qh6",
+              "Bf4",
+              "g5"
+            ]
+          },
+          {
+            "san": "g3",
+            "uci": "g2g3",
+            "cp": 497,
+            "pv": [
+              "g3",
+              "Qe7",
+              "Bc7+",
+              "Ke8",
+              "hxg4",
+              "Qxe4+"
+            ]
+          },
+          {
+            "san": "hxg4",
+            "uci": "h3g4",
+            "cp": 460,
+            "pv": [
+              "hxg4",
+              "Qxh1",
+              "c3",
+              "b6",
+              "Nc7",
+              "Bb7"
+            ]
+          },
+          {
+            "san": "Qd2",
+            "uci": "d1d2",
+            "cp": 431,
+            "pv": [
+              "Qd2",
+              "Qf2+",
+              "Kd1",
+              "Qxd2+",
+              "Kxd2",
+              "Nf2"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Nf3",
+          "uci": "d4f3",
+          "cp_loss": 100545,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "g3",
+          "uci": "g2g3",
+          "policy": 0.1882
+        },
+        {
+          "san": "Qe1",
+          "uci": "d1e1",
+          "policy": 0.1383
+        },
+        {
+          "san": "Bc7+",
+          "uci": "f4c7",
+          "policy": 0.136
+        },
+        {
+          "san": "Nf3",
+          "uci": "d4f3",
+          "policy": 0.10279999999999999
+        },
+        {
+          "san": "hxg4",
+          "uci": "h3g4",
+          "policy": 0.1011
+        },
+        {
+          "san": "c3",
+          "uci": "c2c3",
+          "policy": 0.0581
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "GFHmKPZG_48",
+    "label": "Advanced · middlegame · played Kg5 · tiers B:Kg7/I:Kg7/A:Ng6",
+    "fen": "4r2r/ppb1p2p/2p2k1R/3pnp2/8/2P5/PP4PP/4R1K1 b - - 6 24",
+    "tier": "advanced",
+    "phase": "middlegame",
+    "severity": "inaccuracy",
+    "student_move": "Kg5",
+    "coach": {
+      "recommended_move_san": "Ng6",
+      "recommended_move_uci": "e5g6",
+      "coaching": "I'd play Ng6. Kg5 is understandable because it defends e7, but it leaves your king on f6 and your rook on h6 still hanging. Play Ng6 instead: it defends e7 while also attacking the rook on h8, so White has to spend a tempo on that rook. If White recaptures with Rxf1, you can continue with ...e6, removing the hanging rook and improving your counterplay.",
+      "takeaway": "When your king is attacked, look for a recapturing move that also attacks an opponent piece before retreating to a square that does not solve the problem.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Kf7",
+        "best_cp": 789,
+        "sound_pool": [
+          {
+            "san": "Kf7",
+            "uci": "f6f7",
+            "cp": 789,
+            "pv": [
+              "Kf7",
+              "Rxe5",
+              "Bxe5",
+              "Rh4",
+              "h5",
+              "Rb4"
+            ]
+          },
+          {
+            "san": "Ng6",
+            "uci": "e5g6",
+            "cp": 771,
+            "pv": [
+              "Ng6",
+              "Rf1",
+              "e6",
+              "g4",
+              "f4",
+              "Rf3"
+            ]
+          },
+          {
+            "san": "Kg7",
+            "uci": "f6g7",
+            "cp": 749,
+            "pv": [
+              "Kg7",
+              "Re6",
+              "Ng6",
+              "g3",
+              "Rhf8",
+              "Kg2"
+            ]
+          },
+          {
+            "san": "Kg5",
+            "uci": "f6g5",
+            "cp": 716,
+            "pv": [
+              "Kg5",
+              "Re6",
+              "Rhg8",
+              "R1xe5",
+              "Bxe5",
+              "Rxe5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kg5",
+          "uci": "f6g5",
+          "cp_loss": 55,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Ng6",
+          "uci": "e5g6",
+          "policy": 0.627
+        },
+        {
+          "san": "Kg7",
+          "uci": "f6g7",
+          "policy": 0.1754
+        },
+        {
+          "san": "Kg5",
+          "uci": "f6g5",
+          "policy": 0.1173
+        },
+        {
+          "san": "Kf7",
+          "uci": "f6f7",
+          "policy": 0.08039999999999999
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "GnPWHXRY_73",
+    "label": "Intermediate · endgame · played c6 · tiers B:c6/I:Ke4/A:Ke4",
+    "fen": "2r5/7p/5p1k/p1PB1P2/8/5K1P/8/8 w - - 1 37",
+    "tier": "intermediate",
+    "phase": "endgame",
+    "severity": "inaccuracy",
+    "student_move": "c6",
+    "coach": {
+      "recommended_move_san": "Ke4",
+      "recommended_move_uci": "f3e4",
+      "coaching": "I'd play Ke4. c6 is understandable because it defends the bishop on f5, but it does not solve the main problem: Black’s c-pawn is still hanging and can recapture with Rxc5. Play Ke4 instead. Your king defends f5, keeps pressure on c5, and if Black recaptures with Rxc5, you can recapture with Kd4.",
+      "takeaway": "When an undefended pawn is hanging, defend it first; if you can recapture it, do so with your king before giving it up.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "c6",
+        "best_cp": -443,
+        "sound_pool": [
+          {
+            "san": "c6",
+            "uci": "c5c6",
+            "cp": -443,
+            "pv": [
+              "c6",
+              "Kg5",
+              "Ke4",
+              "a4",
+              "h4+",
+              "Kg4"
+            ]
+          },
+          {
+            "san": "Ke3",
+            "uci": "f3e3",
+            "cp": -559,
+            "pv": [
+              "Ke3",
+              "Rxc5",
+              "Kd4",
+              "Rc7",
+              "Bb3",
+              "Rb7"
+            ]
+          },
+          {
+            "san": "Ke4",
+            "uci": "f3e4",
+            "cp": -563,
+            "pv": [
+              "Ke4",
+              "Rxc5",
+              "Kd4",
+              "Rc7",
+              "Bb3",
+              "Rb7"
+            ]
+          },
+          {
+            "san": "Bb3",
+            "uci": "d5b3",
+            "cp": -583,
+            "pv": [
+              "Bb3",
+              "Rxc5",
+              "Bd1",
+              "Rc4",
+              "Ke3",
+              "Kg5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "c6",
+          "uci": "c5c6",
+          "cp_loss": 91,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "c6",
+          "uci": "c5c6",
+          "policy": 0.4987
+        },
+        {
+          "san": "Ke4",
+          "uci": "f3e4",
+          "policy": 0.1331
+        },
+        {
+          "san": "Be6",
+          "uci": "d5e6",
+          "policy": 0.12480000000000001
+        },
+        {
+          "san": "Ke3",
+          "uci": "f3e3",
+          "policy": 0.0542
+        },
+        {
+          "san": "Bb7",
+          "uci": "d5b7",
+          "policy": 0.045700000000000005
+        },
+        {
+          "san": "Kf4",
+          "uci": "f3f4",
+          "policy": 0.030899999999999997
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "diZkf8wa_117",
+    "label": "Advanced · endgame · played d5 · tiers B:Rc8/I:Rc8/A:Rd7",
+    "fen": "8/p1R3p1/r1p2k1p/2P5/3PK3/8/8/8 w - - 13 59",
+    "tier": "advanced",
+    "phase": "endgame",
+    "severity": "mistake",
+    "student_move": "d5",
+    "coach": {
+      "recommended_move_san": "Rd7",
+      "recommended_move_uci": "c7d7",
+      "coaching": "I'd play Rd7. Your d5 push is understandable because it tries to gain space, but it does not fix the main problem: Black’s c6 pawn is hanging and your rook on c8 is still defending it. Play Rd7 instead: it attacks c6 while defending d4, so Black has to spend a tempo on that pawn before you can recapture.",
+      "takeaway": "When an undefended pawn is hanging, first ask whether you can recapture it while defending your other loose pawn.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Rc8",
+        "best_cp": -22,
+        "sound_pool": [
+          {
+            "san": "Rc8",
+            "uci": "c7c8",
+            "cp": -22,
+            "pv": [
+              "Rc8",
+              "h5",
+              "Rf8+",
+              "Ke7",
+              "Rg8",
+              "Kf7"
+            ]
+          },
+          {
+            "san": "Rd7",
+            "uci": "c7d7",
+            "cp": -36,
+            "pv": [
+              "Rd7",
+              "h5"
+            ]
+          },
+          {
+            "san": "Rb7",
+            "uci": "c7b7",
+            "cp": -105,
+            "pv": [
+              "Rb7",
+              "h5",
+              "Rd7",
+              "h4",
+              "Kf4",
+              "h3"
+            ]
+          },
+          {
+            "san": "Ke3",
+            "uci": "e4e3",
+            "cp": -111,
+            "pv": [
+              "Ke3",
+              "g5",
+              "Rd7",
+              "Kf5",
+              "Rf7+",
+              "Ke6"
+            ]
+          },
+          {
+            "san": "Kf3",
+            "uci": "e4f3",
+            "cp": -167,
+            "pv": [
+              "Kf3",
+              "g5",
+              "Rc8",
+              "h5",
+              "Rh8",
+              "Kg6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "d5",
+          "uci": "d4d5",
+          "cp_loss": 217,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "d5",
+          "uci": "d4d5",
+          "policy": 0.3362
+        },
+        {
+          "san": "Kf4",
+          "uci": "e4f4",
+          "policy": 0.1744
+        },
+        {
+          "san": "Rd7",
+          "uci": "c7d7",
+          "policy": 0.1348
+        },
+        {
+          "san": "Rc8",
+          "uci": "c7c8",
+          "policy": 0.11710000000000001
+        },
+        {
+          "san": "Rb7",
+          "uci": "c7b7",
+          "policy": 0.10189999999999999
+        },
+        {
+          "san": "Kd3",
+          "uci": "e4d3",
+          "policy": 0.05
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "50YFoQC6_28",
+    "label": "Intermediate · opening · played Nf5 · tiers B:Be6/I:Qxg5/A:Qxg5",
+    "fen": "r1bqkb1r/1pp4p/p1n4n/3N2P1/4p2N/P3P1B1/1PP1BPP1/R2QK2R b KQkq - 0 14",
+    "tier": "intermediate",
+    "phase": "opening",
+    "severity": "blunder",
+    "student_move": "Nf5",
+    "coach": {
+      "recommended_move_san": "Qxg5",
+      "recommended_move_uci": "d8g5",
+      "coaching": "I'd play Qxg5. Nf5 is understandable because it attacks g5, but it leaves your queen on d8 undefended and your bishop on g3 still hanging. Play Qxg5 instead: remove the loose pawn first, then look to develop a piece and challenge White’s center.",
+      "takeaway": "When you have a loose piece, remove it before making a side attack; if it is defended, look for a cleaner developing move.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Bd6",
+        "best_cp": -573,
+        "sound_pool": [
+          {
+            "san": "Bd6",
+            "uci": "f8d6",
+            "cp": -573,
+            "pv": [
+              "Bd6",
+              "Bh5+",
+              "Kf8",
+              "Bxd6+",
+              "cxd6",
+              "gxh6"
+            ]
+          },
+          {
+            "san": "Nf7",
+            "uci": "h6f7",
+            "cp": -668,
+            "pv": [
+              "Nf7",
+              "Nxc7+",
+              "Qxc7",
+              "Bxc7",
+              "Bg7",
+              "O-O"
+            ]
+          },
+          {
+            "san": "Qxg5",
+            "uci": "d8g5",
+            "cp": -676,
+            "pv": [
+              "Qxg5",
+              "Bh5+",
+              "Nf7",
+              "Nxc7+",
+              "Ke7",
+              "Nd5+"
+            ]
+          },
+          {
+            "san": "Kf7",
+            "uci": "e8f7",
+            "cp": -705,
+            "pv": [
+              "Kf7",
+              "gxh6",
+              "Bd6",
+              "Nc3",
+              "Be5",
+              "Bxe5"
+            ]
+          },
+          {
+            "san": "Bg7",
+            "uci": "f8g7",
+            "cp": -665,
+            "pv": [
+              "Bg7",
+              "Nxc7+",
+              "Ke7",
+              "gxh6",
+              "Bxb2",
+              "O-O"
+            ]
+          },
+          {
+            "san": "Be6",
+            "uci": "c8e6",
+            "cp": -699,
+            "pv": [
+              "Be6",
+              "Nxc7+",
+              "Qxc7",
+              "Bxc7",
+              "Bc5",
+              "Bh5+"
+            ]
+          },
+          {
+            "san": "Bxa3",
+            "uci": "f8a3",
+            "cp": -705,
+            "pv": [
+              "Bxa3",
+              "bxa3",
+              "Qxg5",
+              "Bf4",
+              "Qg7",
+              "Nxc7+"
+            ]
+          },
+          {
+            "san": "Bc5",
+            "uci": "f8c5",
+            "cp": -706,
+            "pv": [
+              "Bc5",
+              "Nxc7+",
+              "Qxc7",
+              "Bxc7",
+              "Be6",
+              "Bh5+"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Nf5",
+          "uci": "h6f5",
+          "cp_loss": 381,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "Qxg5",
+          "uci": "d8g5",
+          "policy": 0.3447
+        },
+        {
+          "san": "Nf5",
+          "uci": "h6f5",
+          "policy": 0.1313
+        },
+        {
+          "san": "Nf7",
+          "uci": "h6f7",
+          "policy": 0.12480000000000001
+        },
+        {
+          "san": "Be6",
+          "uci": "c8e6",
+          "policy": 0.1054
+        },
+        {
+          "san": "Ng8",
+          "uci": "h6g8",
+          "policy": 0.051399999999999994
+        },
+        {
+          "san": "Bd6",
+          "uci": "f8d6",
+          "policy": 0.0382
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "27CslIub_27",
+    "label": "Intermediate · middlegame · played Rfe1 · tiers B:Rad1/I:Be3/A:Be3",
+    "fen": "N4b1r/pp1k1ppp/2np4/6B1/4n3/5N2/PP3PPP/R4RK1 w - - 0 14",
+    "tier": "intermediate",
+    "phase": "middlegame",
+    "severity": "inaccuracy",
+    "student_move": "Rfe1",
+    "coach": {
+      "recommended_move_san": "Be3",
+      "recommended_move_uci": "g5e3",
+      "coaching": "I'd play Be3. Rfe1 is understandable because it attacks the knight on e4, but it leaves your rook on f1 undefended and your bishop on f2 still hanging. Be3 is cleaner: it defends f2 while attacking the pawn on a7, so you are improving your worst defender instead of just hitting a loose piece.",
+      "takeaway": "When you have a hanging piece, choose the square that defends it while attacking another loose piece.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Rad1",
+        "best_cp": 289,
+        "sound_pool": [
+          {
+            "san": "Rad1",
+            "uci": "a1d1",
+            "cp": 289,
+            "pv": [
+              "Rad1",
+              "Nxg5",
+              "Nxg5",
+              "Be7",
+              "f4",
+              "Bf6"
+            ]
+          },
+          {
+            "san": "Rfd1",
+            "uci": "f1d1",
+            "cp": 270,
+            "pv": [
+              "Rfd1",
+              "g6",
+              "Bf4",
+              "Be7",
+              "Nd2",
+              "Nxd2"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "g5e3",
+            "cp": 269,
+            "pv": [
+              "Be3",
+              "Be7",
+              "Nb6+",
+              "axb6",
+              "Bxb6",
+              "Ra8"
+            ]
+          },
+          {
+            "san": "Nc7",
+            "uci": "a8c7",
+            "cp": 251,
+            "pv": [
+              "Nc7",
+              "Kxc7",
+              "Rad1",
+              "Nc5",
+              "h4",
+              "h6"
+            ]
+          },
+          {
+            "san": "h4",
+            "uci": "h2h4",
+            "cp": 247,
+            "pv": [
+              "h4",
+              "h6",
+              "Be3",
+              "Be7",
+              "Rae1",
+              "f5"
+            ]
+          },
+          {
+            "san": "Rfe1",
+            "uci": "f1e1",
+            "cp": 244,
+            "pv": [
+              "Rfe1",
+              "Nxg5",
+              "Nxg5",
+              "Be7",
+              "Ne4",
+              "Rxa8"
+            ]
+          },
+          {
+            "san": "Nb6+",
+            "uci": "a8b6",
+            "cp": 243,
+            "pv": [
+              "Nb6+",
+              "axb6",
+              "Rad1",
+              "f5",
+              "Be3",
+              "Be7"
+            ]
+          },
+          {
+            "san": "Rab1",
+            "uci": "a1b1",
+            "cp": 240,
+            "pv": [
+              "Rab1",
+              "Nxg5",
+              "Nxg5",
+              "Be7",
+              "Ne4",
+              "Rxa8"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Rfe1",
+          "uci": "f1e1",
+          "cp_loss": 81,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Be3",
+          "uci": "g5e3",
+          "policy": 0.2667
+        },
+        {
+          "san": "Rfe1",
+          "uci": "f1e1",
+          "policy": 0.1536
+        },
+        {
+          "san": "Bf4",
+          "uci": "g5f4",
+          "policy": 0.1261
+        },
+        {
+          "san": "Bh4",
+          "uci": "g5h4",
+          "policy": 0.0806
+        },
+        {
+          "san": "Rad1",
+          "uci": "a1d1",
+          "policy": 0.0696
+        },
+        {
+          "san": "Rac1",
+          "uci": "a1c1",
+          "policy": 0.061200000000000004
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "QU2bnwCs_82",
+    "label": "Beginner · endgame · played Kg8 · tiers B:Ke6/I:Nc5/A:Nc5",
+    "fen": "8/5k2/8/1p2B2P/n7/6P1/5PK1/R7 b - - 0 41",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "mistake",
+    "student_move": "Kg8",
+    "coach": {
+      "recommended_move_san": "Ke6",
+      "recommended_move_uci": "f7e6",
+      "coaching": "I'd play Ke6. Kg8 is understandable because it backs up the bishop on e5, but it does not challenge White’s active bishop on d4. Play Ke6 instead: your king attacks the bishop on e5, so White has to deal with the pressure instead of just sitting there.",
+      "takeaway": "When your king is attacked, look for a safe square that attacks the attacker.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Nc5",
+        "best_cp": -676,
+        "sound_pool": [
+          {
+            "san": "Nc5",
+            "uci": "a4c5",
+            "cp": -676,
+            "pv": [
+              "Nc5",
+              "Bd4",
+              "Nd3",
+              "Rd1",
+              "Nxf2",
+              "Bxf2"
+            ]
+          },
+          {
+            "san": "Ke6",
+            "uci": "f7e6",
+            "cp": -698,
+            "pv": [
+              "Ke6",
+              "Bd4",
+              "Kd5",
+              "Rd1",
+              "Ke6",
+              "Kh3"
+            ]
+          },
+          {
+            "san": "Nb6",
+            "uci": "a4b6",
+            "cp": -726,
+            "pv": [
+              "Nb6",
+              "Ra7+",
+              "Ke6",
+              "Ba1",
+              "Nd7",
+              "h6"
+            ]
+          },
+          {
+            "san": "Ke7",
+            "uci": "f7e7",
+            "cp": -744,
+            "pv": [
+              "Ke7",
+              "Bd4",
+              "Ke6",
+              "Kh3",
+              "Kf5",
+              "f3"
+            ]
+          },
+          {
+            "san": "Kf8",
+            "uci": "f7f8",
+            "cp": -768,
+            "pv": [
+              "Kf8",
+              "Bd4",
+              "Kf7",
+              "Kh3",
+              "Ke7",
+              "Kg4"
+            ]
+          },
+          {
+            "san": "Ke8",
+            "uci": "f7e8",
+            "cp": -777,
+            "pv": [
+              "Ke8",
+              "Bd4",
+              "Kd7",
+              "Kh3",
+              "Kc6",
+              "Kg4"
+            ]
+          },
+          {
+            "san": "Kg8",
+            "uci": "f7g8",
+            "cp": -813,
+            "pv": [
+              "Kg8",
+              "Bd4",
+              "Kf7",
+              "Kh3",
+              "Ke7",
+              "Kg4"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kg8",
+          "uci": "f7g8",
+          "cp_loss": 152,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "Ke6",
+          "uci": "f7e6",
+          "policy": 0.3188
+        },
+        {
+          "san": "Nc5",
+          "uci": "a4c5",
+          "policy": 0.2327
+        },
+        {
+          "san": "Nb6",
+          "uci": "a4b6",
+          "policy": 0.1268
+        },
+        {
+          "san": "b4",
+          "uci": "b5b4",
+          "policy": 0.115
+        },
+        {
+          "san": "Kg8",
+          "uci": "f7g8",
+          "policy": 0.10289999999999999
+        },
+        {
+          "san": "Nb2",
+          "uci": "a4b2",
+          "policy": 0.0461
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "Mb9nSn5R_23",
+    "label": "Beginner · opening · played b4 · tiers B:cxb6/I:Ke1/A:Nd2",
+    "fen": "rnbqk2r/p3b1pp/1pp1pp2/2Pp4/3P4/3NP1P1/PP2KPP1/RN1Q1B1R w kq - 0 12",
+    "tier": "beginner",
+    "phase": "opening",
+    "severity": "inaccuracy",
+    "student_move": "b4",
+    "coach": {
+      "recommended_move_san": "cxb6",
+      "recommended_move_uci": "c5b6",
+      "coaching": "I'd play cxb6. Your pawn on b6 is attacked, so first remove that hanging pawn. If Black recaptures with axb6, then you can recapture with axb6 and keep your pieces active.",
+      "takeaway": "When one of your pieces is hanging, look for a clean capture before making a normal developing move.",
+      "concepts_used": [],
+      "side_to_move": "white",
+      "engine": {
+        "best_san": "Ke1",
+        "best_cp": -19,
+        "sound_pool": [
+          {
+            "san": "Ke1",
+            "uci": "e2e1",
+            "cp": -19,
+            "pv": [
+              "Ke1",
+              "bxc5",
+              "Nxc5",
+              "Bxc5",
+              "dxc5",
+              "Qa5+"
+            ]
+          },
+          {
+            "san": "Nd2",
+            "uci": "b1d2",
+            "cp": -22,
+            "pv": [
+              "Nd2",
+              "Nd7",
+              "cxb6",
+              "Qxb6",
+              "Ke1",
+              "e5"
+            ]
+          },
+          {
+            "san": "a3",
+            "uci": "a2a3",
+            "cp": -38,
+            "pv": [
+              "a3",
+              "Nd7",
+              "b4",
+              "a5",
+              "Nd2",
+              "O-O"
+            ]
+          },
+          {
+            "san": "cxb6",
+            "uci": "c5b6",
+            "cp": -45,
+            "pv": [
+              "cxb6",
+              "axb6"
+            ]
+          },
+          {
+            "san": "Qc2",
+            "uci": "d1c2",
+            "cp": -35,
+            "pv": [
+              "Qc2",
+              "e5"
+            ]
+          },
+          {
+            "san": "Nc3",
+            "uci": "b1c3",
+            "cp": -55,
+            "pv": [
+              "Nc3",
+              "bxc5",
+              "Nxc5",
+              "Bxc5",
+              "dxc5",
+              "Na6"
+            ]
+          },
+          {
+            "san": "Qa4",
+            "uci": "d1a4",
+            "cp": -55,
+            "pv": [
+              "Qa4",
+              "Ba6",
+              "Ke1",
+              "Bxd3",
+              "Bxd3",
+              "bxc5"
+            ]
+          },
+          {
+            "san": "Qd2",
+            "uci": "d1d2",
+            "cp": -72,
+            "pv": [
+              "Qd2",
+              "bxc5",
+              "Nxc5",
+              "Bxc5",
+              "dxc5",
+              "Na6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "b4",
+          "uci": "b2b4",
+          "cp_loss": 77,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Nc3",
+          "uci": "b1c3",
+          "policy": 0.16260000000000002
+        },
+        {
+          "san": "b4",
+          "uci": "b2b4",
+          "policy": 0.1058
+        },
+        {
+          "san": "cxb6",
+          "uci": "c5b6",
+          "policy": 0.0877
+        },
+        {
+          "san": "Nd2",
+          "uci": "b1d2",
+          "policy": 0.07490000000000001
+        },
+        {
+          "san": "Nf4",
+          "uci": "d3f4",
+          "policy": 0.0698
+        },
+        {
+          "san": "f4",
+          "uci": "f2f4",
+          "policy": 0.0674
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "4wkEsyPx_96",
+    "label": "Beginner · endgame · played a4 · picks Be3 over engine a4",
+    "fen": "5k2/3R4/1p6/pP2p1PK/3bP3/8/8/8 b - - 0 48",
+    "tier": "beginner",
+    "phase": "endgame",
+    "severity": "mistake",
+    "student_move": "a4",
+    "coach": {
+      "recommended_move_san": "Be3",
+      "recommended_move_uci": "d4e3",
+      "coaching": "I'd play Be3. Your pawn on a4 is tempting because it attacks g5, but it does not solve the bigger problem: White’s rook on d7 is still hanging. Play Be3 instead. Your bishop attacks g5, defends b6, and also attacks the rook on d7. After that, you can look for a clean capture on g5.",
+      "takeaway": "When an enemy piece is hanging, first ask if you can attack it with a piece while defending another loose piece.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "a4",
+        "best_cp": -691,
+        "sound_pool": [
+          {
+            "san": "a4",
+            "uci": "a5a4",
+            "cp": -691,
+            "pv": [
+              "a4",
+              "Ra7",
+              "Bf2",
+              "Kg6",
+              "Bh4",
+              "Kh6"
+            ]
+          },
+          {
+            "san": "Be3",
+            "uci": "d4e3",
+            "cp": -792,
+            "pv": [
+              "Be3",
+              "Kg6",
+              "Ke8",
+              "Ra7",
+              "Kd8",
+              "Kf6"
+            ]
+          },
+          {
+            "san": "Bc5",
+            "uci": "d4c5",
+            "cp": -660,
+            "pv": [
+              "Bc5",
+              "Kg6",
+              "Ke8",
+              "Ra7",
+              "Be3",
+              "Kf6"
+            ]
+          },
+          {
+            "san": "Bf2",
+            "uci": "d4f2",
+            "cp": -666,
+            "pv": [
+              "Bf2",
+              "Kh6",
+              "Ke8",
+              "Ra7",
+              "Be3",
+              "Kg6"
+            ]
+          },
+          {
+            "san": "Bc3",
+            "uci": "d4c3",
+            "cp": -700,
+            "pv": [
+              "Bc3",
+              "Kg6",
+              "Be1",
+              "Kh7",
+              "Ke8",
+              "Ra7"
+            ]
+          },
+          {
+            "san": "Ke8",
+            "uci": "f8e8",
+            "cp": -714,
+            "pv": [
+              "Ke8",
+              "Ra7",
+              "Bc5",
+              "Kg6",
+              "Be7",
+              "Kf5"
+            ]
+          },
+          {
+            "san": "Bb2",
+            "uci": "d4b2",
+            "cp": -735,
+            "pv": [
+              "Bb2",
+              "Kg6",
+              "Ke8",
+              "Ra7",
+              "Kd8",
+              "Kh7"
+            ]
+          },
+          {
+            "san": "Bg1",
+            "uci": "d4g1",
+            "cp": -738,
+            "pv": [
+              "Bg1",
+              "Kg6",
+              "Ke8",
+              "Ra7",
+              "Be3",
+              "Kf6"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "a4",
+          "uci": "a5a4",
+          "cp_loss": 130,
+          "severity": "mistake"
+        }
+      },
+      "maia": [
+        {
+          "san": "a4",
+          "uci": "a5a4",
+          "policy": 0.37329999999999997
+        },
+        {
+          "san": "Ke8",
+          "uci": "f8e8",
+          "policy": 0.3126
+        },
+        {
+          "san": "Kg8",
+          "uci": "f8g8",
+          "policy": 0.0913
+        },
+        {
+          "san": "Bc5",
+          "uci": "d4c5",
+          "policy": 0.0593
+        },
+        {
+          "san": "Be3",
+          "uci": "d4e3",
+          "policy": 0.0526
+        },
+        {
+          "san": "Bc3",
+          "uci": "d4c3",
+          "policy": 0.042300000000000004
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "0WuKqZgF_32",
+    "label": "Intermediate · middlegame · played Kg7 · tiers B:d5/I:exd4/A:exd4",
+    "fen": "r2q2k1/ppp2r1N/2np2pR/4pb2/2QP4/2P1P1P1/PP3PP1/2KR4 b - - 4 16",
+    "tier": "intermediate",
+    "phase": "middlegame",
+    "severity": "blunder",
+    "student_move": "Kg7",
+    "coach": {
+      "recommended_move_san": "exd4",
+      "recommended_move_uci": "e5d4",
+      "coaching": "I'd play exd4. Kg7 is understandable because it steps out of the queen’s attack, but it does not solve the main problem: your pawn on d4 is attacked, and White can recapture with Rdh1. Play exd4 instead: remove the hanging pawn first, then use your active rook and queen to keep pressure on c3 and e3.",
+      "takeaway": "When an attacked pawn is hanging, remove it before playing a quiet defensive move.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "d5",
+        "best_cp": 270,
+        "sound_pool": [
+          {
+            "san": "d5",
+            "uci": "d6d5",
+            "cp": 270,
+            "pv": [
+              "d5",
+              "Qe2",
+              "Rxh7",
+              "Rxh7",
+              "Kxh7",
+              "g4"
+            ]
+          },
+          {
+            "san": "Na5",
+            "uci": "c6a5",
+            "cp": 193,
+            "pv": [
+              "Na5",
+              "Qa4",
+              "Rxh7",
+              "Rxh7",
+              "Kxh7",
+              "Qxa5"
+            ]
+          },
+          {
+            "san": "exd4",
+            "uci": "e5d4",
+            "cp": 122,
+            "pv": [
+              "exd4",
+              "Rdh1",
+              "d5",
+              "Qe2",
+              "d3",
+              "Qd2"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Kg7",
+          "uci": "g8g7",
+          "cp_loss": 461,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "Kg7",
+          "uci": "g8g7",
+          "policy": 0.2451
+        },
+        {
+          "san": "exd4",
+          "uci": "e5d4",
+          "policy": 0.1421
+        },
+        {
+          "san": "d5",
+          "uci": "d6d5",
+          "policy": 0.1116
+        },
+        {
+          "san": "Qe7",
+          "uci": "d8e7",
+          "policy": 0.09880000000000001
+        },
+        {
+          "san": "Na5",
+          "uci": "c6a5",
+          "policy": 0.0859
+        },
+        {
+          "san": "Qd7",
+          "uci": "d8d7",
+          "policy": 0.0508
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "RGbTQP0z_24",
+    "label": "Intermediate · opening · played Bd6 · picks Be7 over engine Nd7",
+    "fen": "r2qkb1r/pp3ppb/2n1pn1p/1B1pB2P/3P2P1/2N2P2/PPP1N3/R2QK2R b KQkq - 1 12",
+    "tier": "intermediate",
+    "phase": "opening",
+    "severity": "inaccuracy",
+    "student_move": "Bd6",
+    "coach": {
+      "recommended_move_san": "Be7",
+      "recommended_move_uci": "f8e7",
+      "coaching": "I'd play Be7. Bd6 is understandable because it defends the queen on d8, but it leaves your bishop on f8 hanging. Play Be7 instead: develop the bishop, defend the queen on d8, and also challenge the knight on f6. If White tries Bd3, you can answer Bxd3 and remove the loose piece.",
+      "takeaway": "When defending a queen, develop a piece that also attacks an enemy piece; do not spend a tempo defending only one loose piece.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Nd7",
+        "best_cp": 86,
+        "sound_pool": [
+          {
+            "san": "Nd7",
+            "uci": "f6d7",
+            "cp": 86,
+            "pv": [
+              "Nd7",
+              "Bg3"
+            ]
+          },
+          {
+            "san": "Rc8",
+            "uci": "a8c8",
+            "cp": 87,
+            "pv": [
+              "Rc8",
+              "Bd3",
+              "Bxd3",
+              "Qxd3",
+              "Nd7",
+              "Bg3"
+            ]
+          },
+          {
+            "san": "Be7",
+            "uci": "f8e7",
+            "cp": 83,
+            "pv": [
+              "Be7",
+              "Bd3",
+              "Rc8",
+              "Bxh7",
+              "Nxe5",
+              "dxe5"
+            ]
+          },
+          {
+            "san": "a6",
+            "uci": "a7a6",
+            "cp": 66,
+            "pv": [
+              "a6",
+              "Bd3",
+              "Rc8",
+              "a3",
+              "Nxe5",
+              "dxe5"
+            ]
+          },
+          {
+            "san": "Qa5",
+            "uci": "d8a5",
+            "cp": 44,
+            "pv": [
+              "Qa5",
+              "Bxf6",
+              "gxf6",
+              "Bd3",
+              "Bxd3",
+              "Qxd3"
+            ]
+          },
+          {
+            "san": "Qb6",
+            "uci": "d8b6",
+            "cp": 39,
+            "pv": [
+              "Qb6",
+              "Bxf6",
+              "gxf6",
+              "Bd3",
+              "Bxd3",
+              "Qxd3"
+            ]
+          },
+          {
+            "san": "Bb4",
+            "uci": "f8b4",
+            "cp": 30,
+            "pv": [
+              "Bb4",
+              "Qd2",
+              "Bf8",
+              "O-O-O",
+              "Nd7",
+              "Bg3"
+            ]
+          },
+          {
+            "san": "a5",
+            "uci": "a7a5",
+            "cp": 22,
+            "pv": [
+              "a5",
+              "Qd2",
+              "Nd7",
+              "Bf4"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Bd6",
+          "uci": "f8d6",
+          "cp_loss": 93,
+          "severity": "inaccuracy"
+        }
+      },
+      "maia": [
+        {
+          "san": "Be7",
+          "uci": "f8e7",
+          "policy": 0.2027
+        },
+        {
+          "san": "a6",
+          "uci": "a7a6",
+          "policy": 0.18600000000000003
+        },
+        {
+          "san": "Bd6",
+          "uci": "f8d6",
+          "policy": 0.1716
+        },
+        {
+          "san": "Nd7",
+          "uci": "f6d7",
+          "policy": 0.1361
+        },
+        {
+          "san": "Bb4",
+          "uci": "f8b4",
+          "policy": 0.1063
+        },
+        {
+          "san": "Qb6",
+          "uci": "d8b6",
+          "policy": 0.0642
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  },
+  {
+    "id": "OxPFVrUV_50",
+    "label": "Beginner · middlegame · played Qd7 · tiers B:Rd8/I:Rd8/A:Rf5",
+    "fen": "r3q2k/ppp3bb/7p/1P1Bp1r1/8/P4Q1N/RBPK1P2/7R b - - 0 25",
+    "tier": "beginner",
+    "phase": "middlegame",
+    "severity": "blunder",
+    "student_move": "Qd7",
+    "coach": {
+      "recommended_move_san": "Rd8",
+      "recommended_move_uci": "a8d8",
+      "coaching": "I'd play Rd8. Qd7 is understandable because it attacks the queen, but it leaves your rook on g6 hanging and your bishop on g7 still loose. Play Rd8 instead: your rook defends the bishop on g7, and if White tries Nxg5, you can recapture with Qxg5.",
+      "takeaway": "When your rook is hanging, look for a move that defends it while also attacking something important.",
+      "concepts_used": [],
+      "side_to_move": "black",
+      "engine": {
+        "best_san": "Rf5",
+        "best_cp": -169,
+        "sound_pool": [
+          {
+            "san": "Rf5",
+            "uci": "g5f5",
+            "cp": -169,
+            "pv": [
+              "Rf5",
+              "Qg2"
+            ]
+          },
+          {
+            "san": "Rh5",
+            "uci": "g5h5",
+            "cp": -211,
+            "pv": [
+              "Rh5",
+              "Kc1",
+              "Rd8",
+              "a4",
+              "Qg6",
+              "Bc3"
+            ]
+          },
+          {
+            "san": "Qg6",
+            "uci": "e8g6",
+            "cp": -233,
+            "pv": [
+              "Qg6",
+              "Nxg5",
+              "Qxg5+",
+              "Ke2",
+              "Qe7",
+              "Bc1"
+            ]
+          },
+          {
+            "san": "Rg6",
+            "uci": "g5g6",
+            "cp": -234,
+            "pv": [
+              "Rg6",
+              "Kc1",
+              "Rd8",
+              "Be4",
+              "Qe6",
+              "Kb1"
+            ]
+          },
+          {
+            "san": "Qh5",
+            "uci": "e8h5",
+            "cp": -238,
+            "pv": [
+              "Qh5",
+              "Nxg5",
+              "Qxg5+",
+              "Ke2",
+              "Rf8",
+              "Qg2"
+            ]
+          },
+          {
+            "san": "Qe7",
+            "uci": "e8e7",
+            "cp": -251,
+            "pv": [
+              "Qe7",
+              "Nxg5",
+              "Qxg5+",
+              "Ke2",
+              "c6",
+              "Bc1"
+            ]
+          },
+          {
+            "san": "Qd8",
+            "uci": "e8d8",
+            "cp": -263,
+            "pv": [
+              "Qd8",
+              "Nxg5",
+              "Qxg5+",
+              "Ke2",
+              "Rf8",
+              "Bc1"
+            ]
+          },
+          {
+            "san": "Rd8",
+            "uci": "a8d8",
+            "cp": -273,
+            "pv": [
+              "Rd8",
+              "Nxg5",
+              "Bg8",
+              "Kc1",
+              "Rxd5",
+              "Qf5"
+            ]
+          }
+        ],
+        "student_move": {
+          "san": "Qd7",
+          "uci": "e8d7",
+          "cp_loss": 441,
+          "severity": "blunder"
+        }
+      },
+      "maia": [
+        {
+          "san": "Rd8",
+          "uci": "a8d8",
+          "policy": 0.2614
+        },
+        {
+          "san": "e4",
+          "uci": "e5e4",
+          "policy": 0.1503
+        },
+        {
+          "san": "Rf5",
+          "uci": "g5f5",
+          "policy": 0.14400000000000002
+        },
+        {
+          "san": "Qxb5",
+          "uci": "e8b5",
+          "policy": 0.09
+        },
+        {
+          "san": "c6",
+          "uci": "c7c6",
+          "policy": 0.0649
+        },
+        {
+          "san": "Qd7",
+          "uci": "e8d7",
+          "policy": 0.0391
+        }
+      ],
+      "meta": {
+        "model": "models/mlx/chess-coach-v1",
+        "tuned": true,
+        "notes": []
+      }
+    }
+  }
+]

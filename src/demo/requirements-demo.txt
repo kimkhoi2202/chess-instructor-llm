@@ -1,0 +1,14 @@
+# Extra dependencies for the Gradio chess-coach demo (src/demo/app.py).
+# For local Apple-Silicon runs these install on top of the repo's base deps
+# (python-chess, mlx-lm, etc. in ../../requirements.txt). Listed separately so a
+# Hugging Face Space can pick them up.
+#
+# NOTE: pinned to gradio 5.x on purpose. gradio 6 requires huggingface-hub>=1.2,
+# which conflicts with the transformers/mlx-lm stack this repo uses
+# (transformers<... needs huggingface-hub<1.0). gradio 5 has every component the
+# demo uses, so this keeps the MLX inference env intact.
+gradio>=5,<6
+# Optional: rasterises the board SVG to PNG for gr.Image. If it (or its native
+# libcairo dependency) is unavailable, the app automatically falls back to
+# rendering the board as inline SVG via gr.HTML.
+cairosvg>=2.7

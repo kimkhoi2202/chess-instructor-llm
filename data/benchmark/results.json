@@ -1,0 +1,1068 @@
+{
+  "meta": {
+    "n_scenarios": 100,
+    "distribution": {
+      "tier": {
+        "advanced": 27,
+        "beginner": 40,
+        "intermediate": 33
+      },
+      "phase": {
+        "middlegame": 51,
+        "opening": 27,
+        "endgame": 22
+      },
+      "severity": {
+        "blunder": 28,
+        "mistake": 31,
+        "inaccuracy": 41
+      }
+    },
+    "conditions": [
+      "ungrounded",
+      "grounded"
+    ],
+    "models": {
+      "ours": "OURS (chess-coach-v1, 1.7B tuned)",
+      "base": "BASE (Qwen3-1.7B-4bit, untuned)",
+      "gpt": "GPT-5.5",
+      "claude": "Claude Opus 4.8",
+      "gemini": "Gemini 3.1 Pro"
+    },
+    "judges": [
+      "gpt",
+      "claude",
+      "gemini"
+    ],
+    "counts": {
+      "generations": 1000,
+      "objective": 1000,
+      "council": 600
+    }
+  },
+  "objective": {
+    "metrics": {
+      "produced_nonempty": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "move_parseable": {
+        "ours": {
+          "ungrounded": 0.94,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.76,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 0.99,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.96,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.97,
+          "grounded": 1.0
+        }
+      },
+      "move_sound": {
+        "ours": {
+          "ungrounded": 0.36,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.28,
+          "grounded": 0.92
+        },
+        "gpt": {
+          "ungrounded": 0.56,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.33,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.6,
+          "grounded": 1.0
+        }
+      },
+      "no_engine_speak": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 0.95
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "ply_cap_ok": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "fabrication_rate": {
+        "ours": {
+          "ungrounded": 0.93,
+          "grounded": 0.38
+        },
+        "base": {
+          "ungrounded": 0.21,
+          "grounded": 0.15
+        },
+        "gpt": {
+          "ungrounded": 0.02,
+          "grounded": 0.02
+        },
+        "claude": {
+          "ungrounded": 0.11,
+          "grounded": 0.06
+        },
+        "gemini": {
+          "ungrounded": 0.03,
+          "grounded": 0.02
+        }
+      },
+      "avg_violations": {
+        "ours": {
+          "ungrounded": 1.62,
+          "grounded": 0.45
+        },
+        "base": {
+          "ungrounded": 0.29,
+          "grounded": 0.23
+        },
+        "gpt": {
+          "ungrounded": 0.02,
+          "grounded": 0.02
+        },
+        "claude": {
+          "ungrounded": 0.11,
+          "grounded": 0.06
+        },
+        "gemini": {
+          "ungrounded": 0.03,
+          "grounded": 0.02
+        }
+      }
+    },
+    "n": {
+      "ours": {
+        "ungrounded": 100,
+        "grounded": 100
+      },
+      "base": {
+        "ungrounded": 100,
+        "grounded": 100
+      },
+      "gpt": {
+        "ungrounded": 100,
+        "grounded": 100
+      },
+      "claude": {
+        "ungrounded": 100,
+        "grounded": 100
+      },
+      "gemini": {
+        "ungrounded": 100,
+        "grounded": 100
+      }
+    }
+  },
+  "objective_by_tier": {
+    "beginner": {
+      "produced_nonempty": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "move_parseable": {
+        "ours": {
+          "ungrounded": 0.875,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.8,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.975,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.975,
+          "grounded": 1.0
+        }
+      },
+      "move_sound": {
+        "ours": {
+          "ungrounded": 0.325,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.225,
+          "grounded": 0.925
+        },
+        "gpt": {
+          "ungrounded": 0.575,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.375,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.55,
+          "grounded": 1.0
+        }
+      },
+      "no_engine_speak": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 0.95
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "ply_cap_ok": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "fabrication_rate": {
+        "ours": {
+          "ungrounded": 0.95,
+          "grounded": 0.375
+        },
+        "base": {
+          "ungrounded": 0.175,
+          "grounded": 0.05
+        },
+        "gpt": {
+          "ungrounded": 0.025,
+          "grounded": 0.0
+        },
+        "claude": {
+          "ungrounded": 0.1,
+          "grounded": 0.125
+        },
+        "gemini": {
+          "ungrounded": 0.0,
+          "grounded": 0.0
+        }
+      },
+      "avg_violations": {
+        "ours": {
+          "ungrounded": 1.65,
+          "grounded": 0.4
+        },
+        "base": {
+          "ungrounded": 0.225,
+          "grounded": 0.075
+        },
+        "gpt": {
+          "ungrounded": 0.025,
+          "grounded": 0.0
+        },
+        "claude": {
+          "ungrounded": 0.1,
+          "grounded": 0.125
+        },
+        "gemini": {
+          "ungrounded": 0.0,
+          "grounded": 0.0
+        }
+      }
+    },
+    "intermediate": {
+      "produced_nonempty": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "move_parseable": {
+        "ours": {
+          "ungrounded": 0.9696969696969697,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.7272727272727273,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 0.9696969696969697,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.9393939393939394,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.9696969696969697,
+          "grounded": 1.0
+        }
+      },
+      "move_sound": {
+        "ours": {
+          "ungrounded": 0.42424242424242425,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.36363636363636365,
+          "grounded": 0.9090909090909091
+        },
+        "gpt": {
+          "ungrounded": 0.45454545454545453,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.30303030303030304,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.5454545454545454,
+          "grounded": 1.0
+        }
+      },
+      "no_engine_speak": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 0.9696969696969697
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "ply_cap_ok": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "fabrication_rate": {
+        "ours": {
+          "ungrounded": 0.9090909090909091,
+          "grounded": 0.3939393939393939
+        },
+        "base": {
+          "ungrounded": 0.21212121212121213,
+          "grounded": 0.24242424242424243
+        },
+        "gpt": {
+          "ungrounded": 0.030303030303030304,
+          "grounded": 0.030303030303030304
+        },
+        "claude": {
+          "ungrounded": 0.15151515151515152,
+          "grounded": 0.030303030303030304
+        },
+        "gemini": {
+          "ungrounded": 0.030303030303030304,
+          "grounded": 0.030303030303030304
+        }
+      },
+      "avg_violations": {
+        "ours": {
+          "ungrounded": 1.4242424242424243,
+          "grounded": 0.5151515151515151
+        },
+        "base": {
+          "ungrounded": 0.21212121212121213,
+          "grounded": 0.2727272727272727
+        },
+        "gpt": {
+          "ungrounded": 0.030303030303030304,
+          "grounded": 0.030303030303030304
+        },
+        "claude": {
+          "ungrounded": 0.15151515151515152,
+          "grounded": 0.030303030303030304
+        },
+        "gemini": {
+          "ungrounded": 0.030303030303030304,
+          "grounded": 0.030303030303030304
+        }
+      }
+    },
+    "advanced": {
+      "produced_nonempty": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "move_parseable": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.7407407407407407,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.9629629629629629,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.9629629629629629,
+          "grounded": 1.0
+        }
+      },
+      "move_sound": {
+        "ours": {
+          "ungrounded": 0.3333333333333333,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 0.25925925925925924,
+          "grounded": 0.9259259259259259
+        },
+        "gpt": {
+          "ungrounded": 0.6666666666666666,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 0.2962962962962963,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 0.7407407407407407,
+          "grounded": 1.0
+        }
+      },
+      "no_engine_speak": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 0.9259259259259259
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "ply_cap_ok": {
+        "ours": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "base": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gpt": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "claude": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        },
+        "gemini": {
+          "ungrounded": 1.0,
+          "grounded": 1.0
+        }
+      },
+      "fabrication_rate": {
+        "ours": {
+          "ungrounded": 0.9259259259259259,
+          "grounded": 0.37037037037037035
+        },
+        "base": {
+          "ungrounded": 0.25925925925925924,
+          "grounded": 0.18518518518518517
+        },
+        "gpt": {
+          "ungrounded": 0.0,
+          "grounded": 0.037037037037037035
+        },
+        "claude": {
+          "ungrounded": 0.07407407407407407,
+          "grounded": 0.0
+        },
+        "gemini": {
+          "ungrounded": 0.07407407407407407,
+          "grounded": 0.037037037037037035
+        }
+      },
+      "avg_violations": {
+        "ours": {
+          "ungrounded": 1.8148148148148149,
+          "grounded": 0.4444444444444444
+        },
+        "base": {
+          "ungrounded": 0.48148148148148145,
+          "grounded": 0.4074074074074074
+        },
+        "gpt": {
+          "ungrounded": 0.0,
+          "grounded": 0.037037037037037035
+        },
+        "claude": {
+          "ungrounded": 0.07407407407407407,
+          "grounded": 0.0
+        },
+        "gemini": {
+          "ungrounded": 0.07407407407407407,
+          "grounded": 0.037037037037037035
+        }
+      }
+    }
+  },
+  "council": {
+    "mean_rank": {
+      "ours": {
+        "ungrounded": 4.4366666666666665,
+        "grounded": 4.1866666666666665
+      },
+      "base": {
+        "ungrounded": 4.236666666666666,
+        "grounded": 4.516666666666667
+      },
+      "gpt": {
+        "ungrounded": 1.7166666666666666,
+        "grounded": 2.0766666666666667
+      },
+      "claude": {
+        "ungrounded": 2.7066666666666666,
+        "grounded": 1.9333333333333333
+      },
+      "gemini": {
+        "ungrounded": 1.9033333333333333,
+        "grounded": 2.2866666666666666
+      }
+    },
+    "win_rate": {
+      "ours": {
+        "ungrounded": 0.006666666666666667,
+        "grounded": 0.016666666666666666
+      },
+      "base": {
+        "ungrounded": 0.01,
+        "grounded": 0.013333333333333334
+      },
+      "gpt": {
+        "ungrounded": 0.49666666666666665,
+        "grounded": 0.34
+      },
+      "claude": {
+        "ungrounded": 0.1,
+        "grounded": 0.39
+      },
+      "gemini": {
+        "ungrounded": 0.38666666666666666,
+        "grounded": 0.24
+      }
+    },
+    "rubric": {
+      "tier_calibration": {
+        "ours": {
+          "ungrounded": 0.17666666666666667,
+          "grounded": 0.9233333333333333
+        },
+        "base": {
+          "ungrounded": 0.2733333333333333,
+          "grounded": 0.5633333333333334
+        },
+        "gpt": {
+          "ungrounded": 1.6566666666666667,
+          "grounded": 1.8966666666666667
+        },
+        "claude": {
+          "ungrounded": 1.27,
+          "grounded": 1.8833333333333333
+        },
+        "gemini": {
+          "ungrounded": 1.64,
+          "grounded": 1.8366666666666667
+        }
+      },
+      "clarity": {
+        "ours": {
+          "ungrounded": 0.48,
+          "grounded": 1.06
+        },
+        "base": {
+          "ungrounded": 0.63,
+          "grounded": 0.74
+        },
+        "gpt": {
+          "ungrounded": 1.8266666666666667,
+          "grounded": 1.9166666666666667
+        },
+        "claude": {
+          "ungrounded": 1.63,
+          "grounded": 1.9033333333333333
+        },
+        "gemini": {
+          "ungrounded": 1.85,
+          "grounded": 1.8966666666666667
+        }
+      },
+      "correctness": {
+        "ours": {
+          "ungrounded": 0.016666666666666666,
+          "grounded": 0.28
+        },
+        "base": {
+          "ungrounded": 0.013333333333333334,
+          "grounded": 0.23333333333333334
+        },
+        "gpt": {
+          "ungrounded": 1.1266666666666667,
+          "grounded": 1.8033333333333332
+        },
+        "claude": {
+          "ungrounded": 0.45666666666666667,
+          "grounded": 1.5733333333333333
+        },
+        "gemini": {
+          "ungrounded": 1.01,
+          "grounded": 1.5433333333333332
+        }
+      }
+    },
+    "by_judge_mean_rank": {
+      "claude": {
+        "ours": {
+          "ungrounded": 4.13,
+          "grounded": 3.76
+        },
+        "base": {
+          "ungrounded": 4.18,
+          "grounded": 4.47
+        },
+        "gpt": {
+          "ungrounded": 1.84,
+          "grounded": 2.25
+        },
+        "claude": {
+          "ungrounded": 2.65,
+          "grounded": 1.81
+        },
+        "gemini": {
+          "ungrounded": 2.2,
+          "grounded": 2.71
+        }
+      },
+      "gemini": {
+        "ours": {
+          "ungrounded": 4.54,
+          "grounded": 4.4
+        },
+        "base": {
+          "ungrounded": 4.35,
+          "grounded": 4.58
+        },
+        "gpt": {
+          "ungrounded": 1.73,
+          "grounded": 2.52
+        },
+        "claude": {
+          "ungrounded": 2.71,
+          "grounded": 1.8
+        },
+        "gemini": {
+          "ungrounded": 1.67,
+          "grounded": 1.7
+        }
+      },
+      "gpt": {
+        "ours": {
+          "ungrounded": 4.64,
+          "grounded": 4.4
+        },
+        "base": {
+          "ungrounded": 4.18,
+          "grounded": 4.5
+        },
+        "gpt": {
+          "ungrounded": 1.58,
+          "grounded": 1.46
+        },
+        "claude": {
+          "ungrounded": 2.76,
+          "grounded": 2.19
+        },
+        "gemini": {
+          "ungrounded": 1.84,
+          "grounded": 2.45
+        }
+      }
+    },
+    "by_judge_pooled_mean_rank": {
+      "claude": {
+        "ours": 3.945,
+        "base": 4.325,
+        "gpt": 2.045,
+        "claude": 2.23,
+        "gemini": 2.455
+      },
+      "gemini": {
+        "ours": 4.47,
+        "base": 4.465,
+        "gpt": 2.125,
+        "claude": 2.255,
+        "gemini": 1.685
+      },
+      "gpt": {
+        "ours": 4.52,
+        "base": 4.34,
+        "gpt": 1.52,
+        "claude": 2.475,
+        "gemini": 2.145
+      }
+    },
+    "self_preference": {
+      "gpt": {
+        "family_model": "gpt",
+        "own_mean_rank": 1.52,
+        "others_mean_rank": 2.085,
+        "self_pref_delta": 0.565,
+        "n_own": 200,
+        "n_others": 400
+      },
+      "claude": {
+        "family_model": "claude",
+        "own_mean_rank": 2.23,
+        "others_mean_rank": 2.365,
+        "self_pref_delta": 0.13500000000000023,
+        "n_own": 200,
+        "n_others": 400
+      },
+      "gemini": {
+        "family_model": "gemini",
+        "own_mean_rank": 1.685,
+        "others_mean_rank": 2.3,
+        "self_pref_delta": 0.6149999999999998,
+        "n_own": 200,
+        "n_others": 400
+      },
+      "_mean_abs_delta": 0.4383333333333333,
+      "_mean_signed_delta": 0.4383333333333333
+    },
+    "n_items": {
+      "ungrounded": 300,
+      "grounded": 300
+    }
+  },
+  "council_by_tier": {
+    "beginner": {
+      "ours": {
+        "ungrounded": 4.45,
+        "grounded": 4.15
+      },
+      "base": {
+        "ungrounded": 4.183333333333334,
+        "grounded": 4.583333333333333
+      },
+      "gpt": {
+        "ungrounded": 1.8166666666666667,
+        "grounded": 2.05
+      },
+      "claude": {
+        "ungrounded": 2.7666666666666666,
+        "grounded": 1.9666666666666666
+      },
+      "gemini": {
+        "ungrounded": 1.7833333333333334,
+        "grounded": 2.25
+      }
+    },
+    "intermediate": {
+      "ours": {
+        "ungrounded": 4.393939393939394,
+        "grounded": 4.111111111111111
+      },
+      "base": {
+        "ungrounded": 4.232323232323233,
+        "grounded": 4.484848484848484
+      },
+      "gpt": {
+        "ungrounded": 1.7373737373737375,
+        "grounded": 2.090909090909091
+      },
+      "claude": {
+        "ungrounded": 2.6363636363636362,
+        "grounded": 1.8888888888888888
+      },
+      "gemini": {
+        "ungrounded": 2.0,
+        "grounded": 2.4242424242424243
+      }
+    },
+    "advanced": {
+      "ours": {
+        "ungrounded": 4.469135802469136,
+        "grounded": 4.333333333333333
+      },
+      "base": {
+        "ungrounded": 4.320987654320987,
+        "grounded": 4.45679012345679
+      },
+      "gpt": {
+        "ungrounded": 1.5432098765432098,
+        "grounded": 2.0987654320987654
+      },
+      "claude": {
+        "ungrounded": 2.7037037037037037,
+        "grounded": 1.9382716049382716
+      },
+      "gemini": {
+        "ungrounded": 1.962962962962963,
+        "grounded": 2.1728395061728394
+      }
+    }
+  },
+  "cost": {
+    "per_model": {
+      "ours": {
+        "gen_calls": 200,
+        "gen_prompt_tokens": 0,
+        "gen_completion_tokens": 0,
+        "gen_cost_usd": 0.0,
+        "judge_calls": 0,
+        "judge_prompt_tokens": 0,
+        "judge_completion_tokens": 0,
+        "judge_cost_usd": 0.0,
+        "total_cost_usd": 0.0,
+        "price_in_per_m": 0.0,
+        "price_out_per_m": 0.0
+      },
+      "base": {
+        "gen_calls": 200,
+        "gen_prompt_tokens": 0,
+        "gen_completion_tokens": 0,
+        "gen_cost_usd": 0.0,
+        "judge_calls": 0,
+        "judge_prompt_tokens": 0,
+        "judge_completion_tokens": 0,
+        "judge_cost_usd": 0.0,
+        "total_cost_usd": 0.0,
+        "price_in_per_m": 0.0,
+        "price_out_per_m": 0.0
+      },
+      "gpt": {
+        "gen_calls": 200,
+        "gen_prompt_tokens": 146070,
+        "gen_completion_tokens": 187024,
+        "gen_cost_usd": 2.0528,
+        "judge_calls": 200,
+        "judge_prompt_tokens": 272478,
+        "judge_completion_tokens": 141043,
+        "judge_cost_usd": 1.751,
+        "total_cost_usd": 3.8039,
+        "price_in_per_m": 1.25,
+        "price_out_per_m": 10.0
+      },
+      "claude": {
+        "gen_calls": 200,
+        "gen_prompt_tokens": 215167,
+        "gen_completion_tokens": 40812,
+        "gen_cost_usd": 6.2884,
+        "judge_calls": 200,
+        "judge_prompt_tokens": 407678,
+        "judge_completion_tokens": 49563,
+        "judge_cost_usd": 9.8324,
+        "total_cost_usd": 16.1208,
+        "price_in_per_m": 15.0,
+        "price_out_per_m": 75.0
+      },
+      "gemini": {
+        "gen_calls": 200,
+        "gen_prompt_tokens": 152708,
+        "gen_completion_tokens": 186064,
+        "gen_cost_usd": 2.0515,
+        "judge_calls": 200,
+        "judge_prompt_tokens": 280083,
+        "judge_completion_tokens": 163320,
+        "judge_cost_usd": 1.9833,
+        "total_cost_usd": 4.0348,
+        "price_in_per_m": 1.25,
+        "price_out_per_m": 10.0
+      }
+    },
+    "total_cost_usd": 23.9595
+  }
+}

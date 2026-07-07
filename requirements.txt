@@ -1,0 +1,10 @@
+# Data-generation + eval pipeline (runs locally on Mac / MLX venv)
+python-chess>=1.999
+openai>=1.40
+python-dotenv>=1.0
+requests>=2.31
+berserk>=0.13          # Lichess API client
+tqdm>=4.66
+datasets>=2.19
+huggingface_hub>=0.24
+# yt-dlp is installed via Homebrew (CLI) for transcript harvesting

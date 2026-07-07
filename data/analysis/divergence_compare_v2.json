@@ -1,0 +1,68 @@
+{
+  "v1": {
+    "n": 120,
+    "differentiation_pct": 27.5,
+    "distinct_distribution": {
+      "1": 87,
+      "2": 31,
+      "3": 2
+    },
+    "per_tier": {
+      "beginner": {
+        "eq_sf_pct": 75.0,
+        "eq_maia_pct": 39.2,
+        "mean_pool_rank": 0.43
+      },
+      "intermediate": {
+        "eq_sf_pct": 65.8,
+        "eq_maia_pct": 42.5,
+        "mean_pool_rank": 0.57
+      },
+      "advanced": {
+        "eq_sf_pct": 64.2,
+        "eq_maia_pct": 40.8,
+        "mean_pool_rank": 0.62
+      }
+    },
+    "direction_correct_beginner_gt_advanced": false,
+    "fabrication_rate_pct": 46.1,
+    "fabrication_by_tier_pct": {
+      "beginner": 45.0,
+      "intermediate": 49.2,
+      "advanced": 44.2
+    }
+  },
+  "v2": {
+    "n": 120,
+    "differentiation_pct": 39.2,
+    "distinct_distribution": {
+      "1": 73,
+      "2": 41,
+      "3": 6
+    },
+    "per_tier": {
+      "beginner": {
+        "eq_sf_pct": 61.7,
+        "eq_maia_pct": 61.7,
+        "mean_pool_rank": 0.78
+      },
+      "intermediate": {
+        "eq_sf_pct": 64.2,
+        "eq_maia_pct": 56.7,
+        "mean_pool_rank": 0.75
+      },
+      "advanced": {
+        "eq_sf_pct": 77.5,
+        "eq_maia_pct": 45.0,
+        "mean_pool_rank": 0.45
+      }
+    },
+    "direction_correct_beginner_gt_advanced": true,
+    "fabrication_rate_pct": 31.7,
+    "fabrication_by_tier_pct": {
+      "beginner": 28.3,
+      "intermediate": 30.0,
+      "advanced": 36.7
+    }
+  }
+}

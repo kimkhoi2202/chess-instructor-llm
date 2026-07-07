@@ -1,0 +1,437 @@
+{
+  "model_label": "tuned",
+  "backend": "mlx",
+  "model_path": "models/mlx/chess-coach-v2",
+  "judge_model": "claude-group/claude-opus-4-8",
+  "params": {
+    "num_scenarios": 15,
+    "movetime_ms": 300,
+    "tolerance_cp": 150,
+    "multipv": 8,
+    "max_tokens": 512
+  },
+  "generated_at": "2026-07-06T19:56:34",
+  "aggregate": {
+    "overall": {
+      "n": 15,
+      "n_judged": 15,
+      "objective_pass_rate": {
+        "produced_nonempty": 1.0,
+        "move_parseable": 1.0,
+        "move_sound": 1.0,
+        "no_engine_speak": 1.0,
+        "ply_cap_ok": 1.0
+      },
+      "judge_mean": {
+        "spec_adherence": 0.9333333333333333,
+        "level_calibration": 1.1333333333333333,
+        "no_engine_speak": 1.7333333333333334,
+        "truthfulness": 0.2,
+        "task_quality": 0.3333333333333333
+      }
+    },
+    "by_tier": {
+      "beginner": {
+        "n": 7,
+        "n_judged": 7,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 1.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 1.1428571428571428,
+          "level_calibration": 1.4285714285714286,
+          "no_engine_speak": 2.0,
+          "truthfulness": 0.14285714285714285,
+          "task_quality": 0.42857142857142855
+        }
+      },
+      "intermediate": {
+        "n": 5,
+        "n_judged": 5,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 1.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 0.6,
+          "level_calibration": 1.0,
+          "no_engine_speak": 1.6,
+          "truthfulness": 0.0,
+          "task_quality": 0.2
+        }
+      },
+      "advanced": {
+        "n": 3,
+        "n_judged": 3,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 1.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 1.0,
+          "level_calibration": 0.6666666666666666,
+          "no_engine_speak": 1.3333333333333333,
+          "truthfulness": 0.6666666666666666,
+          "task_quality": 0.3333333333333333
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "position_id": "yTjIRay8_32",
+      "tier": "beginner",
+      "recommended_san": "b4",
+      "recommended_uci": "b5b4",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "b4 is a sound-pool move but the coaching is factually wrong—b2 is White's pawn not Black's, so the entire 'defend the attacked b2 pawn' explanation is fabricated and confused, giving a beginner a useless and incorrect reason."
+      },
+      "coaching": "I'd play b4. Your Bxd6 is understandable because it captures the bishop on d6, but it misses a simple beginner checklist: first, make sure your attacked or loose piece is defended. Your pawn on b2 is attacked, so using it for b4 is a clean defensive move. After b4, your pawn on b2 is defended, and you can continue developing or looking for another move. How to find it: When one of your pieces is attacked, pause before capturing it. Ask: 'Can I defend it with a pawn or piece move?' Here, b4 defends the attacked b2 pawn, so it is a good defensive move before you choose to capture. Takeaway: Before capturing, check whether your attacked piece can be defended with a simple pawn move."
+    },
+    {
+      "position_id": "Q2IOLJ1C_27",
+      "tier": "intermediate",
+      "recommended_san": "Nb5",
+      "recommended_uci": "c3b5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The recommended move is in the sound pool, but the explanation fabricates queen locations (c4 and c2) that do not match the actual board, making the tactical justification false."
+      },
+      "coaching": "I'd play Nb5. Your Bc2 idea is understandable because it defends the queen on c3, but it is a bit too passive: it only defends one piece while your knight on c3 is still available for action. Nb5 is more active: it attacks the queen on c4 and also defends your queen on c2. So instead of just defending, you improve your piece and make Black answer your threat. How to find it: When you have an active piece, ask: 'Can I move it to a square where it attacks something while also defending something important?' Here, the knight on c3 can go to b5, attack the queen on c4, and defend your queen on c2. That is the kind of multi-purpose move you should look for before choosing a defensive-looking move like Bc2. Takeaway: Prefer active defense over passive defense when one move can defend and attack at the same time."
+    },
+    {
+      "position_id": "QJKEDhuM_19",
+      "tier": "beginner",
+      "recommended_san": "h3",
+      "recommended_uci": "h2h3",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move h3 is sound and tier-appropriate, but the coach's reasoning is factually wrong: White has no pawn on g4 (it's the enemy bishop), no queen on f1, and a4 does not defend the queen, so the explanation fabricates the position and misleads the student."
+      },
+      "coaching": "I'd play h3. Your a4 move is understandable because it defends your queen on f1, but it is a bit too passive. h3 is a useful beginner move because it defends your pawn on g4 and also defends your bishop on f3. So instead of only defending one piece, you defend two things at once. How to find it: When you are about to make a pawn move, pause and ask: 'Does this pawn move defend another piece or my queen?' Here, a4 defends the queen, but h3 defends both the pawn on g4 and the bishop on f3. So choose the pawn move that defends more than one thing. Takeaway: Prefer pawn moves that defend more than one piece."
+    },
+    {
+      "position_id": "6bl7WKUu_20",
+      "tier": "intermediate",
+      "recommended_san": "exd4",
+      "recommended_uci": "e5d4",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 1,
+        "rationale": "The recommended move exd4 is sound and explained at an appropriate intermediate level with clean language, but the coach fabricates a bishop on c3 (there is none) and misidentifies the position, so the concrete justification is false."
+      },
+      "coaching": "I'd play exd4. Your Nf6 idea is understandable because it attacks the bishop on e4, but it misses the more direct central break: White’s pawn on d4 is undefended, so you can simply take it. After exd4, your pawn also attacks the bishop on c3, so you are not just trading — you are improving your central pawn while creating a second target. How to find it: When you see an advanced piece like the bishop on e4, pause before moving a knight or queen. Run this quick checklist: 1) Are any of my opponent’s pawns undefended? 2) Can I take one safely? 3) After the capture, does my piece attack another piece or pawn? Here, the pawn on d4 is undefended, so exd4 is the clean move because it removes that loose target and creates pressure on c3. Takeaway: Before making a flank move, check for undefended central pawns and see if one capture also attacks another target."
+    },
+    {
+      "position_id": "QJKEDhuM_23",
+      "tier": "beginner",
+      "recommended_san": "exd5",
+      "recommended_uci": "e4d5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 1,
+        "rationale": "The coach correctly picks the sound top move exd5 in beginner-friendly language, but fabricates the position (there is no pawn on f4, e5 doesn't exist as described, and the claims about e4 attacking d4 and defending c3 are false), undermining truthfulness and coaching value."
+      },
+      "coaching": "I'd play exd5. Your e5 move is understandable because it attacks the pawn on f4, but it misses the more direct chance to take the pawn on d5. After exd5, your e4 pawn attacks the pawn on d4, so you gain space while also defending your pawn on c3. How to find it: When you see an available pawn, pause before pushing it and ask: 'Can this pawn capture something right now?' Here, the e-pawn can capture on d5, so it is more useful than pushing forward on f4. Takeaway: Before pushing a pawn, check whether it can capture a pawn right now."
+    },
+    {
+      "position_id": "FrxRxdSC_85",
+      "tier": "beginner",
+      "recommended_san": "f5",
+      "recommended_uci": "f4f5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 2,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 1,
+        "task_quality": 1,
+        "rationale": "The coach picks a sound move (f5) and stays in tier-appropriate language, but the explanation is confused since f5 attacks the enemy queen on g6 while the student's own queen is the one on g6/h6, and the repetitive reasoning about 'your queen hanging' misdescribes the actual position."
+      },
+      "coaching": "I'd play f5. Your h4 move is understandable because it attacks the queen on g6, but it misses the more important beginner checklist: first, make sure your queen is not hanging; second, use your active pawn to challenge the queen. f5 attacks the queen on g6, so you gain activity instead of just moving a pawn. How to find it: When your queen is on an advanced file, pause before pushing a pawn. Ask: 'Can one of my pawns attack the queen?' Here, f5 attacks the queen on g6, so it is the clean beginner checklist move before pushing h4. Takeaway: Before pushing a pawn, check whether you can attack the queen with a pawn."
+    },
+    {
+      "position_id": "8vJ1acJN_101",
+      "tier": "intermediate",
+      "recommended_san": "Qe2+",
+      "recommended_uci": "f1e2",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move Qe2+ is in the sound pool, but the coach fabricates a nonexistent e4 pawn and an e1 king, inventing defensive ideas that have no basis in the position, so the explanation is false and unhelpful."
+      },
+      "coaching": "I'd play Qe2+. Play Qe2+. Your Qf6+ had the right active queen idea, but Qe2+ is the cleaner version because it uses the queen to give check on the king on e1 while also defending your pawn on e4. That is a very practical intermediate move: you are not just checking, you are also improving your queen and defending your pawn at the same time. How to find it: When you see a queen move with check, pause and ask: 'Can this queen move also defend something important?' Here, Qe2+ checks the king on e1 and defends e4, so it is more than a check — it is a useful defensive queen move. Takeaway: Prefer queen moves that give check while also defending a pawn or piece."
+    },
+    {
+      "position_id": "yXvxzean_30",
+      "tier": "advanced",
+      "recommended_san": "a5",
+      "recommended_uci": "a7a5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 2,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 2,
+        "task_quality": 1,
+        "rationale": "Recommends the sound top move a5 with the correct a5 bxa5 b4 idea in clean human language, but the advice reads as somewhat generic and repetitive rather than reaching for the deeper prophylactic/imbalance concepts expected at the advanced tier."
+      },
+      "coaching": "I'd play a5. Your Nf8 is understandable because it defends the pawn on e7, but it is a bit too cautious: it commits to a pawn defense before using your active queenside space. a5 is the more useful advanced move because it uses the pawn on a5 to challenge White’s center and gain space on the queenside. If White plays bxa5, then b4 is available, so you are not just defending passively; you are improving your queenside structure while White has to respond to it. How to find it: When you have an active piece on the queenside, do not automatically defend the center with a pawn. Run this routine: first ask, 'Can I gain queenside space with a pawn move?' Then check whether that pawn move also defends something useful. Here, a5 is active queenside and creates pressure on b4 if White plays bxa5. That is the kind of move to look for before committing to a slower defensive move like Nf8. Takeaway: Before defending passively, look for an active queenside pawn move that challenges White’s center and gains space."
+    },
+    {
+      "position_id": "mFx5yK0n_31",
+      "tier": "intermediate",
+      "recommended_san": "Bxg6",
+      "recommended_uci": "d3g6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": ""
+      },
+      "coaching": "I'd play Bxg6. Your exf6 idea is understandable because it removes Black’s f6 pawn, but it is a bit too one-sided: it only removes one pawn and does not challenge the center. Bxg6 is more active because it removes the bishop on g6 and also attacks the pawn on e5. That means you are not just trading material — you are improving your piece while creating a second target. How to find it: When you see a pawn capture, pause and ask: 'Can I remove this pawn while also attacking something else?' Here, exf6 removes the f6 pawn, but Bxg6 removes the bishop on g6 and attacks e5. At this level, prefer the capture that wins material while creating a second problem. Takeaway: Before capturing a pawn, look for a capture that also attacks an active center pawn."
+    },
+    {
+      "position_id": "6wq0vURs_22",
+      "tier": "advanced",
+      "recommended_san": "h6",
+      "recommended_uci": "h7h6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "h6 is a sound pool move but the explanation is largely fabricated—g6/g7 are on the kingside not queenside, h6 does not defend two queenside pawns, and the prophylactic/structural justification misdescribes the position, making the coaching confusing and inaccurate."
+      },
+      "coaching": "I'd play h6. Your f5 idea is understandable because it attacks the pawn on g6, but it commits the pawn before improving your queenside structure. h6 is a useful prophylactic move: it defends the pawn on g6 and also defends the pawn on g7. That means you are not just reacting to a pawn win — you are stabilizing your queenside pawns before White tries to use them. A clean follow-up idea is to use a pawn break with tempo: after h6, if White plays ...Rb3, then a5 can challenge the pawn on c3. How to find it: When you see a pawn break like f5, pause and ask: 'Can I improve my queenside pawns before committing them?' Check whether h6 defends two queenside pawns at once. If the break is not urgent, prefer the move that improves your queenside structure while keeping the break available. Takeaway: Before committing a pawn break, look for a quiet queenside move that defends two pawns and keeps the break flexible."
+    },
+    {
+      "position_id": "ttYYCZxE_36",
+      "tier": "beginner",
+      "recommended_san": "Kg7",
+      "recommended_uci": "g8g7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach picks a sound move (Kg7) but the explanation is factually confused—it claims Kg7 defends a queen on f7 and moves the king to h7, neither of which is true in this position, fabricating a defensive relationship that doesn't exist."
+      },
+      "coaching": "I'd play Kg7. Your Rf7 idea is understandable because it attacks the queen on e4, but it misses the more important beginner checklist: first, make sure your king is safe; second, make sure your queen is defended. Kg7 moves your king to h7 and defends the queen on f7, so your queen is no longer hanging. How to find it: When your queen is attacked, do not automatically move it. First ask: 'Can my king move to a square where it also defends my queen?' Here, Kg7 is the clean move because it moves the king and defends the queen at the same time. Takeaway: When your queen is attacked, look for a king move that also defends it."
+    },
+    {
+      "position_id": "ttYYCZxE_48",
+      "tier": "beginner",
+      "recommended_san": "Kg7",
+      "recommended_uci": "h6g7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move Kg7 is from the sound pool and no engine numbers leaked, but the explanation is riddled with fabrications—there is no queen on f8 or rook on f7 (queen is on a5, rook on a8), so the entire justification is invented and useless."
+      },
+      "coaching": "I'd play Kg7. Your Qd2 idea is understandable because it defends the queen on f2, but it is a bit too passive. Kg7 is the cleaner beginner move because it defends your queen on f8 while also defending your rook on f7. That means you are improving your piece defense without leaving your queen or rook hanging. How to find it: When your queen is defended, do not automatically move it to a new square. First ask: 'Can I defend my queen while also defending another rook or piece?' Here, Kg7 defends the queen on f8 and the rook on f7, so it is the kind of useful defensive move you should look for before moving the queen again. Takeaway: Before moving your queen, try to defend it with another rook or piece so you are not just moving it again."
+    },
+    {
+      "position_id": "aOMCAbvo_22",
+      "tier": "beginner",
+      "recommended_san": "d6",
+      "recommended_uci": "d7d6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 1,
+        "rationale": "The move d6 is sound and tier-appropriate, but the explanation fabricates facts: there is no pawn on c5 (Black's c-pawn is on c7) and the queen is on d8 not c8, so the claimed defensive purposes are false."
+      },
+      "coaching": "I'd play d6. Your f5 idea tries to use the pawn on f5, but it misses a simple beginner habit: use your center pawns first. d6 is a useful central move because it defends your pawn on c5 and also defends your queen on c8. So instead of only pushing a flank pawn, you improve your center and make your pieces safer. How to find it: When there is no hanging piece, use your center pawns before pushing flank pawns. Ask: 'Can I defend my center pawn with a pawn move?' Here, d6 defends c5, so it is a good candidate before f5. Takeaway: Before pushing flank pawns, look for a simple center pawn move that defends your center."
+    },
+    {
+      "position_id": "sz0Hltwe_38",
+      "tier": "intermediate",
+      "recommended_san": "Bd5",
+      "recommended_uci": "b7d5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach explicitly recommends Bxb2 (the losing mistake, not in the sound pool) while the prose contradictorily also mentions Bd5, and fabricates board facts (there is no queen on c3, the bishop is on b7 not c8, and Bd5 does not defend a pawn on c4), making the coaching incoherent and untruthful."
+      },
+      "coaching": "I'd play Bxb2. Your move had the right practical idea: White’s bishop on b2 is attacked, so you should not ignore it. The issue is that this is a pawn capture, while your bishop on c8 is also attacked. After Bxb2, your bishop is no longer on c8, so you have to make a choice between using that bishop actively or letting it stay on c8. The clean intermediate move is to use the attacked bishop first: Bd5, where your bishop attacks the queen on c3 and defends your pawn on c4. How to find it: When two of your pieces are attacked, do not automatically capture the first one you see. First ask: ‘Which attacked piece can become more useful?’ Here, your bishop on c8 is attacked, so you should check whether it can move to a square where it attacks something or defends something. Bd5 is the move that solves that problem. Takeaway: When two pieces are attacked, choose the one that becomes more useful before capturing on the first move."
+    },
+    {
+      "position_id": "ecFBXWVP_82",
+      "tier": "advanced",
+      "recommended_san": "g5",
+      "recommended_uci": "g6g5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": ""
+      },
+      "coaching": "I'd play g5. Your Ne7 idea is understandable because it defends the pawn on f6, but it is a bit too cautious in this simplified position: White has advanced pawns on f4 and g4, so you need to challenge that structure before continuing with normal development. g5 is the clean advanced move because it uses your pawn on g4 to challenge White’s f4 pawn, while also defending your pawn on f6. That is the kind of active defense you want in a position where White’s center is already advanced. How to find it: When the opponent has advanced pawns in your center, do not automatically retreat or defend passively. Run this routine: first identify the advanced pawn on f4; then ask, 'Can my pawn challenge it while also defending something important?' Here, g5 does both: it attacks f4 and defends f6. That is how you find the active defense over a passive one. Takeaway: In simplified positions, challenge the advanced pawn before defending passively."
+    }
+  ]
+}

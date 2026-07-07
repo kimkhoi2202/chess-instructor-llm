@@ -1,0 +1,82 @@
+# Secrets — never commit
+.env
+.env.*
+*.key
+secrets/
+client_secret*.json
+*apps.googleusercontent.com.json
+
+# Large data artifacts
+data/positions/*
+data/transcripts/*
+data/generated/*
+data/dataset/*.jsonl
+models/*
+*.pgn
+*.pgn.zst
+*.pb.gz
+
+# Keep folder structure
+!**/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# ===== Hardened exclusions (fresh public repo, appended) =====
+
+# Env / secrets (belt-and-suspenders)
+*.env
+.env.local
+.env.*.local
+*.pem
+*.p12
+*.pfx
+credentials.json
+*credentials*.json
+*.token
+service-account*.json
+
+# Node / Next.js (web app) — root-anchored so it matches web/ too
+node_modules/
+.next/
+out/
+build/
+.vercel/
+*.tsbuildinfo
+.pnp
+.pnp.*
+
+# Model weights (belt-and-suspenders on top of models/*)
+*.safetensors
+*.gguf
+*.npz
+*.bin
+*.pt
+*.pth
+*.onnx
+models/adapters/
+models/mlx/
+models/maia/
+
+# Python envs / tool caches
+venv/
+env/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Agent / local tooling state
+.ralph/
+
+# Local QA / verification screenshot artifacts
+web/.qa-fix/
+web/.tweaks-verify/
+
+# OS
+.DS_Store
+
+# Always keep folder-structure placeholders
+!**/.gitkeep

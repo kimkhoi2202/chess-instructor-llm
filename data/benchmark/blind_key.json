@@ -1,0 +1,1402 @@
+{
+  "nVVqOby4_39::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "base",
+    "E": "claude"
+  },
+  "nVVqOby4_39::grounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "ours",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "PEOJh7G8_21::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "PEOJh7G8_21::grounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gpt",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "6szL18oX_57::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "6szL18oX_57::grounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "gemini",
+    "D": "base",
+    "E": "ours"
+  },
+  "ov1W6vAE_27::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "claude"
+  },
+  "ov1W6vAE_27::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "X1nwiPgj_124::ungrounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "ours",
+    "D": "base",
+    "E": "claude"
+  },
+  "X1nwiPgj_124::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "claude",
+    "D": "base",
+    "E": "gemini"
+  },
+  "M15KaPeM_51::ungrounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "claude",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "M15KaPeM_51::grounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "CEbQWU9Z_28::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "CEbQWU9Z_28::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "base",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "07S8AzDJ_24::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "07S8AzDJ_24::grounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "ours",
+    "D": "base",
+    "E": "gemini"
+  },
+  "leE5eiFU_46::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "gemini",
+    "E": "base"
+  },
+  "leE5eiFU_46::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "koGdNw9A_31::ungrounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "claude",
+    "D": "ours",
+    "E": "base"
+  },
+  "koGdNw9A_31::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "base",
+    "D": "gemini",
+    "E": "claude"
+  },
+  "hiNMSRKb_55::ungrounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "claude",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "hiNMSRKb_55::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "claude",
+    "D": "base",
+    "E": "gemini"
+  },
+  "f6xPUZwj_29::ungrounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "gemini",
+    "D": "base",
+    "E": "ours"
+  },
+  "f6xPUZwj_29::grounded": {
+    "A": "gemini",
+    "B": "ours",
+    "C": "gpt",
+    "D": "claude",
+    "E": "base"
+  },
+  "KFa5eWyE_18::ungrounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "claude",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "KFa5eWyE_18::grounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "7yiO5gMs_23::ungrounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "gemini",
+    "D": "claude",
+    "E": "ours"
+  },
+  "7yiO5gMs_23::grounded": {
+    "A": "base",
+    "B": "gemini",
+    "C": "ours",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "d3EkLSHP_31::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "base",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "d3EkLSHP_31::grounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "1gJ5ACYF_32::ungrounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "base",
+    "E": "claude"
+  },
+  "1gJ5ACYF_32::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "claude",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "D6kWitIo_26::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "base",
+    "E": "ours"
+  },
+  "D6kWitIo_26::grounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "base"
+  },
+  "lR1PgArm_86::ungrounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "claude",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "lR1PgArm_86::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "base",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "8qkGPurm_36::ungrounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "base",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "8qkGPurm_36::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "achgVK4W_57::ungrounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "claude",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "achgVK4W_57::grounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "gpt",
+    "D": "base",
+    "E": "ours"
+  },
+  "qd64HZTr_23::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "claude"
+  },
+  "qd64HZTr_23::grounded": {
+    "A": "gemini",
+    "B": "ours",
+    "C": "claude",
+    "D": "base",
+    "E": "gpt"
+  },
+  "wdVpx4ry_27::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "ours",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "wdVpx4ry_27::grounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "IOa4BofV_58::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "claude",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "IOa4BofV_58::grounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "flY6Tk8T_25::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "flY6Tk8T_25::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "1l45Vj6g_67::ungrounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "claude",
+    "E": "base"
+  },
+  "1l45Vj6g_67::grounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "gemini",
+    "E": "base"
+  },
+  "AanVZD7F_33::ungrounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "base"
+  },
+  "AanVZD7F_33::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "claude"
+  },
+  "ClaFSLBH_23::ungrounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "base",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "ClaFSLBH_23::grounded": {
+    "A": "base",
+    "B": "gemini",
+    "C": "gpt",
+    "D": "ours",
+    "E": "claude"
+  },
+  "yQahqbgu_45::ungrounded": {
+    "A": "gemini",
+    "B": "ours",
+    "C": "gpt",
+    "D": "base",
+    "E": "claude"
+  },
+  "yQahqbgu_45::grounded": {
+    "A": "base",
+    "B": "gemini",
+    "C": "ours",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "T7oYtWZw_23::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gpt",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "T7oYtWZw_23::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "ours",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "pPemwOVk_38::ungrounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "base",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "pPemwOVk_38::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "base",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "T997RAgX_53::ungrounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "ours",
+    "D": "base",
+    "E": "gemini"
+  },
+  "T997RAgX_53::grounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "claude",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "CwgkLRAI_24::ungrounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "base",
+    "D": "gemini",
+    "E": "claude"
+  },
+  "CwgkLRAI_24::grounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "gpt",
+    "D": "base",
+    "E": "claude"
+  },
+  "WWCb59Aw_34::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "base",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "WWCb59Aw_34::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "base",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "v4Xa4nR1_22::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "base",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "v4Xa4nR1_22::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "0dRx0btn_96::ungrounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "ours",
+    "D": "claude",
+    "E": "base"
+  },
+  "0dRx0btn_96::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "base"
+  },
+  "hHPF2FML_24::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "hHPF2FML_24::grounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "claude",
+    "D": "ours",
+    "E": "base"
+  },
+  "vtfy9s4f_46::ungrounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "base",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "vtfy9s4f_46::grounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "ours",
+    "D": "base",
+    "E": "claude"
+  },
+  "j0TKkELY_77::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "base",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "j0TKkELY_77::grounded": {
+    "A": "gemini",
+    "B": "ours",
+    "C": "gpt",
+    "D": "base",
+    "E": "claude"
+  },
+  "IqpZZ3j8_66::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "IqpZZ3j8_66::grounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "gemini",
+    "E": "base"
+  },
+  "MD7QRgT3_65::ungrounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "base",
+    "D": "ours",
+    "E": "claude"
+  },
+  "MD7QRgT3_65::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "YdGZZcaw_24::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "YdGZZcaw_24::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "base"
+  },
+  "oGYeCz2i_55::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "base",
+    "E": "claude"
+  },
+  "oGYeCz2i_55::grounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "claude",
+    "D": "base",
+    "E": "gemini"
+  },
+  "O3cLGska_30::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "O3cLGska_30::grounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "base",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "gX6VnH5e_61::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "gemini",
+    "E": "base"
+  },
+  "gX6VnH5e_61::grounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "claude",
+    "D": "base",
+    "E": "ours"
+  },
+  "yDdZmcKL_57::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "yDdZmcKL_57::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "VyL1JSGZ_37::ungrounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "base",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "VyL1JSGZ_37::grounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "claude",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "PwRFqCel_27::ungrounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "PwRFqCel_27::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "AtXiIbeN_31::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "claude",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "AtXiIbeN_31::grounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "ours",
+    "D": "gpt",
+    "E": "base"
+  },
+  "52bmLs3l_56::ungrounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "gpt",
+    "E": "base"
+  },
+  "52bmLs3l_56::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "claude",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "L3FdBrfH_56::ungrounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "ours",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "L3FdBrfH_56::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "base",
+    "E": "claude"
+  },
+  "cEmmJAPX_21::ungrounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "base",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "cEmmJAPX_21::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "base",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "wAv61JpF_32::ungrounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "gpt",
+    "D": "claude",
+    "E": "ours"
+  },
+  "wAv61JpF_32::grounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "claude",
+    "D": "base",
+    "E": "ours"
+  },
+  "QDJA7l6G_31::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "ours",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "QDJA7l6G_31::grounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "base",
+    "E": "gemini"
+  },
+  "gk6OfPQY_57::ungrounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "base",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "gk6OfPQY_57::grounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "ours",
+    "D": "base",
+    "E": "claude"
+  },
+  "WeS4Oad1_92::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "WeS4Oad1_92::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "gpt",
+    "E": "base"
+  },
+  "pnpjQVTG_38::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gpt",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "pnpjQVTG_38::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "ED49vqlo_29::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "ours",
+    "E": "base"
+  },
+  "ED49vqlo_29::grounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "base",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "BzjJ5oNi_32::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "base",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "BzjJ5oNi_32::grounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "base",
+    "E": "claude"
+  },
+  "sayxfhNb_30::ungrounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "base",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "sayxfhNb_30::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "DTPLhjLe_30::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "ours",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "DTPLhjLe_30::grounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "XZLrQRvc_58::ungrounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "gemini",
+    "D": "ours",
+    "E": "base"
+  },
+  "XZLrQRvc_58::grounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "p8rjXmuV_83::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gpt",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "p8rjXmuV_83::grounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "m5qE6tBl_19::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "m5qE6tBl_19::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "UX7Nmp51_17::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "claude",
+    "E": "base"
+  },
+  "UX7Nmp51_17::grounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "gGVJXmid_25::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "gGVJXmid_25::grounded": {
+    "A": "base",
+    "B": "gemini",
+    "C": "claude",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "vNIRK8GZ_60::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "base",
+    "E": "gemini"
+  },
+  "vNIRK8GZ_60::grounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "claude",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "3U81WRmm_22::ungrounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "base",
+    "D": "ours",
+    "E": "claude"
+  },
+  "3U81WRmm_22::grounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "gemini",
+    "D": "ours",
+    "E": "base"
+  },
+  "MkNbxRo3_23::ungrounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "MkNbxRo3_23::grounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "base"
+  },
+  "S7XkYxxe_69::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "base",
+    "E": "ours"
+  },
+  "S7XkYxxe_69::grounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "gvHjbfPx_36::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "ours",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "gvHjbfPx_36::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "claude",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "hHL5cMUd_19::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "base",
+    "D": "gemini",
+    "E": "ours"
+  },
+  "hHL5cMUd_19::grounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "claude",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "NG8Ny6eR_67::ungrounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "gpt",
+    "D": "base",
+    "E": "claude"
+  },
+  "NG8Ny6eR_67::grounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "base",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "wBe1kfbz_21::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "wBe1kfbz_21::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "claude",
+    "D": "gemini",
+    "E": "base"
+  },
+  "RcXZP8MR_35::ungrounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "ours",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "RcXZP8MR_35::grounded": {
+    "A": "gemini",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "3KvzXKtA_39::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "3KvzXKtA_39::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "gpt",
+    "D": "gemini",
+    "E": "base"
+  },
+  "SrSnWI8r_38::ungrounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "gemini",
+    "D": "base",
+    "E": "gpt"
+  },
+  "SrSnWI8r_38::grounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "base",
+    "E": "gemini"
+  },
+  "j6pZC6cO_32::ungrounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "ours",
+    "D": "base",
+    "E": "claude"
+  },
+  "j6pZC6cO_32::grounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "YasRe9Rh_23::ungrounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "YasRe9Rh_23::grounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "JDukuYVy_26::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "gpt",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "JDukuYVy_26::grounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "claude",
+    "D": "ours",
+    "E": "base"
+  },
+  "npdnK22S_28::ungrounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "ours",
+    "D": "claude",
+    "E": "base"
+  },
+  "npdnK22S_28::grounded": {
+    "A": "gpt",
+    "B": "base",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "WSdTlF29_20::ungrounded": {
+    "A": "base",
+    "B": "ours",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "WSdTlF29_20::grounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "WyDwd9Hl_22::ungrounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "claude",
+    "D": "gpt",
+    "E": "base"
+  },
+  "WyDwd9Hl_22::grounded": {
+    "A": "gemini",
+    "B": "ours",
+    "C": "base",
+    "D": "claude",
+    "E": "gpt"
+  },
+  "befFlyfK_18::ungrounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "claude",
+    "D": "ours",
+    "E": "base"
+  },
+  "befFlyfK_18::grounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "ours",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "ToxiSifX_36::ungrounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "gpt",
+    "D": "base",
+    "E": "ours"
+  },
+  "ToxiSifX_36::grounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "cS57c6RV_37::ungrounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "claude",
+    "D": "base",
+    "E": "ours"
+  },
+  "cS57c6RV_37::grounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "base",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "rXlesXlM_20::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "claude",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "rXlesXlM_20::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "claude",
+    "D": "gemini",
+    "E": "base"
+  },
+  "q5tB363t_37::ungrounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "claude",
+    "E": "base"
+  },
+  "q5tB363t_37::grounded": {
+    "A": "gemini",
+    "B": "claude",
+    "C": "gpt",
+    "D": "base",
+    "E": "ours"
+  },
+  "fvt7wjBd_51::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "ours"
+  },
+  "fvt7wjBd_51::grounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "base",
+    "E": "ours"
+  },
+  "fvt7wjBd_37::ungrounded": {
+    "A": "gemini",
+    "B": "ours",
+    "C": "gpt",
+    "D": "claude",
+    "E": "base"
+  },
+  "fvt7wjBd_37::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "claude",
+    "E": "base"
+  },
+  "KuH74XmA_49::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "ours",
+    "D": "gemini",
+    "E": "gpt"
+  },
+  "KuH74XmA_49::grounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "claude",
+    "E": "base"
+  },
+  "sOWkTfMA_33::ungrounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "gpt",
+    "E": "base"
+  },
+  "sOWkTfMA_33::grounded": {
+    "A": "base",
+    "B": "gpt",
+    "C": "gemini",
+    "D": "ours",
+    "E": "claude"
+  },
+  "G6N4nVnb_20::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "gemini",
+    "D": "base",
+    "E": "claude"
+  },
+  "G6N4nVnb_20::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "gpt",
+    "D": "base",
+    "E": "gemini"
+  },
+  "flY6Tk8T_19::ungrounded": {
+    "A": "gpt",
+    "B": "gemini",
+    "C": "base",
+    "D": "ours",
+    "E": "claude"
+  },
+  "flY6Tk8T_19::grounded": {
+    "A": "ours",
+    "B": "claude",
+    "C": "base",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "vKRHem32_119::ungrounded": {
+    "A": "ours",
+    "B": "gpt",
+    "C": "claude",
+    "D": "gemini",
+    "E": "base"
+  },
+  "vKRHem32_119::grounded": {
+    "A": "claude",
+    "B": "ours",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "base"
+  },
+  "RqtqBf0l_53::ungrounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gemini",
+    "D": "gpt",
+    "E": "claude"
+  },
+  "RqtqBf0l_53::grounded": {
+    "A": "base",
+    "B": "claude",
+    "C": "gemini",
+    "D": "ours",
+    "E": "gpt"
+  },
+  "sDhxKf4H_19::ungrounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "claude",
+    "D": "base",
+    "E": "gpt"
+  },
+  "sDhxKf4H_19::grounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "base",
+    "D": "ours",
+    "E": "gemini"
+  },
+  "bn1cOzcL_19::ungrounded": {
+    "A": "claude",
+    "B": "base",
+    "C": "ours",
+    "D": "gpt",
+    "E": "gemini"
+  },
+  "bn1cOzcL_19::grounded": {
+    "A": "ours",
+    "B": "gemini",
+    "C": "gpt",
+    "D": "claude",
+    "E": "base"
+  },
+  "W7k25SnA_86::ungrounded": {
+    "A": "claude",
+    "B": "gpt",
+    "C": "ours",
+    "D": "gemini",
+    "E": "base"
+  },
+  "W7k25SnA_86::grounded": {
+    "A": "gemini",
+    "B": "gpt",
+    "C": "base",
+    "D": "claude",
+    "E": "ours"
+  },
+  "76Ss9Lz1_32::ungrounded": {
+    "A": "gpt",
+    "B": "ours",
+    "C": "claude",
+    "D": "gemini",
+    "E": "base"
+  },
+  "76Ss9Lz1_32::grounded": {
+    "A": "ours",
+    "B": "base",
+    "C": "gpt",
+    "D": "claude",
+    "E": "gemini"
+  },
+  "K4MoCSDG_70::ungrounded": {
+    "A": "claude",
+    "B": "gemini",
+    "C": "ours",
+    "D": "base",
+    "E": "gpt"
+  },
+  "K4MoCSDG_70::grounded": {
+    "A": "gpt",
+    "B": "claude",
+    "C": "gemini",
+    "D": "base",
+    "E": "ours"
+  }
+}

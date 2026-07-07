@@ -1,0 +1,9 @@
+# Fine-tuning deps — DO NOT install on Mac. Install on the GPU box
+# (TrueFoundry / Modal / RunPod / Colab) with CUDA.
+unsloth
+trl>=0.9
+peft>=0.11
+bitsandbytes>=0.43
+transformers>=4.48,<5
+accelerate>=0.30
+datasets>=2.19

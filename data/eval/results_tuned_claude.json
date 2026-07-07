@@ -1,0 +1,437 @@
+{
+  "model_label": "tuned",
+  "backend": "mlx",
+  "model_path": "models/mlx/chess-coach-v1",
+  "judge_model": "claude-group/claude-opus-4-8",
+  "params": {
+    "num_scenarios": 15,
+    "movetime_ms": 300,
+    "tolerance_cp": 150,
+    "multipv": 8,
+    "max_tokens": 512
+  },
+  "generated_at": "2026-07-06T15:21:49",
+  "aggregate": {
+    "overall": {
+      "n": 15,
+      "n_judged": 15,
+      "objective_pass_rate": {
+        "produced_nonempty": 1.0,
+        "move_parseable": 1.0,
+        "move_sound": 1.0,
+        "no_engine_speak": 1.0,
+        "ply_cap_ok": 1.0
+      },
+      "judge_mean": {
+        "spec_adherence": 0.9333333333333333,
+        "level_calibration": 1.1333333333333333,
+        "no_engine_speak": 1.8666666666666667,
+        "truthfulness": 0.13333333333333333,
+        "task_quality": 0.26666666666666666
+      }
+    },
+    "by_tier": {
+      "beginner": {
+        "n": 7,
+        "n_judged": 7,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 1.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 1.0,
+          "level_calibration": 1.2857142857142858,
+          "no_engine_speak": 2.0,
+          "truthfulness": 0.14285714285714285,
+          "task_quality": 0.14285714285714285
+        }
+      },
+      "intermediate": {
+        "n": 6,
+        "n_judged": 6,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 1.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 0.8333333333333334,
+          "level_calibration": 1.0,
+          "no_engine_speak": 1.6666666666666667,
+          "truthfulness": 0.16666666666666666,
+          "task_quality": 0.3333333333333333
+        }
+      },
+      "advanced": {
+        "n": 2,
+        "n_judged": 2,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 1.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 1.0,
+          "level_calibration": 1.0,
+          "no_engine_speak": 2.0,
+          "truthfulness": 0.0,
+          "task_quality": 0.5
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "position_id": "yTjIRay8_32",
+      "tier": "beginner",
+      "recommended_san": "b4",
+      "recommended_uci": "b5b4",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move b4 is sound, but the explanation is riddled with fabrications: b4 attacks the knight on c3 (not c2), there is no bishop on c1, and the claims about hanging pieces and queen attacks are invented, making the coaching confusing and untruthful."
+      },
+      "coaching": "I'd play b4. Bxd6 is a very natural recapturing move because it removes the bishop on d6, but it lets White keep the knight on c2 and your bishop on c1. A cleaner move is b4: it attacks the knight on c2 and also keeps your bishop on c1. If White recaptures with Na4, you can simply play Kxd6 and remove the bishop that was attacking your queen. Takeaway: When you have a hanging piece, look for a recapture that removes it while keeping your active pieces."
+    },
+    {
+      "position_id": "IKFxmHWR_44",
+      "tier": "intermediate",
+      "recommended_san": "Nxd7",
+      "recommended_uci": "f6d7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 1,
+        "rationale": "Correctly recommends the top sound move Nxd7 in clean tier-appropriate language, but fabricates key facts\u2014the king is on g8 not e8, f1 holds a rook not a pawn\u2014undermining the explanation's accuracy."
+      },
+      "coaching": "I'd play Nxd7. Rxc1 is understandable because it removes the rook on c1, but it lets White recapture with Bxe6+ and gain time on your king. A cleaner move is Nxd7: your knight takes the hanging bishop, so White cannot recapture with Bxe6+ while your king is still on e8. After that, you can look for a recapture on c1 or use your rook to pressure the f1 pawn. Takeaway: When an opponent has hanging material, first ask if you can take it with a clean move before recapturing with tempo."
+    },
+    {
+      "position_id": "Q2IOLJ1C_27",
+      "tier": "intermediate",
+      "recommended_san": "h3",
+      "recommended_uci": "h2h3",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move h3 is sound but the coach fabricates a nonexistent hanging bishop on g3 (the bishop is on d3) and the reasoning about f4 is confused, making the explanation false and unhelpful despite clean language."
+      },
+      "coaching": "I'd play h3. Bc2 is understandable because it attacks the knight on f4, but it leaves Black\u2019s active queenside pieces intact and does not fix the main problem: your bishop on g3 is hanging. Play h3 instead. It removes the hanging bishop while keeping pressure on f4, so Black has to spend a tempo on that square instead of just defending it. Takeaway: When an active piece is hanging, look for a move that removes it while keeping pressure on the square it was defending."
+    },
+    {
+      "position_id": "QJKEDhuM_19",
+      "tier": "beginner",
+      "recommended_san": "Bxc5",
+      "recommended_uci": "e3c5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "Bxc5 is a sound choice but the explanation is factually wrong\u2014there is no pawn on c4 attacked, and Bxc5 captures a bishop (not a knight), so the coaching misidentifies the pieces and rationale."
+      },
+      "coaching": "I'd play Bxc5. Your pawn on c4 is attacked, so you have to deal with it. Play Bxc5: your bishop takes the hanging knight on c5, so Black\u2019s pieces are no longer hanging and you can continue developing. Takeaway: When your piece is attacked, look for a clean capture before playing a pawn move."
+    },
+    {
+      "position_id": "6bl7WKUu_20",
+      "tier": "intermediate",
+      "recommended_san": "exd4",
+      "recommended_uci": "e5d4",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 1,
+        "task_quality": 1,
+        "rationale": "The move choice is correct and engine-free, but the explanation muddles the reasoning\u2014it claims the e4 pawn is 'hanging' and gives confused/inaccurate logic about why exd4 works, weakening its instructional value."
+      },
+      "coaching": "I'd play exd4. Nf6 is understandable because it attacks White\u2019s bishop on e4, but it misses the bigger problem: White\u2019s e4 pawn is already hanging on your knight. Play exd4 instead. That removes White\u2019s hanging pawn, and if White recaptures with Nd6+, you can simply play Kf8 and your knight is no longer hanging. Takeaway: Before playing a normal developing move, check for hanging pieces you can safely remove."
+    },
+    {
+      "position_id": "QJKEDhuM_23",
+      "tier": "beginner",
+      "recommended_san": "exd5",
+      "recommended_uci": "e4d5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move exd5 is sound, but the coach's central claim is confused and factually wrong\u2014e5 does not attack the f3 knight, exd5 captures a pawn (not a knight), and the explanation about 'removing the knight' misdescribes the position, making the coaching misleading."
+      },
+      "coaching": "I'd play exd5. Your e-pawn is attacking the knight on f3, so playing e5 is understandable because it keeps pressure on that knight. The problem is that it does not remove the knight right away, so Black can simply play Bxf3 and take your pawn. A cleaner move is exd5: remove the knight first, then if Black recaptures with Bxf3, you have traded off the pressure on your e-pawn. Takeaway: When an enemy piece is hanging, do not just use one pawn to attack it; remove it first if possible."
+    },
+    {
+      "position_id": "FrxRxdSC_85",
+      "tier": "beginner",
+      "recommended_san": "f5",
+      "recommended_uci": "f4f5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The recommended move f5 is in the sound pool, but the coach fabricates a hanging e4 pawn, misplaces the queen, and invents a queen trade that doesn't exist, making the reasoning false and useless."
+      },
+      "coaching": "I'd play f5. h4 is understandable because it attacks the queen, but it is a little too slow: your pawn on e4 is already hanging, so Black can recapture with Qxh4. Play f5 instead: it attacks the queen on g4 and keeps your e4 pawn hanging. If Black recaptures with Qxf4, you have traded off the hanging pawn for a clean queen trade. Takeaway: When one of your pawns is hanging, look for a clean capture before making a slower attacking move."
+    },
+    {
+      "position_id": "8vJ1acJN_101",
+      "tier": "intermediate",
+      "recommended_san": "Qf2+",
+      "recommended_uci": "f1f2",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": ""
+      },
+      "coaching": "I'd play Qf2+. Qf6+ is understandable because it gives check, but it leaves Black\u2019s king on c1 and your queen on f6 where it can be chased. Play Qf2+: the queen still checks, but it also attacks the queen on e1. If Black tries Kc1, then Qe1+ removes the second queen and keeps the pressure on c1. Takeaway: When you have a queen in check, do not just give check; look for a queen move that attacks another queen and keeps the pressure on the king."
+    },
+    {
+      "position_id": "mFx5yK0n_31",
+      "tier": "intermediate",
+      "recommended_san": "Bxg6",
+      "recommended_uci": "d3g6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "Bxg6 is a sound top pick and the language avoids engine numbers, but the explanation is confused and inaccurate\u2014it claims the queen is on f6 (it's on d1), misdescribes exf6 as removing a hanging knight, and invents a knight on f6 to attack, making the coaching factually broken."
+      },
+      "coaching": "I'd play Bxg6. Your exf6 is understandable because it removes the hanging knight, but it lets Black recapture with Qxf6 and your queen is still on f6. Play Bxg6 instead: remove the hanging knight while your queen is still active, and if Black recaptures with fxe5, you can continue with Be4, attacking the knight on f6. Takeaway: When you have a hanging piece, do not automatically recapture it; first ask if you can remove it while keeping your active queen or rook."
+    },
+    {
+      "position_id": "6wq0vURs_22",
+      "tier": "advanced",
+      "recommended_san": "h6",
+      "recommended_uci": "h7h6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 1,
+        "rationale": "h6 is a sound pool move but the explanation fabricates ideas\u2014h6 does not attack White's e5-pawn (it hits nothing) and 'Rxb3' is nonsensical since no black piece sits on b3, making the reasoning largely false."
+      },
+      "coaching": "I'd play h6. f5 is understandable because it tries to challenge White\u2019s center, but it is a little too slow: White\u2019s advanced e-pawn is already pressing on your e4 and g4 squares, so you need to stabilize first. Play h6 instead. It attacks White\u2019s e-pawn while keeping your e4 and g4 squares intact, so you do not give White an easy tempo to use. If White recaptures with Rxb3, you can continue with ...a5, gaining space and improving your pieces before committing to a pawn break. Takeaway: When an advanced pawn is already on the board, look for a tempo move that attacks it while keeping your center squares intact."
+    },
+    {
+      "position_id": "ttYYCZxE_36",
+      "tier": "beginner",
+      "recommended_san": "Kg7",
+      "recommended_uci": "g8g7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach recommends a sound move (Kg7) but the explanation is riddled with fabrications and board errors: the king is on g8 not e8, Kg7 does not attack the queen on e4, and Qxf7+ is impossible after Kg7 since the rook on f8 defends, so the cited lines are false."
+      },
+      "coaching": "I'd play Kg7. Rf7 is understandable because it attacks the queen on f7, but it leaves White\u2019s queen on e4 and your king on e8. Play Kg7 instead: your king moves out of the queen\u2019s line and attacks the queen on e4. If White replies Qxf7+, then gxh4 removes White\u2019s last active piece. Takeaway: When your king is attacked, first look for a safe king move that also attacks the queen or captures it."
+    },
+    {
+      "position_id": "ttYYCZxE_48",
+      "tier": "beginner",
+      "recommended_san": "Kg7",
+      "recommended_uci": "h6g7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach picks the sound move Kg7 but the explanation is fabricated and confused\u2014the king is on h6 not e1, White's queen isn't being trapped, and no queen recapture on f6 exists, making the coaching factually wrong and unhelpful."
+      },
+      "coaching": "I'd play Kg7. Qd2 is understandable because it attacks the queen, but it leaves White\u2019s queen on f6 and your king on e1. Play Kg7 instead: your king moves out of the queen\u2019s attack, and your queen can recapture on f6. Takeaway: When your king is attacked, first move it to a safe square before making a queen trade."
+    },
+    {
+      "position_id": "aOMCAbvo_22",
+      "tier": "beginner",
+      "recommended_san": "d6",
+      "recommended_uci": "d7d6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 2,
+        "level_calibration": 2,
+        "no_engine_speak": 2,
+        "truthfulness": 1,
+        "task_quality": 1,
+        "rationale": "The coach picks the sound top move d6 with tier-appropriate, engine-free language, but the explanation is muddled\u2014it wrongly claims d6 attacks e5 (e5 is Black's own pawn here) and the takeaway is slightly incoherent, weakening accuracy and usefulness."
+      },
+      "coaching": "I'd play d6. f5 is understandable because it attacks White\u2019s e5 pawn, but it is a little too one-move. Play d6 instead: it attacks the e5 pawn while your king is still in the center, so White cannot use that pawn to gain space. After that, you can look to castle and develop a rook or bishop. Takeaway: When you can challenge a pawn with tempo, do it before making a slow one-move attack."
+    },
+    {
+      "position_id": "sz0Hltwe_38",
+      "tier": "intermediate",
+      "recommended_san": "Bd5",
+      "recommended_uci": "b7d5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "Bd5 is in the sound pool but the explanation is riddled with fabrications: it wrongly claims Bxb2 is a hanging piece White recaptures with Qxb2 (Black just played it), invents a White queen on c4 that isn't there, and misstates the actual position."
+      },
+      "coaching": "I'd play Bd5. Bxb2 is understandable because it removes the hanging bishop, but it lets White recapture with Qxb2 and your bishop is gone. Play Bd5 instead: it attacks the queen on c4 while keeping your bishop on b2. If White tries Rd1, you can meet it with e6, so your bishop stays active and you do not give White a clean recapture. Takeaway: When an attacked piece is hanging, do not recapture it automatically; look for a move that keeps your active pieces and creates counterplay."
+    },
+    {
+      "position_id": "ecFBXWVP_82",
+      "tier": "advanced",
+      "recommended_san": "Be7",
+      "recommended_uci": "d6e7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "Be7 is in the sound pool, but the explanation is incoherent and fabricated\u2014there is no knight on f6 to attack or recapture, and the takeaway describes a recapture that doesn't exist in the position."
+      },
+      "coaching": "I'd play Be7. Ne7 is understandable because it attacks the knight on f6, but it leaves White\u2019s active center intact and gives White a tempo to recapture on f6. Be7 is the cleaner move: it attacks the same knight while also improving your bishop and putting pressure on the center. If White recaptures with f4, you can continue with ...Nd6, using the pressure on the center and forcing White to spend more time defending. Takeaway: When you can recapture on a piece while improving a piece, prefer recapture over a one-move attack on the same piece."
+    }
+  ]
+}

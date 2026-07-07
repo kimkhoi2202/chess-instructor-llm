@@ -1,0 +1,287 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/*
+  THE BENCH INSTRUMENT
+  A focused club player at a dark desk late at night, replaying the game they
+  just lost on one calm screen — a precision instrument that MEASURES the
+  position and hands back a single, confident verdict.
+
+  Cool graphite canvas (blue-tinted, hue ~258), one warm signal accent (amber)
+  reserved for the recommended move / selection / focus, and a cool "engine"
+  tint for raw measured data. Color encodes the product thesis: cool = engine
+  truth, one warm signal = the human verdict. All OKLCH; never pure #000/#fff.
+*/
+
+@theme inline {
+  /* Fonts (wired via next/font in layout.tsx) */
+  --font-sans: var(--font-ui);
+  --font-display: var(--font-ui);
+  --font-mono: var(--font-data);
+
+  /* Custom tokens exposed to Tailwind (bg-signal, text-engine, ...) */
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-signal: var(--signal);
+  --color-signal-ink: var(--signal-ink);
+  --color-engine: var(--engine);
+  --color-your-move: var(--your-move);
+  --color-caution: var(--caution);
+  --color-good: var(--good);
+  --color-board-light: var(--board-light);
+  --color-board-dark: var(--board-dark);
+
+  /* Type scale — fixed rem, ~1.25 modular. The verdict move is the one fluid step. */
+  --text-verdict: clamp(2.6rem, 6vw, 3.4rem);
+  --text-verdict--line-height: 0.95;
+  --text-verdict--letter-spacing: -0.02em;
+}
+
+/* Scene tokens (mode-agnostic; this is a single, committed dark instrument). */
+:root {
+  --ink: oklch(0.948 0.006 258);
+  --muted: oklch(0.752 0.014 258);
+  --faint: oklch(0.702 0.014 258);
+
+  --signal: oklch(0.802 0.163 66);
+  --signal-ink: oklch(0.24 0.03 66);
+  --engine: oklch(0.735 0.09 236);
+  --your-move: oklch(0.706 0.135 32);
+  --caution: oklch(0.808 0.12 78);
+  --good: oklch(0.742 0.115 158);
+
+  --board-light: oklch(0.86 0.03 91);
+  --board-dark: oklch(0.44 0.05 121);
+}
+
+/* Map HeroUI's semantic tokens onto the Bench Instrument palette (cool, dark). */
+.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --radius: 0.75rem;
+
+  --background: oklch(0.171 0.012 258);
+  --foreground: var(--ink);
+
+  --surface: oklch(0.216 0.014 258);
+  --surface-foreground: var(--foreground);
+  --surface-secondary: oklch(0.252 0.016 258);
+  --surface-secondary-foreground: var(--foreground);
+  --surface-tertiary: oklch(0.288 0.017 258);
+  --surface-tertiary-foreground: var(--foreground);
+
+  --overlay: oklch(0.236 0.016 258);
+  --overlay-foreground: var(--foreground);
+
+  --muted: oklch(0.752 0.014 258);
+
+  --default: oklch(0.288 0.016 258);
+  --default-foreground: var(--foreground);
+
+  --accent: var(--signal);
+  --accent-foreground: var(--signal-ink);
+
+  --success: var(--good);
+  --success-foreground: oklch(0.2 0.02 158);
+
+  --warning: var(--caution);
+  --warning-foreground: oklch(0.2 0.02 78);
+
+  --danger: oklch(0.64 0.17 25);
+  --danger-foreground: oklch(0.97 0.02 258);
+
+  --field-background: oklch(0.232 0.014 258);
+  --field-foreground: var(--foreground);
+  --field-placeholder: oklch(0.665 0.014 258);
+  --field-border: oklch(0.38 0.014 258);
+
+  --segment: oklch(0.252 0.016 258);
+  --segment-foreground: var(--foreground);
+
+  --border: oklch(0.352 0.013 258);
+  --separator: oklch(0.312 0.011 258);
+  --focus: var(--signal);
+  --link: var(--signal);
+
+  --backdrop: color-mix(in oklab, oklch(0.11 0.01 258) 64%, transparent);
+
+  /* Flat surfaces — no drop shadow on cards/panels (only floating overlays keep depth). */
+  --surface-shadow: none;
+  --overlay-shadow: 0 24px 60px -30px oklch(0.03 0.01 258);
+}
+
+/* The app background is carried by html AND body so scrolling past the page (or an
+   overscroll rubber-band) never exposes a blank black gap. Overscroll chaining is
+   disabled so there's no bounce past the content. */
+html {
+  background-color: var(--background);
+  overscroll-behavior: none;
+}
+
+/* Cool depth: one quiet vertical lightening at the top + a faint signal ember
+   low-right, like an instrument's indicator. No grain, no lamp, no parchment. */
+body {
+  overscroll-behavior: none;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      120% 80% at 50% -12%,
+      color-mix(in oklab, var(--engine) 6%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      90% 70% at 112% 118%,
+      color-mix(in oklab, var(--signal) 5%, transparent),
+      transparent 55%
+    );
+  background-attachment: fixed;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--signal) 30%, transparent);
+  color: var(--ink);
+}
+
+/* Tabular numerals that never reflow as evals/percentages change. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* --------------------------------------------------------------------------
+   Motion — one purposeful "the verdict is arriving" reveal (transform/opacity
+   only), plus a measured skeleton shimmer for loading. Everything degrades to
+   an instant, already-visible state under prefers-reduced-motion.
+   -------------------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  0% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -160% 0;
+  }
+  100% {
+    background-position: 160% 0;
+  }
+}
+
+/* Indeterminate progress sweep for the board "reading the position" state. */
+@keyframes track-slide {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(360%);
+  }
+}
+
+.board-progress {
+  animation: track-slide 1.15s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.rise {
+  animation: rise 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.board-settle {
+  animation: settle 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.arrow-shaft {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 420ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+/* Measured skeleton for loading — a calm sweep across surface blocks. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--ink) 7%, transparent);
+  border-radius: 0.5rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ink) 8%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .arrow-shaft {
+    stroke-dashoffset: 0;
+  }
+  .skeleton::after {
+    display: none;
+  }
+  /* Keep the loading bar visible (as a static indeterminate sliver) not off-screen. */
+  .board-progress {
+    animation: none !important;
+    transform: none !important;
+    width: 100% !important;
+    opacity: 0.6;
+  }
+}
+
+/* --- Chessground (Lichess board) grab-feel polish --- */
+.cg-wrap piece {
+  cursor: grab;
+}
+.cg-wrap piece.dragging {
+  cursor: grabbing;
+}
+
+/* Keep the legal-move green dot visible on hover instead of swapping to the
+   square-fill highlight (chessground's default). The extra `.cg-wrap` class wins
+   on specificity over the theme's `cg-board square.move-dest:hover` rule. */
+.cg-wrap cg-board square.move-dest:hover {
+  background: radial-gradient(rgba(20, 85, 30, 0.5) 22%, #208530 0, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0) 0);
+}
+.cg-wrap cg-board square.oc.move-dest:hover {
+  background: radial-gradient(transparent 0%, transparent 80%, rgba(20, 85, 0, 0.3) 80%);
+}

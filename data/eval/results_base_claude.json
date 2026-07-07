@@ -1,0 +1,465 @@
+{
+  "model_label": "base",
+  "backend": "mlx",
+  "model_path": "mlx-community/Qwen3-1.7B-4bit",
+  "judge_model": "claude-group/claude-opus-4-8",
+  "params": {
+    "num_scenarios": 15,
+    "movetime_ms": 300,
+    "tolerance_cp": 150,
+    "multipv": 8,
+    "max_tokens": 512
+  },
+  "generated_at": "2026-07-06T15:20:00",
+  "aggregate": {
+    "overall": {
+      "n": 15,
+      "n_judged": 15,
+      "objective_pass_rate": {
+        "produced_nonempty": 1.0,
+        "move_parseable": 1.0,
+        "move_sound": 0.8666666666666667,
+        "no_engine_speak": 0.3333333333333333,
+        "ply_cap_ok": 0.6666666666666666
+      },
+      "judge_mean": {
+        "spec_adherence": 0.4666666666666667,
+        "level_calibration": 0.6,
+        "no_engine_speak": 0.8666666666666667,
+        "truthfulness": 0.13333333333333333,
+        "task_quality": 0.13333333333333333
+      }
+    },
+    "by_tier": {
+      "beginner": {
+        "n": 7,
+        "n_judged": 7,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 0.7142857142857143,
+          "no_engine_speak": 0.42857142857142855,
+          "ply_cap_ok": 0.2857142857142857
+        },
+        "judge_mean": {
+          "spec_adherence": 0.42857142857142855,
+          "level_calibration": 0.42857142857142855,
+          "no_engine_speak": 1.1428571428571428,
+          "truthfulness": 0.14285714285714285,
+          "task_quality": 0.14285714285714285
+        }
+      },
+      "intermediate": {
+        "n": 5,
+        "n_judged": 5,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 0.4,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 0.6,
+          "level_calibration": 1.0,
+          "no_engine_speak": 0.8,
+          "truthfulness": 0.2,
+          "task_quality": 0.2
+        }
+      },
+      "advanced": {
+        "n": 3,
+        "n_judged": 3,
+        "objective_pass_rate": {
+          "produced_nonempty": 1.0,
+          "move_parseable": 1.0,
+          "move_sound": 1.0,
+          "no_engine_speak": 0.0,
+          "ply_cap_ok": 1.0
+        },
+        "judge_mean": {
+          "spec_adherence": 0.3333333333333333,
+          "level_calibration": 0.3333333333333333,
+          "no_engine_speak": 0.3333333333333333,
+          "truthfulness": 0.0,
+          "task_quality": 0.0
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "position_id": "yTjIRay8_32",
+      "tier": "beginner",
+      "recommended_san": "b4",
+      "recommended_uci": "b5b4",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": false
+      },
+      "engine_speak_hits": [
+        "eval",
+        "-219"
+      ],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach echoed the raw eval (-219cp) twice, garbled the line (b4 attacks nothing\u2014Na4 is White's reply and the bishop/knight claims are incoherent and fabricated), and gave confused, inaccurate coaching."
+      },
+      "coaching": "Recommend: **b4** (eval -219cp) idea: **b4 Na4 Kxd6**\n\n**Explanation:**  \nThe student played **Bxd6**, which is a common move, but it\u2019s a **mistake**. The correct move here is **b4**, which is a **tactical threat**. Here's why:\n\n- **b4** is a **direct attack** on the bishop, and it **threatens** the knight (Na4) and **keeps the king safe** (Kxd6).\n- After **b4**, the knight can go to **a4**, and the king can move to **d6** to escape.\n- This move sets up a **clear plan** and **reduces the opponent's options**.\n\n**Why it's instructive for a beginner:**  \nThis move is **simple**, **plausible**, and **sets up a solid plan**. It\u2019s not just about winning material, but about **controlling the board** and **setting up future moves**.\n\n**Fix the mistake:**  \nInstead of playing **Bxd6**, which is a **losing move**, the student should play **b4**. This move **threatens** the knight and **keeps the king safe**, and it\u2019s a **good first step** in the game.\n\n**Takeaway:**  \n**\"Find a move that controls the board and sets up a good plan, not just a quick win.\"**\n\n---\n\n**Final Move Recommendation:** **b4** (eval -219cp) idea: **b4 Na4 Kxd6**."
+    },
+    {
+      "position_id": "Q2IOLJ1C_27",
+      "tier": "intermediate",
+      "recommended_san": "a3",
+      "recommended_uci": "a2a3",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The recommended a3 is sound but the explanation is incoherent and fabricates nonexistent threats (a3 does not develop or threaten a bishop, the bishop cannot go to b4, and there is no attack on f7), making the coaching false and useless."
+      },
+      "coaching": "Recommend: **a3**\n\n**Why:**  \nThe student played Bc2, which is a clear mistake. The correct move is a3, which threatens to develop the bishop and prepares for a strong attack on the queen's square. \n\n**Plan:**  \n1. Play a3 to develop the bishop and threaten the queen.  \n2. After a3, the bishop goes to b4, and the queen can be attacked on f7.  \n3. The knight can then be moved to c4, and the queen can be supported on f7.  \n\n**Fix the mistake:**  \nThe student missed an opportunity to control the center and prepare for a counterattack. a3 is a solid move that gives the bishop a good square and sets up for future play.\n\n**Takeaway:**  \n**\"Control the center and develop your pieces to threaten the queen.\"**"
+    },
+    {
+      "position_id": "QJKEDhuM_19",
+      "tier": "beginner",
+      "recommended_san": "h3",
+      "recommended_uci": "h2h3",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": false
+      },
+      "engine_speak_hits": [
+        "eval",
+        "13cp"
+      ],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach leaked the raw eval numbers, garbled the tactic (h3 does not 'threaten to take on e3'\u2014it's the black bishop attacking e3 and White responds hxg4), and gave incoherent, misleading reasoning instead of recommending the clearer Bxc5."
+      },
+      "coaching": "Recommend: **h3** (eval 13cp) idea: **h3 Bxe3 hxg4**\n\n**Explanation:**  \nThe student played **a4**, which is a clear mistake. The correct move is **h3**, which is a sound, immediate threat. By playing h3, the student threatens to take the bishop on e3 and then follow up with hxg4, which is a strong sequence. This move sets up a good plan and creates a clear threat that the opponent can't easily counter.\n\n**Why it's instructive:**  \nh3 is a simple, direct move that opens up the center and creates a threat. It\u2019s a move a beginner can understand and play, and it\u2019s a move that can be followed up with multiple threats. It\u2019s also a good way to start developing the center and preparing for future moves.\n\n**Takeaway:**  \nDon\u2019t be afraid to make a move that sets up a plan. Even if it seems small, it can lead to big opportunities in the game.\n\n**Next step:** After h3, the opponent will have to respond, and you can follow up with hxg4 or Bxe3. Focus on controlling the center and creating threats."
+    },
+    {
+      "position_id": "6bl7WKUu_20",
+      "tier": "intermediate",
+      "recommended_san": "exd4",
+      "recommended_uci": "e5d4",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach picks the sound move exd4 but fabricates threats\u2014it does not threaten the queen or create a king attack (the line is exd4 Nd6+ Kf8), making the explanation false and useless despite avoiding engine numbers."
+      },
+      "coaching": "**Recommendation:** exd4\n\n**Why:** The student played Nf6, which is a blunder, but exd4 is a sound, instructive move. It threatens to take the queen and creates a strong attack. The move also opens up the center and puts pressure on the king.\n\n**Coach's Explanation:**  \nThe student\u2019s Nf6 was a mistake, but exd4 is a smart move. After exd4, the queen is under pressure, and the king is in a vulnerable position. This move sets up a solid attack and gives the player a clear plan to follow. It\u2019s not just about taking a piece, but about setting up a future plan.\n\n**Takeaway:**  \n**\"Always look ahead and set up a plan that can be executed, not just take a piece.\"**\n\n**Next Move:** After exd4, the king is in trouble, and the queen is under pressure. The player needs to focus on how to counter the queen and push the center."
+    },
+    {
+      "position_id": "QJKEDhuM_23",
+      "tier": "beginner",
+      "recommended_san": "Nxd5",
+      "recommended_uci": "c3d5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": false
+      },
+      "engine_speak_hits": [
+        "eval",
+        "48cp"
+      ],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The output leaks raw eval numbers (48cp) and 'blunder' framing, fabricates that Nxd5 attacks/threatens the queen (it does not \u2014 the d5 pawn is what's captured), garbles the line, and gives confusing tier-inappropriate coaching."
+      },
+      "coaching": "Recommend: **Nxd5** (eval 48cp) idea: **Nxd5 Re8 Nxf6+**\n\n**Explanation:**  \nThe student played e5, which is a common move for beginners, but it\u2019s a **blunder**. The correct move here is **Nxd5**, which is a solid, immediate threat. Let\u2019s break it down:\n\n- **Nxd5** is a strong, aggressive move that attacks the queen and prepares for future threats.\n- After **Nxd5**, the knight is on f6, which is a key square for future play.\n- The **Re8** (rook to e8) is a good setup for controlling the center and attacking the queen.\n- The **Nxf6+** (knight to f6, check) is a follow-up that threatens the queen and gives the knight a good position.\n\n**Why this is instructive for a beginner:**  \nThis move shows how to **play actively** and **threaten the queen**. It\u2019s a move that a beginner can understand, and it sets up a solid plan for future moves.\n\n**Fix the mistake:**  \nThe student should have played **Nxd5** instead of e5. That move is a good start to control the center and prepare for future threats.\n\n**Takeaway:**  \n**\"Don\u2019t just play a move\u2014you need to set up a plan that controls the center and threatens the queen.\"**\n\n---\n\n**Final Move Recommendation:** **Nxd5** (eval 48cp) idea: **Nxd5 Re8 Nxf6+**."
+    },
+    {
+      "position_id": "FrxRxdSC_85",
+      "tier": "beginner",
+      "recommended_san": "Qg5+",
+      "recommended_uci": "h6g5",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": false,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach recommends Qg5+, which is NOT in the sound pool (it's the popular but non-recommended human move), fabricates a checkmate threat that doesn't exist, and the coaching is incoherent and useless despite avoiding engine numbers."
+      },
+      "coaching": "The student played **h4**, but this was a **blunder**. Let's break it down.\n\nAt move 1, the board is:\n\n```\n. . . . k p . .\n. . . . . . p Q\n. . . . . . . .\n. . . . . P . .\n. . . . . . q P\n. . . . . . . .\n. . . . . . . K\n```\n\nWhite's goal is to **control the center** and **support the queen**. The student played **h4**, which is a **bad idea** for a beginner. But the real problem is that **h4** is a **threat** that leads to a **loss**.\n\nLet\u2019s look at the **sound candidate moves**:\n\n- **Qg5+**: This is a **tactical threat**. If the student plays **Qg5**, the queen would be in a good position to deliver checkmate. But the student played **h4**, which is a **bad move** because it **loses** the initiative and **leaves the queen vulnerable**.\n\n- **f5**: This is a **defensive move**, but it\u2019s **not the best** because it doesn\u2019t **threaten** the queen.\n\n- **Qh7**: This is a **tactical move**, but it\u2019s **not the most impactful** for a beginner.\n\n- **h4**: This is the **student\u2019s blunder**. It **loses** the queen\u2019s support and **leaves the queen vulnerable**.\n\nSo, the **most instructive move** for the student is **Qg5+**, because it\u2019s a **clear threat** that the student could have understood and fixed.\n\n---\n\n**Coach's message:**\n\nYou played **h4**, but that was a **bad move**. The queen is **vulnerable**, and the king is **not protected**. Instead of playing a move that **loses** the queen\u2019s support, you could have **threatened** the queen with **Qg5+**. That move would **control the center** and **threaten checkmate**. You need to **fix** this by playing a move that **supports** the queen and **threatens** checkmate.\n\n---\n\n**Takeaway:**\n\n**Support the queen and threaten checkmate** \u2014 that\u2019s the key to winning this position. Don\u2019t play a move that **loses** the queen\u2019s support."
+    },
+    {
+      "position_id": "8vJ1acJN_101",
+      "tier": "intermediate",
+      "recommended_san": "Qe2+",
+      "recommended_uci": "f1e2",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [
+        "engine"
+      ],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 0,
+        "truthfulness": 1,
+        "task_quality": 1,
+        "rationale": "The coach picked a sound move but leaked the raw human-likelihood percentage (25%) and mentioned the engine, and the mating line is imprecise since Qe1+ is not actually mate."
+      },
+      "coaching": "From the engine-sound candidate moves, the most instructive one is **Qe2+**. Here's why:\n\n- **Qe2+** is the most human-likely move (25%) and has a clear idea: **Qe2+ Kc1 Qe1+**.  \n- The move **Qe2** threatens to deliver checkmate after **Kc1**, which is a strong, plausible idea for a mid-level player.  \n- The student\u2019s move **Qf6+** was a blunder because it was a forced loss, and the engine\u2019s sound candidates show that **Qe2+** is a better, more strategic choice.\n\n**Plan:**  \n1. Play Qe2 to threaten checkmate.  \n2. After Kc1, play Qe1 to deliver checkmate.  \n3. The king has no escape, so the game is over.\n\n**Fix the mistake:**  \nThe student\u2019s move **Qf6+** was a forced loss, but **Qe2+** is a sound, strategic move that sets up checkmate. The student should focus on playing **Qe2** to start the checkmate sequence.\n\n**Takeaway:**  \nDon\u2019t just play a move that seems good\u2014always look for a plan that leads to a clear, strategic threat."
+    },
+    {
+      "position_id": "yXvxzean_30",
+      "tier": "advanced",
+      "recommended_san": "a6",
+      "recommended_uci": "a7a6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [
+        "eval",
+        "268cp"
+      ],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach recommends the very move flagged as the mistake, quotes raw centipawn evals, and gives incoherent nonsensical advice (knight to a4/a6, knight on a8) that contradicts the position and analysis."
+      },
+      "coaching": "Recommended move: **Nf8** (eval 268cp) idea: **Nf8 a4 a6**\n\n### Why this move is instructive:\n\nThe student played **Nf8**, but it was a mistake. At this point, the knight is on f8, which is a weak square for a knight. The correct idea is to develop the knight to a4 or a6, not to f8. \n\n**Nf8** is a sound move, but it\u2019s not the most instructive. The real mistake is that the knight is on f8, and the student didn\u2019t develop it further. The correct plan is to develop the knight to a4 or a6, and then push the pawn to a5 or a6.\n\n### What the student should do:\n\nAfter **Nf8**, the knight is on a8, and the student should develop the knight to a4 or a6. Then, the pawn on a5 can be advanced, and the knight can support the center.\n\n### Fix the mistake:\n\nThe student\u2019s move **Nf8** is a sound move, but it\u2019s not the most instructive. The real problem is that the knight is on f8, and the student didn\u2019t develop it. The correct move is to develop the knight to a4 or a6, and then push the pawn to a5 or a6.\n\n### Takeaway:\n\n**Develop your pieces early and actively.** The knight on f8 is a good square, but it\u2019s better to move it to a4 or a6 to support the center and control the key squares.\n\n---\n\n**Final recommendation:** **Nf8** (eval 268cp) idea: **Nf8 a4 a6**."
+    },
+    {
+      "position_id": "mFx5yK0n_31",
+      "tier": "intermediate",
+      "recommended_san": "Bxg6",
+      "recommended_uci": "d3g6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [
+        "eval",
+        "311cp",
+        "engine"
+      ],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 1,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach leaks raw eval and centipawn numbers plus human-likelihood percentages, fabricates a vague and incorrect tactical justification (Bxg6 wins a pawn on g6, not some f6 threat), and gives no concrete at-tier plan."
+      },
+      "coaching": "Recommended move: **Bxg6** (eval 311cp; human-likelihood 59%)\n\n---\n\n**Why this move is the most instructive:**\n\nThe student played **exf6**, which is a common but flawed move. The engine suggests that **Bxg6** is a better idea, and it\u2019s human-friendly enough that 59% of players would consider it.\n\nLet\u2019s break it down:\n\n- **Bxg6** is a direct, tactical threat. It attacks the f6 square, which is under attack by the queen.\n- After **Bxg6**, the position becomes more balanced, and the queen can be brought into the attack.\n- The student\u2019s **exf6** was a mistake because it left the f6 square open and gave the opponent a good chance to follow up.\n\n---\n\n**Coach\u2019s message:**\n\nYou\u2019re on the right track, but you need to take a step back. Instead of playing **exf6**, which is a weak and losing move, try **Bxg6**. This move is a clear threat and sets up a strong follow-up. After that, the queen can come into the game, and the position becomes more balanced. You\u2019ll see how this changes the game.\n\n---\n\n**Takeaway:**\n\n**Bxg6** is the most instructive move here. It\u2019s a direct threat, sets up a strong follow-up, and gives you control of the center. It\u2019s the first step toward a better position."
+    },
+    {
+      "position_id": "6wq0vURs_22",
+      "tier": "advanced",
+      "recommended_san": "h6",
+      "recommended_uci": "h7h6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [
+        "engine"
+      ],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 0,
+        "no_engine_speak": 1,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The move h6 is from the sound pool, but the explanation fabricates nonsense ('attacks f6 square,' 'threatens f6,' 'opens up the center') that doesn't match the analysis, uses the phrase 'top engine move,' and offers no genuine advanced-level plan tied to the actual position."
+      },
+      "coaching": "Recommend: **h6**\n\n**Why?**  \nThe student played f5, which was a clear mistake. But h6 is a move that the student might have overlooked. Let's break it down:\n\n- **h6** is a strong, immediate threat. It attacks the f6 square, which is a key point in the position.  \n- After h6, the knight can be pushed to g5, and the bishop can take on c4.  \n- This move sets up a solid plan and creates a clear threat that the student can follow through.\n\n**Plan:**  \n1. h6 (threatens f6 and opens up the center)  \n2. Nd2 (pushes the knight to d2, controlling the center)  \n3. a5 (attacks the f6 square and prepares for the next move)  \n4. Bc8 (attacks c4 and prepares for the queen's move)\n\n**Why h6 is instructive:**  \nIt\u2019s a move that the student might have missed because it\u2019s not the top engine move, but it\u2019s a sound, tactical move that sets up a clear plan. It\u2019s also a good move to try to understand the position from the opponent\u2019s perspective.\n\n**Takeaway:**  \nDon\u2019t be afraid to play a move that seems small, but it can set up a big plan. Focus on controlling the center and creating threats.\n\n**Coach:**  \nYou missed a good move that could control the center and create a threat. h6 is a good start\u2014it opens up the center and sets up a plan. From there, you can build from there."
+    },
+    {
+      "position_id": "ttYYCZxE_36",
+      "tier": "beginner",
+      "recommended_san": "Kg7",
+      "recommended_uci": "g8g7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": false
+      },
+      "engine_speak_hits": [
+        "engine"
+      ],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "Though Kg7 is a sound pool move and no engine numbers leaked, the coaching fabricates tactics\u2014Kg7 does not attack the queen or set up a fork/threat, so the explanation is false and misleading for a beginner."
+      },
+      "coaching": "From the engine-sound candidates, **Kg7** is the most instructive move for a beginner at this tier. While it\u2019s not the top engine move, it\u2019s the most logical and playable option that addresses a real threat.\n\n**Why it\u2019s good:**  \nThe student played Rf7, which is a weak and losing move. But Kg7 is a solid, direct threat that attacks the queen and opens up a fork. The idea is clear: **Kg7 Qf5 Nd5**. This move threatens to take the queen and also attacks the knight, putting pressure on the center.\n\n**What the student missed:**  \nThe student didn\u2019t take the queen, which is a big mistake. The queen is a strong piece, and taking it now gives the knight a good square to develop. Also, the knight is vulnerable, and this move sets up a good plan.\n\n**Fixing the mistake:**  \nInstead of playing Rf7, which is a losing move, the student should play **Kg7**. This move is a good start for a beginner, it\u2019s a real threat, and it sets up a solid plan for future moves.\n\n**Takeaway:**  \n**\"Find a move that threatens and sets up a plan, not just a move that seems good but is a losing one.\"**\n\n---\n\n**Recommended move:** **Kg7**.  \n**Why:** It\u2019s a real threat, it attacks the queen, and it sets up a good plan for future moves. It\u2019s the most instructive move for a beginner at this tier."
+    },
+    {
+      "position_id": "ttYYCZxE_48",
+      "tier": "beginner",
+      "recommended_san": "Qd2",
+      "recommended_uci": "a5d2",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": false,
+        "no_engine_speak": true,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 0,
+        "no_engine_speak": 2,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach recommended Qd6/Qe5 which are not in the sound pool (the only sound move was Kg7), completely misdescribed the position and pieces, and offered incoherent, factually wrong reasoning."
+      },
+      "coaching": "Your student made a big mistake by playing **Qd2**. Let's break it down and figure out what went wrong.\n\n### The Position:\n- The queen is on **d5**, and the king is on **e8**.\n- The black pieces are in a weak position, especially on the **d** file.\n- The white queen is on **d5**, and the black king is on **e8**.\n\n### The Move: Qd2\n- This move is a **threat** to the king, but it's also a **mistake**.\n- The queen is now on **d5**, which is a **weak** square for a queen.\n- The move **Qd2** is a **bad idea** because it **threatens** the king and **weakens** the queen's position.\n\n### What's Wrong?\n- The queen is now on **d5**, which is a **weak** square.\n- The queen is **too close** to the king, and it's **not a good** square for a queen.\n- The move **Qd2** is a **mistake** because it **leaves the queen vulnerable** and **puts the king in danger**.\n\n### What Should the Student Do?\nThe best move is to **move the queen to a safer square**. The most logical and safe move is to **move the queen to d6** or **e5**.\n\n### Why Qd2 is a Bad Move:\n- It **threatens** the king.\n- It **weakens** the queen's position.\n- It **leaves the queen vulnerable**.\n\n### What's the Correct Move?\nThe student should move the queen to **d6** or **e5**. That would be a **safer** and **more strategic** move.\n\n### Coach the Student:\n\"Your move Qd2 is a big mistake. The queen is now on a weak square, and it's putting the king in danger. Instead, you should move the queen to a safer square, like d6 or e5. That way, you're protecting your queen and keeping the king safe.\"\n\n### Takeaway:\n\"Move the queen to a safer square, like d6 or e5, to protect your queen and keep the king safe.\"\n\n---\n\n**Final Recommendation:** Move the queen to **d6**. This is a **safer** and **more strategic** move that protects the queen and keeps the king safe."
+    },
+    {
+      "position_id": "aOMCAbvo_22",
+      "tier": "beginner",
+      "recommended_san": "d6",
+      "recommended_uci": "d7d6",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": true,
+        "ply_cap_ok": false
+      },
+      "engine_speak_hits": [],
+      "judge": {
+        "spec_adherence": 1,
+        "level_calibration": 1,
+        "no_engine_speak": 2,
+        "truthfulness": 1,
+        "task_quality": 1,
+        "rationale": "Picks a sound move (d6) with clean human language, but falsely calls it a 'strong, direct threat' when it's really a quiet developing/solidifying move, and fails to connect the advice to why f5 was actually a mistake."
+      },
+      "coaching": "Recommend: **d6**\n\n**Why?**  \nThe student played f5, which is a mistake. But the most instructive move for a beginner is **d6**. This move is a solid threat and sets up for the O-O (O-O Qd2) plan. \n\n**Plan:**  \n1. Play d6 (a strong, direct threat).  \n2. Now you have a good position to play O-O (Qd2) and control the center.  \n3. You can also follow up with e5 or d5 to control the center and pressure the king.\n\n**Why d6 is good:**  \n- It\u2019s a strong, direct threat that doesn\u2019t require a long sequence.  \n- It gives you a good position to play O-O and control the center.  \n- It\u2019s a move that a beginner can understand and play, even if it\u2019s not the best move right now.\n\n**Takeaway:**  \nDon\u2019t be afraid to make a strong move like d6. It sets up the future and gives you a good position to build from.\n\n**Coach:**  \n\"Your next move should be a strong, direct threat. Try d6. It\u2019s a good move that sets up for the O-O plan and gives you a good position to build from.\""
+    },
+    {
+      "position_id": "sz0Hltwe_38",
+      "tier": "intermediate",
+      "recommended_san": "Bc8",
+      "recommended_uci": "b7c8",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [
+        "engine"
+      ],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 1,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach repeatedly says 'the engine says it's a sound move' (engine-speak), misexplains why Bxb2 is bad, fabricates that Bc8 threatens the queen (Qc4+ is White's move against Bc8, not Black threatening the queen), and offers incoherent, contradictory coaching."
+      },
+      "coaching": "Let's look at the student's move: **Bxb2**. The engine says this is a **sound move**, but the student is **mistaken**. The move is **not good** for several reasons.\n\n### Why Bxb2 is wrong:\n- The student is **losing material** (the b2 square is now empty, but the pawn is gone).\n- The move **threatens** the queen, but it's **too early** to exploit that.\n- The move **fails to control the center** and leaves the king in a vulnerable position.\n\n### What's the correct move?\nThe student is **overlooking** a **critical threat** in the center. The best move is **Bc8**, which is a **sound, tactical move** that **threatens** the queen and **controls the center**.\n\n### Why Bc8 is the best move:\n- **Bc8** threatens **Qc4+** and **e6**.\n- It **controls the center** and **reduces the opponent's options**.\n- It **sets up a good plan** for future moves.\n\n### What the student should do:\nInstead of losing material, the student should **play Bc8** to **threaten** the queen and **control the center**. This move is **tactical** and **plausible** for an intermediate player.\n\n### Takeaway:\n**\"Control the center and threaten the queen \u2014 that\u2019s the key to future wins.\"**\n\n---\n\n**Recommendation:** **Bc8** (engine says it's a sound move, and it's the most instructive for an intermediate player).\n\n### Coach's Message:\n\"Your move was a bit off, but if you play Bc8, you're setting up a solid plan. It\u2019s not about winning right away, but about controlling the game and putting pressure on the opponent.\"\n\n---\n\n**Takeaway:**  \n**\"Control the center and threaten the queen \u2014 that\u2019s the key to future wins.\"**"
+    },
+    {
+      "position_id": "ecFBXWVP_82",
+      "tier": "advanced",
+      "recommended_san": "Be7",
+      "recommended_uci": "d6e7",
+      "objective": {
+        "produced_nonempty": true,
+        "move_parseable": true,
+        "move_sound": true,
+        "no_engine_speak": false,
+        "ply_cap_ok": true
+      },
+      "engine_speak_hits": [
+        "eval",
+        "-262",
+        "engine"
+      ],
+      "judge": {
+        "spec_adherence": 0,
+        "level_calibration": 1,
+        "no_engine_speak": 0,
+        "truthfulness": 0,
+        "task_quality": 0,
+        "rationale": "The coach leaked centipawn evals ('-262cp') and the word 'engine', fabricated tactics (Be7 doesn't threaten f4 or attack a knight on d6\u2014that's Black's own knight square), and gave confused, incorrect coaching."
+      },
+      "coaching": "Recommended move: **Be7** (eval -262cp) idea: **Be7 f4 Nd6**\n\n### Why this move is instructive:\n\nThe student played **Ne7**, which is a weak and inaccurate move. The engine suggests **Be7** as a better alternative. Let\u2019s break it down:\n\n- **Be7** is a strong, attacking move that threatens to take the pawn on f4 and also attacks the knight on d6.\n- After **Be7**, the knight moves to d6, putting pressure on the center and creating a strong follow-up.\n- The move **Be7** is a good way to start a counterattack and sets up a solid plan for future moves.\n\n### What the student missed:\n\nThe student\u2019s **Ne7** was a poor choice because it left the knight vulnerable and gave the opponent a clear path to attack. **Be7** is a more direct and impactful move that sets up a solid plan for the rest of the game.\n\n### Plan and Fix:\n\nAfter **Be7**, the knight goes to **d6**, and the king moves to **e6** (or **d6** if the king is not there). This sets up a strong position and prepares for a follow-up like **Nc8** or **g5**.\n\nSo, the student should **play Be7** to start a solid counterattack and set up a good plan for the rest of the game.\n\n### Takeaway:\n\n**Be7** is a smart move because it sets up a strong attack and prepares for future play. It\u2019s not just a move\u2014it\u2019s a step toward a bigger plan.\n\n---\n\n**Final Recommendation:** **Be7**."
+    }
+  ]
+}

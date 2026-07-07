@@ -1,0 +1,44 @@
+{
+  "beginner": [
+    {
+      "situation": "You brought your queen out early to attack a pawn while your kingside pieces were still undeveloped.",
+      "coaching": "That attack is tempting, but it lets your opponent gain time by chasing your queen while your king stays in the center. A better move is Nf3: develop a piece, help control the center, and get ready to castle. Takeaway: before using the queen for attacks, develop a piece and make your king safe."
+    },
+    {
+      "situation": "You made a pawn move while your knight was attacked more times than it was defended.",
+      "coaching": "The pawn move does not answer the real danger, so the knight can simply be taken. Play Be2 instead: it adds a defender and also helps you get closer to castling. Takeaway: when a piece is attacked, first count attackers and defenders before starting a new idea."
+    },
+    {
+      "situation": "You gave a check with your queen instead of castling while your king was still in the center.",
+      "coaching": "The check looks active, but if it is blocked, your queen may just have to move again. Castling is stronger here because it makes your king safe and brings a rook closer to the center. Takeaway: a safe king is usually worth more than a quick check."
+    }
+  ],
+  "intermediate": [
+    {
+      "situation": "You grabbed a wing pawn with your queen while your rooks and minor pieces were not fully active.",
+      "coaching": "Winning a pawn is nice, but this lets your opponent attack the queen with tempo and take over the center. A better move is O-O: finish king safety first, then look for Re1 and pressure on the open or half-open file. Takeaway: when you are behind in development, choose activity and safety before pawn-hunting."
+    },
+    {
+      "situation": "You traded your active bishop for a knight that was not causing a serious problem.",
+      "coaching": "That trade leaves you with the more passive bishop and gives away a piece that was helping control important central squares. A better move is Be3: keep the active bishop, connect your pieces, and prepare to put a rook on an open file. Takeaway: do not trade a good piece just because you can; ask which piece will matter more in the next plan."
+    },
+    {
+      "situation": "You pushed a pawn to attack a knight, but it weakened squares around your king and opened lines for your opponent.",
+      "coaching": "The pawn push gains a tempo, but the new weaknesses may last longer than the attack on the knight. A steadier move is Re1: improve the rook, support the center, and be ready to meet a capture by recapturing with a piece. Takeaway: before chasing a piece with a pawn, check what squares and lines you are leaving behind."
+    }
+  ],
+  "advanced": [
+    {
+      "situation": "You released the central tension too early, giving your opponent an easy recapture and a clear square for a piece.",
+      "coaching": "The exchange solves your opponent’s coordination problem and removes the pressure they had to manage. A stronger practical move is Re1: keep the tension, support a central break, and make it harder for them to free their position comfortably. Takeaway: when the center is tense, do not clarify it unless the resulting position favors your pieces."
+    },
+    {
+      "situation": "You won a pawn on the queenside while your king was still exposed and your back rank pieces were undeveloped.",
+      "coaching": "The pawn grab is understandable, but it gives your opponent quick tempi against the queen and time to open the center. Castling is the more instructive move: secure the king first, then use Qe2 or Rd1 to finish development and return to the extra target later. Takeaway: if your king is not safe, delay material gains that give the opponent free activity."
+    },
+    {
+      "situation": "You attacked on the kingside without first stopping your opponent’s central break.",
+      "coaching": "The attack looks natural, but their central push can hit your pieces and make your own king less secure. A better move is c3: it supports the center, limits the break, and prepares to improve your worst piece before committing to the attack. Takeaway: strong attacks often begin by taking away the defender’s best counterplay."
+    }
+  ]
+}

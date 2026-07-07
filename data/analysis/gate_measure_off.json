@@ -1,0 +1,273 @@
+{
+  "n": 40,
+  "ungated_fabrication_rate": 0.425,
+  "by_tier": {
+    "beginner": [
+      4,
+      14
+    ],
+    "intermediate": [
+      5,
+      13
+    ],
+    "advanced": [
+      8,
+      13
+    ]
+  },
+  "examples": [
+    {
+      "id": "jEFIU8MJ_25",
+      "tier": "advanced",
+      "rec": "Nxc6",
+      "violations": [
+        [
+          "no bishop on c2",
+          "Your castling move is understandable, but it misses the more urgent problem: Black\u2019s c6-knight is already attacking your c2-bishop."
+        ]
+      ],
+      "coaching": "I'd play Nxc6. Your castling move is understandable, but it misses the more urgent problem: Black\u2019s c6-knight is already attacking your c2-bishop. Play Nxc6 instead. That removes Black\u2019s dangerous central pawn, wins the bishop, and your king still gets checked.",
+      "takeaway": "When your king is attacked, look for a move that removes the attacker\u2019s central pawn or removes your attacked piece."
+    },
+    {
+      "id": "IKFxmHWR_44",
+      "tier": "intermediate",
+      "rec": "Nxd7",
+      "violations": [
+        [
+          "no rook on c1",
+          "That removes White\u2019s dangerous c1 bishop, defends your e5 pawn, and also keeps your rook on c1 covering c4."
+        ]
+      ],
+      "coaching": "I'd play Nxd7. Rxc1 is a very natural capture, but it misses the more urgent problem: your c1 bishop is attacked. Play Nxd7 instead. That removes White\u2019s dangerous c1 bishop, defends your e5 pawn, and also keeps your rook on c1 covering c4.",
+      "takeaway": "When your attacked pawn is also attacked, look for a move that removes that attacker while defending your loose pawn."
+    },
+    {
+      "id": "jEFIU8MJ_42",
+      "tier": "advanced",
+      "rec": "Qb7+",
+      "violations": [
+        [
+          "no rook on g8",
+          "Bxf6 is a very natural capture, but it misses the more important thing: your g8-rook is attacked, so your next move is to answer that."
+        ]
+      ],
+      "coaching": "I'd play Qb7+. Bxf6 is a very natural capture, but it misses the more important thing: your g8-rook is attacked, so your next move is to answer that. Qb7+ wins that check while also defending g8, so your queen is involved in a more dangerous follow-up.",
+      "takeaway": "When your king is attacked, answer that check before making a routine capture."
+    },
+    {
+      "id": "Q2IOLJ1C_27",
+      "tier": "intermediate",
+      "rec": "Nb5",
+      "violations": [
+        [
+          "no pawn on c6",
+          "Bc2 is understandable because it develops a bishop, but it misses the more urgent problem: your c3 knight is attacked, and your c6 pawn is also hanging."
+        ],
+        [
+          "no pawn on c3",
+          "It develops your attacked knight, removes that hanging pawn, and also defends your c3 pawn."
+        ]
+      ],
+      "coaching": "I'd play Nb5. Bc2 is understandable because it develops a bishop, but it misses the more urgent problem: your c3 knight is attacked, and your c6 pawn is also hanging. Play Nb5 instead. It develops your attacked knight, removes that hanging pawn, and also defends your c3 pawn.",
+      "takeaway": "When your attacked piece is hanging, look for a move that develops it and removes that hanging pawn."
+    },
+    {
+      "id": "6bl7WKUu_20",
+      "tier": "intermediate",
+      "rec": "exd4",
+      "violations": [
+        [
+          "no bishop on c2",
+          "Nf6 is a natural developing move, but it misses the more urgent problem: your bishop on c2 is attacked."
+        ]
+      ],
+      "coaching": "I'd play exd4. Nf6 is a natural developing move, but it misses the more urgent problem: your bishop on c2 is attacked. Play ...exd4 instead. That removes the hanging bishop, wins a tempo, and your next simple follow-up is to look at cxd4.",
+      "takeaway": "When your attacked piece is loose, answer it before making a routine developing move."
+    },
+    {
+      "id": "Q2IOLJ1C_20",
+      "tier": "advanced",
+      "rec": "Bg4",
+      "violations": [
+        [
+          "no pawn on c3",
+          "Play Bg4 instead: your bishop lands on g4, where it also attacks the c3 pawn."
+        ]
+      ],
+      "coaching": "I'd play Bg4. Bd7 is understandable because it develops a bishop, but it does not answer White\u2019s central tension. Play Bg4 instead: your bishop lands on g4, where it also attacks the c3 pawn. That removes White\u2019s central pressure, so your next job is to consolidate your pieces and make your king safe.",
+      "takeaway": "When your opponent\u2019s central tension is still active, look for a move that removes that tension while developing a piece."
+    },
+    {
+      "id": "QJKEDhuM_23",
+      "tier": "beginner",
+      "rec": "Nxd5",
+      "violations": [
+        [
+          "no pawn on e5",
+          "Your e5 pawn move is understandable because it controls c6, but it misses the more urgent thing: your knight on c3 is attacked."
+        ],
+        [
+          "no pawn on c6",
+          "That removes the c6 pawn, wins c3, and also defends your e3 pawn."
+        ]
+      ],
+      "coaching": "I'd play Nxd5. Your e5 pawn move is understandable because it controls c6, but it misses the more urgent thing: your knight on c3 is attacked. Play Nxd5 instead. That removes the c6 pawn, wins c3, and also defends your e3 pawn.",
+      "takeaway": "When your attacked piece is also attacked, look for a move that wins that attacked piece before making a side pawn move."
+    },
+    {
+      "id": "6bl7WKUu_26",
+      "tier": "intermediate",
+      "rec": "a5",
+      "violations": [
+        [
+          "no rook on c8",
+          "After that, look to develop your king toward g8 or c8, and keep your c8-rook in place."
+        ]
+      ],
+      "coaching": "I'd play Qxb7. Qxb7 wins the knight that is already attacking your e4 pawn, so your central pawn gets protected. That is more important than just defending a7. After that, look to develop your king toward g8 or c8, and keep your c8-rook in place.",
+      "takeaway": "When an attacked pawn is also attacked, answer the capture before defending it."
+    },
+    {
+      "id": "Q2IOLJ1C_34",
+      "tier": "advanced",
+      "rec": "Ne4",
+      "violations": [
+        [
+          "no pawn on c2",
+          "Bxc2 is a very natural capture, but it removes your best defender and also removes the c2 pawn."
+        ],
+        [
+          "no pawn on c2",
+          "If White answers Qe3, you can follow with Nf6, covering c3 and your c2 pawn."
+        ]
+      ],
+      "coaching": "I'd play Ne4. Bxc2 is a very natural capture, but it removes your best defender and also removes the c2 pawn. That pawn is already attacked, so after recapturing, White gets g6. Ne4 is more dangerous: it wins c3, keeps c2 defended, and also attacks the queen on d2. If White answers Qe3, you can follow with Nf6, covering c3 and your c2 pawn.",
+      "takeaway": "When you need to make a capture, look for a move that wins a loose piece while defending another pawn."
+    },
+    {
+      "id": "I5gqYIqs_24",
+      "tier": "advanced",
+      "rec": "Qc7",
+      "violations": [
+        [
+          "no pawn on c6",
+          "The more instructive move is Qc7: it wins the c6 pawn while covering c6, so your c6 knight is no longer a loose target."
+        ],
+        [
+          "no pawn on c6",
+          "When your c6 knight is loose, look for a move that wins that c6 pawn while covering c6."
+        ]
+      ],
+      "coaching": "I'd play Qc7. Bb7 develops a bishop, so your central pawn is already attacked. The more instructive move is Qc7: it wins the c6 pawn while covering c6, so your c6 knight is no longer a loose target. That also removes White\u2019s c6 pressure, so your next job is to consolidate.",
+      "takeaway": "When your c6 knight is loose, look for a move that wins that c6 pawn while covering c6."
+    },
+    {
+      "id": "FrxRxdSC_85",
+      "tier": "beginner",
+      "rec": "f5",
+      "violations": [
+        [
+          "no pawn on g6",
+          "Your pawn on g6 is attacked, so you need to answer it."
+        ]
+      ],
+      "coaching": "I'd play f5. Your pawn on g6 is attacked, so you need to answer it. Qh8 is a good defensive move, but it does not create a clear threat. Play f5 instead: your pawn attacks g6, wins that pawn, and your queen still defends h3.",
+      "takeaway": "When your attacked pawn is loose, answer it with a move that wins it or wins another loose piece."
+    },
+    {
+      "id": "lXMsWlyq_29",
+      "tier": "advanced",
+      "rec": "Rad1",
+      "violations": [
+        [
+          "no pawn on c4",
+          "Your c4 pawn is a very natural central break, but it does not answer Black\u2019s central pressure."
+        ],
+        [
+          "no pawn on c4",
+          "Play Rad1 instead: it defends the queen on d3, removes Black\u2019s central pawn, and keeps your c4 pawn as a buffer."
+        ],
+        [
+          "no pawn on c4",
+          "When your c4 pawn is attacked, defend it first before making another central break."
+        ]
+      ],
+      "coaching": "I'd play Rad1. Your c4 pawn is a very natural central break, but it does not answer Black\u2019s central pressure. Play Rad1 instead: it defends the queen on d3, removes Black\u2019s central pawn, and keeps your c4 pawn as a buffer. If Black answers Qxd3, you can follow with ...cxd3, removing another central pawn.",
+      "takeaway": "When your c4 pawn is attacked, defend it first before making another central break."
+    },
+    {
+      "id": "lXMsWlyq_55",
+      "tier": "advanced",
+      "rec": "Bd2",
+      "violations": [
+        [
+          "no bishop on c2",
+          "That develops your c-rook, defends c3, and also keeps your c2-bishop safe."
+        ]
+      ],
+      "coaching": "I'd play Bd2. Bg5 is understandable because it develops a bishop, but it misses the more urgent problem: your c1-rook is attacked, and your c3-pawn is also attacked. Play Bd2 instead. That develops your c-rook, defends c3, and also keeps your c2-bishop safe.",
+      "takeaway": "When your attacked pawn is also attacked, look to develop a rook or bishop that defends both."
+    },
+    {
+      "id": "sdm5uupP_43",
+      "tier": "beginner",
+      "rec": "gxf6+",
+      "violations": [
+        [
+          "no pawn on g6",
+          "When your g5 pawn is gone, your g6 pawn is still defended, so Black\u2019s g6+ check is gone."
+        ],
+        [
+          "no pawn on g6",
+          "When your g5 pawn is attacked, look to capture it before your g6 pawn is attacked."
+        ]
+      ],
+      "coaching": "I'd play gxf6+. That captures the g5 pawn, so your g-pawn is gone. When your g5 pawn is gone, your g6 pawn is still defended, so Black\u2019s g6+ check is gone.",
+      "takeaway": "When your g5 pawn is attacked, look to capture it before your g6 pawn is attacked."
+    },
+    {
+      "id": "lXMsWlyq_80",
+      "tier": "advanced",
+      "rec": "Nxc3",
+      "violations": [
+        [
+          "no knight on c6",
+          "The more important follow-up is that after Nxc3, your knight on c6 is attacked, so you need to answer that."
+        ]
+      ],
+      "coaching": "I'd play Nxc3. That captures c3, wins a tempo on c2, and removes White\u2019s c3 pawn. The more important follow-up is that after Nxc3, your knight on c6 is attacked, so you need to answer that. Play Nxc3, then look to move your attacked knight to c6, c5, or g6.",
+      "takeaway": "When your attacked piece is also attacked, answer that threat before making another capture."
+    },
+    {
+      "id": "0VkxOn3q_18",
+      "tier": "beginner",
+      "rec": "c6",
+      "violations": [
+        [
+          "no pawn on c5",
+          "That pawn is already attacking your c5 pawn, so your job is to defend c5."
+        ]
+      ],
+      "coaching": "I'd play c6. That pawn is already attacking your c5 pawn, so your job is to defend c5. Play c6 instead of c5 because c6 removes that attacking pawn.",
+      "takeaway": "When your side is attacked, defend the loose pawn that is attacking your next pawn."
+    },
+    {
+      "id": "mFx5yK0n_21",
+      "tier": "intermediate",
+      "rec": "b4",
+      "violations": [
+        [
+          "no knight on g6",
+          "That is a very natural follow-up because your g6-knight is attacked, so you need to answer it."
+        ],
+        [
+          "no knight on g6",
+          "Play b4 instead: it defends g6, keeps your g6-knight, and also keeps your c6-bishop."
+        ]
+      ],
+      "coaching": "I'd play Nxg6. That is a very natural follow-up because your g6-knight is attacked, so you need to answer it. The problem is that after Nxg6, Black can recapture on g6, so your central pawn is gone. Play b4 instead: it defends g6, keeps your g6-knight, and also keeps your c6-bishop. When Black answers c6, you can follow with Nxg6.",
+      "takeaway": "When your attacked piece is also attacked, answer it before recapturing it."
+    }
+  ]
+}
