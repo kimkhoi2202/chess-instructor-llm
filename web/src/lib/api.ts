@@ -119,6 +119,192 @@ export async function postCoach(req: CoachRequest, signal?: AbortSignal): Promis
     body: JSON.stringify(req),
     signal,
   });
-  if (!res.ok) throw new Error(await readError(res));
+  if (!res.ok) throw new CoachHttpError(res.status, await readError(res));
   return res.json();
+}
+
+/* ------------------------------------------------------------------ *
+ * Cold-start-aware coach calls                                        *
+ *                                                                     *
+ * The coach backend (Modal vLLM, scale-to-zero) answers warm calls in *
+ * ~15–50s, but the FIRST call after idle triggers a ~2.5–3 min cold   *
+ * start. During it Modal 303s at its 150s synchronous cap and the     *
+ * browser's redirect-follow eventually drops the request. These       *
+ * helpers wake the container early and retry across the cold start so  *
+ * the UI can show progress instead of hanging or flashing "offline".  *
+ * ------------------------------------------------------------------ */
+
+/** HTTP error from the coach API that carries the status code, so callers can
+ *  tell a transient/cold failure (retry) from a hard client error (give up). */
+export class CoachHttpError extends Error {
+  readonly status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.name = "CoachHttpError";
+    this.status = status;
+  }
+}
+
+export type CoachWakePhase = "waking" | "retrying";
+
+/** Progress signal emitted by {@link postCoachResilient} while it waits out a
+ *  cold start, so the UI can show a "waking the model" message with progress. */
+export interface CoachWakeStatus {
+  phase: CoachWakePhase;
+  /** 0 for the early "still waking" hint, then the 1-based retry count. */
+  attempt: number;
+  /** Whole seconds elapsed since the resilient call began. */
+  elapsedSec: number;
+}
+
+export interface PostCoachResilientOptions {
+  signal?: AbortSignal;
+  onStatus?: (status: CoachWakeStatus) => void;
+}
+
+const COLD_START = {
+  /** Total time to keep retrying before giving up (~4 min). */
+  totalBudgetMs: 240_000,
+  /** Per-attempt ceiling — just past Modal's 150s synchronous 303 cap. */
+  perAttemptMs: 160_000,
+  /** If the first attempt outlives this, assume a cold start and hint the UI. */
+  earlyWakingMs: 30_000,
+  firstBackoffMs: 10_000,
+  nextBackoffMs: 22_000,
+} as const;
+
+function abortError(): DOMException {
+  return new DOMException("The coach request was cancelled.", "AbortError");
+}
+
+/** A hard client error (4xx other than 408/425/429) won't fix itself by waiting,
+ *  so it should surface immediately rather than burn the whole retry budget. */
+function isNonColdError(err: unknown): boolean {
+  if (err instanceof CoachHttpError) {
+    if (err.status === 408 || err.status === 425 || err.status === 429) return false;
+    return err.status >= 400 && err.status < 500;
+  }
+  return false;
+}
+
+/** Abortable sleep that rejects with an AbortError the moment `signal` fires. */
+function delay(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(abortError());
+      return;
+    }
+    const timer = setTimeout(resolve, ms);
+    signal?.addEventListener(
+      "abort",
+      () => {
+        clearTimeout(timer);
+        reject(abortError());
+      },
+      { once: true },
+    );
+  });
+}
+
+/** A child signal that aborts when EITHER `outer` fires or `ms` elapses, so a
+ *  hung attempt trips the timeout while the caller's signal still cancels all. */
+function linkTimeout(
+  outer: AbortSignal | undefined,
+  ms: number,
+): { signal: AbortSignal; cleanup: () => void } {
+  const ctrl = new AbortController();
+  const onAbort = () => ctrl.abort();
+  const timer = setTimeout(() => ctrl.abort(), ms);
+  if (outer) {
+    if (outer.aborted) ctrl.abort();
+    else outer.addEventListener("abort", onAbort, { once: true });
+  }
+  const cleanup = () => {
+    clearTimeout(timer);
+    outer?.removeEventListener("abort", onAbort);
+  };
+  return { signal: ctrl.signal, cleanup };
+}
+
+/** Fire-and-forget GET /api/health to start waking a scaled-to-zero container
+ *  early. Best-effort — nothing is awaited and all errors are swallowed. */
+export function warmupCoach(): void {
+  try {
+    void fetch(`${API_BASE}/api/health`, { method: "GET" }).catch(() => {
+      /* a cold container may drop the first ping — that's expected */
+    });
+  } catch {
+    /* ignore — warmup is a nudge, not a dependency */
+  }
+}
+
+/** {@link postCoach} with cold-start resilience: retries with backoff across a
+ *  Modal scale-to-zero cold start (network error / non-ok / 303 redirect
+ *  exhaustion / per-attempt timeout) for up to ~4 min, reporting progress via
+ *  `onStatus`. The passed `signal` cancels everything immediately (rethrowing
+ *  AbortError); a hard client 4xx is surfaced without retrying. */
+export async function postCoachResilient(
+  req: CoachRequest,
+  opts: PostCoachResilientOptions = {},
+): Promise<CoachResponse> {
+  const { signal, onStatus } = opts;
+  const start = Date.now();
+  const elapsedSec = (): number => Math.round((Date.now() - start) / 1000);
+
+  // Early hint: warm calls return well before earlyWakingMs. If the first
+  // attempt is still outstanding past it, we're almost certainly cold-starting.
+  let earlyTimer: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+    earlyTimer = null;
+    onStatus?.({ phase: "waking", attempt: 0, elapsedSec: elapsedSec() });
+  }, COLD_START.earlyWakingMs);
+  const clearEarly = (): void => {
+    if (earlyTimer !== null) {
+      clearTimeout(earlyTimer);
+      earlyTimer = null;
+    }
+  };
+
+  let attempt = 0;
+  let lastError: unknown = null;
+
+  try {
+    while (Date.now() - start < COLD_START.totalBudgetMs) {
+      if (signal?.aborted) throw abortError();
+
+      const remaining = COLD_START.totalBudgetMs - (Date.now() - start);
+      const link = linkTimeout(signal, Math.min(COLD_START.perAttemptMs, remaining));
+      try {
+        return await postCoach(req, link.signal);
+      } catch (err) {
+        lastError = err;
+        // Outer cancellation → stop everything immediately.
+        if (signal?.aborted) throw abortError();
+        // A hard client error won't resolve by waiting — surface it now.
+        if (isNonColdError(err)) throw err;
+        attempt += 1;
+      } finally {
+        link.cleanup();
+      }
+
+      const elapsed = Date.now() - start;
+      if (elapsed >= COLD_START.totalBudgetMs) break;
+
+      clearEarly();
+      onStatus?.({
+        phase: attempt <= 1 ? "waking" : "retrying",
+        attempt,
+        elapsedSec: elapsedSec(),
+      });
+
+      const backoff = Math.min(
+        attempt === 1 ? COLD_START.firstBackoffMs : COLD_START.nextBackoffMs,
+        COLD_START.totalBudgetMs - elapsed,
+      );
+      await delay(backoff, signal);
+    }
+  } finally {
+    clearEarly();
+  }
+
+  throw lastError instanceof Error ? lastError : new Error("The coach didn’t respond in time.");
 }

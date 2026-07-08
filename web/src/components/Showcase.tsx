@@ -15,7 +15,7 @@ import {
   Tooltip,
 } from "@heroui/react";
 import type { Key } from "@heroui/react";
-import { postCoach, type CoachResponse } from "@/lib/api";
+import { postCoachResilient, type CoachResponse, type CoachWakeStatus } from "@/lib/api";
 import {
   bestOtherModel,
   describeOursOutcome,
@@ -52,10 +52,18 @@ type LiveState = {
   error: string | null;
   fen: string | null;
   tier: ShowcaseTier | null;
+  waking: CoachWakeStatus | null;
 };
 
 const LIB_PAGE = 9;
-const IDLE_LIVE: LiveState = { status: "idle", result: null, error: null, fen: null, tier: null };
+const IDLE_LIVE: LiveState = {
+  status: "idle",
+  result: null,
+  error: null,
+  fen: null,
+  tier: null,
+  waking: null,
+};
 
 function cap(s: string): string {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
@@ -235,14 +243,21 @@ export default function Showcase() {
     liveAbortRef.current = ctrl;
     const forFen = selected.fen;
     const forTier = tier;
-    setLive({ status: "loading", result: null, error: null, fen: forFen, tier: forTier });
-    postCoach(
+    setLive({ status: "loading", result: null, error: null, fen: forFen, tier: forTier, waking: null });
+    postCoachResilient(
       { fen: forFen, tier: forTier, student_move: selected.studentMove?.uci ?? undefined },
-      ctrl.signal,
+      {
+        signal: ctrl.signal,
+        // Cold start in progress — annotate the loading state, don't error out.
+        onStatus: (st) => {
+          if (ctrl.signal.aborted) return;
+          setLive((l) => (l.status === "loading" ? { ...l, waking: st } : l));
+        },
+      },
     )
       .then((res) => {
         if (ctrl.signal.aborted) return;
-        setLive({ status: "done", result: res, error: null, fen: forFen, tier: forTier });
+        setLive({ status: "done", result: res, error: null, fen: forFen, tier: forTier, waking: null });
       })
       .catch((e: unknown) => {
         if (ctrl.signal.aborted) return;
@@ -252,6 +267,7 @@ export default function Showcase() {
           error: e instanceof Error ? e.message : "The coach service didn’t respond.",
           fen: forFen,
           tier: forTier,
+          waking: null,
         });
       });
   }, [selected, tier]);
@@ -1586,10 +1602,18 @@ function RerunPanel({
             aria-busy={loading}
             onPress={onRun}
           >
-            {loading ? "Running…" : liveActive ? "Re-run again" : "Re-run OURS live"}
+            {loading ? (live.waking ? "Waking…" : "Running…") : liveActive ? "Re-run again" : "Re-run OURS live"}
           </Button>
         </div>
       </div>
+
+      {loading && live.waking && (
+        <div className="rounded-[10px] border border-signal/40 bg-signal/[0.07] px-3.5 py-2.5 text-xs leading-relaxed text-muted">
+          <span className="font-medium text-signal">Waking the model…</span> First live call after
+          idle takes ~2–3 min while the scale-to-zero container spins up — retrying automatically
+          {live.waking.elapsedSec > 0 ? ` · ${live.waking.elapsedSec}s elapsed` : ""}.
+        </div>
+      )}
 
       {live.status === "error" && (
         <div className="rounded-[10px] border border-[color:var(--danger)]/40 bg-[color:var(--danger)]/10 px-3.5 py-3 text-xs leading-relaxed text-muted">

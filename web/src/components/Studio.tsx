@@ -5,8 +5,10 @@ import Link from "next/link";
 import { Button, Card, FieldError, Input, Label, Separator, TextArea, TextField, Tooltip } from "@heroui/react";
 import {
   getLibrary,
-  postCoach,
+  postCoachResilient,
+  warmupCoach,
   type CoachResponse,
+  type CoachWakeStatus,
   type LibraryEntry,
   type Tier,
 } from "@/lib/api";
@@ -57,6 +59,7 @@ export default function Studio() {
   const [status, setStatus] = useState<Status>("idle");
   const [result, setResult] = useState<CoachResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [wakingCoach, setWakingCoach] = useState<CoachWakeStatus | null>(null);
   const [revealKey, setRevealKey] = useState(0);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -69,14 +72,29 @@ export default function Studio() {
     setCoachedFen(f); // the result will be about position f
     setStatus("loading");
     setError(null);
-    postCoach({ fen: f, tier: t, student_move: s ?? undefined }, ctrl.signal)
+    setWakingCoach(null);
+    postCoachResilient(
+      { fen: f, tier: t, student_move: s ?? undefined },
+      {
+        signal: ctrl.signal,
+        // Cold start in progress — surface "waking" without flipping to error.
+        onStatus: (st) => {
+          if (ctrl.signal.aborted) return;
+          setWakingCoach(st);
+        },
+      },
+    )
       .then((res) => {
         setResult(res);
         setStatus("done");
+        setWakingCoach(null);
         setRevealKey((k) => k + 1);
       })
       .catch((e: unknown) => {
         if (ctrl.signal.aborted) return;
+        // Only reached once the resilient call gives up (retries exhausted or a
+        // hard, non-cold error) — so the "offline" panel never flashes mid-wake.
+        setWakingCoach(null);
         setError(e instanceof Error ? e.message : "Something went wrong.");
         setStatus("error");
       });
@@ -95,6 +113,7 @@ export default function Studio() {
   useEffect(() => {
     if (didInit.current) return;
     didInit.current = true;
+    warmupCoach(); // nudge a scaled-to-zero container awake before the first call
     loadLibrary();
     runCoach(DEFAULT.fen, DEFAULT.tier, DEFAULT_STUDENT_UCI);
   }, [runCoach, loadLibrary]);
@@ -394,7 +413,7 @@ export default function Studio() {
                   />
                 </div>
               ) : status === "loading" ? (
-                <CoachingSkeleton />
+                <CoachingSkeleton waking={wakingCoach} />
               ) : status === "error" ? (
                 <ErrorPanel error={error} onRetry={() => runCoach(fen, tier, studentUci)} />
               ) : (
@@ -537,7 +556,7 @@ export default function Studio() {
   );
 }
 
-function CoachingSkeleton() {
+function CoachingSkeleton({ waking }: { waking?: CoachWakeStatus | null }) {
   return (
     <div className="flex flex-1 flex-col gap-7" role="status" aria-live="polite" aria-busy="true">
       <div className="flex flex-col gap-3">
@@ -565,7 +584,21 @@ function CoachingSkeleton() {
           <div className="skeleton h-3 w-4/6" />
         </div>
       </div>
-      <p className="text-sm text-muted">Reading the sound moves and the human odds…</p>
+      {waking ? (
+        <div className="flex flex-col gap-1.5">
+          <p className="flex items-center gap-2 text-sm font-medium text-ink">
+            <span aria-hidden className="inline-block size-2 shrink-0 animate-pulse rounded-full bg-signal" />
+            Waking the coach model — first call after idle takes ~2–3 min…
+          </p>
+          <p className="text-xs leading-relaxed text-muted">
+            The model scales to zero when idle.{" "}
+            {waking.attempt >= 1 ? "Retrying automatically" : "Hang tight"}
+            {waking.elapsedSec > 0 ? ` · ${waking.elapsedSec}s elapsed` : ""}.
+          </p>
+        </div>
+      ) : (
+        <p className="text-sm text-muted">Reading the sound moves and the human odds…</p>
+      )}
     </div>
   );
 }
