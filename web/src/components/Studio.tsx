@@ -39,6 +39,7 @@ const DEFAULT = {
   move: "Qh5",
 };
 const DEFAULT_STUDENT_UCI = moveToUci(DEFAULT.fen, DEFAULT.move);
+const TIERS: Tier[] = ["beginner", "intermediate", "advanced"];
 
 export default function Studio() {
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
@@ -58,49 +59,108 @@ export default function Studio() {
   const [fenDraft, setFenDraft] = useState(DEFAULT.fen);
   const [moveDraft, setMoveDraft] = useState(DEFAULT.move);
 
-  const [status, setStatus] = useState<Status>("idle");
-  const [result, setResult] = useState<CoachResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // Per-tier cache for the CURRENT coaching session (the position + student move
+  // in `coachedFen`/`studentUci`). All three bands are fetched together so the
+  // Beginner/Intermediate/Advanced buttons can swap the shown answer with no new
+  // network call. A new session (position/move change or explicit re-run) resets
+  // all three; each entry lands independently for progressive, per-tier loading.
+  const [tierResults, setTierResults] = useState<Record<Tier, CoachResponse | undefined>>(() => ({
+    beginner: undefined,
+    intermediate: undefined,
+    advanced: undefined,
+  }));
+  const [tierStatus, setTierStatus] = useState<Record<Tier, Status>>(() => ({
+    beginner: "idle",
+    intermediate: "idle",
+    advanced: "idle",
+  }));
+  const [tierError, setTierError] = useState<Record<Tier, string | null>>(() => ({
+    beginner: null,
+    intermediate: null,
+    advanced: null,
+  }));
   const [wakingCoach, setWakingCoach] = useState<CoachWakeStatus | null>(null);
-  const [revealKey, setRevealKey] = useState(0);
 
   const abortRef = useRef<AbortController | null>(null);
   const didInit = useRef(false);
 
-  const runCoach = useCallback((f: string, t: Tier, s: string | null) => {
-    abortRef.current?.abort();
-    const ctrl = new AbortController();
-    abortRef.current = ctrl;
-    setCoachedFen(f); // the result will be about position f
-    setStatus("loading");
-    setError(null);
-    setWakingCoach(null);
-    postCoachResilient(
-      { fen: f, tier: t, student_move: s ?? undefined },
-      {
-        signal: ctrl.signal,
-        // Cold start in progress — surface "waking" without flipping to error.
-        onStatus: (st) => {
-          if (ctrl.signal.aborted) return;
-          setWakingCoach(st);
-        },
-      },
-    )
-      .then((res) => {
-        setResult(res);
-        setStatus("done");
-        setWakingCoach(null);
-        setRevealKey((k) => k + 1);
-      })
-      .catch((e: unknown) => {
-        if (ctrl.signal.aborted) return;
-        // Only reached once the resilient call gives up (retries exhausted or a
-        // hard, non-cold error) — so the "offline" panel never flashes mid-wake.
-        setWakingCoach(null);
-        setError(e instanceof Error ? e.message : "Something went wrong.");
-        setStatus("error");
+  // Coach the position at EVERY rating tier at once and cache the answers, so the
+  // tier buttons can switch the shown result with zero new calls. Fired on the
+  // initial load, "Coach this move/position", any position/move change, and the
+  // explicit re-run. Optionally `seed` a tier that already has an answer (a
+  // library entry's cached coaching) so it shows instantly while the other tiers
+  // prefetch live. The requests go out in parallel via Promise.all; each resolves
+  // independently so a ready tier is instant and an in-flight one shows per-tier
+  // loading. Reuses the existing cold-start "waking" handling on every request.
+  const runCoachAllTiers = useCallback(
+    (f: string, s: string | null, seed?: Partial<Record<Tier, CoachResponse>>) => {
+      abortRef.current?.abort();
+      const ctrl = new AbortController();
+      abortRef.current = ctrl;
+      setCoachedFen(f); // every cached tier answer is about position f
+      setWakingCoach(null);
+
+      const seeded = seed ?? {};
+      setTierResults({
+        beginner: seeded.beginner,
+        intermediate: seeded.intermediate,
+        advanced: seeded.advanced,
       });
-  }, []);
+      setTierStatus({
+        beginner: seeded.beginner ? "done" : "loading",
+        intermediate: seeded.intermediate ? "done" : "loading",
+        advanced: seeded.advanced ? "done" : "loading",
+      });
+      setTierError({ beginner: null, intermediate: null, advanced: null });
+
+      void Promise.all(
+        TIERS.map((t) => {
+          if (seeded[t]) return Promise.resolve();
+          return postCoachResilient(
+            { fen: f, tier: t, student_move: s ?? undefined },
+            {
+              signal: ctrl.signal,
+              // Cold start in progress — surface "waking" without flipping to error.
+              onStatus: (st) => {
+                if (ctrl.signal.aborted) return;
+                setWakingCoach(st);
+              },
+            },
+          )
+            .then((res) => {
+              if (ctrl.signal.aborted) return;
+              setTierResults((prev) => {
+                const next = { ...prev };
+                next[t] = res;
+                return next;
+              });
+              setTierStatus((prev) => {
+                const next = { ...prev };
+                next[t] = "done";
+                return next;
+              });
+              setWakingCoach(null); // a landed tier means the container is warm
+            })
+            .catch((e: unknown) => {
+              if (ctrl.signal.aborted) return;
+              // Only reached once the resilient call gives up (retries exhausted or
+              // a hard, non-cold error) — so "offline" never flashes mid-wake.
+              setTierStatus((prev) => {
+                const next = { ...prev };
+                next[t] = "error";
+                return next;
+              });
+              setTierError((prev) => {
+                const next = { ...prev };
+                next[t] = e instanceof Error ? e.message : "Something went wrong.";
+                return next;
+              });
+            });
+        }),
+      );
+    },
+    [],
+  );
 
   const loadLibrary = useCallback(() => {
     setLibStatus("loading");
@@ -117,15 +177,28 @@ export default function Studio() {
     didInit.current = true;
     warmupCoach(); // nudge a scaled-to-zero container awake before the first call
     loadLibrary();
-    runCoach(DEFAULT.fen, DEFAULT.tier, DEFAULT_STUDENT_UCI);
-  }, [runCoach, loadLibrary]);
+    runCoachAllTiers(DEFAULT.fen, DEFAULT_STUDENT_UCI);
+  }, [runCoachAllTiers, loadLibrary]);
+
+  // The displayed answer is whatever the ACTIVE tier holds in the cache; a tier
+  // switch just re-points these — no network call when a tier is already cached.
+  const activeStatus = tierStatus[tier];
+  const activeResult = tierResults[tier] ?? null;
+  const activeError = tierError[tier];
+  const anyLoading = TIERS.some((t) => tierStatus[t] === "loading");
+  const hasAnyResult = TIERS.some((t) => tierResults[t] != null);
+  const anySettled = TIERS.some((t) => tierStatus[t] === "done" || tierStatus[t] === "error");
+  // The one board-blocking loading state is the INITIAL batch fetch: still working
+  // with nothing cached yet. Once any tier lands the board unlocks; a tier still
+  // in flight then shows only a lightweight per-tier skeleton in the console.
+  const initialLoading = anyLoading && !hasAnyResult;
 
   const toMove = useMemo(() => sideToMove(fen), [fen]);
   // OURS identity parsed from the live coach response (never hardcoded), so the
   // "· vN" chip tracks whatever model the backend is actually serving.
   const oursLabel = useMemo(
-    () => (result ? deriveOursLabel(result.meta.model) : null),
-    [result],
+    () => (activeResult ? deriveOursLabel(activeResult.meta.model) : null),
+    [activeResult],
   );
   const studentSan = useMemo(
     () => (studentUci ? uciToSan(coachedFen, studentUci) : null),
@@ -140,14 +213,14 @@ export default function Studio() {
   const arrows: StageArrow[] = useMemo(() => {
     // Only draw the coach's arrows when the board is on the position being coached.
     if (fen !== coachedFen) return [];
-    if (status === "done" && result) {
+    if (activeStatus === "done" && activeResult) {
       const list: StageArrow[] = [];
-      const su = result.engine.student_move?.uci;
+      const su = activeResult.engine.student_move?.uci;
       if (su) {
         const sq = uciToSquares(su);
         if (sq) list.push({ from: sq.from, to: sq.to, kind: "student", delay: 0.45, draw: true });
       }
-      const rq = uciToSquares(result.recommended_move_uci);
+      const rq = uciToSquares(activeResult.recommended_move_uci);
       if (rq) list.push({ from: rq.from, to: rq.to, kind: "rec", delay: 0.15, draw: true });
       return list;
     }
@@ -156,7 +229,7 @@ export default function Studio() {
       if (sq) return [{ from: sq.from, to: sq.to, kind: "student", delay: 0, draw: false }];
     }
     return [];
-  }, [status, result, studentUci, fen, coachedFen]);
+  }, [activeStatus, activeResult, studentUci, fen, coachedFen]);
 
   // Dragging a legal move makes it "stick": the board advances and the coach
   // reviews the move you just played (position BEFORE it + that move).
@@ -171,10 +244,9 @@ export default function Studio() {
       setLastMove([uci.slice(0, 2), uci.slice(2, 4)]);
       setStudentUci(uci);
       setMoveDraft("");
-      setError(null);
-      runCoach(before, tier, uci);
+      runCoachAllTiers(before, uci);
     },
-    [fen, tier, runCoach],
+    [fen, runCoachAllTiers],
   );
 
   // Take back the last move — return to the previous position and ask "what now?".
@@ -187,8 +259,8 @@ export default function Studio() {
     setStudentUci(null);
     setMoveDraft("");
     setActiveLibId(null);
-    runCoach(prev, tier, null);
-  }, [history, tier, runCoach]);
+    runCoachAllTiers(prev, null);
+  }, [history, runCoachAllTiers]);
 
   // Click a move in "Top engine lines" to play that variation onto the board:
   // apply the PV up to the clicked move from the analyzed position (coachedFen),
@@ -206,54 +278,47 @@ export default function Studio() {
       setLastMove(stepped.lastMove);
       setStudentUci(null);
       setMoveDraft("");
-      setError(null);
-      runCoach(stepped.boardFen, tier, null);
+      runCoachAllTiers(stepped.boardFen, null);
     },
-    [coachedFen, tier, runCoach],
+    [coachedFen, runCoachAllTiers],
   );
 
   const flip = useCallback(() => setOrientation((o) => (o === "white" ? "black" : "white")), []);
 
-  // Changing the tier must RE-COACH the position under review with the new level,
-  // not just relabel the heading: the coaching prose is written for a specific
-  // tier, so a tier switch has to re-fetch or it leaves stale, wrong-level text.
-  // Library entries carry tier-specific *cached* prose, so we also drop the active
-  // library pin and fetch fresh, tier-specific coaching from the model.
+  // Tier switching is INSTANT: all three bands were fetched together for this
+  // position, so we just swap which cached answer is displayed — no new model
+  // call. (A tier still in flight shows a lightweight per-tier skeleton via the
+  // console until its result lands.) Dropping the library pin keeps the highlight
+  // honest once the shown level differs from the pinned entry.
   const changeTier = useCallback(
     (t: Tier) => {
       if (t === tier) return;
       setTier(t);
       setActiveLibId(null);
-      // Re-coach the exact position/move the current result is about (coachedFen),
-      // reusing that result's student move so the board doesn't jump.
-      const su = result?.engine.student_move?.uci ?? (fen === coachedFen ? studentUci : null);
-      runCoach(coachedFen, t, su);
     },
-    [tier, result, fen, coachedFen, studentUci, runCoach],
+    [tier],
   );
 
   const clearMove = () => {
     setStudentUci(null);
     setMoveDraft("");
     setLastMove(null);
-    runCoach(fen, tier, null);
+    runCoachAllTiers(fen, null);
   };
 
   // Explicit "re-run through the workflow": send the exact position the current
-  // answer is about back through the coach for a fresh pass (a live generation,
-  // not the cached library text), reusing the same student move so the board and
-  // the answer stay aligned.
+  // answer is about back through the coach for a fresh LIVE pass across ALL THREE
+  // tiers (not the cached library text), reusing the same student move so the
+  // board and the answers stay aligned.
   const rerunWorkflow = useCallback(() => {
-    const su = result?.engine.student_move?.uci ?? (fen === coachedFen ? studentUci : null);
+    const su = activeResult?.engine.student_move?.uci ?? (fen === coachedFen ? studentUci : null);
     setActiveLibId(null);
-    runCoach(coachedFen, tier, su);
-  }, [result, fen, coachedFen, studentUci, tier, runCoach]);
+    runCoachAllTiers(coachedFen, su);
+  }, [activeResult, fen, coachedFen, studentUci, runCoachAllTiers]);
 
   const selectLibraryItem = (e: LibraryEntry) => {
-    abortRef.current?.abort();
     const su = e.student_move ? moveToUci(e.fen, e.student_move) : null;
     setFen(e.fen);
-    setCoachedFen(e.fen);
     setHistory([]);
     setFenDraft(e.fen);
     setTier(e.tier);
@@ -262,10 +327,11 @@ export default function Studio() {
     setLastMove(su ? [su.slice(0, 2), su.slice(2, 4)] : null);
     setOrientation((e.coach.side_to_move as Orientation) ?? sideToMove(e.fen));
     setActiveLibId(e.id);
-    setError(null);
-    setResult(e.coach); // instant: the tuned model's cached coaching
-    setStatus("done");
-    setRevealKey((k) => k + 1);
+    // Seed the entry's tier with its cached coaching (instant), then prefetch the
+    // other two tiers live so switching levels is also instant.
+    const seed: Partial<Record<Tier, CoachResponse>> = {};
+    seed[e.tier] = e.coach;
+    runCoachAllTiers(e.fen, su, seed);
   };
 
   const loadFen = () => {
@@ -279,7 +345,7 @@ export default function Studio() {
     setLastMove(null);
     setOrientation(v.sideToMove);
     setActiveLibId(null);
-    runCoach(f, tier, null);
+    runCoachAllTiers(f, null);
   };
 
   // Review a move on the CURRENT position without advancing the board.
@@ -287,11 +353,12 @@ export default function Studio() {
     if (!draftUci) return;
     setStudentUci(draftUci);
     setLastMove([draftUci.slice(0, 2), draftUci.slice(2, 4)]);
-    setError(null);
-    runCoach(fen, tier, draftUci);
+    runCoachAllTiers(fen, draftUci);
   };
 
-  const loading = status === "loading";
+  // `loading` gates the board + primary actions on the INITIAL fetch only; tier
+  // switching stays live, and an in-flight tier shows its own console skeleton.
+  const loading = initialLoading;
 
   // Keyboard accelerators for the primary board flow (ignored while typing).
   useEffect(() => {
@@ -464,19 +531,25 @@ export default function Studio() {
         <section className="order-2 flex lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <Card variant="secondary" className="flex flex-1 flex-col lg:min-h-[660px]">
             <Card.Content className="flex flex-1 flex-col p-5 sm:p-7" aria-live="polite">
-              {status === "done" && result ? (
-                <div key={revealKey}>
+              {activeStatus === "done" && activeResult ? (
+                // Key by position+tier so an INSTANT tier switch (done→done) still
+                // replays the reveal animation, while a background tier landing for
+                // a non-active band never disturbs what's on screen.
+                <div key={`${coachedFen}-${tier}`}>
                   <CoachingReveal
-                    result={result}
+                    result={activeResult}
                     tier={tier}
                     fen={coachedFen}
                     onPlayLine={playEngineLine}
                   />
                 </div>
-              ) : status === "loading" ? (
+              ) : activeStatus === "loading" ? (
                 <CoachingSkeleton waking={wakingCoach} />
-              ) : status === "error" ? (
-                <ErrorPanel error={error} onRetry={() => runCoach(fen, tier, studentUci)} />
+              ) : activeStatus === "error" ? (
+                <ErrorPanel
+                  error={activeError}
+                  onRetry={() => runCoachAllTiers(coachedFen, studentUci)}
+                />
               ) : (
                 <IdlePanel toMove={toMove} studentSan={studentSan} />
               )}
@@ -488,7 +561,9 @@ export default function Studio() {
         <section className="order-3 lg:col-start-1 lg:row-start-2">
           <Card variant="secondary">
             <Card.Content className="flex flex-col gap-5 p-4 sm:p-5">
-              <TierControl tier={tier} onChange={changeTier} disabled={loading} />
+              {/* Always enabled — switching bands reads from the per-tier cache, so
+                  the user can click around the three levels even mid-fetch. */}
+              <TierControl tier={tier} onChange={changeTier} />
 
               {/* No leading icon or spinner — loading reads through the dimmed
                   (disabled) label, which also changes to "Coaching…". */}
@@ -499,7 +574,7 @@ export default function Studio() {
                 isDisabled={loading}
                 aria-busy={loading}
                 onPress={() =>
-                  runCoach(fen, tier, fen === coachedFen ? studentUci : null)
+                  runCoachAllTiers(fen, fen === coachedFen ? studentUci : null)
                 }
               >
                 {coachLabel}
@@ -511,7 +586,7 @@ export default function Studio() {
                   variant="tertiary"
                   size="md"
                   className="min-h-11 w-full gap-2 font-medium"
-                  isDisabled={loading || (status !== "done" && status !== "error")}
+                  isDisabled={loading || !anySettled}
                   onPress={rerunWorkflow}
                 >
                   <ResetIcon width={16} height={16} />
