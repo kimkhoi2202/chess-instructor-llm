@@ -1,0 +1,1751 @@
+{
+  "n_val_positions": 120,
+  "field": [
+    "ours_v4",
+    "ours_4b",
+    "base_4b",
+    "pbase_4b",
+    "q3_32b",
+    "ours_v3",
+    "gpt",
+    "claude",
+    "gemini"
+  ],
+  "council": {
+    "n_items": 360,
+    "n_judges": 3,
+    "n_gradings": 1068,
+    "scale": "0-10 move + instr (absolute), frontier panel"
+  },
+  "regression_v4_vs_4b": {
+    "core_axes": [
+      {
+        "axis": "tier_fit_mean",
+        "ours_v4": 0.7194,
+        "ours_4b": 0.3861,
+        "delta_v4_minus_4b": 0.3333,
+        "higher_better": true,
+        "v4_not_worse": true
+      },
+      {
+        "axis": "distinct_moves_per_level",
+        "ours_v4": 0.79,
+        "ours_4b": 0.26,
+        "delta_v4_minus_4b": 0.53,
+        "higher_better": true,
+        "v4_not_worse": true
+      },
+      {
+        "axis": "instr_council_rank",
+        "ours_v4": 6.076,
+        "ours_4b": 5.622,
+        "delta_v4_minus_4b": 0.454,
+        "higher_better": false,
+        "v4_not_worse": false
+      },
+      {
+        "axis": "coherence_violation_rate",
+        "ours_v4": 0.125,
+        "ours_4b": 0.3417,
+        "delta_v4_minus_4b": -0.2167,
+        "higher_better": false,
+        "v4_not_worse": true
+      }
+    ],
+    "instr_grade_0_10": {
+      "axis": "instr_grade_0_10",
+      "ours_v4": 4.67,
+      "ours_4b": 5.32,
+      "delta_v4_minus_4b": -0.65,
+      "higher_better": true,
+      "v4_not_worse": false
+    },
+    "gate_floor_axes": [
+      {
+        "axis": "move_sound_gated",
+        "ours_v4": 1.0,
+        "ours_4b": 1.0,
+        "delta_v4_minus_4b": 0.0,
+        "higher_better": true,
+        "v4_not_worse": true
+      },
+      {
+        "axis": "well_formed_gated",
+        "ours_v4": 1.0,
+        "ours_4b": 1.0,
+        "delta_v4_minus_4b": 0.0,
+        "higher_better": true,
+        "v4_not_worse": true
+      },
+      {
+        "axis": "no_engine_speak_gated",
+        "ours_v4": 0.9833,
+        "ours_4b": 1.0,
+        "delta_v4_minus_4b": -0.0167,
+        "higher_better": true,
+        "v4_not_worse": false
+      }
+    ],
+    "v4_ge_4b_on_core": false
+  },
+  "v4_vs_untuned_base": {
+    "untuned_base": "q3_32b",
+    "tier_fit_delta": 0.3777,
+    "instr_rank_delta": 0.257,
+    "distinct_delta": 0.49,
+    "instr_grade_delta": -0.55
+  },
+  "v4_vs_prompt_base": {
+    "prompt_base": "pbase_4b",
+    "instr_rank_delta": -0.92,
+    "tier_fit_delta": 0.3694
+  },
+  "distance_to_frontier": {
+    "best_frontier": [
+      "gpt",
+      2.128
+    ],
+    "ours_v4_rank": 6.076,
+    "gap": 3.948
+  },
+  "ours_v4_gated_soundness": {
+    "n": 360,
+    "gated_move_sound": 1.0,
+    "gated_no_engine_speak": 0.9833,
+    "gated_well_formed": 1.0,
+    "gated_fallback_rate": 0.4444
+  },
+  "vs_frontier_proof": {
+    "n_positions_total": 120,
+    "wins": 44,
+    "losses": 8,
+    "ties": 9,
+    "n_distinct": 68,
+    "n_distinct_and_diverge": 61,
+    "criterion": "moat (tier-fit then soundness) vs the best-moat frontier; distinct = sound tier moves with beginner!=advanced and correct gradient"
+  },
+  "per_model": {
+    "ours_v4": {
+      "instr_rank": 6.076,
+      "instr_grade": 4.67,
+      "instr_grade_ci95": {
+        "mean": 4.669,
+        "ci_lo": 4.387,
+        "ci_hi": 4.955,
+        "n": 360
+      },
+      "move_grade": 7.9,
+      "tier_fit": 0.7194,
+      "tier_fit_by_tier": {
+        "beginner": 0.7,
+        "intermediate": 0.7,
+        "advanced": 0.7583
+      },
+      "move_sound": 0.9667,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.79,
+        "collapsed_BA": 21
+      },
+      "gate": {
+        "gated": false,
+        "n": 360,
+        "no_engine_speak": 0.9778,
+        "well_formed": 0.9639,
+        "move_sound": 0.9306,
+        "verify_pass_draft1": 0.5889
+      },
+      "coherence": 0.125,
+      "flat_rate": 0.2083
+    },
+    "ours_4b": {
+      "instr_rank": 5.622,
+      "instr_grade": 5.32,
+      "instr_grade_ci95": {
+        "mean": 5.32,
+        "ci_lo": 5.127,
+        "ci_hi": 5.509,
+        "n": 360
+      },
+      "move_grade": 8.97,
+      "tier_fit": 0.3861,
+      "tier_fit_by_tier": {
+        "beginner": 0.3583,
+        "intermediate": 0.425,
+        "advanced": 0.375
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.26,
+        "collapsed_BA": 74
+      },
+      "gate": {
+        "gated": true,
+        "n": 360,
+        "mean_attempts": 1.194,
+        "fallback_rate": 0.0083,
+        "no_engine_speak": 1.0,
+        "well_formed": 1.0
+      },
+      "coherence": 0.3417,
+      "flat_rate": 0.675
+    },
+    "base_4b": {
+      "instr_rank": 7.133,
+      "instr_grade": 4.11,
+      "instr_grade_ci95": {
+        "mean": 4.108,
+        "ci_lo": 3.948,
+        "ci_hi": 4.265,
+        "n": 360
+      },
+      "move_grade": 8.78,
+      "tier_fit": 0.3472,
+      "tier_fit_by_tier": {
+        "beginner": 0.3333,
+        "intermediate": 0.3917,
+        "advanced": 0.3167
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.22,
+        "collapsed_BA": 78
+      },
+      "gate": {
+        "gated": true,
+        "n": 360,
+        "mean_attempts": 1.156,
+        "fallback_rate": 0.0,
+        "no_engine_speak": 1.0,
+        "well_formed": 1.0
+      },
+      "coherence": 0.3917,
+      "flat_rate": 0.7417
+    },
+    "pbase_4b": {
+      "instr_rank": 6.996,
+      "instr_grade": 4.22,
+      "instr_grade_ci95": {
+        "mean": 4.219,
+        "ci_lo": 4.032,
+        "ci_hi": 4.421,
+        "n": 360
+      },
+      "move_grade": 8.79,
+      "tier_fit": 0.35,
+      "tier_fit_by_tier": {
+        "beginner": 0.3083,
+        "intermediate": 0.4,
+        "advanced": 0.3417
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.46,
+        "collapsed_BA": 54
+      },
+      "gate": {
+        "gated": true,
+        "n": 360,
+        "mean_attempts": 1.167,
+        "fallback_rate": 0.0028,
+        "no_engine_speak": 1.0,
+        "well_formed": 1.0
+      },
+      "coherence": 0.3917,
+      "flat_rate": 0.5
+    },
+    "q3_32b": {
+      "instr_rank": 5.819,
+      "instr_grade": 5.22,
+      "instr_grade_ci95": {
+        "mean": 5.223,
+        "ci_lo": 5.051,
+        "ci_hi": 5.395,
+        "n": 360
+      },
+      "move_grade": 9.01,
+      "tier_fit": 0.3417,
+      "tier_fit_by_tier": {
+        "beginner": 0.3,
+        "intermediate": 0.375,
+        "advanced": 0.35
+      },
+      "move_sound": 0.9917,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.3,
+        "collapsed_BA": 70
+      },
+      "gate": {
+        "gated": false,
+        "n": 360,
+        "no_engine_speak": 0.9917,
+        "well_formed": 1.0,
+        "move_sound": 0.9917,
+        "verify_pass_draft1": 0.95
+      },
+      "coherence": 0.4917,
+      "flat_rate": 0.5583
+    },
+    "ours_v3": {
+      "instr_rank": 4.1,
+      "instr_grade": 6.35,
+      "instr_grade_ci95": {
+        "mean": 6.349,
+        "ci_lo": 6.056,
+        "ci_hi": 6.635,
+        "n": 360
+      },
+      "move_grade": 8.63,
+      "tier_fit": 0.525,
+      "tier_fit_by_tier": {
+        "beginner": 0.3,
+        "intermediate": 0.4583,
+        "advanced": 0.8167
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.31,
+        "collapsed_BA": 69
+      },
+      "gate": {
+        "gated": false,
+        "n": 360,
+        "no_engine_speak": 0.9639,
+        "well_formed": 0.0,
+        "move_sound": 0.9472,
+        "verify_pass_draft1": 0.9417
+      },
+      "coherence": 0.3583,
+      "flat_rate": 0.6
+    },
+    "gpt": {
+      "instr_rank": 2.128,
+      "instr_grade": 8.06,
+      "instr_grade_ci95": {
+        "mean": 8.059,
+        "ci_lo": 7.958,
+        "ci_hi": 8.154,
+        "n": 360
+      },
+      "move_grade": 9.5,
+      "tier_fit": 0.425,
+      "tier_fit_by_tier": {
+        "beginner": 0.2833,
+        "intermediate": 0.45,
+        "advanced": 0.5417
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.22,
+        "collapsed_BA": 78
+      },
+      "gate": {
+        "gated": false,
+        "n": 360,
+        "no_engine_speak": 1.0,
+        "well_formed": 0.0,
+        "move_sound": 0.9806,
+        "verify_pass_draft1": 0.9667
+      },
+      "coherence": 0.4417,
+      "flat_rate": 0.6917
+    },
+    "claude": {
+      "instr_rank": 3.587,
+      "instr_grade": 6.99,
+      "instr_grade_ci95": {
+        "mean": 6.993,
+        "ci_lo": 6.833,
+        "ci_hi": 7.161,
+        "n": 360
+      },
+      "move_grade": 9.3,
+      "tier_fit": 0.4528,
+      "tier_fit_by_tier": {
+        "beginner": 0.2917,
+        "intermediate": 0.475,
+        "advanced": 0.5917
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.28,
+        "collapsed_BA": 72
+      },
+      "gate": {
+        "gated": false,
+        "n": 360,
+        "no_engine_speak": 1.0,
+        "well_formed": 0.0,
+        "move_sound": 0.9667,
+        "verify_pass_draft1": 0.95
+      },
+      "coherence": 0.3917,
+      "flat_rate": 0.6917
+    },
+    "gemini": {
+      "instr_rank": 3.538,
+      "instr_grade": 7.16,
+      "instr_grade_ci95": {
+        "mean": 7.163,
+        "ci_lo": 7.017,
+        "ci_hi": 7.305,
+        "n": 360
+      },
+      "move_grade": 9.38,
+      "tier_fit": 0.5028,
+      "tier_fit_by_tier": {
+        "beginner": 0.3083,
+        "intermediate": 0.5167,
+        "advanced": 0.6833
+      },
+      "move_sound": 1.0,
+      "distinct": {
+        "differentiating_n": 100,
+        "distinct_rate": 0.27,
+        "collapsed_BA": 73
+      },
+      "gate": {
+        "gated": false,
+        "n": 360,
+        "no_engine_speak": 1.0,
+        "well_formed": 0.0,
+        "move_sound": 0.9806,
+        "verify_pass_draft1": 0.9611
+      },
+      "coherence": 0.3667,
+      "flat_rate": 0.7
+    }
+  },
+  "vs_frontier_candidates": [
+    {
+      "pos_id": "0bFEeDLi_49",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        3
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "g1f1",
+        "intermediate": "g1f1",
+        "advanced": "g1g2"
+      }
+    },
+    {
+      "pos_id": "26MZFDEq_141",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f5f7",
+        "intermediate": "d4d5",
+        "advanced": "d4d5"
+      }
+    },
+    {
+      "pos_id": "2FDDWj7A_19",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "g2h3",
+        "intermediate": "f1e1",
+        "advanced": "b2b4"
+      }
+    },
+    {
+      "pos_id": "2nU30OSl_96",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        1,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "d3d2",
+        "intermediate": "f4f3",
+        "advanced": "c8h8"
+      }
+    },
+    {
+      "pos_id": "3ScuG09o_76",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "a3c3",
+        "intermediate": "a3c3",
+        "advanced": "a3h3"
+      }
+    },
+    {
+      "pos_id": "40XRvJ1w_25",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "g3g4",
+        "intermediate": "g3g4",
+        "advanced": "g3e3"
+      }
+    },
+    {
+      "pos_id": "4TNaTWzi_20",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "h2e5",
+        "intermediate": "g8f6",
+        "advanced": "d7d6"
+      }
+    },
+    {
+      "pos_id": "53T4zYzd_36",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "e8g7",
+        "intermediate": "f8h8",
+        "advanced": "f8h8"
+      }
+    },
+    {
+      "pos_id": "5TMN85VF_61",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        0,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "g1f2",
+        "intermediate": "g1f2",
+        "advanced": "h2h4"
+      }
+    },
+    {
+      "pos_id": "5qtko44r_77",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c1d1",
+        "intermediate": "c1d1",
+        "advanced": "c2d1"
+      }
+    },
+    {
+      "pos_id": "83uz5b2I_18",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c6d4",
+        "intermediate": "c6d4",
+        "advanced": "c5d4"
+      }
+    },
+    {
+      "pos_id": "91993Hns_25",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "b3e6",
+        "intermediate": "c3e4",
+        "advanced": "c3e4"
+      }
+    },
+    {
+      "pos_id": "9a3Sqa1M_77",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        0,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "b1a1",
+        "intermediate": "b1b5",
+        "advanced": "b1b5"
+      }
+    },
+    {
+      "pos_id": "9l1xiq6Z_91",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "beginner",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "h4h5",
+        "intermediate": "h4h5",
+        "advanced": "b6b7"
+      }
+    },
+    {
+      "pos_id": "B3TSr7ld_84",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c4c3",
+        "intermediate": "f8f7",
+        "advanced": "f8f7"
+      }
+    },
+    {
+      "pos_id": "BSHYUbbn_55",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c1h6",
+        "intermediate": "f3g4",
+        "advanced": "c4e5"
+      }
+    },
+    {
+      "pos_id": "CfXcDPTj_17",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "g5e7",
+        "intermediate": "g5e7",
+        "advanced": "h1g1"
+      }
+    },
+    {
+      "pos_id": "GRsbGTLB_27",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "b1c3",
+        "intermediate": "b1c3",
+        "advanced": "b1d2"
+      }
+    },
+    {
+      "pos_id": "Gy8nbiV8_20",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c6d4",
+        "intermediate": "c6d4",
+        "advanced": "h7h6"
+      }
+    },
+    {
+      "pos_id": "H2FP2Kn0_82",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "h4h3",
+        "intermediate": "h4h3",
+        "advanced": "b6c5"
+      }
+    },
+    {
+      "pos_id": "HJWKJMZ1_124",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        0,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "h5g5",
+        "intermediate": "h5g5",
+        "advanced": "h5h4"
+      }
+    },
+    {
+      "pos_id": "Hqi40pr7_83",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "a7a6",
+        "intermediate": "a7a6",
+        "advanced": "h4h5"
+      }
+    },
+    {
+      "pos_id": "HxV3s1Gk_68",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        1
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "d1g4",
+        "intermediate": "d1g4",
+        "advanced": "d1b3"
+      }
+    },
+    {
+      "pos_id": "I2UGM5CN_25",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f5d4",
+        "intermediate": "f5d4",
+        "advanced": "g5f6"
+      }
+    },
+    {
+      "pos_id": "I72qKqM7_103",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "e4g3",
+        "intermediate": "e4g3",
+        "advanced": "e4f2"
+      }
+    },
+    {
+      "pos_id": "ISTbv4w3_43",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "a1b1",
+        "intermediate": "a1b1",
+        "advanced": "d1c1"
+      }
+    },
+    {
+      "pos_id": "O3Z4i5l3_21",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "h4f5",
+        "intermediate": "e2f2",
+        "advanced": "e2f2"
+      }
+    },
+    {
+      "pos_id": "OQOnBClq_74",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        0,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c7c6",
+        "intermediate": "c7c6",
+        "advanced": "d5d6"
+      }
+    },
+    {
+      "pos_id": "P8kFy28M_82",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "h3h5",
+        "intermediate": "a7a6",
+        "advanced": "b6b5"
+      }
+    },
+    {
+      "pos_id": "RLQsvOPk_63",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f2f8",
+        "intermediate": "g5d5",
+        "advanced": "f2g2"
+      }
+    },
+    {
+      "pos_id": "Vh3Bgu6J_26",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c5c4",
+        "intermediate": "e7c6",
+        "advanced": "e7c6"
+      }
+    },
+    {
+      "pos_id": "W2CgXQvS_25",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c2c3",
+        "intermediate": "f1c4",
+        "advanced": "f3e4"
+      }
+    },
+    {
+      "pos_id": "Wek7sOLl_33",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "h3g4",
+        "intermediate": "h1h2",
+        "advanced": "h1h2"
+      }
+    },
+    {
+      "pos_id": "X3oP16d0_23",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        1,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "f1e1",
+        "intermediate": "c1e3",
+        "advanced": "b1d2"
+      }
+    },
+    {
+      "pos_id": "Y2be1abe_39",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        2
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "e4d5",
+        "intermediate": "e4d5",
+        "advanced": "d1d5"
+      }
+    },
+    {
+      "pos_id": "ZzqcH3u2_37",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        2
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "e3h3",
+        "intermediate": "e3h3",
+        "advanced": "e3e8"
+      }
+    },
+    {
+      "pos_id": "aMJxAUwT_27",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "c1e3",
+        "intermediate": "c3e2",
+        "advanced": "f1d1"
+      }
+    },
+    {
+      "pos_id": "amqb9x6I_88",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "g6g7",
+        "intermediate": "f6f7",
+        "advanced": "f6f7"
+      }
+    },
+    {
+      "pos_id": "cPAM81Kz_103",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f2g3",
+        "intermediate": "f2c5",
+        "advanced": "f2c5"
+      }
+    },
+    {
+      "pos_id": "eCMVqkWu_25",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f1e1",
+        "intermediate": "d5d6",
+        "advanced": "d5d6"
+      }
+    },
+    {
+      "pos_id": "ecFBXWVP_30",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "g8e7",
+        "intermediate": "g7g5",
+        "advanced": "g7g6"
+      }
+    },
+    {
+      "pos_id": "ei4CMzmH_18",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "d8h4",
+        "intermediate": "g8e7",
+        "advanced": "g8h6"
+      }
+    },
+    {
+      "pos_id": "f6xPUZwj_29",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "d3d4",
+        "intermediate": "e1e2",
+        "advanced": "b5b6"
+      }
+    },
+    {
+      "pos_id": "gY86xzy2_46",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "h7f6",
+        "intermediate": "f8b8",
+        "advanced": "f8b8"
+      }
+    },
+    {
+      "pos_id": "js1rm4cM_24",
+      "best_frontier": "gemini",
+      "diverge_tiers": [
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "d7d5",
+        "intermediate": "e7e8",
+        "advanced": "e7e8"
+      }
+    },
+    {
+      "pos_id": "ktyxFUjZ_35",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f3g2",
+        "intermediate": "c3e2",
+        "advanced": "c3e2"
+      }
+    },
+    {
+      "pos_id": "lpuUDF0e_60",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        0,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "b4b3",
+        "intermediate": "c4c3",
+        "advanced": "h7h6"
+      }
+    },
+    {
+      "pos_id": "nCuvxDK1_91",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "e4d3",
+        "intermediate": "e4f3",
+        "advanced": "e4f3"
+      }
+    },
+    {
+      "pos_id": "ngs9hZ9J_72",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "d5g5",
+        "intermediate": "d5g5",
+        "advanced": "h6h5"
+      }
+    },
+    {
+      "pos_id": "oLdDxFMB_92",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "advanced"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        3
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "e6d6",
+        "intermediate": "e6d6",
+        "advanced": "b3b2"
+      }
+    },
+    {
+      "pos_id": "oo27npaN_57",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "h1g2",
+        "intermediate": "h1g1",
+        "advanced": "h1g1"
+      }
+    },
+    {
+      "pos_id": "sdCsQpox_38",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        3
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "d7e5",
+        "intermediate": "d7e5",
+        "advanced": "c7e5"
+      }
+    },
+    {
+      "pos_id": "szxuE3vJ_24",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "d7d5",
+        "intermediate": "f8e8",
+        "advanced": "f8e8"
+      }
+    },
+    {
+      "pos_id": "vaLVwTHK_77",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "beginner",
+        "advanced"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "d4e6",
+        "intermediate": "h5h6",
+        "advanced": "e3d2"
+      }
+    },
+    {
+      "pos_id": "vrXMLYkz_42",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "h6h5",
+        "intermediate": "h6h5",
+        "advanced": "f7f6"
+      }
+    },
+    {
+      "pos_id": "w3E87FeB_30",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        3,
+        3
+      ],
+      "verdict": "loss",
+      "ours_moves": {
+        "beginner": "e4c3",
+        "intermediate": "e8e5",
+        "advanced": "e8e5"
+      }
+    },
+    {
+      "pos_id": "wWjmxYo3_32",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        2,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "c8e6",
+        "intermediate": "c8e6",
+        "advanced": "e8e7"
+      }
+    },
+    {
+      "pos_id": "wgSguk03_26",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        2,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f8e8",
+        "intermediate": "a8d8",
+        "advanced": "a8d8"
+      }
+    },
+    {
+      "pos_id": "xnxMJOaY_57",
+      "best_frontier": "claude",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "d3d8",
+        "intermediate": "d3d8",
+        "advanced": "b2c2"
+      }
+    },
+    {
+      "pos_id": "ykXT51rb_77",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner"
+      ],
+      "ours_moat": [
+        1,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "tie",
+      "ours_moves": {
+        "beginner": "h4h5",
+        "intermediate": "f1a1",
+        "advanced": "f1a1"
+      }
+    },
+    {
+      "pos_id": "zPEEOpMJ_22",
+      "best_frontier": "gpt",
+      "diverge_tiers": [
+        "beginner",
+        "intermediate"
+      ],
+      "ours_moat": [
+        3,
+        3
+      ],
+      "frontier_moat": [
+        1,
+        3
+      ],
+      "verdict": "win",
+      "ours_moves": {
+        "beginner": "f8b4",
+        "intermediate": "f8b4",
+        "advanced": "f8d6"
+      }
+    }
+  ]
+}
