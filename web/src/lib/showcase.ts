@@ -26,7 +26,7 @@ export const TIERS: ShowcaseTier[] = ["beginner", "intermediate", "advanced"];
  * (1.7B → 32B) updates every "OURS · vN" label automatically: nothing here is
  * hardcoded to a specific size or version.
  */
-export const MODEL_VERSION = "v2";
+export const MODEL_VERSION = "v4";
 
 export type DataSource = "showcase" | "interim" | "showdown";
 export type Split = "train" | "test";
@@ -1420,84 +1420,15 @@ export function gateBadge(cell: ViewCell): GateBadgeInfo | null {
 }
 
 /* ------------------------------------------------------------------ */
-/* Two-layer truthfulness residual (per-model), copied from            */
-/* data/showcase/truthfulness.json + data/showcase/gate_all_report.md.  */
-/* These are STATIC, final numbers (the app can't read data/ at         */
-/* runtime), shown verbatim so the residual gap is never hidden.        */
+/* NOTE: The per-model semantic-truth residual panel was retired for the */
+/* v4 (Qwen3-32B) submission. Its static dataset was a prior-generation  */
+/* (1.7B / v2) judge study; no v4 semantic-truth study exists, so rather  */
+/* than mislabel v2 numbers as v4 we removed it. The faithfulness         */
+/* fairness-floor message (0% user-visible board-fact fabrication after   */
+/* the gate) still lives in the control bar + leaderboard, and where OURS */
+/* genuinely trails (coaching prose) is shown live in the leaderboard's   */
+/* council instructiveness column, straight from showcase.json.           */
 /* ------------------------------------------------------------------ */
-
-/** One aggregation's truthful-rate point estimate + 95% CI (percent units). */
-export interface TruthRate {
-  pct: number;
-  ciLoPct: number;
-  ciHiPct: number;
-}
-
-export interface TruthfulnessRow {
-  name: string;
-  short: string;
-  kind: ModelKind;
-  cells: number;
-  /** ⚠ partial model: only a subset of cells exist (Bedrock throttling); rates are over the cells it DOES have. */
-  partial: boolean;
-  /** Sampled cells fact-checked by the panel for this model. */
-  judgeN: number;
-  /** STRICT lower bound: truthful iff all 3 judges agree (a single objection sinks the cell). */
-  any: TruthRate;
-  /** Majority: truthful iff >=2 of 3 judges found it truthful. */
-  majority: TruthRate;
-  /** LENIENT upper bound: truthful unless all 3 judges object (only a unanimous objection sinks it). */
-  unanimous: TruthRate;
-}
-
-export interface TruthfulnessData {
-  /** Deterministic post-gate residual, pooled over every shipped cell: the fairness guarantee. */
-  determOverall: { n: number; pct: number };
-  /** Semantic-judge residual pooled over sampled cells, under all three aggregations. */
-  overall: { n: number; any: TruthRate; majority: TruthRate; unanimous: TruthRate };
-  judgePanel: string[];
-  judgeCalls: number;
-  judgeCostUsd: number;
-  rows: TruthfulnessRow[];
-}
-
-/**
- * The honest truthfulness residual (source: data/showcase/truthfulness.json).
- * Faithfulness is a fairness FLOOR, not a differentiator: after the
- * verify-and-regenerate gate, deterministic board-fact fabrication is 0% for
- * EVERY model (determOverall). The real, non-zero differentiator is the
- * cross-family semantic-judge residual, reported under three nested panel rules
- *: any (strict lower bound) / majority / unanimous (lenient upper bound), each
- * with a 95% CI. OURS trails the frontier here; that gap is shown, not hidden.
- */
-export const TRUTHFULNESS: TruthfulnessData = {
-  determOverall: { n: 18135, pct: 0.0 },
-  overall: {
-    n: 378,
-    any: { pct: 35.5, ciLoPct: 30.8, ciHiPct: 40.4 },
-    majority: { pct: 57.1, ciLoPct: 52.1, ciHiPct: 62.0 },
-    unanimous: { pct: 73.8, ciLoPct: 69.2, ciHiPct: 78.0 },
-  },
-  judgePanel: ["GPT-5.5", "Claude", "Gemini"],
-  judgeCalls: 1134,
-  judgeCostUsd: 13.05,
-  rows: [
-    { name: "OURS-v2 (1.7B tuned)", short: "OURS", kind: "ours", cells: 1476, partial: false, judgeN: 39, any: { pct: 23.1, ciLoPct: 12.7, ciHiPct: 38.3 }, majority: { pct: 25.6, ciLoPct: 14.6, ciHiPct: 41.1 }, unanimous: { pct: 30.8, ciLoPct: 18.6, ciHiPct: 46.4 } },
-    { name: "BASE (Qwen3-1.7B-4bit, untuned)", short: "BASE", kind: "base", cells: 1476, partial: false, judgeN: 18, any: { pct: 0.0, ciLoPct: 0.0, ciHiPct: 17.6 }, majority: { pct: 16.7, ciLoPct: 5.8, ciHiPct: 39.2 }, unanimous: { pct: 33.3, ciLoPct: 16.3, ciHiPct: 56.3 } },
-    { name: "GPT-5.5", short: "GPT-5.5", kind: "frontier", cells: 1476, partial: false, judgeN: 39, any: { pct: 79.5, ciLoPct: 64.5, ciHiPct: 89.2 }, majority: { pct: 97.4, ciLoPct: 86.8, ciHiPct: 99.5 }, unanimous: { pct: 100.0, ciLoPct: 91.0, ciHiPct: 100.0 } },
-    { name: "Claude Opus 4.8", short: "Claude Opus 4.8", kind: "frontier", cells: 1476, partial: false, judgeN: 39, any: { pct: 25.6, ciLoPct: 14.6, ciHiPct: 41.1 }, majority: { pct: 56.4, ciLoPct: 41.0, ciHiPct: 70.7 }, unanimous: { pct: 84.6, ciLoPct: 70.3, ciHiPct: 92.8 } },
-    { name: "Gemini 3.1 Pro", short: "Gemini 3.1 Pro", kind: "frontier", cells: 1476, partial: false, judgeN: 39, any: { pct: 33.3, ciLoPct: 20.6, ciHiPct: 49.0 }, majority: { pct: 64.1, ciLoPct: 48.4, ciHiPct: 77.3 }, unanimous: { pct: 92.3, ciLoPct: 79.7, ciHiPct: 97.3 } },
-    { name: "Llama-3.3-70B", short: "Llama-3.3-70B", kind: "open", cells: 1476, partial: false, judgeN: 18, any: { pct: 72.2, ciLoPct: 49.1, ciHiPct: 87.5 }, majority: { pct: 83.3, ciLoPct: 60.8, ciHiPct: 94.2 }, unanimous: { pct: 94.4, ciLoPct: 74.2, ciHiPct: 99.0 } },
-    { name: "Qwen3-32B", short: "Qwen3-32B", kind: "open", cells: 1476, partial: false, judgeN: 39, any: { pct: 46.2, ciLoPct: 31.6, ciHiPct: 61.4 }, majority: { pct: 64.1, ciLoPct: 48.4, ciHiPct: 77.3 }, unanimous: { pct: 74.4, ciLoPct: 58.9, ciHiPct: 85.4 } },
-    { name: "GLM-5", short: "GLM-5", kind: "open", cells: 1476, partial: false, judgeN: 18, any: { pct: 44.4, ciLoPct: 24.6, ciHiPct: 66.3 }, majority: { pct: 66.7, ciLoPct: 43.7, ciHiPct: 83.7 }, unanimous: { pct: 88.9, ciLoPct: 67.2, ciHiPct: 96.9 } },
-    { name: "Kimi-K2.5", short: "Kimi-K2.5", kind: "open", cells: 653, partial: true, judgeN: 18, any: { pct: 44.4, ciLoPct: 24.6, ciHiPct: 66.3 }, majority: { pct: 72.2, ciLoPct: 49.1, ciHiPct: 87.5 }, unanimous: { pct: 88.9, ciLoPct: 67.2, ciHiPct: 96.9 } },
-    { name: "Mistral-Large-3 (675B)", short: "Mistral-Large-3", kind: "open", cells: 623, partial: true, judgeN: 18, any: { pct: 38.9, ciLoPct: 20.3, ciHiPct: 61.4 }, majority: { pct: 55.6, ciLoPct: 33.7, ciHiPct: 75.4 }, unanimous: { pct: 66.7, ciLoPct: 43.7, ciHiPct: 83.7 } },
-    { name: "Gemma-3-27B-it", short: "Gemma-3-27B-it", kind: "open", cells: 623, partial: true, judgeN: 39, any: { pct: 25.6, ciLoPct: 14.6, ciHiPct: 41.1 }, majority: { pct: 53.8, ciLoPct: 38.6, ciHiPct: 68.4 }, unanimous: { pct: 71.8, ciLoPct: 56.2, ciHiPct: 83.5 } },
-    { name: "DeepSeek-V3.2", short: "DeepSeek-V3.2", kind: "open", cells: 1476, partial: false, judgeN: 18, any: { pct: 22.2, ciLoPct: 9.0, ciHiPct: 45.2 }, majority: { pct: 38.9, ciLoPct: 20.3, ciHiPct: 61.4 }, unanimous: { pct: 66.7, ciLoPct: 43.7, ciHiPct: 83.7 } },
-    { name: "DeepSeek-R1 (reasoning)", short: "DeepSeek-R1", kind: "open", cells: 1476, partial: false, judgeN: 18, any: { pct: 11.1, ciLoPct: 3.1, ciHiPct: 32.8 }, majority: { pct: 50.0, ciLoPct: 29.0, ciHiPct: 71.0 }, unanimous: { pct: 61.1, ciLoPct: 38.6, ciHiPct: 79.7 } },
-    { name: "Qwen3-Next-80B-A3B", short: "Qwen3-Next-80B-A3B", kind: "open", cells: 1476, partial: false, judgeN: 18, any: { pct: 5.6, ciLoPct: 1.0, ciHiPct: 25.8 }, majority: { pct: 33.3, ciLoPct: 16.3, ciHiPct: 56.3 }, unanimous: { pct: 66.7, ciLoPct: 43.7, ciHiPct: 83.7 } },
-  ],
-};
 
 /* ------------------------------------------------------------------ */
 /* Loader                                                              */

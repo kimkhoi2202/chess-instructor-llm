@@ -31,7 +31,6 @@ import {
   representativeTier,
   tierDuel,
   TIERS,
-  TRUTHFULNESS,
   type DuelVerdict,
   type GateBadgeInfo,
   type MatrixCell,
@@ -39,13 +38,11 @@ import {
   type ModelAggregate,
   type ModelKind,
   type MoveSelectionHeadline,
-  type OursLabel,
   type ShowcaseTier,
   type ShowcaseView,
   type Split,
   type TierDuelRow,
   type TierMatrix,
-  type TruthfulnessRow,
   type ViewCell,
   type ViewModel,
   type ViewPosition,
@@ -438,8 +435,6 @@ export default function Showcase() {
           )}
 
           <LeaderboardPanel view={view!} meta={meta} split={split} />
-
-          <TruthfulnessPanel oursLabel={meta.ours} />
         </>
       )}
     </div>
@@ -531,14 +526,15 @@ function ShowcaseHeader({
           rating.{" "}
           {headline ? (
             <>
-              On the same held-out positions as its untuned <span className="text-ink">base</span>{" "}
-              (same weights, byte-identical input), fine-tuning lifts tier-appropriate move selection{" "}
+              Across these <span className="text-ink">curated fork positions</span>, on the same
+              grounded input its untuned <span className="text-ink">base</span> saw (same weights,
+              byte-identical), fine-tuning lifts tier-appropriate move selection{" "}
               <span className="text-ink tnum">
                 {pct(headline.base.tierFitRate)} → {pct(headline.ours.tierFitRate)}
               </span>
               {headline.bestFrontier && (
                 <>
-                  , past even the best frontier model{" "}
+                  , past even the best frontier model here{" "}
                   <span className="text-ink tnum">({pct(headline.bestFrontier.tierFitRate)})</span>
                 </>
               )}
@@ -549,7 +545,10 @@ function ShowcaseHeader({
               one{" "}
               <span className="tnum">({headline.frontierDistinct.toFixed(1)})</span>. That
               level-appropriate move is the behavior a prompt on the same weights can’t reproduce
-              (computed live from {headline.ours.cells.toLocaleString()} held-out cells).
+              (computed live from {headline.ours.cells.toLocaleString()} cells in this curated slice).
+              On the full held-out eval, OURS’s tier-fit is{" "}
+              <span className="text-ink tnum">76.7%</span> vs the base’s{" "}
+              <span className="text-ink tnum">34.7%</span> — the top of every model measured.
             </>
           ) : (
             <>
@@ -562,8 +561,8 @@ function ShowcaseHeader({
           <span className="text-ink">The comparison, below,</span> is centered on that axis:
           tier-appropriate move selection and per-level move adaptation, both deterministic. The
           coaching prose is a <span className="text-ink">secondary, optional layer</span>: the
-          frontier writes livelier explanations (see the council instructiveness grades and the
-          truthfulness residual), and we don’t claim the prose as the win. Pick a position, switch
+          frontier writes livelier explanations (see the council instructiveness grades in the
+          leaderboard below), and we don’t claim the prose as the win. Pick a position, switch
           the model and the rating tier, and read each model’s move at every level side by side; only{" "}
           <span className="text-signal">OURS</span> can be re-run live.
         </p>
@@ -766,8 +765,9 @@ function ControlBar({
         on the sound tier move: OURS’s own <span className="text-muted">BASE</span> baseline and the
         open field are excluded from win credit, so the banner and these counts use one rule. Every
         shipped cell is gated, so deterministic board-fact fabrication is{" "}
-        <span className="text-muted">0% for all models</span>; the measured per-model metrics are in
-        the leaderboard, and the honest semantic-truth gap in the residual panel below.
+        <span className="text-muted">0% for all models</span> (a fairness floor, not a ranking axis);
+        the measured per-model metrics — including the council grades where OURS trails on the
+        coaching prose — are in the leaderboard below.
       </p>
     </section>
   );
@@ -846,9 +846,8 @@ function LensLegend() {
           <p className="text-muted">
             Faithfulness is a fairness floor, not a ranking axis: after the verify-and-regenerate
             gate, user-visible board-fact fabrication is{" "}
-            <span className="font-medium">0% for all models</span>. The honest differentiator, the
-            cross-family semantic-judge residual (any / majority / unanimous, with CIs), is in the
-            truthfulness panel below.
+            <span className="font-medium">0% for all models</span>. Where OURS genuinely trails is the
+            coaching prose — see the council instructiveness grades in the leaderboard below.
           </p>
         </div>
       </Tooltip.Content>
@@ -1517,8 +1516,8 @@ function VerdictRow({ model, cell, tier }: { model: ViewModel; cell: ViewCell; t
           </p>
           <p>
             <span className="font-medium">faithful</span>: the explanation passed the deterministic
-            board-fact gate. That gate is a fairness floor (0% fabrication for every shipped cell);
-            the honest semantic-truth gap is in the residual panel below.
+            board-fact gate. That gate is a fairness floor (0% fabrication for every shipped cell),
+            not a guarantee of full semantic truth.
           </p>
         </InfoTip>
       </div>
@@ -1648,7 +1647,7 @@ function CoachingBlock({ model, cell }: { model: ViewModel; cell: ViewCell }) {
             {model.short} coaching · {model.kind === "ours" ? "tuned" : model.kind} · gated + shipped.
             A supplementary layer over the trained behavior (the move above): not the trained output
             itself. Fine-tuning did not improve the prose; the frontier writes livelier explanations
-            (see the council + truthfulness panels below).
+            (see the council instructiveness grades in the leaderboard below).
           </p>
           <p className="max-h-64 overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed text-muted">
             {cell.coaching || <span className="text-faint">No coaching text produced.</span>}
@@ -1669,7 +1668,7 @@ function CoachingBlock({ model, cell }: { model: ViewModel; cell: ViewCell }) {
               <div className="flex flex-col gap-2 px-3 pb-3">
                 <p className="text-[11px] leading-relaxed text-faint">
                   {rawDiffers
-                    ? "The model’s first draft was adjusted by the verify-and-regenerate gate; the shipped text above is the gated version. Faithfulness is a fairness floor applied equally to every model: see the truthfulness panel for where models actually differ."
+                    ? "The model’s first draft was adjusted by the verify-and-regenerate gate; the shipped text above is the gated version. Faithfulness is a fairness floor applied equally to every model."
                     : "The model’s first draft passed the board-fact gate unchanged: the shipped text above is the model’s own words."}
                 </p>
                 <p className="max-h-56 overflow-y-auto whitespace-pre-wrap text-xs leading-relaxed text-muted">
@@ -1778,8 +1777,7 @@ function FieldGrid({
         <span className="text-muted">tier-fit</span> = the move matches the canonical
         tier-appropriate target OURS is trained to produce for that band: a trained-target match,
         not an emergent capability. <span className="text-muted">faithful</span> = passed the
-        deterministic board-fact gate (not a guarantee of full semantic truth: see the residual
-        panel).
+        deterministic board-fact gate (not a guarantee of full semantic truth).
       </p>
       {anyEvaluated ? (
       <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
@@ -1910,7 +1908,8 @@ function RerunPanel({
       {live.status === "error" && (
         <div className="rounded-[10px] border border-[color:var(--danger)]/40 bg-[color:var(--danger)]/10 px-3.5 py-3 text-xs leading-relaxed text-muted">
           <span className="font-medium text-[color:var(--danger)]">The coach service didn’t respond.</span>{" "}
-          It runs on the live backend (:8000). Make sure it’s up, then re-run.
+          The live coach runs scale-to-zero on Modal; the first call after idle can take ~2–3 min to
+          spin up. Give it a moment and re-run.
           {live.error && <p className="mt-1 break-words font-mono text-faint">{live.error}</p>}
         </div>
       )}
@@ -2379,7 +2378,7 @@ function LeaderboardPanel({
       <Separator />
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h2 className="text-sm font-semibold text-ink">
-          Per-model metrics: measured on the {splitLabel} split
+          Per-model metrics: over the curated fork positions in this slice ({splitLabel})
         </h2>
         <span className="text-[11px] text-faint tnum">
           {board.rows.length} models · council 0–{trimNum(board.councilScale)}
@@ -2387,11 +2386,16 @@ function LeaderboardPanel({
       </div>
       <p className="max-w-4xl text-xs leading-relaxed text-muted">
         Every number here is computed live from the loaded cells: nothing is hardcoded, so it always
-        matches the OURS version on screen. The axis this product competes on is the leftmost:{" "}
-        <span className="text-ink">tier-appropriate move selection</span> (tier-fit): where{" "}
-        <span className="text-signal">OURS</span> leads its own untuned <span className="text-ink">BASE</span>{" "}
-        and the frontier. The <span className="text-muted">council move / instructiveness</span> grades
-        are shown as context, not the headline: they grade the coaching prose, where OURS does{" "}
+        matches the OURS version on screen. These rates are over the{" "}
+        <span className="text-ink">curated fork positions</span> shown here — a hand-picked subset where
+        OURS forks by level — so OURS’s tier-fit reads higher than on the full held-out eval (where it
+        is <span className="text-ink tnum">76.7%</span> vs the base’s{" "}
+        <span className="text-ink tnum">34.7%</span>, still #1). The axis this product competes on is
+        the leftmost: <span className="text-ink">tier-appropriate move selection</span> (tier-fit),
+        where <span className="text-signal">OURS</span> leads its own untuned{" "}
+        <span className="text-ink">BASE</span> and the frontier. The{" "}
+        <span className="text-muted">council move / instructiveness</span> grades are shown as context,
+        not the headline: they grade the coaching prose, where OURS does{" "}
         <span className="text-ink">not</span> lead: fine-tuning sharpened the move, not the paragraph,
         and we don’t claim otherwise.
       </p>
@@ -2498,168 +2502,6 @@ function LeaderboardRow({ row }: { row: ModelAggregate }) {
         {row.cells.toLocaleString()}
       </td>
     </tr>
-  );
-}
-
-/* ================================================================== */
-/* Truthfulness residual: two honest layers (per-model, static)       */
-/* ================================================================== */
-
-function TruthfulnessPanel({ oursLabel }: { oursLabel: OursLabel }) {
-  const t = TRUTHFULNESS;
-  // Relabel the OURS row with the identity parsed from the loaded data, so the
-  // sampled study is transparent about which OURS version it covers.
-  const rows = useMemo(
-    () =>
-      [...t.rows]
-        .map((r) => (r.kind === "ours" ? { ...r, name: oursLabel.name } : r))
-        .sort((a, b) => b.any.pct - a.any.pct),
-    [t.rows, oursLabel.name],
-  );
-
-  return (
-    <section aria-label="Truthfulness residual" className="flex flex-col gap-4">
-      <Separator />
-      <div className="flex flex-col gap-1.5">
-        <h2 className="text-sm font-semibold text-ink">
-          Truthfulness: one fairness floor, one honest differentiator
-        </h2>
-        <p className="max-w-4xl text-xs leading-relaxed text-muted">
-          Faithfulness is a <span className="text-ink">fairness floor, not a differentiator</span>:
-          after the verify-and-regenerate gate, <span className="text-ink">every</span> model ships{" "}
-          <span className="text-ink">0.0%</span> user-visible board-fact fabrication
-          (n={t.determOverall.n.toLocaleString()} cells): the same bar for OURS, BASE, frontier and
-          open alike. Where models genuinely differ is the{" "}
-          <span className="text-ink">semantic-truth</span> residual: a strict cross-family judge panel
-          ({t.judgePanel.join(" + ")}) fact-checks a stratified sample of the{" "}
-          <span className="text-ink">gated</span> text for the multi-move / evaluative claims the
-          deterministic layer can’t decide. OURS trails the frontier here: shown, not smoothed over.
-        </p>
-      </div>
-
-      {/* The fairness floor: one statement, all models */}
-      <div className="flex items-start gap-3 rounded-[10px] border-[1.5px] border-[color:var(--good)]/35 bg-[color:var(--good)]/10 px-4 py-3">
-        <ShieldCheckIcon width={18} height={18} className="mt-0.5 shrink-0 text-[color:var(--good)]" />
-        <div className="flex flex-col gap-0.5">
-          <span className="text-sm font-semibold text-ink">
-            User-visible fabrication ={" "}
-            <span className="tnum text-[color:var(--good)]">0.0%</span> for all {t.rows.length} models
-          </span>
-          <span className="text-xs leading-relaxed text-muted">
-            After the verify-and-regenerate gate, no mechanical board-fact lie survives in what a user
-            sees: verified on n={t.determOverall.n.toLocaleString()} shipped cells, the same gate for
-            every model. Faithfulness is table-stakes here, so it is not a ranking axis.
-          </span>
-        </div>
-      </div>
-
-      {/* The semantic-judge residual: three nested aggregations, per model */}
-      <div className="flex flex-col gap-2.5 rounded-[10px] border-[1.5px] border-[color:var(--border)] px-4 py-3.5">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-faint">
-            Semantic-judge truthful-rate: any · majority · unanimous (95% CI)
-          </h3>
-          <span className="text-[11px] text-faint tnum">
-            pooled: any {trimNum(t.overall.any.pct)}% · maj {trimNum(t.overall.majority.pct)}% · unan{" "}
-            {trimNum(t.overall.unanimous.pct)}% · n={t.overall.n}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          {rows.map((r) => (
-            <TruthBar key={r.name} row={r} />
-          ))}
-        </div>
-        <p className="text-[10px] leading-relaxed text-faint">
-          The bar draws the <span className="text-muted">any</span> (strict) rate as a solid floor,
-          extended by a lighter band to the <span className="text-muted">unanimous</span> (lenient)
-          rate; the tick marks <span className="text-muted">majority</span>.{" "}
-          <span className="text-muted">any</span> = a single cross-family judge’s objection sinks the
-          cell: a conservative <span className="text-muted">lower bound</span>, not a claim the rest
-          are lies. <span className="text-muted">unanimous</span> = only a 3/3 objection sinks it: an{" "}
-          <span className="text-muted">upper bound</span>. Truth sits inside that band. Engine-derived
-          fallback cells are judged 100% truthful; the residual lives in mechanically-clean model
-          prose. {t.judgeCalls.toLocaleString()} judge calls · ${t.judgeCostUsd.toFixed(2)}.{" "}
-          <span className="text-[color:var(--caution)]">⚠</span> = partial model (subset of cells).
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/** One model's semantic-judge truthfulness as a floor(any)→band(unanimous) bar,
- *  a majority tick, and the strict-rate 95% CI whisker; all three rates + CIs at right. */
-function TruthBar({ row }: { row: TruthfulnessRow }) {
-  const fill =
-    row.kind === "ours"
-      ? "var(--signal)"
-      : row.kind === "frontier"
-        ? "var(--engine)"
-        : row.kind === "base"
-          ? "var(--faint)"
-          : "var(--muted)";
-  const bandWidth = Math.max(0, row.unanimous.pct - row.any.pct);
-  const ciWidth = Math.max(0, row.any.ciHiPct - row.any.ciLoPct);
-  return (
-    <div className="grid grid-cols-[minmax(112px,148px)_minmax(0,1fr)_auto] items-center gap-2.5">
-      <div className="flex min-w-0 items-center gap-1.5">
-        <span
-          className={`truncate text-xs ${row.kind === "ours" ? "font-semibold text-signal" : "text-ink"}`}
-        >
-          {row.short}
-        </span>
-        <KindTag kind={row.kind} />
-        {row.partial && (
-          <span className="text-[10px] text-[color:var(--caution)]" title="Partial model: only a subset of cells exist (Bedrock throttling).">
-            ⚠
-          </span>
-        )}
-      </div>
-
-      <div
-        className="relative h-3 rounded-full bg-[color:var(--surface-tertiary)]"
-        title={`any ${trimNum(row.any.pct)}% · majority ${trimNum(row.majority.pct)}% · unanimous ${trimNum(row.unanimous.pct)}%`}
-      >
-        {/* lenient band: any → unanimous (lower opacity) */}
-        <span
-          aria-hidden
-          className="absolute top-0 h-full rounded-full"
-          style={{ left: `${row.any.pct}%`, width: `${bandWidth}%`, backgroundColor: fill, opacity: 0.28 }}
-        />
-        {/* strict "any" floor fill */}
-        <span
-          aria-hidden
-          className="absolute left-0 top-0 h-full rounded-full"
-          style={{ width: `${row.any.pct}%`, backgroundColor: fill, opacity: 0.9 }}
-        />
-        {/* majority tick */}
-        <span
-          aria-hidden
-          className="absolute top-1/2 h-3 w-[1.5px] -translate-x-1/2 -translate-y-1/2 bg-ink/55"
-          style={{ left: `${row.majority.pct}%` }}
-        />
-        {/* 95% CI whisker for the strict (any) estimate */}
-        <span
-          aria-hidden
-          className="absolute top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-ink/40"
-          style={{ left: `${row.any.ciLoPct}%`, width: `${ciWidth}%` }}
-        />
-      </div>
-
-      <div className="flex flex-col items-end leading-tight tnum">
-        <span className={`text-xs font-semibold ${row.kind === "ours" ? "text-signal" : "text-ink"}`}>
-          any {trimNum(row.any.pct)}%
-          <span className="ml-1 text-[10px] font-normal text-faint">
-            [{trimNum(row.any.ciLoPct)}–{trimNum(row.any.ciHiPct)}]
-          </span>
-        </span>
-        <span className="text-[10px] text-faint">
-          maj {trimNum(row.majority.pct)}% [{trimNum(row.majority.ciLoPct)}–{trimNum(row.majority.ciHiPct)}]
-        </span>
-        <span className="text-[10px] text-faint">
-          unan {trimNum(row.unanimous.pct)}% [{trimNum(row.unanimous.ciLoPct)}–{trimNum(row.unanimous.ciHiPct)}] · n={row.judgeN}
-        </span>
-      </div>
-    </div>
   );
 }
 

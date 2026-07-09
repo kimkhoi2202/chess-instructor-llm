@@ -29,9 +29,9 @@ type EvidenceLink = {
 // what it was measured on, try it, read the code, read the reasoning.
 const LINKS: EvidenceLink[] = [
   {
-    href: "https://huggingface.co/khoilamalphaai/qwen3-1.7b-chess-coach-mlx",
+    href: "https://huggingface.co/khoilamalphaai/chess-coach-32b-v4-qlora",
     label: "Model",
-    hint: "Qwen3-1.7B chess-coach · Hugging Face",
+    hint: "Qwen3-32B chess-coach v4 · QLoRA adapter · Hugging Face",
     Icon: LayersIcon,
   },
   {
@@ -78,13 +78,15 @@ export default function EvidenceBar() {
           </h2>
           <p className="max-w-2xl text-pretty text-[13px] leading-relaxed text-muted">
             Tier-appropriate move selection lifts{" "}
-            <span className="font-mono text-muted tnum">27.8%</span>{" "}
+            <span className="font-mono text-muted tnum">34.7%</span>{" "}
             <span className="text-muted">base</span> →{" "}
-            <span className="font-mono font-semibold text-signal tnum">82.8%</span>{" "}
-            <span className="text-ink">tuned</span>, past the best frontier at{" "}
-            <span className="font-mono text-ink tnum">48.3%</span>. Across the three tiers OURS gives{" "}
-            <span className="font-mono text-ink tnum">~2.2</span> distinct level-moves vs the frontier&rsquo;s{" "}
-            <span className="font-mono tnum">~1.4</span>.
+            <span className="font-mono font-semibold text-signal tnum">76.7%</span>{" "}
+            <span className="text-ink">tuned</span> on the strict held-out eval &mdash; the top
+            tier-fit of every model measured, past the best frontier at{" "}
+            <span className="font-mono text-ink tnum">55.3%</span>. On the{" "}
+            <span className="font-mono text-ink tnum">62</span> held-out positions where OURS diverges
+            from the best frontier, it wins the tier-appropriate move{" "}
+            <span className="font-mono font-semibold text-signal tnum">51&ndash;5</span> (6 ties).
           </p>
         </div>
 
