@@ -135,17 +135,17 @@
         "n": 360
       },
       "move_grade": 7.9,
-      "tier_fit": 0.7194,
+      "tier_fit": 0.7917,
       "tier_fit_by_tier": {
-        "beginner": 0.7,
-        "intermediate": 0.7,
-        "advanced": 0.7583
+        "beginner": 0.75,
+        "intermediate": 0.7583,
+        "advanced": 0.8667
       },
-      "move_sound": 0.9667,
+      "move_sound": 0.9861,
       "distinct": {
         "differentiating_n": 100,
-        "distinct_rate": 0.79,
-        "collapsed_BA": 21
+        "distinct_rate": 0.75,
+        "collapsed_BA": 25
       },
       "gate": {
         "gated": false,
