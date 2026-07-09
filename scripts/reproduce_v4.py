@@ -19,10 +19,21 @@ On the 120 held-out VAL positions x 3 tiers (360 scenarios), for OURS-v4:
   also differ.
 - **move soundness** — fraction of picks that land in the engine sound pool
   (``sound_uci``).
+- **unbiased head-to-head vs the best frontier** — over EVERY position where
+  OURS-v4 and the best-moat frontier both name a move on >=1 tier and those moves
+  DIVERGE (no v4-success conditioning), who wins the platform moat (tier-policy
+  match then soundness)? Asserts the W-L-T-n in ``report_v4.json``'s
+  ``unbiased_vs_frontier`` block. This uses the SAME moat + best-moat-frontier
+  selection as the conditioned 51-5-6 proof, minus the (distinct+sound+gradient)
+  conditioning. It needs the raw/greedy frontier gens (gpt/claude/gemini) to cover
+  all 120 val positions; a checkout with only a partial frontier gen set SKIPS this
+  one check with a notice (the three OURS-v4 checks above still reproduce), and it is
+  asserted whenever the frontier gens are complete, as in the canonical repo state.
 
 Inputs (all committed / tracked)
 --------------------------------
 - ``data/benchmark_honest/gen/ours_v4.jsonl``   — v4's 360 published generations
+- ``data/benchmark_honest/gen/{gpt,claude,gemini}.jsonl`` — frontier raw/greedy gens (for the H2H)
 - ``data/benchmark_gap803/scenarios.jsonl``     — ground truth (canonical_uci / sound_uci / pool_policy)
 - ``data/benchmark_honest/val_ids.txt``          — the 120 VAL position ids
 - ``data/benchmark_honest/report_v4.json``       — the published numbers to assert against
@@ -49,6 +60,7 @@ from __future__ import annotations
 
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 from statistics import mean
 from typing import Any, Dict, List, Optional, Tuple
@@ -67,10 +79,17 @@ TOL: float = 1e-3
 EXPECTED_VAL: int = 120
 
 HB = _ROOT / "data" / "benchmark_honest"
+GEN_DIR = HB / "gen"
 VAL_IDS = HB / "val_ids.txt"
-OURS_V4_GEN = HB / "gen" / "ours_v4.jsonl"
+OURS_V4_GEN = GEN_DIR / "ours_v4.jsonl"
 REPORT_JSON = HB / "report_v4.json"
 SCENARIOS = _ROOT / "data" / "benchmark_gap803" / "scenarios.jsonl"
+
+#: The head-to-head moat compares OURS-v4 against the best of these three frontier
+#: models per position (best chosen by the moat tuple, ties broken in this order) —
+#: identical to ``honest_v4.FRONTIER_KEYS`` / ``SHOWCASE_OURS``.
+OURS_KEY = "ours_v4"
+FRONTIER_KEYS: Tuple[str, ...] = ("gpt", "claude", "gemini")
 
 
 def _read_jsonl(path: Path) -> List[Dict[str, Any]]:
@@ -148,6 +167,81 @@ def _distinct_rate(
     return rate, differentiating, distinct
 
 
+def _canon_sound(by_id: Dict[str, Dict[str, Any]]) -> Dict[str, Dict[str, Dict[str, Any]]]:
+    """pos_id -> tier -> {'canonical': canonical_uci, 'sound': set(sound_uci)}."""
+    cs: Dict[str, Dict[str, Dict[str, Any]]] = defaultdict(dict)
+    for scn in by_id.values():
+        cs[scn["pos_id"]][scn["tier"]] = {
+            "canonical": scn.get("canonical_uci"),
+            "sound": set(scn.get("sound_uci", [])),
+        }
+    return cs
+
+
+def _moat(picks: Dict[str, Optional[str]], cs_pos: Dict[str, Dict[str, Any]]) -> Tuple[int, int]:
+    """A model's MOAT at one position: (tier-policy match count, soundness count) over
+    the 3 tiers — the SAME (tier-fit then soundness) quality tuple the conditioned
+    vs-frontier proof uses (``honest_v4._moat_tuple``). Move soundness is ``uci in
+    sound_uci`` exactly as ``objective.score_one`` records ``move_sound``."""
+    tf = sd = 0
+    for tier in TIERS:
+        uci = picks.get(tier)
+        cell = cs_pos.get(tier)
+        if not (uci and cell):
+            continue
+        if uci == cell["canonical"]:
+            tf += 1
+        if uci in cell["sound"]:
+            sd += 1
+    return (tf, sd)
+
+
+def _unbiased_head_to_head(
+    by_id: Dict[str, Dict[str, Any]]
+) -> Tuple[Optional[Tuple[int, int, int]], int]:
+    """UNBIASED head-to-head OURS-v4 vs the best-moat frontier.
+
+    Over EVERY val position where OURS-v4 and the best-moat frontier both name a move
+    on >=1 tier and those moves DIVERGE — with NO v4-success (distinct/sound/gradient)
+    conditioning — classify win/loss/tie by the moat (tier-policy match then soundness).
+    The best frontier per position is ``max`` over ``FRONTIER_KEYS`` by the moat tuple
+    (ties broken by that order), identical to the conditioned proof. All moves are
+    re-extracted from raw ``output`` with the same strict extractor as the checks above,
+    so the number is derived from the committed generations, not stored fields.
+
+    Returns ``((W, L, T), n_val)`` when the frontier gens cover all val positions, else
+    ``(None, min_pos_coverage)`` so the caller can SKIP rather than falsely fail.
+    """
+    cs = _canon_sound(by_id)
+    val_pos = set(cs.keys())
+    ours = _recommended_moves(_read_jsonl(OURS_V4_GEN), by_id)
+    frontier = {fk: _recommended_moves(_read_jsonl(GEN_DIR / f"{fk}.jsonl"), by_id)
+                for fk in FRONTIER_KEYS}
+    # Reproducibility guard: the H2H needs OURS-v4 and every frontier gen to cover all
+    # val positions. A partial checkout (e.g. an incomplete committed frontier gen set)
+    # skips this check instead of failing the whole reproduction.
+    coverage = [len(ours)] + [len(frontier[fk]) for fk in FRONTIER_KEYS]
+    if not (ours.keys() >= val_pos and all(frontier[fk].keys() >= val_pos for fk in FRONTIER_KEYS)):
+        return None, min(coverage)
+
+    w = l = t = 0
+    for pid in sorted(val_pos):
+        cs_pos = cs.get(pid, {})
+        opick = ours.get(pid, {})
+        best_fk = max(FRONTIER_KEYS, key=lambda fk: _moat(frontier[fk].get(pid, {}), cs_pos))
+        fpick = frontier[best_fk].get(pid, {})
+        if not any(opick.get(tt) and fpick.get(tt) and opick[tt] != fpick[tt] for tt in TIERS):
+            continue  # no divergence at any tier -> not part of the head-to-head
+        om, fm = _moat(opick, cs_pos), _moat(fpick, cs_pos)
+        if om > fm:
+            w += 1
+        elif om < fm:
+            l += 1
+        else:
+            t += 1
+    return (w, l, t), len(val_pos)
+
+
 def _assert_close(name: str, got: float, want: float) -> None:
     delta = abs(got - want)
     status = "OK" if delta <= TOL else "MISMATCH"
@@ -185,6 +279,27 @@ def main() -> int:
     _assert_close("tier-policy match", tier_policy_match, float(pub["tier_fit"]))
     _assert_close("distinct-per-level", distinct_rate, float(pub["distinct"]["distinct_rate"]))
     _assert_close("move soundness", move_sound, float(pub["move_sound"]))
+
+    print("\nUnbiased head-to-head vs the best frontier (raw/greedy, no v4-success conditioning):")
+    ub = report.get("unbiased_vs_frontier") or {}
+    hh, covered = _unbiased_head_to_head(by_id)
+    if hh is None:
+        print(f"  SKIP — frontier gens (gpt/claude/gemini) do not cover all {EXPECTED_VAL} val "
+              f"positions in this checkout (min coverage {covered}). Commit the full raw/greedy "
+              "frontier gens to lock this check; the three OURS-v4 checks above still reproduce.")
+    else:
+        w, l, t = hh
+        n = w + l + t
+        want = (int(ub.get("wins", -1)), int(ub.get("losses", -1)),
+                int(ub.get("ties_diverging", -1)), int(ub.get("n_diverging", -1)))
+        got = (w, l, t, n)
+        status = "OK" if got == want else "MISMATCH"
+        print(f"  head-to-head           computed={w}-{l}-{t}/{n}  "
+              f"published={want[0]}-{want[1]}-{want[2]}/{want[3]}  [{status}]")
+        assert got == want, (
+            f"unbiased head-to-head: recomputed {w}-{l}-{t}/{n} != published "
+            f"{want[0]}-{want[1]}-{want[2]}/{want[3]}. The H2H did NOT reproduce from committed gens."
+        )
 
     print("\nPASS — headline v4 reproduces exactly from committed files (no GPU, no network).")
     return 0

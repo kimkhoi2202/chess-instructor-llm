@@ -127,13 +127,15 @@
   },
   "unbiased_vs_frontier": {
     "wins": 56,
-    "losses": 28,
+    "losses": 24,
     "ties_diverging": 12,
-    "n_diverging": 96,
-    "ties_all": 36,
+    "n_diverging": 92,
+    "ties_all": 40,
     "n_total": 120,
-    "source": "eval audit (unbiased head-to-head over ALL positions where v4 diverges from the best frontier, NOT conditioned on v4 first succeeding)",
-    "note": "Present 56-28-12 over 96 diverging (56-28-36 over all 120) as the honest unbiased head-to-head; 51-5-6 over 62 is the v4-success-conditioned subset above. The all-scenario tier-policy lead (0.767 vs 0.553) remains the primary unbiased comparison."
+    "basis": "raw_greedy",
+    "reproducible": true,
+    "source": "recomputed from the committed raw/greedy generations (data/benchmark_honest/gen/{ours_v4,gpt,claude,gemini}.jsonl) with the SAME moat (tier-policy match then soundness) and best-moat-frontier selection as the conditioned vs_frontier_proof, minus the v4-success (distinct+sound+gradient) conditioning; asserted by scripts/reproduce_v4.py",
+    "note": "REPRODUCIBLE unbiased head-to-head = 56-24-12 over the 92 positions where v4 and the best frontier both name a move and diverge (56-24-40 over all 120). Supersedes an earlier eval-audit figure that did not reproduce (same 56 wins and 12 ties, but four additional losses over four additional diverging positions that did not replay from the committed gens). 51-5-6 over 62 is the v4-success-conditioned subset above. The all-scenario tier-policy lead (0.767 vs 0.553) remains the primary unbiased comparison."
   },
   "served_tier_fit": {
     "raw_greedy": 0.7667,
