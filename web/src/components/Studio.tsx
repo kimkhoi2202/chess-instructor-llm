@@ -34,15 +34,15 @@ import { FlipVerticalIcon, ResetIcon, UndoIcon } from "./icons";
 
 type Status = "idle" | "loading" | "done" | "error";
 
-// DEFAULT is the "killer" moat demo (held-out test position aMJxAUwT_27): the
-// tuned model gives a DIFFERENT, level-appropriate move for each tier — Be3
-// (beginner) · Ne2 (intermediate) · Rd1 (advanced) — while GPT-5.5, Claude, and
-// Gemini all just repeat the single engine move (Rd1) at every level. Switching
-// tiers on load is the one-screen proof that OURS adapts where the frontier can't.
+// DEFAULT is a moat demo verified on the LIVE served model: on this held-out
+// rook endgame the coach gives a DIFFERENT, level-appropriate move for each tier
+// — g5 (beginner) · Ra1 (intermediate) · h5 (advanced). Switching tiers on load
+// is the one-screen proof that the fine-tune adapts the move to the player's
+// level. No student move — the point is the recommendation per tier.
 const DEFAULT = {
-  fen: "r4rk1/p4pp1/1qpbpn1p/3p4/3P4/2N2Q1P/PPP2PP1/R1B2RK1 w - - 1 14",
+  fen: "r5kr/6pp/p7/8/6PP/8/8/5RK1 w - - 1 39",
   tier: "beginner" as Tier,
-  move: "b3",
+  move: "",
 };
 const DEFAULT_STUDENT_UCI = moveToUci(DEFAULT.fen, DEFAULT.move);
 const TIERS: Tier[] = ["beginner", "intermediate", "advanced"];
@@ -54,20 +54,14 @@ interface Preset {
   move?: string;
 }
 
-// A few one-click positions: two "moat" demos (real held-out positions where OURS
-// gives a distinct move per level while the frontier repeats one move), a handful
-// of recognizable openings, and the classic beginner blunder.
+// A few one-click positions: a "moat" demo (a held-out position where the live
+// served model gives a distinct move per level), a handful of recognizable
+// openings, and the classic beginner blunder.
 const PRESETS: Preset[] = [
   {
-    label: "Moat · Italian middlegame",
-    hint: "The default demo — OURS adapts Be3 / Ne2 / Rd1 by level; GPT-5.5, Claude, and Gemini all just repeat Rd1.",
-    fen: "r4rk1/p4pp1/1qpbpn1p/3p4/3P4/2N2Q1P/PPP2PP1/R1B2RK1 w - - 1 14",
-    move: "b3",
-  },
-  {
-    label: "Moat · minor-piece endgame",
-    hint: "A held-out endgame where OURS gives Ne6+ / h6 / Kd2 across the tiers while the frontier repeats a single move.",
-    fen: "8/7b/5p2/P1kp3P/2pN1P2/4K3/8/8 w - - 1 39",
+    label: "Moat · rook endgame",
+    hint: "The default demo — the live model adapts g5 / Ra1 / h5 by level; switch tiers to watch the move change.",
+    fen: "r5kr/6pp/p7/8/6PP/8/8/5RK1 w - - 1 39",
   },
   {
     label: "Italian Game",
