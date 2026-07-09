@@ -530,10 +530,10 @@ export default function Studio() {
             )}
           </div>
           <h1 className="text-2xl font-semibold leading-tight tracking-tight text-balance text-ink sm:text-[2rem]">
-            The fine-tune reliably picks the level-appropriate move where its base can't.
+            The fine-tune reliably picks the level-appropriate move where its base can&apos;t.
           </h1>
           <p className="text-pretty text-sm leading-relaxed text-muted sm:text-base">
-            A fine-tuned model running locally. Set a position, mark the move you're unsure about, and
+            A fine-tuned model running locally. Set a position, mark the move you&apos;re unsure about, and
             pick your rating. It hands back <span className="text-ink">one move chosen for your
             level</span> and a short <span className="text-ink">principle tag</span> for why. Its one
             job is selecting the tier-appropriate move; the full explanation is an{" "}
@@ -558,7 +558,7 @@ export default function Studio() {
             so a first-time viewer knows exactly what to do and what to read. */}
         <div className="flex flex-col gap-3 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] p-4 sm:flex-row sm:items-center sm:gap-5">
           <p className="text-sm leading-relaxed text-muted sm:max-w-[15rem]">
-            <span className="font-medium text-ink">How it works.</span> The model's one job is to
+            <span className="font-medium text-ink">How it works.</span> The model&apos;s one job is to
             pick the move that fits your rating, not to lecture.
           </p>
           <ol className="grid flex-1 grid-cols-1 gap-2 sm:grid-cols-3">

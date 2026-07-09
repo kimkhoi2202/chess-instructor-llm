@@ -612,7 +612,50 @@ def build_demo() -> gr.Blocks:
     first = next(iter(EXAMPLES.values()))
     legend = "🟢 Green arrow = recommended move  ·  🔴 Red arrow = your move"
 
-    with gr.Blocks(theme=gr.themes.Soft(), title="Chess Coach") as demo:
+    with gr.Blocks(
+        theme=gr.themes.Base(
+            primary_hue="amber",
+            secondary_hue="zinc",
+            neutral_hue="zinc",
+            font=[gr.themes.GoogleFont("Archivo"), "ui-sans-serif", "system-ui", "sans-serif"],
+            font_mono=[gr.themes.GoogleFont("Spline Sans Mono"), "ui-monospace", "Consolas", "monospace"],
+        ),
+        title="Chess Coach",
+        css="""
+            :root {
+                /* Tournament Hall palette mapping */
+                --background-fill-primary: oklch(0.28 0.045 155);
+                --background-fill-secondary: oklch(0.32 0.04 155);
+                --border-color-primary: oklch(0.40 0.04 155);
+                --body-text-color: oklch(0.93 0.02 90);
+                --body-text-color-subdued: oklch(0.78 0.02 90);
+                --color-accent: oklch(0.78 0.13 85); /* Signal Brass */
+                --color-accent-text: oklch(0.24 0.03 85);
+            }
+            body {
+                background-color: var(--background-fill-primary);
+                color: var(--body-text-color);
+            }
+            .gradio-container {
+                border-radius: 0 !important; /* Sharp corners */
+            }
+            /* Override Gradio's default rounded corners for inputs/panels */
+            .box, .panel, .gr-box, .gr-panel, input, textarea, select, button {
+                border-radius: 4px !important;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                color: var(--body-text-color);
+                font-weight: 600;
+            }
+            /* Make the recommended move stand out with the serif font */
+            #rec-move-box input {
+                font-family: 'Merriweather', serif !important;
+                font-size: 1.5rem !important;
+                font-weight: 700 !important;
+                color: var(--color-accent) !important;
+            }
+        """
+    ) as demo:
         gr.Markdown("# \u265f\ufe0f Chess Coach (Qwen3-1.7B, engine-grounded)")
         gr.Markdown(
             "Engine analysis — a **Stockfish** sound-move pool plus **Maia** "
@@ -656,7 +699,7 @@ def build_demo() -> gr.Blocks:
                 else:
                     board_out = gr.HTML(label="Position")
                 rec_out = gr.Textbox(
-                    label="Recommended move (SAN)", interactive=False
+                    label="Recommended move (SAN)", interactive=False, elem_id="rec-move-box"
                 )
                 gr.Markdown("### Coaching")
                 coaching_out = gr.Markdown()

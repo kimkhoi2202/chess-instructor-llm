@@ -51,9 +51,7 @@ real position before it reaches you.
 The pitch is not "a 1.7B model plays better chess than GPT-5.5." It never will. The bet is
 narrower and measurable:
 
-> **One specific behavior — leveled, human-findable "teaching-move" coaching — is *not*
-> reliably delivered by a prompted frontier model, and *can* be trained into a small model to run
-> reliably, cheaply, and locally.**
+- **One specific behavior: leveled, human-findable "teaching-move" coaching is *not* reliably delivered by a prompted frontier model, and *can* be trained into a small model to run reliably, cheaply, and locally.**
 
 We proved the gap exists **before** claiming to fill it. On 50 held-out positions with grounding
 byte-identical to the app, the frontier models (GPT-5.5, Claude Opus 4.8, Gemini 3.1 Pro) are
