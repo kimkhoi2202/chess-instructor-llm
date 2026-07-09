@@ -120,55 +120,55 @@ export default function PositionLibrary({
         </div>
       ) : (
         <div className="relative">
-          <ul className="flex max-h-[340px] flex-col divide-y divide-[color:var(--separator)] overflow-y-auto rounded-[10px] border border-[color:var(--border)]">
-            {shown.map((e) => {
-              const sev = sevStyle(e.severity);
-              const active = e.id === activeId;
-              return (
-                <li key={e.id}>
-                  <button
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => onSelect(e)}
-                    aria-pressed={active}
-                    className={`group flex w-full cursor-pointer items-center gap-3 px-3.5 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-signal/60 disabled:cursor-default disabled:opacity-50 ${
-                      active
-                        ? "bg-signal/12 shadow-[inset_2px_0_0_0_var(--signal)]"
-                        : "hover:bg-[color:var(--surface-tertiary)] hover:shadow-[inset_2px_0_0_0_var(--border)]"
-                    }`}
-                  >
-                    <span
-                      aria-hidden
-                      className="size-2 shrink-0 rounded-full"
-                      style={{ backgroundColor: sev.dot }}
-                    />
-                    <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-                      <span className="text-sm text-muted">
-                        {e.student_move ? (
-                          <>
-                            You played{" "}
-                            <span className="font-mono text-[color:var(--your-move)] tnum">
-                              {e.student_move}
-                            </span>
-                          </>
-                        ) : (
-                          "Position to plan"
-                        )}
-                      </span>
-                      <span className="text-xs text-muted">
-                        {sev.label} · {cap(e.phase)}
-                      </span>
-                    </div>
-                    <div className="flex shrink-0 items-baseline gap-1.5">
-                      <span className="text-xs text-faint">coach</span>
-                      <span className="font-mono text-base font-semibold text-signal tnum">
-                        {e.coach.recommended_move_san}
-                      </span>
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
+            <ul className="flex max-h-[340px] flex-col divide-y divide-[color:var(--separator)] overflow-y-auto rounded-[10px] border border-[color:var(--border)]">
+              {shown.map((e) => {
+                const sev = sevStyle(e.severity);
+                const active = e.id === activeId;
+                return (
+                  <li key={e.id}>
+                    <button
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => onSelect(e)}
+                      aria-pressed={active}
+                      className={`group flex w-full cursor-pointer items-center gap-3 px-3.5 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-signal/60 disabled:cursor-default disabled:opacity-50 ${
+                        active
+                          ? "bg-signal/12"
+                          : "hover:bg-[color:var(--surface-tertiary)]"
+                      }`}
+                    >
+                      <span
+                        aria-hidden
+                        className={`size-2 shrink-0 rounded-full ${active ? "ring-2 ring-signal/40" : ""}`}
+                        style={{ backgroundColor: sev.dot }}
+                      />
+                      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                        <span className="text-sm text-muted">
+                          {e.student_move ? (
+                            <>
+                              You played{" "}
+                              <span className="font-serif text-[color:var(--your-move)] tnum">
+                                {e.student_move}
+                              </span>
+                            </>
+                          ) : (
+                            "Position to plan"
+                          )}
+                        </span>
+                        <span className="text-xs text-muted">
+                          {sev.label} · {cap(e.phase)}
+                        </span>
+                      </div>
+                      <div className="flex shrink-0 items-baseline gap-1.5">
+                        <span className="text-xs text-faint">coach</span>
+                        <span className="font-serif text-base font-semibold text-signal tnum">
+                          {e.coach.recommended_move_san}
+                        </span>
+                      </div>
+                    </button>
+                  </li>
+                );
+              })}
             {shown.length === 0 && (
               <li className="px-3.5 py-6 text-center text-xs text-muted">
                 No {filter === "all" ? "" : filter} positions in the library yet.

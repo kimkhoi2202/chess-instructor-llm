@@ -362,7 +362,7 @@ export default function Showcase() {
                 </div>
               ) : (
                 <>
-                  <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+                  <ul className="flex flex-col divide-y divide-[color:var(--separator)] border-y border-[color:var(--border)] lg:border-none lg:divide-y-0 lg:gap-2.5">
                     {shownLib.map((p) => (
                       <li key={p.id}>
                         <LibraryCard
