@@ -407,7 +407,7 @@ function PositionCard({ position, focusModel }: { position: ShowdownPosition; fo
           <div className="flex items-center gap-1.5">
             <span
               aria-hidden
-              className="inline-block size-3 rounded-full ring-1 ring-border"
+              className="inline-block size-3 rounded-full ring-1 ring-[color:var(--border)]"
               style={{ backgroundColor: position.side_to_move === "white" ? "var(--board-light)" : "var(--board-dark)" }}
             />
             {cap(position.side_to_move)} to move

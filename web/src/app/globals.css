@@ -407,10 +407,15 @@ body .cg-wrap cg-board square.dark {
   background: var(--board-dark) !important;
 }
 
-/* Luminous brass drop-shadow on the coach's recommended-move arrow. Targets the
-   arrow shaft by the signal brush color, so only the coach arrow glows (the
-   student / user-drawn arrows stay clean). */
-body .cg-wrap svg line[stroke="#eaa93a" i] {
+/* Luminous brass drop-shadow on the coach's recommended-move arrow. The shaft is
+   a <line stroke="#eaa93a"> and the arrowhead is that line's marker-end (a
+   <path fill="#eaa93a"> in <defs>), so filtering the line alone left the head
+   unlit. Filter the per-shape wrapping <g> instead, so the shaft AND its marker
+   arrowhead rasterize together and glow as one. `:has(> line …)` targets only the
+   per-shape group (the line's direct parent), not chessground's outer container
+   <g>: matching both would nest two filters and double the shadow. Only the coach
+   arrow carries the signal color, so student / user-drawn arrows stay clean. */
+body .cg-wrap svg g:has(> line[stroke="#eaa93a" i]) {
   filter: drop-shadow(0 0 8px var(--signal));
 }
 

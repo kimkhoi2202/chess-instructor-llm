@@ -58,7 +58,7 @@ h3{font-size:14.5px;margin:0 0 4px;font-weight:650}
 .toggle button.on{background:var(--accent);color:#08101f;font-weight:650}
 .toggle.ver button.on{background:var(--ours);color:#0a0713}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 4px;overflow-x:auto}
-/* headline hero — the moat */
+/* headline hero: the moat */
 .hero{border:1px solid rgba(212,165,74,.55);background:rgba(212,165,74,.06);border-radius:16px;padding:16px 18px 20px;margin:14px 0 6px}
 .hero-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:2px}
 .hero h2{margin:6px 0 4px}
@@ -161,9 +161,9 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 <body><div class="wrap">
 
 <div class="label">Evaluation dashboard</div>
-<h1>Chess-Coach Benchmark <span class="sub">— OURS-v2 vs frontier</span></h1>
+<h1>Chess-Coach Benchmark <span class="sub">· OURS-v2 vs frontier</span></h1>
 <p class="framing">We optimize for <b>tier-appropriate move selection</b>; safety, no-jargon, and faithfulness are <b class="ts">table-stakes</b> (faithfulness is verifier-guaranteed).</p>
-<p class="lede">A 1.7B <b>on-device</b> chess-coaching fine-tune benchmarked head-to-head against GPT-5.5, Claude Opus 4.8, and Gemini 3.1 Pro on <b>100 held-out positions</b>, in two conditions (with / without engine grounding), scored by <b>deterministic</b> objective verifiers <b>and</b> a blinded cross-family LLM council. <b>v2 is the current shipped model</b>; v1 is the matched baseline (same 100 positions). Every model saw the byte-identical grounded input. <b>The definitive comparison — 803 held-out positions across 14 models — is right below;</b> this 100-position head-to-head is retained as the earlier run.</p>
+<p class="lede">A 1.7B <b>on-device</b> chess-coaching fine-tune benchmarked head-to-head against GPT-5.5, Claude Opus 4.8, and Gemini 3.1 Pro on <b>100 held-out positions</b>, in two conditions (with / without engine grounding), scored by <b>deterministic</b> objective verifiers <b>and</b> a blinded cross-family LLM council. <b>v2 is the current shipped model</b>; v1 is the matched baseline (same 100 positions). Every model saw the byte-identical grounded input. <b>The definitive comparison (803 held-out positions across 14 models) is right below;</b> this 100-position head-to-head is retained as the earlier run.</p>
 <div>
   <span class="pill cur"><b>803</b> held-out positions</span>
   <span class="pill"><b>14</b> models &times; <b>3</b> tiers</span>
@@ -181,8 +181,8 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
     <span class="pill" style="margin:0"><b>14</b> models &times; <b>3</b> tiers</span>
     <span class="pill" style="margin:0">zero train/valid leakage</span>
   </div>
-  <h2 style="font-size:24px;margin:8px 0 4px">Definitive eval — 803 held-out positions, 14 models</h2>
-  <p class="framing" style="max-width:90ch">OURS-v2 <b class="ts">leads tier-appropriate move selection</b> (~50–53%, <b>the moat</b>) across the entire field — but its <b>raw</b> balanced score is mid-pack, dragged down by raw fabrication (<b class="ts">verifier-fixed to 0% in deployment</b>) and instructiveness. Best open coach = <b style="color:#a9cbff">GLM-5</b> (too big to run local); best v3 base = <b class="ts">Qwen3-32B ≈ Gemma-3-27B</b>.</p>
+  <h2 style="font-size:24px;margin:8px 0 4px">Definitive eval: 803 held-out positions, 14 models</h2>
+  <p class="framing" style="max-width:90ch">OURS-v2 <b class="ts">leads tier-appropriate move selection</b> (~50–53%, <b>the moat</b>) across the entire field, but its <b>raw</b> balanced score is mid-pack, dragged down by raw fabrication (<b class="ts">verifier-fixed to 0% in deployment</b>) and instructiveness. Best open coach = <b style="color:#a9cbff">GLM-5</b> (too big to run local); best v3 base = <b class="ts">Qwen3-32B ≈ Gemma-3-27B</b>.</p>
   <div class="panel"><table class="summary">
     <tbody>
       <tr><th>OURS-v2 tier-fit, the moat <span class="mut">field-leading, 803&times;3 tiers</span></th><td class="num ours">53%</td></tr>
@@ -195,12 +195,12 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 </div>
 
 <div class="callout warn">
-  <div class="ct">How to read the balanced score — honestly</div>
-  <p>The moat we fine-tune IN — <b class="g">tier-appropriate move selection</b> — is where OURS-v2 leads the whole field (53% tier-fit). Its <b>raw</b> balanced rank is mid-pack because (1) <b>raw</b> fabrication is 30%, but the deployed <b>verify-and-regenerate</b> gate drives user-visible fabrication to <b class="g">&approx;0%</b>, so it is table-stakes here and down-weighted; and (2) a 1.7B model is simply less instructive than giants. The balanced winner (GLM-5) and the pragmatic base pick (Qwen3-32B) <b>differ</b>: tier-appropriateness is what we ADD by fine-tuning, while capacity + faithfulness + local-runnability are what a base must bring.</p>
+  <div class="ct">How to read the balanced score, honestly</div>
+  <p>The moat we fine-tune IN (<b class="g">tier-appropriate move selection</b>) is where OURS-v2 leads the whole field (53% tier-fit). Its <b>raw</b> balanced rank is mid-pack because (1) <b>raw</b> fabrication is 30%, but the deployed <b>verify-and-regenerate</b> gate drives user-visible fabrication to <b class="g">&approx;0%</b>, so it is table-stakes here and down-weighted; and (2) a 1.7B model is simply less instructive than giants. The balanced winner (GLM-5) and the pragmatic base pick (Qwen3-32B) <b>differ</b>: tier-appropriateness is what we ADD by fine-tuning, while capacity + faithfulness + local-runnability are what a base must bring.</p>
 </div>
 
-<h3 style="margin:22px 0 2px">Tier-appropriate move selection — the moat <span class="mut" style="font-weight:400">(tier-fit mean, all 14 · higher better)</span></h3>
-<p class="hint" style="margin:2px 0 8px">Share of (position, tier) where the coach's pick equals the canonical <code>select_tier_move</code> move (beginner = most human-findable sound move, advanced = sharpest). This is the trained behavior — weak field-wide, led by OURS-v2.</p>
+<h3 style="margin:22px 0 2px">Tier-appropriate move selection: the moat <span class="mut" style="font-weight:400">(tier-fit mean, all 14 · higher better)</span></h3>
+<p class="hint" style="margin:2px 0 8px">Share of (position, tier) where the coach's pick equals the canonical <code>select_tier_move</code> move (beginner = most human-findable sound move, advanced = sharpest). This is the trained behavior: weak field-wide, led by OURS-v2.</p>
 <div class="panel" style="padding:16px"><div class="bars">
 <div class="barrow"><div class="nm">OURS-v2 (Qwen3-1.7B tuned) <span class="mtag ours">OURS · on-device</span></div><div class="track"><div class="fill ours" style="width:100.0%"></div></div><div class="val g">53%</div></div>
 <div class="barrow"><div class="nm">Gemini 3.1 Pro <span class="mtag frontier">frontier</span></div><div class="track"><div class="fill" style="width:91.2%"></div></div><div class="val ">48%</div></div>
@@ -218,7 +218,7 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 <div class="barrow"><div class="nm">Qwen3-Next-80B-A3B <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:60.0%"></div></div><div class="val b">32%</div></div>
 </div></div>
 
-<h3 style="margin:26px 0 2px">Balanced leaderboard <span class="mut" style="font-weight:400">— weighted score (higher better)</span></h3>
+<h3 style="margin:26px 0 2px">Balanced leaderboard <span class="mut" style="font-weight:400">· weighted score (higher better)</span></h3>
 <p class="hint" style="margin:2px 0 10px">tier-appropriate move selection <b>40%</b> + instructiveness <b>40%</b> + faithfulness (1&minus;fab) <b>10%</b> + practical (local+cost) <b>10%</b>, each normalized 0–1. Safety &amp; no-jargon are pass/fail <b>gates</b>. Score = weighted mean &times; 100.</p>
 <div class="panel"><table>
 <thead><tr><th>#</th><th>Model</th><th>tier (.40)</th><th>instr (.40)</th><th>1&minus;fab (.10)</th><th>practical (.10)</th><th>balanced</th><th>gate</th></tr></thead>
@@ -239,7 +239,7 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 <tr class=""><td class="mut">14</td><td class="mname">BASE (Qwen3-1.7B untuned) <span class="mtag base">base</span></td><td>44.2</td><td>4.8</td><td>85.5</td><td>100.0</td><td><b>38.1</b></td><td><span class="b">FAIL</span></td></tr>
 </tbody></table></div>
 
-<h3 style="margin:26px 0 2px">Per-model metrics <span class="mut" style="font-weight:400">— the moat + table-stakes</span></h3>
+<h3 style="margin:26px 0 2px">Per-model metrics <span class="mut" style="font-weight:400">· the moat + table-stakes</span></h3>
 <p class="hint" style="margin:2px 0 10px">tier-fit = moat; instr rank = council mean rank of 14 (lower better, top-1% in parens); fab is the <b>raw</b> model (verifier-neutralized at serve time); local = 4-bit runnable on a 64GB Mac; n(det) = deterministic positions&times;tiers scored (frontier on the 150-subset).</p>
 <div class="panel"><table>
 <thead><tr><th>Model</th><th>tier-fit&uarr;</th><th>tier-diff&uarr;</th><th>direction&uarr;</th><th>instr rank&darr; (top1)</th><th>safety&uarr;</th><th>no-jargon&uarr;</th><th>fab&darr;</th><th>local</th><th>n(det)</th></tr></thead>
@@ -281,16 +281,16 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 <tr class=""><td class="mname">Qwen3-Next-80B-A3B</td><td>33%</td><td>32%</td><td>30%</td><td class="mut">30%</td><td class="mut">31%</td><td class="mut">30%</td><td>25%</td><td class="mut">24%</td></tr>
 </tbody></table></div>
 
-<h3 style="margin:26px 0 2px">Best v3 <b>base</b> ranking <span class="mut" style="font-weight:400">— re-weighted for what's hard to ADD</span></h3>
+<h3 style="margin:26px 0 2px">Best v3 <b>base</b> ranking <span class="mut" style="font-weight:400">· re-weighted for what's hard to ADD</span></h3>
 <p class="hint" style="margin:2px 0 10px">For a fine-tuning base, tier-appropriateness is what we ADD, so it is down-weighted; the hard-to-add qualities dominate: <b>instructiveness/capacity 35%</b>, <b>faithfulness 20%</b>, <b>local-runnability+cost 35%</b>, tier 10%. Only locally fine-tunable/runnable models are viable bases.</p>
 <div class="panel"><table>
 <thead><tr><th>#</th><th>Model</th><th>base-fit</th><th>local</th><th style="text-align:left">note</th></tr></thead>
 <tbody>
-<tr class=""><td class="mut">1</td><td class="mname">Qwen3-32B <span class="mtag open">open</span></td><td><b>72.6</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">4-bit ~18GB — comfortable</td></tr>
-<tr class=""><td class="mut">2</td><td class="mname">Gemma-3-27B-it <span class="mtag open">open</span></td><td><b>72.2</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">4-bit ~15GB — comfortable</td></tr>
+<tr class=""><td class="mut">1</td><td class="mname">Qwen3-32B <span class="mtag open">open</span></td><td><b>72.6</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">4-bit ~18GB, comfortable</td></tr>
+<tr class=""><td class="mut">2</td><td class="mname">Gemma-3-27B-it <span class="mtag open">open</span></td><td><b>72.2</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">4-bit ~15GB, comfortable</td></tr>
 <tr class="ours"><td class="mut">3</td><td class="mname">OURS-v2 (Qwen3-1.7B tuned) <span class="mtag ours">OURS · on-device</span></td><td><b>66.5</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">already local</td></tr>
-<tr class=""><td class="mut">4</td><td class="mname">Llama-3.3-70B <span class="mtag open">open</span></td><td><b>66.2</b></td><td><span class="w">tight</span></td><td class="mut" style="text-align:left">4-bit ~40GB — tight on 64GB</td></tr>
-<tr class=""><td class="mut">5</td><td class="mname">Qwen3-Next-80B-A3B <span class="mtag open">open</span></td><td><b>64.7</b></td><td><span class="w">tight</span></td><td class="mut" style="text-align:left">4-bit ~43GB — tight but fits; 3B active = fast</td></tr>
+<tr class=""><td class="mut">4</td><td class="mname">Llama-3.3-70B <span class="mtag open">open</span></td><td><b>66.2</b></td><td><span class="w">tight</span></td><td class="mut" style="text-align:left">4-bit ~40GB, tight on 64GB</td></tr>
+<tr class=""><td class="mut">5</td><td class="mname">Qwen3-Next-80B-A3B <span class="mtag open">open</span></td><td><b>64.7</b></td><td><span class="w">tight</span></td><td class="mut" style="text-align:left">4-bit ~43GB, tight but fits; 3B active = fast</td></tr>
 <tr class=""><td class="mut">6</td><td class="mname">GPT-5.5 <span class="mtag frontier">frontier</span></td><td><b>64.6</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">API-only</td></tr>
 <tr class=""><td class="mut">7</td><td class="mname">Gemini 3.1 Pro <span class="mtag frontier">frontier</span></td><td><b>60.0</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">API-only</td></tr>
 <tr class=""><td class="mut">8</td><td class="mname">BASE (Qwen3-1.7B untuned) <span class="mtag base">base</span></td><td><b>58.2</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">already local</td></tr>
@@ -303,10 +303,10 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 </tbody></table></div>
 <div class="callout good">
   <div class="ct">Recommendation</div>
-  <p><b>Best overall (any provider):</b> GPT-5.5 (the distillation teacher, not a deployable base). <b>Best OPEN coach (balanced):</b> <b>GLM-5</b> — <b>not</b> Gemma-3-27B — but far too large to run locally. <b>Best open v3 base:</b> <b>Qwen3-32B</b> (72.6), effectively tied with <b>Gemma-3-27B-it</b> (72.2) — prefer Gemma-3-27B if faithfulness/size is paramount (fab 2% vs 6%), Qwen3-32B if raw capacity is. The balanced winner and the base pick differ because tier-appropriateness (where giants lead) is exactly what fine-tuning adds.</p>
+  <p><b>Best overall (any provider):</b> GPT-5.5 (the distillation teacher, not a deployable base). <b>Best OPEN coach (balanced):</b> <b>GLM-5</b> (<b>not</b> Gemma-3-27B), but far too large to run locally. <b>Best open v3 base:</b> <b>Qwen3-32B</b> (72.6), effectively tied with <b>Gemma-3-27B-it</b> (72.2): prefer Gemma-3-27B if faithfulness/size is paramount (fab 2% vs 6%), Qwen3-32B if raw capacity is. The balanced winner and the base pick differ because tier-appropriateness (where giants lead) is exactly what fine-tuning adds.</p>
 </div>
 
-<h3 style="margin:26px 0 2px">Cost — definitive eval</h3>
+<h3 style="margin:26px 0 2px">Cost: definitive eval</h3>
 <p class="hint" style="margin:2px 0 10px">Open + frontier prices are best-effort Bedrock/gateway estimates; local (OURS-v2, BASE) is free.</p>
 <div class="panel"><table>
 <thead><tr><th>group</th><th>calls</th><th>in tok</th><th>out tok</th><th>est. USD</th></tr></thead>
@@ -318,7 +318,7 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 </section>
 <!-- ==================== /DEFINITIVE 803 EVAL ==================== -->
 
-<h2 id="earlier" style="margin-top:48px">Earlier run <span class="sub">— 100 held-out positions · 5 models (v1 / v2)</span></h2>
+<h2 id="earlier" style="margin-top:48px">Earlier run <span class="sub">· 100 held-out positions · 5 models (v1 / v2)</span></h2>
 <p class="hint">The original 100-position head-to-head (OURS-v1 / v2 vs GPT-5.5 / Claude Opus 4.8 / Gemini 3.1 Pro), retained for provenance. The <a href="#def803">803-position, 14-model eval above</a> is the definitive comparison. The toggles below drive the panels in this earlier-run section only.</p>
 <div style="margin:6px 0 2px">
   <span class="pill cur"><b>v2</b> current</span>
@@ -343,8 +343,8 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 
 <!-- Honest framing -->
 <div class="callout info">
-  <div class="ct">How to read this — honestly</div>
-  <p>OURS-v2 is a 1.7B <b>local</b> model. This ordering reflects what matters for a <b>leveled coach</b>, not a scoreboard we won. It leads on the one thing we train for — <b class="g">tier-appropriate move selection</b> (39.2% vs frontier ~22.7%, now direction-corrected) — and on <b class="g">cost</b> ($0, on-device). It still <b class="b">trails the frontier on judged instructiveness</b> (council rank 3.68 vs ~2.09). Safety, no-jargon and faithfulness are <b>table-stakes</b> floors every competent coach clears; faithfulness is guaranteed at inference by a deterministic <b>verify-and-regenerate</b> gate, so user-visible fabrication is ≈0.</p>
+  <div class="ct">How to read this, honestly</div>
+  <p>OURS-v2 is a 1.7B <b>local</b> model. This ordering reflects what matters for a <b>leveled coach</b>, not a scoreboard we won. It leads on the one thing we train for: <b class="g">tier-appropriate move selection</b> (39.2% vs frontier ~22.7%, now direction-corrected), and on <b class="g">cost</b> ($0, on-device). It still <b class="b">trails the frontier on judged instructiveness</b> (council rank 3.68 vs ~2.09). Safety, no-jargon and faithfulness are <b>table-stakes</b> floors every competent coach clears; faithfulness is guaranteed at inference by a deterministic <b>verify-and-regenerate</b> gate, so user-visible fabrication is ≈0.</p>
 </div>
 
 <div class="legend">
@@ -354,14 +354,14 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
   <span class="it"><span class="dot" style="background:var(--bad)"></span>weakest on this axis</span>
 </div>
 
-<!-- (a) HEADLINE — the moat -->
+<!-- (a) HEADLINE: the moat -->
 <div class="hero">
   <div class="hero-top">
     <span class="label">What we optimize for</span>
     <span class="pill" style="margin:0">separate greedy analysis · not affected by the toggles</span>
   </div>
   <h2>Tier-appropriate move selection</h2>
-  <p class="hint">Does the coach recommend a <b>different, level-suited</b> move to a beginner vs an advanced player in the <b>same</b> position? This is the moat — a leveled coach, not one-size-fits-all engine output. Higher = more level-awareness. OURS-v2 on 120 matched held-out; frontier on 50 held-out (GAP report).</p>
+  <p class="hint">Does the coach recommend a <b>different, level-suited</b> move to a beginner vs an advanced player in the <b>same</b> position? This is the moat: a leveled coach, not one-size-fits-all engine output. Higher = more level-awareness. OURS-v2 on 120 matched held-out; frontier on 50 held-out (GAP report).</p>
   <div class="panel"><table class="summary">
     <tbody>
       <tr><th>OURS-v2 tier-appropriate <span class="mut">120 matched held-out</span></th><td class="num ours">39.2%</td></tr>
@@ -372,14 +372,14 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
   <div class="panel" style="padding:16px;margin-top:6px"><div class="bars" id="tierBars"></div></div>
   <div class="callout good">
     <div class="ct">Direction corrected in v2</div>
-    <p>v1's differentiation was <b>mis-directed</b> — beginners got the sharper engine move. v2 flips it: beginners are steered to the more <b>human-findable</b> move, advanced to the sharpest. So the 39.2% now points the right way.</p>
+    <p>v1's differentiation was <b>mis-directed</b>: beginners got the sharper engine move. v2 flips it: beginners are steered to the more <b>human-findable</b> move, advanced to the sharpest. So the 39.2% now points the right way.</p>
   </div>
   <div class="panel"><table id="tierDirTbl"></table></div>
 </div>
 
-<!-- (b) Instructiveness — the honest axis -->
+<!-- (b) Instructiveness: the honest axis -->
 <h2>Instructiveness <span class="sub">(blinded, cross-family council)</span></h2>
-<p class="hint">How good is the explanation? GPT-5.5 + Claude + Gemini each rank the 5 <b>anonymized</b> outputs per item. Number = mean rank (1 = best of 5); bar length = more instructive. <b>Frontier still leads</b> — we report it straight.</p>
+<p class="hint">How good is the explanation? GPT-5.5 + Claude + Gemini each rank the 5 <b>anonymized</b> outputs per item. Number = mean rank (1 = best of 5); bar length = more instructive. <b>Frontier still leads</b>; we report it straight.</p>
 <div class="panel" style="padding:16px"><div class="bars" id="rankBars"></div></div>
 <div class="callout info"><div class="ct">Frontier still wins instructiveness</div><p id="gapNote"></p></div>
 <div class="two" style="margin-top:14px">
@@ -387,31 +387,31 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
   <div class="panel"><table id="rubTbl"></table></div>
 </div>
 
-<!-- (c) TABLE STAKES — the floors -->
-<h2>Table stakes <span class="sub">— every competent coach clears these; not the differentiator</span></h2>
-<p class="hint">Deterministic non-LLM checks — the <b>floor</b>, not the moat. Follows the toggles. n = 100 per model. <span class="mut">Grounded (deployed), every model clears the safety floor at 93–100%.</span></p>
+<!-- (c) TABLE STAKES: the floors -->
+<h2>Table stakes <span class="sub">· every competent coach clears these; not the differentiator</span></h2>
+<p class="hint">Deterministic non-LLM checks: the <b>floor</b>, not the moat. Follows the toggles. n = 100 per model. <span class="mut">Grounded (deployed), every model clears the safety floor at 93–100%.</span></p>
 <div class="two">
   <div class="panel" style="padding:14px 16px">
-    <h3>Move safety — no blunders (%) <span class="mut" style="font-weight:400">— higher better</span></h3>
+    <h3>Move safety: no blunders (%) <span class="mut" style="font-weight:400">· higher better</span></h3>
     <p class="hint" style="margin:2px 0 8px">Recommended move is <b>not a blunder</b> (Stockfish cp-loss &lt; 250). A usable coach must not hang pieces. Re-scored blunder-only from the stored picks + engine evals.</p>
     <div class="bars" id="safeBars"></div>
   </div>
   <div class="panel" style="padding:14px 16px">
-    <h3>Fabrication rate (%) <span class="mut" style="font-weight:400">— lower better</span></h3>
+    <h3>Fabrication rate (%) <span class="mut" style="font-weight:400">· lower better</span></h3>
     <p class="hint" style="margin:2px 0 8px">Answer states &ge;1 false board fact (deterministic verifier). This is the <b>raw model</b>; the deployed gate makes what the learner sees ≈0 (see below).</p>
     <div class="bars" id="fabBars"></div>
   </div>
 </div>
 <div class="panel" style="margin-top:14px"><table id="objTbl"></table></div>
-<p class="note">No-engine-speak is a solved floor — 100% for every model (Claude 99% ungrounded); ply-cap is likewise 100% for all and omitted here. The real story on this axis is that in the deployed (grounded) condition, <b>nobody blunders much</b>.</p>
+<p class="note">No-engine-speak is a solved floor: 100% for every model (Claude 99% ungrounded); ply-cap is likewise 100% for all and omitted here. The real story on this axis is that in the deployed (grounded) condition, <b>nobody blunders much</b>.</p>
 <div class="callout good">
   <div class="ct">Faithfulness is verifier-guaranteed</div>
-  <p>The grounded fabrication rate above is the <b>raw model</b>. The deployed app runs a <b>verify-and-regenerate gate</b>: re-sample the answer up to 4&times; and keep the first one that passes a deterministic board-fact verifier; if none pass, fall back to an engine-derived explanation that is <b>true by construction</b>. So <b>user-visible fabrication is ≈0</b> — measured 50% &rarr; 0% on the grounded-fabrication cases tested. Sources: <span class="mut">src/api/server.py, src/engine/faithfulness.py, VERIFIER_EVAL.md</span>.</p>
+  <p>The grounded fabrication rate above is the <b>raw model</b>. The deployed app runs a <b>verify-and-regenerate gate</b>: re-sample the answer up to 4&times; and keep the first one that passes a deterministic board-fact verifier; if none pass, fall back to an engine-derived explanation that is <b>true by construction</b>. So <b>user-visible fabrication is ≈0</b>: measured 50% &rarr; 0% on the grounded-fabrication cases tested. Sources: <span class="mut">src/api/server.py, src/engine/faithfulness.py, VERIFIER_EVAL.md</span>.</p>
 </div>
 
 <!-- Same-input faithfulness head-to-head (the fabrication number, made concrete) -->
 <h2>Same-input faithfulness head-to-head <span class="pill cur" style="vertical-align:3px">v2 · real outputs</span></h2>
-<p class="hint">The raw fabrication number, made concrete. Below are <b id="hhCount">6</b> grounded positions where <b>every model received the byte-identical VERIFIED-FACTS input</b> and <b>all four models recommend the same move</b> — yet OURS-v2 states a <b class="b">demonstrably false board fact</b> in its explanation while all three frontier models stay faithful. The false sentence is <mark class="false">highlighted</mark> and named by the deterministic verifier. This is the raw-model failure the production verify-and-regenerate gate catches before it reaches a learner. Text is verbatim from <span class="mut">generations.jsonl</span>; flags from <span class="mut">objective.jsonl</span>.</p>
+<p class="hint">The raw fabrication number, made concrete. Below are <b id="hhCount">6</b> grounded positions where <b>every model received the byte-identical VERIFIED-FACTS input</b> and <b>all four models recommend the same move</b>, yet OURS-v2 states a <b class="b">demonstrably false board fact</b> in its explanation while all three frontier models stay faithful. The false sentence is <mark class="false">highlighted</mark> and named by the deterministic verifier. This is the raw-model failure the production verify-and-regenerate gate catches before it reaches a learner. Text is verbatim from <span class="mut">generations.jsonl</span>; flags from <span class="mut">objective.jsonl</span>.</p>
 <div class="hh-nav" id="hhNav"></div>
 <div id="hhBody"><div class="warnbox">Loading head-to-head…</div></div>
 
@@ -420,7 +420,7 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
 <div class="panel"><table id="deltaTbl"></table></div>
 <p class="note" id="deltaNote"></p>
 
-<h2>Cost — 100-position benchmark run</h2>
+<h2>Cost: 100-position benchmark run</h2>
 <p class="hint">Generation + council-judge API spend for this run. OURS and BASE run locally on Apple-silicon MLX ($0). Lower is better.</p>
 <div class="panel" style="padding:16px"><div class="bars" id="costBars"></div></div>
 <div class="panel" style="margin-top:14px"><table id="costTbl"></table></div>
@@ -448,8 +448,8 @@ mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid
   <p><b>v2 current.</b> Model: <a href="https://huggingface.co/khoilamalphaai/qwen3-1.7b-chess-coach-mlx">qwen3-1.7b-chess-coach-mlx</a>
   · Dataset &amp; artifacts: <a href="https://huggingface.co/datasets/khoilamalphaai/chess-coach-benchmark">chess-coach-benchmark</a>
   · Raw blinded labeling sheet: <a href="blind_label.html">v2</a> / <a href="blind_label_v1.html">v1</a>
-  · This Space displays numbers only — no runtime/GPU.</p>
-  <p class="mut">Objective checks are deterministic; council instructiveness is an LLM-judge proxy (blinded, cross-family, self-preference measured). "Move safety" is re-scored blunder-only (cp-loss &ge; 250) from the stored picks + Stockfish — a pick is safe unless it is a blunder. Ungrounded fabrication rose 87%&rarr;99% (the concreteness trade); the product always runs grounded with an inference-time verify-and-regenerate gate. Sources: <span class="mut">results.json, move_safety.json, divergence_compare_v2.json, GAP_REPORT.md, VERIFIER_EVAL.md</span>.</p>
+  · This Space displays numbers only, no runtime/GPU.</p>
+  <p class="mut">Objective checks are deterministic; council instructiveness is an LLM-judge proxy (blinded, cross-family, self-preference measured). "Move safety" is re-scored blunder-only (cp-loss &ge; 250) from the stored picks + Stockfish; a pick is safe unless it is a blunder. Ungrounded fabrication rose 87%&rarr;99% (the concreteness trade); the product always runs grounded with an inference-time verify-and-regenerate gate. Sources: <span class="mut">results.json, move_safety.json, divergence_compare_v2.json, GAP_REPORT.md, VERIFIER_EVAL.md</span>.</p>
 </div>
 
 <script>
@@ -529,7 +529,7 @@ function councilGap(){
   const MR=A().council.mean_rank;
   const our=MR.ours[cond], fb=Math.min(MR.gpt[cond],MR.claude[cond],MR.gemini[cond]);
   document.getElementById('gapNote').innerHTML =
-    `OURS-v2 mean rank <b>${f2(our)}</b> vs the best frontier model <b>${f2(fb)}</b> — a gap of <b>+${(our-fb).toFixed(2)}</b>. `+
+    `OURS-v2 mean rank <b>${f2(our)}</b> vs the best frontier model <b>${f2(fb)}</b>, a gap of <b>+${(our-fb).toFixed(2)}</b>. `+
     `We are <b>closing</b> it (grounded gap v1 +2.22 &rarr; v2 +1.60), not winning it. The reorder reflects what matters for a leveled coach, not a scoreboard we won.`;
 }
 function winTable(){
@@ -597,8 +597,8 @@ function tierSection(){
   ];
   renderBars(document.getElementById("tierBars"), rows, 45, "higher");
   const dir=[
-    ["Beginner pick pool-rank (findable — higher better)","0.43","0.78"],
-    ["Advanced pick pool-rank (sharp — lower better)","0.62","0.45"],
+    ["Beginner pick pool-rank (findable, higher better)","0.43","0.78"],
+    ["Advanced pick pool-rank (sharp, lower better)","0.62","0.45"],
     ["Beginner move == human/Maia top","39.2%","61.7%"],
     ["Direction (beginner more findable than advanced)","Wrong","Correct"],
   ];
@@ -617,7 +617,7 @@ function deltaTable(){
     ["Tier-differentiation (higher better)", pct1(TIERDIFF.v1), pct1(TIERDIFF.v2), "+11.7 pts"],
     ["Council mean rank (1 = best)", f2(g.council.mean_rank.ours.grounded), f2(h2.council.mean_rank.ours.grounded), "-0.45"],
     ["Fabrication rate (lower better)", pct(g.objective.fabrication_rate.ours.grounded), pct(h2.objective.fabrication_rate.ours.grounded), "-17 pts"],
-    ["Move safety — no blunders (higher better)", pct(safeVal(g.objective,"ours","grounded")), pct(safeVal(h2.objective,"ours","grounded")), "+2 pts"],
+    ["Move safety: no blunders (higher better)", pct(safeVal(g.objective,"ours","grounded")), pct(safeVal(h2.objective,"ours","grounded")), "+2 pts"],
     ["Top-1 council win rate", pct(g.council.win_rate.ours.grounded), pct(h2.council.win_rate.ours.grounded), "+6 pts"],
   ];
   let h='<thead><tr><th>Metric (OURS, grounded)</th><th>v1</th><th>v2</th><th>Change</th></tr></thead><tbody>';
@@ -649,7 +649,7 @@ function hhModelCard(m, key){
   const body = highlightFalse(m.output, m.violations);
   let flag="";
   if(fab && m.violations.length){
-    flag = `<div class="hh-flag"><b>Verifier-flagged false claim:</b> “${esc(m.violations[0].sentence)}” — <b>${esc(m.violations[0].reason)}</b>`+
+    flag = `<div class="hh-flag"><b>Verifier-flagged false claim:</b> “${esc(m.violations[0].sentence)}”: <b>${esc(m.violations[0].reason)}</b>`+
            (m.violations.length>1?` <span class="mut">(+${m.violations.length-1} more)</span>`:"")+`</div>`;
   }
   return `<div class="hh-model ${cls}"><div class="hh-mh"><span class="mname">${esc(m.name)}</span> ${key==="ours"?tagFor("ours"):(key==="base"?tagFor("base"):tagFor("gpt"))} ${badge} ${rec}</div>`+
@@ -666,7 +666,7 @@ function renderHeadToHead(){
     const recs=[it.models.ours,it.models.gpt,it.models.claude,it.models.gemini].map(m=>m.rec_san);
     const allSame = recs.every(r=>r===recs[0]);
     const mvChip = allSame
-      ? `<span class="chip mv">all four models recommend <b>${esc(recs[0])}</b> — only the explanations differ</span>`
+      ? `<span class="chip mv">all four models recommend <b>${esc(recs[0])}</b>, only the explanations differ</span>`
       : `<span class="chip mv">OURS plays <b>${esc(it.models.ours.rec_san)}</b></span>`;
     h+=`<div class="hh-item" id="hh${i}">`+
        `<div class="hh-head"><span class="chip tier">${esc(it.tier)}</span><span class="chip">${esc(it.phase)}</span>`+

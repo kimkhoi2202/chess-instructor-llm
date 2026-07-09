@@ -175,10 +175,12 @@ export default function PositionLibrary({
               </li>
             )}
           </ul>
-          {/* Continuation cue when the list overflows. */}
+          {/* Continuation cue when the list overflows. The <ul> has no fill, so it
+              sits on the page felt (--background); fade FROM that exact color so the
+              band reads as a seamless fade, not a lighter stripe. */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-px bottom-px h-8 rounded-b-[10px] bg-gradient-to-t from-[color:var(--surface-secondary)] to-transparent"
+            className="pointer-events-none absolute inset-x-px bottom-px h-8 rounded-b-[10px] bg-gradient-to-t from-[color:var(--background)] to-transparent"
           />
         </div>
       )}
