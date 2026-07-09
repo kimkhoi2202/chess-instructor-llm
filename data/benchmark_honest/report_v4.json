@@ -21,17 +21,17 @@
     "core_axes": [
       {
         "axis": "tier_fit_mean",
-        "ours_v4": 0.7194,
+        "ours_v4": 0.79,
         "ours_4b": 0.3861,
-        "delta_v4_minus_4b": 0.3333,
+        "delta_v4_minus_4b": 0.404,
         "higher_better": true,
         "v4_not_worse": true
       },
       {
         "axis": "distinct_moves_per_level",
-        "ours_v4": 0.79,
+        "ours_v4": 0.75,
         "ours_4b": 0.26,
-        "delta_v4_minus_4b": 0.53,
+        "delta_v4_minus_4b": 0.49,
         "higher_better": true,
         "v4_not_worse": true
       },
@@ -45,9 +45,9 @@
       },
       {
         "axis": "coherence_violation_rate",
-        "ours_v4": 0.125,
+        "ours_v4": 0.1417,
         "ours_4b": 0.3417,
-        "delta_v4_minus_4b": -0.2167,
+        "delta_v4_minus_4b": -0.2,
         "higher_better": false,
         "v4_not_worse": true
       }
@@ -90,15 +90,15 @@
   },
   "v4_vs_untuned_base": {
     "untuned_base": "q3_32b",
-    "tier_fit_delta": 0.3777,
+    "tier_fit_delta": 0.448,
     "instr_rank_delta": 0.257,
-    "distinct_delta": 0.49,
+    "distinct_delta": 0.45,
     "instr_grade_delta": -0.55
   },
   "v4_vs_prompt_base": {
     "prompt_base": "pbase_4b",
     "instr_rank_delta": -0.92,
-    "tier_fit_delta": 0.3694
+    "tier_fit_delta": 0.44
   },
   "distance_to_frontier": {
     "best_frontier": [
@@ -151,12 +151,12 @@
         "gated": false,
         "n": 360,
         "no_engine_speak": 0.9778,
-        "well_formed": 0.9639,
-        "move_sound": 0.9306,
+        "well_formed": 0.9556,
+        "move_sound": 0.9417,
         "verify_pass_draft1": 0.5889
       },
-      "coherence": 0.125,
-      "flat_rate": 0.2083
+      "coherence": 0.1417,
+      "flat_rate": 0.2917
     },
     "ours_4b": {
       "instr_rank": 5.622,

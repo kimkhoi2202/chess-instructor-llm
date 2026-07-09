@@ -15,7 +15,7 @@ The definitive base-vs-tuned eval, re-centered on the **32B v4** adapter. Every 
 | tier_fit_mean | 0.79 | 0.386 | 0.404 | higher↑ | yes |
 | distinct_moves_per_level | 0.75 | 0.260 | 0.490 | higher↑ | yes |
 | instr_council_rank | 6.076 | 5.622 | 0.454 | lower↓ | NO |
-| coherence_violation_rate | 0.125 | 0.342 | -0.217 | lower↓ | yes |
+| coherence_violation_rate | 0.142 | 0.342 | -0.200 | lower↓ | yes |
 | instr_grade_0_10 | 4.670 | 5.320 | -0.650 | higher↑ | NO |
 
 **Shared gate floor** (BOTH models through the shipped verify-and-regenerate gate; so move-soundness/well-formedness equalize — a fairness floor, not a differentiator):
@@ -45,7 +45,7 @@ Of **120** val positions, OURS-v4 gives distinct, sound, correctly-graded per-ti
 | OURS-v3 (Qwen3-32B tuned, prior) | reuse | 0.525 | 4.100 | 6.350 | 8.630 | 1.000 | 0.310 | 0.358 |
 | OURS-4B (Qwen3-4B tuned) | yes | 0.386 | 5.622 | 5.320 | 8.970 | 1.000 | 0.260 | 0.342 |
 | BASE (Qwen3-32B untuned) | reuse | 0.342 | 5.819 | 5.220 | 9.010 | 0.992 | 0.300 | 0.492 |
-| OURS-v4 (Qwen3-32B tuned) | reuse | 0.79 | 6.076 | 4.670 | 7.900 | 0.986 | 0.75 | 0.125 |
+| OURS-v4 (Qwen3-32B tuned) | reuse | 0.79 | 6.076 | 4.670 | 7.900 | 0.986 | 0.75 | 0.142 |
 | PROMPT-BASE-4B (Qwen3-4B engineered) | yes | 0.350 | 6.996 | 4.220 | 8.790 | 1.000 | 0.460 | 0.392 |
 | BASE-4B (Qwen3-4B untuned) | yes | 0.347 | 7.133 | 4.110 | 8.780 | 1.000 | 0.220 | 0.392 |
 
@@ -75,7 +75,7 @@ Absolute instructiveness grade pooled over items, 95% cluster-bootstrap CI by it
 | OURS-v3 (Qwen3-32B tuned, prior) | reuse | 0.964 | 0.000 | 0.947 | 0.942 | — | — |
 | OURS-4B (Qwen3-4B tuned) | yes | 1.000 | 1.000 | — | — | 1.194 | 0.008 |
 | BASE (Qwen3-32B untuned) | reuse | 0.992 | 1.000 | 0.992 | 0.950 | — | — |
-| OURS-v4 (Qwen3-32B tuned) | reuse | 0.978 | 0.964 | 0.931 | 0.589 | — | — |
+| OURS-v4 (Qwen3-32B tuned) | reuse | 0.978 | 0.956 | 0.942 | 0.589 | — | — |
 | PROMPT-BASE-4B (Qwen3-4B engineered) | yes | 1.000 | 1.000 | — | — | 1.167 | 0.003 |
 | BASE-4B (Qwen3-4B untuned) | yes | 1.000 | 1.000 | — | — | 1.156 | 0.000 |
 
