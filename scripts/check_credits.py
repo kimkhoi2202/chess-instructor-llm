@@ -48,7 +48,7 @@ WORKSPACES: dict[str, dict[str, object]] = {
         # Newest workspace (~$30). chess-instructor-5 blocked by Modal's
         # membership cap, so this is the ceiling: total usable ~$87.
         "budget": 30.0,
-        "app_id": "ap-PLACEHOLDER-CI4",  # set when a 32B train/serve deploys here
+        "app_id": "ap-mduWYpJIB1cYGT3x6rwffz",  # v5 32B QLoRA training (chess-coach-qlora-v5, live run)
         "label": "32B headroom (~$30)",
     },
     "chess-instructor-2": {

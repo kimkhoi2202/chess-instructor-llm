@@ -11,10 +11,15 @@ data/positions/*
 data/transcripts/*
 data/generated/*
 data/dataset/*.jsonl
+data/bank/*
+data/curate/*
+!data/curate/manifest.json
 models/*
 *.pgn
 *.pgn.zst
 *.pb.gz
+*.csv
+*.csv.zst
 
 # Keep folder structure
 !**/.gitkeep

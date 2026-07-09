@@ -74,12 +74,30 @@ class Playlist:
         return ids[0]
 
 
+# Curated chess-coaching playlists (verified playlist IDs). Chosen to maximize
+# (a) TIER-APPROPRIATE coaching — the same ideas taught at many rating levels
+# (Naroditsky speedruns, Chessbrah "Building Habits", GothamChess rating climbs),
+# and (b) transferable PRINCIPLES/pedagogy (Hanging Pawns strategy series, tips
+# and guides). Transcripts feed the coaching principle library + coaching STYLE
+# reference only — the training dataset itself stays engine-grounded/synthetic.
 PLAYLISTS: list[Playlist] = [
+    # --- GothamChess (Levy Rozman) — rating-ladder climbs + principle guides --- #
     Playlist(
         name="GothamChess - Win At Chess",
         slug="gothamchess-win-at-chess",
         url="https://www.youtube.com/playlist?list=PLBRObSmbZluSo6h0AySyeZRdlQzEhr2XL",
     ),
+    Playlist(
+        name="GothamChess - Chess Tips",
+        slug="gothamchess-chess-tips",
+        url="https://www.youtube.com/playlist?list=PLBRObSmbZluSEeBkH17c72MaM4nFjqoi8",
+    ),
+    Playlist(
+        name="GothamChess - Guide",
+        slug="gothamchess-guide",
+        url="https://www.youtube.com/playlist?list=PLBRObSmbZluRBQOO_6FzyxQUaFyzusSl0",
+    ),
+    # --- Daniel Naroditsky — tier-progressive speedruns + mastery lessons ------ #
     Playlist(
         name="Naroditsky - Beginner to Master Speedrun",
         slug="naroditsky-beginner-to-master-speedrun",
@@ -89,6 +107,58 @@ PLAYLISTS: list[Playlist] = [
         name="Naroditsky - Master Class Speedrun",
         slug="naroditsky-master-class-speedrun",
         url="https://www.youtube.com/playlist?list=PLT1F2nOxLHOefj_z54LNBpnASnIROm43e",
+    ),
+    Playlist(
+        name="Naroditsky - Develop Your Instincts Speedrun",
+        slug="naroditsky-develop-your-instincts-speedrun",
+        url="https://www.youtube.com/playlist?list=PLT1F2nOxLHOdrvOyOXb_l2yGJrkwLA72Z",
+    ),
+    Playlist(
+        name="Naroditsky - Sensei Speedrun",
+        slug="naroditsky-sensei-speedrun",
+        url="https://www.youtube.com/playlist?list=PLT1F2nOxLHOeyyw85utYJpWtSmxvA-2WR",
+    ),
+    Playlist(
+        name="Naroditsky - Chess Mastery Explained",
+        slug="naroditsky-chess-mastery-explained",
+        url="https://www.youtube.com/playlist?list=PLT1F2nOxLHOcZlKiT0J-ov5-RsM9taTvm",
+    ),
+    # --- Chessbrah (Aman Hambleton) — explicit rating-tier "Building Habits" --- #
+    Playlist(
+        name="Chessbrah - Building Chess Habits",
+        slug="chessbrah-building-chess-habits",
+        url="https://www.youtube.com/playlist?list=PLUjxDD7HNNThftJtE0OIRFRMMFf6AV_69",
+    ),
+    Playlist(
+        name="Chessbrah - Building Habits v2",
+        slug="chessbrah-building-habits-v2",
+        url="https://www.youtube.com/playlist?list=PLUjxDD7HNNThwCNW3f36RZcMxPwQIjYae",
+    ),
+    Playlist(
+        name="Chessbrah - 100 Tips from a GM",
+        slug="chessbrah-100-tips-from-a-gm",
+        url="https://www.youtube.com/playlist?list=PLUjxDD7HNNTj46EZKKxsU_WgeqENUJzYC",
+    ),
+    # --- Hanging Pawns — transferable strategy/endgame principles -------------- #
+    Playlist(
+        name="Hanging Pawns - Chess Lessons",
+        slug="hangingpawns-chess-lessons",
+        url="https://www.youtube.com/playlist?list=PLssNbVBYrGcBXTr66cBqHuQUecSSdzF87",
+    ),
+    Playlist(
+        name="Hanging Pawns - Middlegame Strategy",
+        slug="hangingpawns-middlegame-strategy",
+        url="https://www.youtube.com/playlist?list=PLssNbVBYrGcAiV9arkX-uqWk0q9S38ETE",
+    ),
+    Playlist(
+        name="Hanging Pawns - Endgame Strategy",
+        slug="hangingpawns-endgame-strategy",
+        url="https://www.youtube.com/playlist?list=PLssNbVBYrGcDvGO9P9mxJEqwMlVZom4YL",
+    ),
+    Playlist(
+        name="Hanging Pawns - Instructive Game Analysis",
+        slug="hangingpawns-instructive-game-analysis",
+        url="https://www.youtube.com/playlist?list=PLssNbVBYrGcC-yPo5qoPqdsHFpWvcmvs3",
     ),
 ]
 

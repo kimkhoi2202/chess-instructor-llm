@@ -1,29 +1,19 @@
 #!/usr/bin/env python3
-"""Generate v4 coaching for the 803-position eval ON MODAL (base 4-bit + LoRA adapter).
+"""Generate **v5** coaching for the 120-position VAL slice ON MODAL (base 4-bit + v5 LoRA).
 
-Identical to ``eval_modal_v3.py`` but points at the **v4** adapter
-(``chess-coach-v4/adapter`` on the shared Volume) and writes ``ours_v4``. Loads
-``unsloth/Qwen3-32B-unsloth-bnb-4bit`` in 4-bit + the trained v4 LoRA adapter and
-coaches every (position, tier) prompt.
+Identical model/prompt/decoding to ``eval_modal_v4.py`` (so ``ours_v5`` is
+apples-to-apples with the reused ``ours_v4`` / 4B / frontier val gens), but points
+at the **v5** adapter (``chess-coach-v5/adapter`` on the shared Volume) and the
+VAL-only prompts (``data/benchmark_v5/prompts_v5_val.jsonl``, 360 scenarios), so
+the eval-gen is cheap (~$2-3). Writes ``ours_v5`` rows to the Volume; download to
+``data/benchmark_v5/gen/ours_v5.jsonl`` and slice into the honest_v5 field.
 
-Because v4 was trained on the EXACT served prompt (``build_grounded_user`` — the
-same VERIFIED FACTS + user + FORMAT_INSTRUCTION the eval feeds), the train/serve
-skew that produced v3's ~4-5% malformed leading fragments is gone. A light,
-documented ``_clean_lead`` still strips any residual leading rating-range /
-prompt-echo before the first "I'd play" (the same trivially-deployable cleanup
-noted in RESULTS_V3), and BOTH the raw and cleaned outputs are recorded so the
-malformed-output reduction can be reported honestly.
+Commands (scrub tokens + pin the workspace)::
 
-Prompts are the SAME grounded prompts every model gets (``prompts_v4.jsonl``, a
-copy of the benchmark's ``build_grounded_user`` render). Output rows use the
-benchmark generation schema, written to the Volume and downloaded to
-``data/benchmark_v4/gen/ours_v4.jsonl``.
-
-Commands
---------
-    python -m scripts.gap803_prompts_v4          # writes data/benchmark_v4/prompts_v4.jsonl
-    modal run src/eval/eval_modal_v4.py          # generate on Modal (spawned/detached)
-    modal run src/eval/eval_modal_v4.py --block  # generate + wait + download
+    python -m scripts.build_v5_val_prompts
+    unset MODAL_TOKEN_ID MODAL_TOKEN_SECRET; export MODAL_PROFILE=chess-instructor-4
+    /Users/khoilam/.venvs/mlx/bin/modal run --detach src/eval/eval_modal_v5.py         # spawn
+    /Users/khoilam/.venvs/mlx/bin/modal run src/eval/eval_modal_v5.py --block          # gen + wait + download
 """
 from __future__ import annotations
 
@@ -36,17 +26,17 @@ from typing import Optional
 
 import modal
 
-APP_NAME = "chess-coach-eval-v4"
+APP_NAME = "chess-coach-eval-v5"
 VOLUME_NAME = "chess-coach-lora"
-RUN_NAME = "chess-coach-v4"
+RUN_NAME = "chess-coach-v5"
 VOL_MOUNT = "/vol"
 ADAPTER_DIR = f"{VOL_MOUNT}/{RUN_NAME}/adapter"
-REMOTE_PROMPTS = "/data/prompts_v4.jsonl"
-REMOTE_OUT = f"{VOL_MOUNT}/{RUN_NAME}/ours_v4_gen.jsonl"
+REMOTE_PROMPTS = "/data/prompts_v5_val.jsonl"
+REMOTE_OUT = f"{VOL_MOUNT}/{RUN_NAME}/ours_v5_val_gen.jsonl"
 
 BASE_MODEL = "unsloth/Qwen3-32B-unsloth-bnb-4bit"
 GPU = "A100-80GB"
-TIMEOUT_S = 4 * 3600
+TIMEOUT_S = 3 * 3600
 CUDA_TAG = "12.4.1-cudnn-devel-ubuntu22.04"
 PY_VERSION = "3.11"
 MAX_NEW_TOKENS = 512
@@ -54,8 +44,8 @@ BATCH_SIZE = 32
 
 if modal.is_local():
     REPO_ROOT: Optional[Path] = Path(__file__).resolve().parents[2]
-    LOCAL_PROMPTS: Optional[Path] = REPO_ROOT / "data" / "benchmark_v4" / "prompts_v4.jsonl"
-    LOCAL_OUT: Optional[Path] = REPO_ROOT / "data" / "benchmark_v4" / "gen" / "ours_v4.jsonl"
+    LOCAL_PROMPTS: Optional[Path] = REPO_ROOT / "data" / "benchmark_v5" / "prompts_v5_val.jsonl"
+    LOCAL_OUT: Optional[Path] = REPO_ROOT / "data" / "benchmark_v5" / "gen" / "ours_v5.jsonl"
 else:
     REPO_ROOT = LOCAL_PROMPTS = LOCAL_OUT = None
 
@@ -71,7 +61,7 @@ if modal.is_local():
     if not LOCAL_PROMPTS.exists():
         raise SystemExit(
             f"BLOCKED: {LOCAL_PROMPTS} missing. Build it first:\n"
-            "  ~/.venvs/mlx/bin/python -m scripts.gap803_prompts_v4"
+            "  /Users/khoilam/.venvs/mlx/bin/python -m scripts.build_v5_val_prompts"
         )
     image = image.add_local_file(LOCAL_PROMPTS.as_posix(), REMOTE_PROMPTS)
 
@@ -86,20 +76,13 @@ def _strip_think(text: str) -> str:
 
 
 def _clean_lead(text: str) -> str:
-    """Drop a leading garble/prompt-echo fragment before the first "I'd play".
-
-    Deterministic + conservative: only strips when "I'd play" appears but not at
-    the very start AND the junk prefix before it is short (<160 chars), which is
-    exactly the v3 failure mode (a spurious leading rating-range like "(1000-1200)"
-    or an echoed prompt fragment). A well-formed output (already starting with
-    "I'd play") is returned unchanged.
-    """
+    """Drop a leading garble/prompt-echo fragment before the first "I'd play"."""
     t = text.strip()
-    if t.startswith("I'd play") or t.startswith("I’d play"):
+    if t.startswith("I'd play") or t.startswith("I\u2019d play"):
         return t
     idx = t.find("I'd play")
     if idx < 0:
-        idx = t.find("I’d play")
+        idx = t.find("I\u2019d play")
     if 0 < idx <= 160:
         return t[idx:].strip()
     return t
@@ -109,6 +92,7 @@ def _clean_lead(text: str) -> str:
               retries=modal.Retries(max_retries=10, initial_delay=5.0, backoff_coefficient=1.0))
 def generate(limit: int = 0) -> dict:
     import time
+    from datetime import datetime, timezone
 
     import torch
     from unsloth import FastLanguageModel
@@ -138,7 +122,6 @@ def generate(limit: int = 0) -> dict:
     todo = [r for r in rows if r["id"] not in done]
     print(f"[gen] {len(todo)} pending of {len(rows)} ({len(done)} done)")
 
-    from datetime import datetime, timezone
     t0 = time.time()
     written = 0
     n_lead_cleaned = 0
@@ -165,7 +148,7 @@ def generate(limit: int = 0) -> dict:
                 if cleaned != raw:
                     n_lead_cleaned += 1
                 out.write(json.dumps({
-                    "scenario_id": r["id"], "model": "ours_v4", "condition": "grounded",
+                    "scenario_id": r["id"], "model": "ours_v5", "condition": "grounded",
                     "tier": r["tier"], "phase": r["phase"], "severity": r["severity"],
                     "pos_id": r["pos_id"], "output": cleaned, "output_raw": raw,
                     "lead_cleaned": cleaned != raw,
@@ -174,8 +157,6 @@ def generate(limit: int = 0) -> dict:
                 }, ensure_ascii=False) + "\n")
                 written += 1
             out.flush()
-            # Commit after EVERY batch so a Modal preemption loses <=BATCH_SIZE rows
-            # (the gen is resumable by scenario_id, so it just continues on relaunch).
             volume.commit()
             if (i // BATCH_SIZE) % 5 == 0 or i + BATCH_SIZE >= len(todo):
                 dt = time.time() - t0
@@ -191,16 +172,16 @@ def generate(limit: int = 0) -> dict:
 def main(limit: int = 0, block: bool = False) -> None:
     call = generate.spawn(limit=limit)
     print(f"SPAWNED generate call_id={call.object_id} — running detached on Modal; "
-          f"poll {VOL_MOUNT}/{RUN_NAME}/ours_v4_gen.jsonl on the Volume for completion.")
+          f"poll {VOL_MOUNT}/{RUN_NAME}/ours_v5_val_gen.jsonl on the Volume for completion.")
     if block:
         res = call.get()
         print(json.dumps(res, indent=2, default=str))
         LOCAL_OUT.parent.mkdir(parents=True, exist_ok=True)
-        tmp = LOCAL_OUT.parent / "_ours_v4_dl"
+        tmp = LOCAL_OUT.parent / "_ours_v5_dl"
         shutil.rmtree(tmp, ignore_errors=True)
         subprocess.run([sys.executable, "-m", "modal", "volume", "get", "--force",
-                        VOLUME_NAME, f"/{RUN_NAME}/ours_v4_gen.jsonl", str(tmp)], check=True)
-        got = tmp / "ours_v4_gen.jsonl"
+                        VOLUME_NAME, f"/{RUN_NAME}/ours_v5_val_gen.jsonl", str(tmp)], check=True)
+        got = tmp / "ours_v5_val_gen.jsonl"
         if got.exists():
             shutil.move(str(got), str(LOCAL_OUT))
             shutil.rmtree(tmp, ignore_errors=True)
