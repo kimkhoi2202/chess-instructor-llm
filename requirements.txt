@@ -7,4 +7,6 @@ berserk>=0.13          # Lichess API client
 tqdm>=4.66
 datasets>=2.19
 huggingface_hub>=0.24
+zstandard>=0.22        # stream-decompress the Lichess puzzle .csv.zst for mining
+modal>=1.0             # Modal cloud orchestration (train / eval / mirror controllers)
 # yt-dlp is installed via Homebrew (CLI) for transcript harvesting
