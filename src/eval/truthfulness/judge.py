@@ -166,13 +166,21 @@ def _extract_json_object(text: str) -> Optional[Dict[str, Any]]:
 
 
 def parse_judge_reply(text: str) -> Dict[str, Any]:
-    """Parse one judge's reply into ``{"truthful": bool, "flagged": [...]}``.
+    """Parse one judge's reply into ``{"truthful": bool, "flagged": [...], "inconclusive": bool}``.
 
-    Defensive: the ``flagged`` list is the source of truth (a non-empty list means
-    not truthful, whatever the model wrote in ``truthful``). Malformed items are
-    coerced; a bare ``truthful:false`` with no items becomes one unspecified flag.
+    Defensive AND fail-closed: the ``flagged`` list is the source of truth (a
+    non-empty list means not truthful, whatever the model wrote in ``truthful``);
+    malformed items are coerced; a bare ``truthful:false`` with no items becomes one
+    unspecified flag. A reply with NO usable JSON verdict — garbage output, or a JSON
+    object carrying neither a ``truthful`` nor a ``flagged``/``flags`` key — is marked
+    ``inconclusive``; it is NOT counted as a "truthful" vote, so a broken judge reply
+    can never default the panel to truthful.
     """
-    obj = _extract_json_object(text) or {}
+    obj = _extract_json_object(text)
+    if obj is None or not any(k in obj for k in ("truthful", "flagged", "flags")):
+        # No usable verdict -> inconclusive (fail closed: never a truthful vote).
+        return {"truthful": False, "flagged": [], "inconclusive": True}
+
     raw_flags = obj.get("flagged") or obj.get("flags") or []
     flagged: List[Dict[str, str]] = []
     if isinstance(raw_flags, list):
@@ -190,7 +198,7 @@ def parse_judge_reply(text: str) -> Dict[str, Any]:
         note = str(obj.get("reason") or obj.get("note") or "").strip()
         flagged.append({"claim": "(unspecified)", "reason": note or "judge marked untruthful"})
 
-    return {"truthful": len(flagged) == 0, "flagged": flagged}
+    return {"truthful": len(flagged) == 0, "flagged": flagged, "inconclusive": False}
 
 
 # --------------------------------------------------------------------------- #
@@ -201,32 +209,45 @@ def aggregate(
     per_judge: Sequence[Tuple[str, Dict[str, Any]]],
     *,
     mode: str = "any",
+    min_judges: int = 2,
 ) -> Dict[str, Any]:
     """Combine per-judge verdicts into the panel result.
 
     ``per_judge`` is a sequence of ``(judge_name, parsed_reply)`` for judges that
-    returned successfully. ``mode``:
+    returned successfully. Replies marked ``inconclusive`` (garbage / no usable
+    verdict) are EXCLUDED from the vote — they must never count as a "truthful"
+    reviewer. ``mode``:
 
-    * ``"any"``      — the panel is truthful iff *no* judge flagged anything
+    * ``"any"``      — the panel is truthful iff *no* valid judge flagged anything
       (strict; a single reviewer's objection sinks it).
-    * ``"majority"`` — the panel is truthful iff a strict majority of judges found
-      it truthful (ties resolve to *not* truthful, i.e. err toward flagging).
+    * ``"majority"`` — the panel is truthful iff a strict majority of valid judges
+      found it truthful (ties resolve to *not* truthful, i.e. err toward flagging).
 
-    ``agreement`` is how much the panel agreed on the truthful/flagged split,
-    ``max(n_truthful, n_flagged) / n_judges`` (1.0 = unanimous), independent of mode.
+    FAIL CLOSED: if fewer than ``min_judges`` judges returned a usable verdict (the
+    zero-judge / insufficient-judges / all-malformed cases), the result is
+    ``inconclusive`` with ``truthful=False`` — it is NEVER silently reported as
+    truthful. ``agreement`` is how much the valid panel agreed on the
+    truthful/flagged split, ``max(n_truthful, n_flagged) / n_judges`` (1.0 =
+    unanimous), independent of mode.
     """
-    n = len(per_judge)
+    # Only judges that returned a USABLE verdict vote; inconclusive replies are out.
+    valid = [(name, r) for name, r in per_judge if not r.get("inconclusive")]
+    n = len(valid)
     flagged: List[Dict[str, str]] = []
     n_truthful = 0
-    for name, r in per_judge:
+    for name, r in valid:
         if r["truthful"]:
             n_truthful += 1
         for f in r["flagged"]:
             flagged.append({"claim": f["claim"], "reason": f["reason"], "judge": name})
     n_flagged = n - n_truthful
 
-    if n == 0:
-        return {"truthful": True, "flagged": [], "n_judges": 0, "agreement": 0.0}
+    if n < max(1, min_judges):
+        # Too few usable verdicts for an independent panel -> inconclusive, not truthful.
+        return {
+            "truthful": False, "flagged": flagged, "n_judges": n,
+            "agreement": 0.0, "inconclusive": True,
+        }
 
     if mode == "majority":
         truthful = n_truthful > (n / 2.0)
@@ -239,6 +260,7 @@ def aggregate(
         "flagged": flagged,
         "n_judges": n,
         "agreement": round(agreement, 4),
+        "inconclusive": False,
     }
 
 
@@ -254,6 +276,9 @@ class TruthfulnessResult:
     flagged: List[Dict[str, str]]
     n_judges: int
     agreement: float
+    #: True when the panel could not render a verdict (too few usable judge replies).
+    #: Fail-closed: ``truthful`` is False in this case, never a silent "truthful".
+    inconclusive: bool = False
     judge_verdicts: Dict[str, Dict[str, Any]] = field(default_factory=dict)
     errors: Dict[str, str] = field(default_factory=dict)
     usage: Usage = field(default_factory=lambda: {"prompt_tokens": 0, "completion_tokens": 0})
@@ -264,6 +289,7 @@ class TruthfulnessResult:
             "flagged": self.flagged,
             "n_judges": self.n_judges,
             "agreement": self.agreement,
+            "inconclusive": self.inconclusive,
             "judge_verdicts": self.judge_verdicts,
             "errors": self.errors,
             "usage": self.usage,
@@ -331,6 +357,7 @@ class TruthfulnessJudge:
             flagged=agg["flagged"],
             n_judges=agg["n_judges"],
             agreement=agg["agreement"],
+            inconclusive=agg.get("inconclusive", False),
             judge_verdicts=verdicts,
             errors=errors,
             usage=usage,

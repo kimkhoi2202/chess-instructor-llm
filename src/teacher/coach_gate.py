@@ -12,12 +12,19 @@ FastAPI, no model, no engine process. A caller supplies a ``run_fn(system, user)
 -> text`` that produces one coaching draft; :func:`run_gate` does the rest:
 
 1. Ask ``run_fn`` for a draft, check every board claim with
-   :func:`src.engine.faithfulness_ext.verify_text_ext`; if any is false, RE-SAMPLE
+   :func:`src.engine.faithfulness_ext.verify_text_ext`; if any is false (or the
+   verifier itself raises — we FAIL CLOSED and treat that as not-verified), RE-SAMPLE
    the whole answer (never strip sentences) up to ``max_attempts`` times, keeping
-   the first draft that verifies clean.
-2. If no draft verifies within the budget, emit a deterministic explanation of a
-   sound move built only from :func:`src.engine.position_facts.move_facts` — true
-   by construction, so the student still gets a real (if plainer) explanation.
+   the first draft that verifies clean AND names a servable sound move. A clean
+   draft that names no sound move is NOT served with a swapped-in engine move (that
+   would leave the prose recommending one move while the UI shows another); it is
+   treated like a failed draft so the whole reply is replaced consistently.
+2. If no draft is served within the budget, emit a deterministic explanation built
+   only from :func:`src.engine.position_facts.move_facts` — true by construction.
+   The move it explains is the MODEL's own attempt-1 (greedy) sound pick when it
+   named one (so tier differentiation survives a prose failure and the served move
+   matches the greedy move the showcase/eval scores); only if the model named no
+   sound move at all do we fall back to the deterministic engine-derived pick.
 
 :mod:`src.api.server` imports the helpers below (and re-exports the historical
 ``_``-prefixed names it and :mod:`src.demo.app` depend on), so the live pipeline
@@ -26,6 +33,7 @@ and the eval cannot silently diverge.
 
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
 from typing import Any, Callable, List, Optional, Sequence, Tuple
@@ -34,6 +42,8 @@ import chess
 
 from src.engine.faithfulness_ext import verify_text_ext
 from src.engine.position_facts import move_facts
+
+log = logging.getLogger("teacher.coach_gate")
 
 __all__ = [
     "extract_recommended",
@@ -423,44 +433,108 @@ def run_gate(
     """Run the VERIFY-AND-REGENERATE gate over ``run_fn`` and return a GateResult.
 
     This is the exact loop the live coach ships (see :mod:`src.api.server`):
-    resample the whole answer while any board claim is false, keep the first
-    clean draft, and fall back to :func:`verified_coaching` if none verifies. The
-    faithfulness check is ``verify_text_ext(candidate, fen).ok`` — the same call,
-    with the same (current-board) strictness, the server uses in its gate loop.
+    resample the whole answer while any board claim is false, keep the first clean
+    draft that also names a servable sound move, and otherwise fall back to
+    :func:`verified_coaching`. Three honesty properties it guarantees:
+
+    * **Fail closed.** The faithfulness check is ``verify_text_ext(candidate, fen).ok``
+      — the same call, same (current-board) strictness the server uses. If that call
+      itself RAISES, the draft is treated as NOT verified (never passed through as
+      "truthful"): the loop re-samples and, if nothing survives, serves the verified
+      fallback. A verifier hiccup can only make the coach plainer, never less honest.
+    * **Move == prose.** A model draft is served only when it verifies clean AND
+      names a move that is in the sound pool. If it named no sound move, the WHOLE
+      reply is replaced via the verified path — we never keep prose recommending one
+      move while swapping only the structured move field to another (that
+      contradiction is the "silently substitute only the move" bug).
+    * **Preserve the model's move on prose failure.** When no draft is served, the
+      fallback explains the MODEL's own attempt-1 (greedy) sound pick if it named
+      one — so tier differentiation survives a prose failure and the served move ==
+      the greedy move the showcase/eval scores. Only the PROSE is replaced (with
+      deterministic, verifiably-true text for that same move). The engine-best
+      :func:`pick_fallback_move` is used only when the model named no sound move.
+
+    ``gate_on=False`` is the ungated-measurement mode only (``COACH_FAITHFULNESS_GATE=0``):
+    it passes the single raw draft through unchanged so the ungated fabrication rate
+    can be measured — the honesty guarantees above apply to the shipped (gated) path.
     """
     board = chess.Board(fen)
     fen_norm = board.fen()
+    pool_ucis = {m["uci"] for m in pool if m.get("uci")}
+
+    def _verify_ok(text: str) -> bool:
+        """``verify_text_ext(...).ok`` but FAIL CLOSED: a verifier exception means
+        the draft is NOT verified (re-sample / fall to the verified path), never
+        silently treated as truthful."""
+        try:
+            return bool(verify_text_ext(text, fen_norm).ok)
+        except Exception:  # noqa: BLE001 - unverifiable == not verified (fail closed)
+            log.warning("verify_text_ext raised; treating draft as NOT verified", exc_info=True)
+            return False
+
+    def _model_sound_pick(text: str) -> Optional[Tuple[str, str]]:
+        """The model's OWN recommended move restricted to the sound pool (its tier
+        pick when it named a sound one; ``None`` if it named no sound move)."""
+        return pick_recommendation(text, board, student_uci, accept=lambda u: u in pool_ucis)
 
     attempts = 0
     verified_reply: Optional[str] = None
+    attempt1_pick: Optional[Tuple[str, str]] = None  # model's greedy attempt-1 sound pick
     if gate_on:
-        for _ in range(max(1, max_attempts)):
+        for i in range(max(1, max_attempts)):
             attempts += 1
             candidate = run_fn(system, user)
-            if verify_text_ext(candidate, fen_norm).ok:
+            if i == 0:  # the deterministic/greedy first draft: capture its own move
+                attempt1_pick = _model_sound_pick(candidate)
+            if _verify_ok(candidate):
                 verified_reply = candidate
                 break
     else:
         attempts = 1
-        verified_reply = run_fn(system, user)
+        candidate = run_fn(system, user)
+        attempt1_pick = _model_sound_pick(candidate)
+        verified_reply = candidate
 
-    verified_fallback = False
+    # A verified draft is served ONLY when the model named a servable sound move in
+    # it (so shown move == shown prose). With the gate OFF we deliberately pass the
+    # raw draft through unchanged (ungated-measurement mode).
     if verified_reply is not None:
-        rec_san, rec_uci = extract_recommended(verified_reply, board, pool, student_uci)
-        body, takeaway = split_coaching(verified_reply)
-        if (rec_san is None or rec_uci is None) and pool:
-            rec_san, rec_uci = pool[0]["san"], pool[0]["uci"]
-        shipped = compose(body, takeaway) or (verified_reply or "").strip()
-        return GateResult(
-            text=shipped, body=body, takeaway=takeaway, rec_san=rec_san,
-            rec_uci=rec_uci, attempts=attempts, verified_fallback=False,
-            raw=verified_reply,
-        )
+        rec = _model_sound_pick(verified_reply)
+        if rec is not None or not gate_on:
+            if rec is not None:
+                rec_san, rec_uci = rec
+            elif pool:
+                rec_san, rec_uci = pool[0]["san"], pool[0]["uci"]
+            else:
+                rec_san, rec_uci = None, None
+            body, takeaway = split_coaching(verified_reply)
+            shipped = compose(body, takeaway) or verified_reply.strip()
+            return GateResult(
+                text=shipped, body=body, takeaway=takeaway, rec_san=rec_san,
+                rec_uci=rec_uci, attempts=attempts, verified_fallback=False,
+                raw=verified_reply,
+            )
+        # Gate ON but the clean draft named no sound move: fall through and replace
+        # the WHOLE reply (move + prose) below, never just the move field.
 
+    # Verified fallback: keep the MODEL's own attempt-1 sound move if it named one,
+    # else the deterministic engine-derived pick. Only the PROSE is replaced.
     verified_fallback = True
-    fb_move = pick_fallback_move(board, pool, student_uci)
+    fb_move: Optional[chess.Move] = None
+    if attempt1_pick is not None:
+        try:
+            cand = chess.Move.from_uci(attempt1_pick[1])
+            if cand in board.legal_moves:  # sound (in pool) by construction
+                fb_move = cand
+        except ValueError:
+            fb_move = None
+    if fb_move is None:
+        fb_move = pick_fallback_move(board, pool, student_uci)
     if fb_move is None and pool:
-        fb_move = chess.Move.from_uci(pool[0]["uci"])
+        try:
+            fb_move = chess.Move.from_uci(pool[0]["uci"])
+        except (ValueError, KeyError):
+            fb_move = None
     if fb_move is None:  # empty pool (should never happen for a coachable position)
         return GateResult(
             text="", body="", takeaway="", rec_san=None, rec_uci=None,

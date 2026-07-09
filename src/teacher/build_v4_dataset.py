@@ -13,11 +13,16 @@ teacher (~$141) — it re-derives train rows from ``candidates_v3.jsonl``:
    served prompt, removing the skew that pushed the 32B off-distribution (leading
    rating-range fragment / prompt-echo).
 
-2. **WIDE faithfulness filter (fixes the truthfulness residual).** v3 filtered
-   labels with the NARROW ``verify_text`` (piece location/existence). v4 rejects
-   any label whose rendered target trips the WIDE ``verify_text_ext``
-   (relational / move-consequence / turn / material / hanging), so the student
-   never learns a structural fabrication.
+2. **NARROW faithfulness hard-reject; WIDE recorded as telemetry only (in v4).**
+   v3 filtered labels with the NARROW ``verify_text`` (piece location/existence);
+   v4 keeps that SAME narrow check as the ONLY hard reject. The WIDE
+   ``verify_text_ext`` (relational / move-consequence / turn / material / hanging)
+   is recorded as TELEMETRY ONLY here (``info["wide_flagged"]``) — it applies **0
+   judge exclusions** in v4, because an audit showed it over-fires (~>90% false
+   positives) on coaching that legitimately describes the position AFTER the
+   recommended move. Those flagged rows are surfaced for a context-aware LLM judge,
+   but v4 as built applies no wide-based rejection. The WIDE HARD-filter lands in
+   v5 (``scripts/build_v5_32b.py``), not here.
 
 3. **Format guard on labels (fixes malformed outputs).** Every kept target must
    render as ``I'd play <MOVE>. ... Takeaway: ...`` cleanly (starts with the move
@@ -398,7 +403,7 @@ def cmd_build(args: argparse.Namespace) -> int:
         "excluded_by_judge": len(_EXCLUDE_IDS),
         "exclude_ids_file": args.exclude_ids,
         "prompt_format": "build_grounded_user (facts + render_user_prompt + FORMAT_INSTRUCTION)",
-        "faithfulness_filter": "narrow verify_text reject; wide verify_text_ext -> LLM-judge rejection",
+        "faithfulness_filter": "narrow verify_text hard reject; wide verify_text_ext recorded as telemetry only in v4 (0 judge exclusions applied); wide hard-filter lands in v5 (scripts/build_v5_32b.py)",
         "seed": SEED,
     }
     MANIFEST_V4.write_text(json.dumps(manifest, indent=2), encoding="utf-8")

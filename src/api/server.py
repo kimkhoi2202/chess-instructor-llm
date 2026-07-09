@@ -636,8 +636,9 @@ def _coach_for_tier(
     coaching_body, takeaway = result.body, result.takeaway
     if verified_fallback:
         notes.append(
-            f"The model kept stating false board facts across {MAX_COACH_ATTEMPTS} "
-            "attempts, so a verified, engine-derived explanation was used instead."
+            f"The model did not produce a faithful explanation of a sound move within "
+            f"{attempts} attempt(s), so a verified, engine-derived explanation of a "
+            "sound move was used instead (the recommended move stays sound)."
         )
     elif FAITHFULNESS_GATE and attempts > 1:
         notes.append(

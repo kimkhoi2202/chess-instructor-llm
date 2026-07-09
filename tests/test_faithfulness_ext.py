@@ -363,16 +363,39 @@ def test_parse_judge_reply_robustness():
     p = parse_judge_reply('Sure, here you go: {"truthful": false, '
                           '"flagged": [{"claim":"c","reason":"r"}]} done')
     assert p["truthful"] is False and p["flagged"][0]["claim"] == "c"
+    assert p["inconclusive"] is False
     # truthful:false with no items becomes one unspecified flag.
     assert parse_judge_reply('{"truthful": false}')["flagged"][0]["claim"] == "(unspecified)"
-    # garbage -> treated as truthful (no concrete flags to act on).
-    assert parse_judge_reply("not json")["truthful"] is True
+    # A well-formed truthful verdict parses as truthful (and NOT inconclusive).
+    ok = parse_judge_reply('{"truthful": true, "flagged": []}')
+    assert ok["truthful"] is True and ok["inconclusive"] is False
+    # FAIL CLOSED: garbage (no usable JSON verdict) is INCONCLUSIVE, never a default
+    # "truthful" — a broken judge reply must not silently certify the coach.
+    garbage = parse_judge_reply("not json")
+    assert garbage["truthful"] is False and garbage["inconclusive"] is True
+    assert garbage["flagged"] == []
 
 
 def test_aggregate_empty_panel():
-    # No successful judges -> truthful defaults True with n_judges 0 (caller detects).
+    # FAIL CLOSED: no usable judges -> INCONCLUSIVE (truthful False), never a silent
+    # "truthful" default. n_judges is 0 and the result is flagged inconclusive.
     agg = aggregate([], mode="any")
-    assert agg == {"truthful": True, "flagged": [], "n_judges": 0, "agreement": 0.0}
+    assert agg == {
+        "truthful": False, "flagged": [], "n_judges": 0,
+        "agreement": 0.0, "inconclusive": True,
+    }
+
+
+def test_aggregate_all_inconclusive_is_inconclusive():
+    # Every judge returned garbage (parsed inconclusive) -> the panel is inconclusive,
+    # not truthful; inconclusive replies never count as "truthful" votes.
+    per = [
+        ("gpt", {"truthful": False, "flagged": [], "inconclusive": True}),
+        ("claude", {"truthful": False, "flagged": [], "inconclusive": True}),
+    ]
+    agg = aggregate(per, mode="any")
+    assert agg["inconclusive"] is True
+    assert agg["truthful"] is False and agg["n_judges"] == 0
 
 
 @pytest.mark.skipif(

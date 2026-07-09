@@ -84,6 +84,49 @@ def test_gate_off_keeps_single_draft_even_if_fabricated():
     assert "e5" in res.text  # the (ungated) draft is returned verbatim-ish
 
 
+# --------------------------------------------------------------------------- #
+# The MOAT fix: preserve the MODEL's own move on a prose failure (don't collapse
+# every fallback onto the engine-best, which erases tier differentiation).
+# --------------------------------------------------------------------------- #
+# Nc3 (b1c3) is the SECOND sound move — NOT the engine-best pool[0] (Nf3). A
+# beginner-tier draft that recommends Nc3 but fabricates its prose must, on
+# fallback, still serve Nc3 (the model's greedy pick), swapping only the prose.
+_FABRICATED_NC3 = ("I'd play Nc3. There is a black rook on e5 that you can win. "
+                   "Takeaway: grab free material.")
+# A FAITHFUL draft (passes the board verifier) that recommends an UNSOUND move
+# (Qh5 is legal but not in the sound pool) and names no sound move at all.
+_CLEAN_UNSOUND = ("I'd play Qh5. Develop with purpose and keep your king safe. "
+                  "Takeaway: make a plan.")
+
+
+def test_fallback_preserves_models_sound_move_not_engine_best():
+    # Every draft fails the prose verifier -> verified fallback. The served move
+    # must be the MODEL's own sound pick (Nc3), NOT the engine-best pool[0] (Nf3);
+    # only the prose is replaced with deterministic, verified text for that move.
+    res = run_gate(lambda s, u: _FABRICATED_NC3, "sys", "user", FEN, POOL, "e2e4",
+                   max_attempts=3, gate_on=True)
+    assert res.verified_fallback is True
+    assert res.attempts == 3
+    assert res.rec_uci == "b1c3"           # the model's move (Nc3) is preserved
+    assert res.rec_uci != POOL[0]["uci"]   # and it is NOT the engine-best (Nf3)
+    assert "Nc3" in res.text               # the prose is bound to the served move
+    assert verify_text_ext(res.text, FEN).ok  # ...and it is verifiably true
+
+
+def test_clean_draft_naming_no_sound_move_replaces_whole_reply():
+    # A faithful draft that recommends an UNSOUND move must NOT be served with the
+    # prose kept while only the structured move is swapped to the engine-best. The
+    # WHOLE reply is replaced so the shown move and the shown prose agree.
+    assert verify_text_ext(_CLEAN_UNSOUND, FEN).ok  # the draft IS board-faithful
+    res = run_gate(lambda s, u: _CLEAN_UNSOUND, "sys", "user", FEN, POOL, "e2e4",
+                   max_attempts=3, gate_on=True)
+    assert res.verified_fallback is True                     # whole reply replaced
+    assert res.rec_uci in {m["uci"] for m in POOL}           # a sound move is served
+    assert f"I'd play {res.rec_san}" in res.text             # prose matches the move
+    assert "Qh5" not in res.text                             # the unsound prose is gone
+    assert verify_text_ext(res.text, FEN).ok
+
+
 def test_verified_coaching_is_faithful():
     board = chess.Board(FEN)
     for uci in ("g1f3", "b1c3", "f1c4"):
