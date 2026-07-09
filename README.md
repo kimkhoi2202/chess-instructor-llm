@@ -1,16 +1,35 @@
 # chess-instructor-llm
 
 A level-calibrated, engine-grounded chess coach. The shipped model is `chess-coach-32b-v4`, a
-QLoRA fine-tune of Qwen3-32B (base `unsloth/Qwen3-32B-unsloth-bnb-4bit`) trained to do one thing
-reliably: given a position and the student's rating tier (Beginner / Intermediate / Advanced),
-select the tier-appropriate instructive move and tag it with a short principle (for example,
-"Nf3, develop toward the center").
+QLoRA fine-tune of Qwen3-32B (base `unsloth/Qwen3-32B-unsloth-bnb-4bit`); the genuinely small,
+on-spec model is the 1.7B tune. It is trained to do one thing: given a position and the student's
+rating tier (Beginner / Intermediate / Advanced), emit the move that a fixed rule, `select_tier_move`,
+designates as the canonical tier move, tagged with a short principle (for example, "Nf3, develop
+toward the center").
 
-That single move choice is the trained, graded behavior. The four-part English explanation is a
-secondary, optional display layer: it can be rendered by the engine's own templates, a
-detector-driven writer, or a prompted frontier model, and its faithfulness is enforced by a
-separate non-LLM verifier before anything reaches a student. The point is one dependable behavior
-from data, not out-teaching a frontier model and not winning a prose contest.
+That single move choice is the trained, evaluated behavior. The four-part English explanation is
+secondary to the evaluation claim and is not separately optimized; note it is still in the SFT loss,
+so it is not "not trained." Its faithfulness is enforced by a separate non-LLM verifier before
+anything reaches a student.
+
+## What is and is not validated (read this first)
+
+1. LEARNABILITY (validated). The `select_tier_move` policy is distillable into weights: with identical
+   Maia grounding on both sides, a fine-tune reproduces it where a prompt on the same base cannot. The
+   small on-spec model leads: 1.7B tune, strict tier-policy match 0.358 -> 0.578, #2 of 20 and above
+   every frontier (Gemini 0.553). 1.7B (0.578) beats 4B (0.397), so the behavior is from the data, not
+   capacity. 32B v4 (0.767) is the strongest mid-size instance, not a small model.
+2. DEPLOYMENT-NECESSITY (false as built). The same Stockfish + Maia grounding that feeds the model's
+   prompt also feeds the ~20-line `select_tier_move` rule, which computes the canonical move directly
+   at ~1.0 by construction (it IS the target). So the model approximates a policy the product already
+   produces; the deterministic rule is the true ceiling. The model would be load-bearing only in a
+   grounding-free, fully-local deployment, which we did not build or measure.
+3. PEDAGOGY / VALUE (unvalidated). We optimized agreement with our own heuristic, not evidence coaches
+   or students prefer these moves or improve. Behavior validated / feature demonstrated: NOT a product,
+   NOT a moat, NOT value validated.
+
+Metric: "tier-policy exact match" (agreement with the preregistered `select_tier_move` policy),
+shortened to "tier-policy match." The canonical move is a project rule, not validated pedagogy.
 
 ## Canonical artifacts (v4)
 
@@ -23,33 +42,43 @@ from data, not out-teaching a frontier model and not winning a prose contest.
 
 ## Headline result (strict held-out eval)
 
-The trained behavior is graded deterministically against the engine and a human-move model, with
-no LLM judge in the loop. On 120 held-out positions x 3 tiers, fine-tuning is the whole difference
-on the one graded axis:
+The trained behavior is graded deterministically against the engine and a human-move model, with no
+LLM judge in the loop. Metric = tier-policy exact match (agreement with `select_tier_move`). On 120
+held-out positions x 3 tiers, with grounding held identical, fine-tuning reproduces the policy where
+the base does not:
 
-| Deterministic axis (held-out, no judge) | Qwen3-32B base | OURS-v4 (tuned) |
-|---|---:|---:|
-| Tier-fit (picks the tier-appropriate move) up | 0.347 | 0.767 |
-| Distinct move per level up | 0.290 | 0.785 |
-| Move soundness (raw draft) up | 1.000 | 0.942 |
+| Contender (identical grounding) | tier-policy match up | note |
+|---|---:|---|
+| `select_tier_move` deterministic rule | ~1.000 | true ceiling: it IS the target, computed from the same grounding without any model |
+| 1.7B base -> 1.7B tuned (v2, on-spec) | 0.358 -> 0.578 | learnability lead: #2 of 20, above every frontier |
+| 4B base / prompt-base / tuned | 0.353 / 0.378 / 0.397 | same-backend prompt control: tune > prompt > base |
+| 32B base -> 32B tuned (v4, shipped) | 0.347 -> 0.767 | strongest instance; mid-size, not small |
+| best frontier (Gemini 3.1 Pro) | 0.553 | #4 overall |
 
-- v4 has the top tier-fit of all 20 models measured. The tuned checkpoints take 4 of the top 5;
-  the best frontier model (Gemini 3.1 Pro, tier-fit 0.553) is #4.
-- On the 62 held-out positions where v4 diverges from the best frontier's move, v4 wins the
-  tier-appropriate move 51-5 (6 ties) on the platform's move-quality moat (tier-fit then soundness).
-- Move soundness is a shared fairness floor, not a differentiator: the shipped
-  verify-and-regenerate gate lifts every model, including v4, to ~100% move-sound with zero
-  user-visible fabrication.
+(v4 distinct-moves-per-level 0.785 vs base 0.290; raw move soundness 0.942.)
+
+- All-scenario lead (unbiased): across all 120 x 3 scenarios, v4 tier-policy match 0.767 vs the best
+  frontier 0.553 (Gemini, #4). The tuned checkpoints take 4 of the top 5.
+- Selection-conditioned head-to-head (NOT a general win rate): within the v4-success/divergence subset
+  (the 62 of 120 positions where v4 already gives a distinct, sound, correctly-graded move AND diverges
+  from the frontier), v4 wins 51-5 (6 ties). Conditioned on v4 succeeding, so not a win rate over all
+  positions.
+- Deployment-necessity is false as built: the deterministic rule already computes the canonical move
+  at ~1.0 from the same grounding, so the model approximates a policy the product produces without it.
+- Move soundness equalizes to a shared ~100% floor once every model passes the shipped gate; it is a
+  fairness floor, and soundness itself is fidelity to a shallow sound pool, not certified best-move
+  truth.
 
 Honest by design: v4 is deliberately weaker on prose. On the blinded, cross-family instructiveness
-council it lands around 15th of 20 (grade about 4.5), below the smaller 4B tune and the prior 32B
-v3. Prose is the optional, gated display layer, not the trained behavior, so this trade is
-on-thesis. See [`RESULTS_HONEST_EVAL_V4.md`](RESULTS_HONEST_EVAL_V4.md).
+council it lands around 15th of 20 (grade about 4.5), below the smaller 4B tune and the prior 32B v3.
+Prose is secondary to the evaluation claim and is not separately optimized (but it is in the SFT
+loss). See [`RESULTS_HONEST_EVAL_V4.md`](RESULTS_HONEST_EVAL_V4.md).
 
-Eval validated honest. Two independent audits back the headline: the human-move model (Maia) is
-present and symmetric across all 20 models (it feeds both the ground-truth tier move and every
-model's grounding equally), and there is zero train/test leakage (board-key intersection 0 of 120
-between the validation slice and v4's training data).
+Eval audited honest. Two independent audits back the base-vs-tuned comparison: the human-move model
+(Maia) is present and symmetric across all 20 models (it feeds both the ground-truth tier move and
+every model's grounding equally), and there is zero train/test leakage (board-key intersection 0 of
+120 between the validation slice and v4's training data). The gate's zero-fabrication figure is zero
+verifier-detectable mechanical violations, not certified truthfulness (see limitations).
 
 ---
 
@@ -58,8 +87,8 @@ between the validation slice and v4's training data).
 The pitch is not "a small open model plays better chess than GPT-5.5." It never will. The bet is
 narrower and measurable:
 
-- One specific behavior, tier-appropriate move selection, is not reliably delivered by a prompted
-  frontier model, and can be trained into an open model to run reliably.
+- One specific behavior, tier-appropriate move selection under a fixed policy, is not reliably
+  delivered by a prompted frontier model, and can be distilled into an open model's weights.
 
 We proved the gap before claiming to fill it. With grounding held byte-identical to the app, the
 frontier models are strong players with fluent prose but weak at the narrow behavior: they hand the
@@ -68,24 +97,32 @@ the time regardless of the stated rating. The canonical failure is serving a 120
 the 3000-Elo engine-best move wrapped in a GM-level line: sound, but not findable and not
 instructive for that student.
 
-The un-promptable part is the point. Holding the same weights and only swapping the system prompt,
-a carefully engineered prompt on the base does not reach the tuned model's tier-fit at 1.7B, 4B, or
-32B, and at 1.7B it actually hurt the behavior. Move selection has to be added by data, not
-prompting. The full controlled experiment at three model sizes is in [`BRAINLIFT.md`](BRAINLIFT.md).
+Learnability is the point, validated at 1.7B and 4B. Holding the same weights and only swapping the
+system prompt, a fine-tune reaches the policy where an engineered prompt on the base does not, at
+1.7B and 4B; at 1.7B the prompt actually hurt the behavior. Move selection under the rule has to be
+added by data, not prompting. Honesty correction: the matched same-backend 32B prompt control was
+never run, so 32B un-promptability is a falsifiable HYPOTHESIS (future work), not a result. The full
+controlled experiment is in [`BRAINLIFT.md`](BRAINLIFT.md).
 
-### Where dependability actually comes from
+### Where the canonical move comes from (and why the model is not load-bearing as built)
 
 Dependability in a coach like this is not carried by the model weights writing English. It is
 carried by parts that sit outside the language model:
 
-1. A strong engine (Stockfish) certifies which moves are sound.
+1. A strong engine (Stockfish) certifies which moves are sound (within a shallow pool; see limitations).
 2. A human-move model (Maia) says which sound move a player at a given rating would actually find.
-3. A tier rule turns those two signals into the single canonical move per level.
-4. A non-LLM verifier checks every prose claim against the real board before it reaches the student.
+3. A tier rule (`select_tier_move`) turns those two signals into the single canonical move per level.
+4. A non-LLM verifier checks detector-covered prose claims against the real board before it reaches
+   the student.
 
-The fine-tuned model's job is to emit that tier-appropriate move reliably and locally, which a
-prompt on the same weights does not do. Prose, if the product wants it, is rendered and separately
-verified on top.
+Because that rule is a ~20-line pure function of (tier, sound pool, Maia policy), the product already
+computes the canonical move directly, at ~1.0 by construction. The fine-tuned model is trained to
+reproduce that same move: a genuine learnability result, but it means the model APPROXIMATES a target
+the product already has. The model only becomes load-bearing in a grounding-free, fully-local
+deployment (no engine or Maia at inference), which we did not build or measure. And the tune does not
+internalize the rule: at inference it still needs Maia's per-tier grounding in the prompt, and without
+it the three tiers collapse to one move. The honest claim is reliable grounded EXECUTION, not that the
+behavior lives in the weights.
 
 ---
 
@@ -96,26 +133,27 @@ wrong turns.
 
 - v2 (Qwen3-1.7B QLoRA): the original data intervention, faithfulness-filtered labels + a
   tier-aware teacher rule + contrastive multi-tier pairs. At 1.7B it fixed the direction of
-  tier-differentiated move selection and improved explanation faithfulness. In the 20-model grand
-  eval it still posts tier-fit 0.578, second among the tuned checkpoints. This established that the
-  behavior is trainable into a small model.
+  tier-differentiated move selection. In the 20-model grand eval it posts tier-policy match 0.578,
+  #2 of 20 and above every frontier. This small, local, on-spec model is the learnability result.
 - v3 (Qwen3-32B QLoRA): the all-rounder. It kept a strong balance of move and prose, landing about
-  5th of 20 on the blinded prose council (instructiveness grade about 6.35) at tier-fit 0.558.
-- v4 (Qwen3-32B QLoRA): the shipped model. Trained to own the moat, it leads the field on
-  tier-appropriate move selection (tier-fit 0.767, distinct-moves 0.785, move-soundness 0.942) and
-  wins the head-to-head 51-5 (6 ties) over the 62 diverging positions, while deliberately trading
-  prose down to about 15th of 20 (grade about 4.5).
-- v5 (Qwen3-32B QLoRA): the attempt to keep the moat while fixing v4's prose and raw faithfulness
-  with a cleaner, filtered dataset. It backfired: tier-fit fell to 0.536, move-soundness to 0.828,
-  prose to about 3.9 (near the bottom of the field), and faithfulness stayed flat around 0.58. The
-  lesson is concrete: the moat's signal is the density of contrastive multi-tier examples, and
-  aggressively cleaning the data thinned that signal. v5 is not shipped.
+  5th of 20 on the blinded prose council (instructiveness grade about 6.35) at tier-policy match 0.558.
+- v4 (Qwen3-32B QLoRA): the shipped model. Trained to maximize the policy match, it leads the field
+  (tier-policy match 0.767, distinct-moves 0.785, raw move-soundness 0.942) and wins the
+  selection-conditioned head-to-head 51-5 (6 ties) over the 62 diverging positions, while trading
+  prose down to about 15th of 20 (grade about 4.5). 32B is a mid-size extension, not a small model.
+- v5 (Qwen3-32B QLoRA): an attempt to fix v4's prose and raw faithfulness with a cleaner, filtered
+  dataset. It regressed (tier-policy match 0.536, move-soundness 0.828, prose about 3.9, faithfulness
+  flat around 0.58) but the run was CONFOUNDED and does not prove filtering alone caused it: about 27%
+  less optimization / token exposure, contrastive triads broken by row-wise filtering, about 42%
+  boilerplate-principle pollution, retrained from base rather than from v4, and no checkpoint
+  selection. So "cleaner data killed the tier-policy lead" is not an established lesson. v5 is not
+  shipped.
 
 v3, v4, and v5 use the same low-rank QLoRA recipe on the same base
 (`unsloth/Qwen3-32B-unsloth-bnb-4bit`), differing essentially only in the data. Going to 32B was a
-deliberate quality push toward a near-frontier coach on the one trained axis, not a retreat from
-the small-model thesis: the on-spec, defensible form factor is still a small (~4B) local model,
-which is the honest floor of the claim, while the 32B v4 is the strongest instance of the behavior.
+deliberate quality push, not a retreat from the small-model thesis: the on-spec, defensible form
+factor is the small 1.7B/4B local model (the honest floor of the claim), while the 32B v4 is the
+strongest mid-size instance of the behavior.
 
 ---
 
@@ -159,24 +197,30 @@ The same behavior runs locally as "The Analysis Room": a thin FastAPI backend wi
 existing pieces to a calm, board-centric Next.js front end. It re-implements no chess logic:
 
 - Stockfish supplies the sound-move pool and how bad the student's move was.
-- Maia supplies which sound moves a player at the chosen tier would actually consider (best-effort;
-  the API degrades gracefully if lc0 / the weights are missing).
+- Maia supplies which sound moves a player at the chosen tier would actually consider. Maia is NOT
+  optional for the behavior: without it the per-tier signal disappears and the three tiers collapse to
+  one move (there is no graceful degradation here). If lc0 / the weights are missing the API still
+  returns an answer, but tier differentiation is lost.
 - `config/schema.py` assembles those facts into the exact `TeacherInput` prompt text the model was
-  trained on (`render_user_prompt`).
+  trained on (`render_user_prompt`). The tuned model needs this per-tier Maia grounding at inference;
+  it does not internalize the rule.
 - `src/engine/position_facts.py` prepends a VERIFIED FACTS block (the exact pieces on the board,
   which are loose, what each candidate move concretely does) so the model explains from truth.
 - `src/engine/faithfulness.py` (the verifier) is the verify-and-regenerate gate: after the model
-  writes a reply, every board claim is checked against the real position; if any is false the whole
-  answer is re-sampled (never sentence-stripped) up to a small budget. If none verify, the API
-  emits a deterministic, engine-derived explanation that is truthful by construction. This is the
-  inference-time defense for the optional prose layer, running in production today.
+  writes a reply, every detector-covered board claim is checked against the real position; if any is
+  false the whole answer is re-sampled (never sentence-stripped) up to a small budget. If none verify,
+  the API emits a deterministic, engine-derived explanation that is truthful by construction. This is
+  the inference-time defense for the optional prose layer, running in production today. It is
+  high-precision but low-recall: semantic falsehoods the detectors do not cover (relational pawn-SAN
+  claims, forks, threats, negations, eval claims) can still pass, so it is not certified truthfulness.
 
-Two-surface honesty. The curated showcase is the canonical, deterministic proof of the moat: it is
-generated locally with the full Maia grounding, so it differentiates cleanly by tier. The live tool
-is the interactive differentiator that demonstrates the behavior end to end, but it is not
-guaranteed to be move-for-move identical to the curated showcase. (Maia was initially missing on
+Two-surface honesty. The curated showcase is the canonical, deterministic proof of the tier-policy
+behavior: it is generated locally with the full Maia grounding, so it differentiates cleanly by tier.
+The live tool is the interactive differentiator that demonstrates the behavior end to end, but it is
+not guaranteed to be move-for-move identical to the curated showcase. (Maia was initially missing on
 the serving container, which collapsed the tiers to one move; adding Maia + greedy-first decoding
-restored per-tier differentiation on the live coach.)
+restored per-tier differentiation on the live coach. That collapse is exactly why "the behavior lives
+in the weights" is false: the model needs Maia's grounding at inference.)
 
 ---
 
@@ -196,8 +240,9 @@ Prerequisites:
 - A Python env with `mlx_lm` (Apple Silicon) or the CUDA path, plus `python-chess`, `fastapi`,
   `uvicorn`.
 - Stockfish (`/opt/homebrew/bin/stockfish` by default; override with `STOCKFISH_PATH`): required.
-- lc0 + Maia nets in `models/maia/`: optional; without them the coach still runs and the
-  human-likelihood panel shows "unavailable" (and tiers may not differentiate).
+- lc0 + Maia nets in `models/maia/`: without them the coach still returns an answer, but the
+  human-likelihood panel shows "unavailable" and the three tiers collapse to a single move (the
+  trained behavior is lost). Maia is required for tier differentiation, not optional.
 - Node 18.18+ and `npm install` in `web/` (first run only).
 
 Overrides (all optional): `COACH_MODEL_PATH`, `COACH_ADAPTER_PATH`, `API_PORT`, `WEB_PORT`, `PY`.
@@ -208,7 +253,7 @@ Secrets live only in `./.env` and are read at call time, never printed.
 ## Repo layout
 
 ```
-config/     tiers, engine tolerances, Maia mapping, the BEHAVIOR_SPEC (the one gate), schema/rendering
+config/     tiers, engine tolerances, Maia mapping, an older prose-full BEHAVIOR_SPEC (pending update; the canonical one-behavior spec is in BRAINLIFT.md), schema/rendering
 data/       positions / transcripts / generated / dataset / analysis / benchmark / eval (gitignored)
 prompts/    coach_system.md (the spec), principles.md + fewshots.json (distilled style), tier_guides, rubric
 src/engine  Stockfish + Maia wrappers, position_facts (grounding), faithfulness (the verifier)
@@ -216,7 +261,7 @@ src/ingest  Lichess sampler, YouTube transcript harvester
 src/teacher GPT-5.5 generation + principle distillation + tier selection + the coach gate
 src/train   split_data + Modal QLoRA trainers
 src/eval    base-vs-tuned harness (evaluate.py), the blinded council (benchmark/), honest gated eval (honest/)
-scripts/    grand_eval.py (20-model leaderboard), honest_v4.py (v4 regression + moat proof)
+scripts/    grand_eval.py (20-model leaderboard), honest_v4.py (v4 regression + selection-conditioned head-to-head)
 src/api     FastAPI backend (server.py): the platform's thin HTTP layer
 web/        Next.js 16 + Tailwind v4 + HeroUI v3 + react-chessboard front end
 run_platform.sh  one command to run the whole platform locally
@@ -232,18 +277,18 @@ has a checkable right answer per tier. Instructiveness of the optional prose lay
 held-out, cross-family council the model never trains against.
 
 ```bash
-# strict v4 regression verdict + vs-frontier moat proof -> RESULTS_HONEST_EVAL_V4.md + data/benchmark_honest/report_v4.json
+# strict v4 regression verdict + selection-conditioned head-to-head -> RESULTS_HONEST_EVAL_V4.md + data/benchmark_honest/report_v4.json
 python -m scripts.honest_v4 report
 
-# full 20-model leaderboard (deterministic moat + blinded council) -> data/benchmark_grand/GRAND_EVAL_LEADERBOARD.md
+# full 20-model leaderboard (deterministic tier-policy match + selection-conditioned head-to-head + blinded council) -> data/benchmark_grand/GRAND_EVAL_LEADERBOARD.md
 python -m scripts.grand_eval report
 ```
 
 Held-out and anti-leak invariants are non-negotiable: every eval FEN is verified absent from the
 training set by board + side-to-move key (0 of 120 leakage), grounding is identical across all
 models, Maia is symmetric across the field, and local decoding is greedy so tier differences are
-genuine conditioning, not sampling noise. Re-scoring the published generations reproduces tier-fit
-0.767 and distinct-moves 0.785 exactly.
+genuine conditioning, not sampling noise. Re-scoring the published generations reproduces tier-policy
+match 0.767 and distinct-moves 0.785 exactly.
 
 ---
 
@@ -251,20 +296,33 @@ genuine conditioning, not sampling noise. Re-scoring the published generations r
 
 Reported as plainly as the wins:
 
-1. Prose is weaker by design. v4 is the strongest model on the trained move axis and about 15th of
-   20 on the blinded instructiveness council (grade about 4.5), below the 4B tune and v3. This is
-   on-thesis: prose is the optional display layer, not the graded behavior, and a product that wants
-   rich prose renders it on top of the tuned move (engine templates or a frontier model) and
+1. Deployment-necessity is false as built. `select_tier_move` computes the canonical move directly
+   from the same grounding at ~1.0 by construction, so the tuned model approximates a policy the
+   product already produces. The model is load-bearing only grounding-free and fully local, which we
+   did not build or measure. The deterministic rule is the true ceiling baseline.
+2. The tune does not internalize the rule. At inference it needs Maia's per-tier grounding in the
+   prompt; without it the tiers collapse to one move. Honest claim: reliable grounded EXECUTION, not
+   "the behavior lives in the weights." No graceful degradation; it degrades to collapse.
+3. Faithfulness is not guaranteed truthfulness. About 40% of v4's raw drafts trip the prose check;
+   the gate drives verifier-DETECTABLE mechanical violations to zero. But the checker is
+   high-precision / low-recall: relational pawn-SAN claims, forks, threats, negations, and eval claims
+   can still be wrong and reach a user, and a cross-family LLM-judge residual exists. We do not claim
+   guaranteed truthfulness.
+4. Tier-policy match is fidelity to a heuristic, not certified best teaching. "Advanced = engine best"
+   is contradicted in the data (advanced maximizes stored cp and diverges from the persisted
+   engine_best on ~43/803), and the sound pool is a shallow 300ms / MultiPV-8 / 150cp search that can
+   include position-worsening moves. v6 roadmap: deeper pool + tablebases, Maia-as-constraint,
+   titled-coach validation.
+5. Pedagogy is unvalidated. We measured agreement with our own move rule, not whether coaches or
+   students prefer these moves or learn faster. Behavior validated, value not validated.
+6. Prose is weaker and secondary, not "not trained." v4 lands about 15th of 20 on the blinded council
+   (grade about 4.5). Prose is secondary to the evaluation claim and is not separately optimized, but
+   it IS in the SFT loss. A product that wants rich prose renders it on top of the chosen move and
    verifies it separately.
-2. Truth is carried by grounding + the verifier, not the weights. About 40% of v4's raw drafts trip
-   the prose faithfulness check before the gate; the shipped verify-and-regenerate gate drives
-   user-visible fabrication to zero. The core move claim cannot fabricate a board fact, which is why
-   narrowing the graded behavior to the move makes faithfulness free for the core deliverable.
-3. Live vs curated showcase. The curated showcase is the canonical deterministic proof; the live
-   tool differentiates by tier but is not guaranteed to be move-for-move identical to the showcase.
-4. Size vs form factor. The on-spec, defensible form factor is a small (~4B) local model, and that
-   stays the honest floor of the claim. The 32B v4 is a deliberate quality push to the strongest
-   instance of the behavior, not a move to the local form factor.
+7. v5 did not prove clean data kills the lead. The v5 regression was confounded (see iteration
+   history); it does not isolate filtering as the cause.
+8. Live vs curated showcase. The curated showcase is the canonical deterministic proof; the live tool
+   differentiates by tier but is not guaranteed move-for-move identical to the showcase.
 
 ---
 

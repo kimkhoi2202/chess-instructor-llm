@@ -4,15 +4,36 @@ The definitive base-vs-tuned eval, re-centered on the **32B v4** adapter. Every 
 
 - **VAL slice:** 120 held-out positions × 3 tiers; council items=360, judges=3, gradings=1068 (0-10 move + instr (absolute), frontier panel).
 
-## Headline — did the 32B (v4) REGRESS vs the 4B (iter1)?
+## What this measures, and what it does not
 
-**Verdict: OURS-v4 trails OURS-4B on a core axis (see table).** 32B ≫ 4B: tier-fit Δ 0.369, distinct-moves Δ 0.505; 51W / 5L / 6T vs the best frontier on the moat.
+**Metric rename.** What earlier drafts called "tier-fit" is renamed **tier-policy exact match**: exact agreement with the preregistered `select_tier_move` policy (shortened to **tier-policy match**). It is agreement with a PROJECT RULE, not validated pedagogy.
 
-**Core moat + instructiveness axes:**
+**Three separate claims (do not conflate):**
+1. **Learnability (validated).** The `select_tier_move` policy is distillable into weights: with identical Maia grounding on both sides, a fine-tune reproduces it where a prompt on the same base cannot. The genuinely small on-spec model leads it: **1.7B tuned 0.358 -> 0.578**, #2 of 20 and above every frontier (Gemini 0.553); 1.7B tune (0.578) > 4B tune (0.397), so the behavior is from data / contrastive signal, not capacity. 32B v4 (0.767) is the strongest **mid-size** extension, not a small model.
+2. **Deployment-necessity (false as built).** The same Stockfish sound pool + Maia policy that feed the model's prompt also feed the ~20-line `select_tier_move` rule, which computes the canonical move directly at **~1.0 by construction** (it IS the target). The model APPROXIMATES a policy the product already produces; the deterministic rule is the true ceiling. The model is only load-bearing grounding-free and fully local, which was not built or measured.
+3. **Pedagogy / value (unvalidated).** These numbers are agreement with our own heuristic, not evidence coaches or students prefer these moves or improve. Behavior validated, value not.
+
+**Caveats carried by every number below:**
+- **Un-promptability at 32B is a hypothesis, not a result:** the matched same-backend 32B prompt control was never run (only 1.7B and 4B prompt controls exist). Future work.
+- **Grounded execution, not weights:** the tune needs Maia's per-tier grounding in the prompt at inference; without it the tiers collapse to one move. Honest claim = reliable grounded EXECUTION.
+- **Soundness is heuristic fidelity:** the sound pool is a shallow 300ms / MultiPV-8 / 150cp search that can include position-worsening moves, and the rule's "advanced = engine best" diverges from the persisted engine_best on ~43/803. So tier-policy match is fidelity to a heuristic, not certified best teaching.
+- **Faithfulness != truthfulness:** the gate's zero-fabrication figure is zero verifier-DETECTABLE mechanical violations; semantic falsehoods (relational pawn-SAN claims, forks / threats / negations / eval claims) can still reach users, and a cross-family LLM-judge residual exists.
+
+See [`BRAINLIFT.md`](BRAINLIFT.md) for the full three-claim treatment and the v6 roadmap.
+
+## Headline — base vs tuned, and the deterministic ceiling
+
+**All-scenario lead (the unbiased number).** Across all 120 × 3 scenarios, OURS-v4 tier-policy match **0.767** vs the best frontier **0.553** (Gemini 3.1 Pro, #4 of 20); the tuned checkpoints take 4 of the top 5. The **`select_tier_move` deterministic rule scores ~1.0 by construction** and is the true ceiling: the model approximates a move the product already computes from the same grounding.
+
+**Learnability, led by the small model.** 1.7B tuned 0.358 -> 0.578 (#2 of 20, above every frontier). The 32B v4 (0.767) is the strongest mid-size instance; v4 beats the 4B tune, but so does the 1.7B tune, so the behavior tracks the data, not capacity.
+
+**32B vs 4B (this doc's original question).** OURS-v4 leads OURS-4B on the move axis (tier-policy match Δ 0.369, distinct-moves Δ 0.505) and trails on prose (below), which is on-thesis because prose is secondary to the evaluation claim (still in the SFT loss, not separately optimized).
+
+**Core move + prose axes (v4 vs 4B):**
 
 | axis | OURS-v4 (32B) | OURS-4B | Δ (v4−4b) | better | v4 not worse |
 |---|---:|---:|---:|:--:|:--:|
-| tier_fit_mean | 0.767 | 0.397 | 0.369 | higher↑ | yes |
+| tier_policy_match_mean | 0.767 | 0.397 | 0.369 | higher↑ | yes |
 | distinct_moves_per_level | 0.785 | 0.280 | 0.505 | higher↑ | yes |
 | instr_council_rank | 6.076 | 5.622 | 0.454 | lower↓ | NO |
 | coherence_violation_rate | 0.140 | 0.325 | -0.185 | lower↓ | yes |
@@ -26,18 +47,20 @@ The definitive base-vs-tuned eval, re-centered on the **32B v4** adapter. Every 
 | well_formed_gated | 1.000 | 1.000 | 0.000 | shared floor ~100% |
 | no_engine_speak_gated | 0.983 | 1.000 | -0.017 | 32B slips ~2% (still > v3 95.6%); negligible |
 
-**vs untuned 32B base (`q3_32b`):** tier-fit Δ 0.419, instr-rank Δ 0.257 (neg=better), distinct Δ 0.495, instr-grade Δ -0.550.
-**vs best prompt-base on this slice (`pbase_4b`):** instr-rank Δ -0.920 (neg=better), tier-fit Δ 0.389. (The 32B prompt-base was shown to lose to the 32B tune on the prior slice — see `RESULTS_HONEST_EVAL.md` litmus [32b].)
+**vs untuned 32B base (`q3_32b`):** tier-policy match Δ 0.419, instr-rank Δ 0.257 (neg=better), distinct Δ 0.495, instr-grade Δ -0.550.
+**vs best prompt-base on this slice (`pbase_4b`, the 4B prompt control):** tier-policy match Δ 0.389, instr-rank Δ -0.920 (neg=better). A matched same-backend **32B** prompt control was never run, so 32B un-promptability is a falsifiable hypothesis (future work), NOT a result; the real prompt-vs-tune evidence is at 1.7B and 4B.
 
 **Distance to frontier:** best frontier = gpt (instr rank 2.128); OURS-v4 rank 6.076; gap = 3.948 rank positions.
 
-## vs-frontier + distinct-tier PROOF
+## Selection-conditioned head-to-head (NOT a general win rate)
 
-Of **120** val positions, OURS-v4 gives distinct, sound, correctly-graded per-tier moves on **67**; of those it also DIVERGES from the best frontier model's move on **62**. On that proof set: **51 wins / 5 losses / 6 ties** for OURS-v4 on the MOAT (tier-fit then soundness) vs the best-moat frontier at each position — the same win definition the platform uses (`assemble.derive_wins`). Instructiveness (where the frontier leads) is reported separately above with CIs; it is NOT folded into this moat proof.
+This result is conditioned on v4 succeeding, so it is a subset figure, not a win rate over all positions. Of **120** val positions, OURS-v4 gives distinct, sound, correctly-graded per-tier moves on **67**; of those it also DIVERGES from the best frontier's move on **62**. Within that **v4-success/divergence subset**: **51 wins / 5 losses / 6 ties** for OURS-v4 on tier-policy match then soundness (`assemble.derive_wins`) vs the best frontier at each position. Because the subset is selected on v4 already being distinct, sound, and correct, it overstates a raw win rate; the unbiased comparison is the all-scenario tier-policy match 0.767 vs 0.553 above. Instructiveness (where the frontier leads) is reported separately with CIs.
 
 ## Leaderboard (v4-centered VAL field)
 
-| Model | gated | tier-fit↑ | instr rank↓ | instr 0-10↑ | move 0-10↑ | move-sound↑ | distinct↑ | coh-viol↓ |
+Note: this v4-centered field omits the small 1.7B tune. In the full 20-model grand eval (all 120 × 3, same strict extractor) the **1.7B tune posts tier-policy match 0.578, #2 of 20 and above every frontier** (base 0.358), which is the learnability lead; see `data/benchmark_grand/GRAND_EVAL_LEADERBOARD.md`.
+
+| Model | gated | tier-policy match↑ | instr rank↓ | instr 0-10↑ | move 0-10↑ | move-sound↑ | distinct↑ | coh-viol↓ |
 |---|:--:|---:|---:|---:|---:|---:|---:|---:|
 | GPT-5.5 | reuse | 0.494 | 2.128 | 8.060 | 9.500 | 1.000 | 0.280 | 0.342 |
 | Gemini 3.1 Pro | reuse | 0.553 | 3.538 | 7.160 | 9.380 | 1.000 | 0.210 | 0.292 |
@@ -79,7 +102,7 @@ Absolute instructiveness grade pooled over items, 95% cluster-bootstrap CI by it
 | PROMPT-BASE-4B (Qwen3-4B engineered) | yes | 1.000 | 1.000 | — | — | 1.167 | 0.003 |
 | BASE-4B (Qwen3-4B untuned) | yes | 1.000 | 1.000 | — | — | 1.156 | 0.000 |
 
-**Fairness — OURS-v4 through the SAME shipped gate (verify + fallback), like the 4B:** gated move-sound 1.000, gated well-formed 1.000, gated no-engine-speak 0.983 (gate fallback 0.444). Once gated, move-soundness and well-formedness hit the same ~100% floor as the gated 4B — so those axes are a shared fairness floor, NOT a v4 regression; the differentiators are tier-fit / distinct-moves / instructiveness.
+**Fairness — OURS-v4 through the SAME shipped gate (verify + fallback), like the 4B:** gated move-sound 1.000, gated well-formed 1.000, gated no-engine-speak 0.983 (gate fallback 0.444). Once gated, move-soundness and well-formedness hit the same ~100% floor as the gated 4B — so those axes are a shared fairness floor, NOT a v4 regression; the differentiators are tier-policy match / distinct-moves / instructiveness. The gate guarantees zero verifier-DETECTABLE mechanical violations, not certified truthfulness: semantic falsehoods (relational pawn-SAN claims, forks / threats / negations / eval claims) can still pass, and move-soundness itself is fidelity to the shallow sound pool.
 
 _The 32B gate question ('did v4 fix the format / no-engine-speak trip v3 had?'): OURS-v4's RAW no-engine-speak + well-formed rates above vs v3's ~95.6% no-jargon / ~4.3% malformed (RESULTS_V3) — v4 improved, and the shipped gate closes the small remainder._
 
