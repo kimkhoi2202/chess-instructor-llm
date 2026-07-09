@@ -367,14 +367,40 @@ select:disabled,
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
 }
 
-/* Keep the legal-move green dot visible on hover instead of swapping to the
-   square-fill highlight (chessground's default). The extra `.cg-wrap` class wins
-   on specificity over the theme's `cg-board square.move-dest:hover` rule. */
+/* Interactive square highlights, recolored from chessground's default Lichess
+   green/yellow to the Tournament Hall's warm BRASS so the legal-move dots, the
+   capturable-piece ring, the selected square, and the last move all read as one
+   identity on the walnut/chalk board (the recommended-move arrow is the same
+   brass signal). `.cg-wrap cg-board square…` (specificity 0,2,1) beats the
+   unlayered `cg-board square…` rules imported from chessground.brown.css. */
+.cg-wrap cg-board square.move-dest {
+  background: radial-gradient(
+    color-mix(in oklab, var(--signal) 42%, transparent) 22%,
+    transparent 0
+  );
+}
 .cg-wrap cg-board square.move-dest:hover {
-  background: radial-gradient(rgba(20, 85, 30, 0.5) 22%, #208530 0, rgba(0, 0, 0, 0.3) 0, rgba(0, 0, 0, 0) 0);
+  background: color-mix(in oklab, var(--signal) 26%, transparent);
+}
+.cg-wrap cg-board square.oc.move-dest {
+  background: radial-gradient(
+    transparent 0%,
+    transparent 79%,
+    color-mix(in oklab, var(--signal) 55%, transparent) 80%
+  );
 }
 .cg-wrap cg-board square.oc.move-dest:hover {
-  background: radial-gradient(transparent 0%, transparent 80%, rgba(20, 85, 0, 0.3) 80%);
+  background: radial-gradient(
+    transparent 0%,
+    transparent 79%,
+    color-mix(in oklab, var(--signal) 40%, transparent) 80%
+  );
+}
+.cg-wrap cg-board square.selected {
+  background-color: color-mix(in oklab, var(--signal) 40%, transparent);
+}
+.cg-wrap cg-board square.last-move {
+  background-color: color-mix(in oklab, var(--signal) 24%, transparent);
 }
 
 /* --------------------------------------------------------------------------

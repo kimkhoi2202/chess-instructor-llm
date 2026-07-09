@@ -112,14 +112,23 @@ export default function BoardStage({
       {loading && (
         <div
           className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 px-6"
-          style={{ background: "color-mix(in oklab, var(--background) 72%, transparent)" }}
+          // Light scrim only: the chalk/walnut board stays crisp and legible while
+          // the coach reads (a heavy tint here reads as a muddy, broken board). The
+          // status label/progress sit in their own contained chip so they're
+          // readable over whatever squares they land on.
+          style={{ background: "color-mix(in oklab, var(--background) 20%, transparent)" }}
           role="status"
           aria-live="polite"
         >
-          <span className="text-sm font-medium text-ink">Reading the position</span>
-          <span className="relative h-1 w-40 max-w-[70%] overflow-hidden rounded-full bg-[color:var(--surface-tertiary)]">
-            <span className="board-progress absolute inset-y-0 left-0 w-2/5 rounded-full bg-signal" />
-          </span>
+          <div
+            className="flex flex-col items-center gap-2.5 rounded-xl px-5 py-3.5 ring-1 ring-[color:var(--border)] backdrop-blur-sm"
+            style={{ background: "color-mix(in oklab, var(--surface) 88%, transparent)" }}
+          >
+            <span className="text-sm font-medium text-ink">Reading the position</span>
+            <span className="relative h-1 w-40 max-w-[52vw] overflow-hidden rounded-full bg-[color:var(--surface-tertiary)]">
+              <span className="board-progress absolute inset-y-0 left-0 w-2/5 rounded-full bg-signal" />
+            </span>
+          </div>
         </div>
       )}
     </div>
