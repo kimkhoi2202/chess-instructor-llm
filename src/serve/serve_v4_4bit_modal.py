@@ -57,10 +57,19 @@ IMPORTANT: memory snapshots only take effect for **deployed** apps (not
 snapshot; subsequent cold starts RESTORE from it (that is when you see the
 speedup).
 
-Maia note: lc0 + Maia nets are not installed on Modal, so the human-likelihood
-signal degrades gracefully (``maia: []`` + a note) exactly as the local API does.
-Stockfish IS installed (apt) and used for real (opened per-request, so it is
-snapshot-safe — no engine subprocess is captured in the snapshot).
+Maia note (THE FIX): lc0 + the tier Maia nets ARE now installed on Modal, so the
+per-tier human-likelihood signal is REAL — identical to the local pipeline. lc0 is
+built CPU-only from source (no CUDA/OpenCL/DX backend compiled), so it uses the
+Eigen BLAS backend and never contends with vLLM for the GPU; the three Maia nets
+(maia-1100 / 1500 / 1900) are baked into the image at ``/root/models/maia``. The
+unchanged :mod:`src.engine.maia_engine` (env ``LC0_BIN`` / ``MAIA_DIR``) then feeds
+``_maia_best_effort`` -> ``render_user_prompt`` the tier-specific "Human-likelihood
+at this tier (Maia)" block, which is exactly what makes the coach recommend
+tier-appropriate moves (Beginner != Advanced). WITHOUT this, that block was empty
+for all three tiers and the live coach collapsed to one move per position; WITH it,
+live == local. lc0 engines are spawned lazily per net at request time (and warmed
+once in ``load``), so no engine subprocess is captured in the CPU snapshot.
+Stockfish IS installed (apt) and used for real, opened per-request (snapshot-safe).
 
 No secrets are hardcoded: the HF token (for the base pull / adapter) comes from the
 ``chess-hf`` Modal secret; Modal auth comes from the ambient profile.
@@ -74,8 +83,11 @@ import modal
 # --------------------------------------------------------------------------- #
 # Names / paths
 # --------------------------------------------------------------------------- #
-#: New 4-bit app name — deployed ALONGSIDE the BF16 fallback (do not clash).
-APP_NAME: str = "chess-coach-v4-4bit"
+#: Maia-enabled 4-bit app — deployed ALONGSIDE the existing Maia-less 4-bit app
+#: (``chess-coach-v4-4bit``) and the BF16 app (``chess-coach-v4-vllm``), BOTH of
+#: which stay up as fallbacks. This new app is the one the live Space points at
+#: once tier differentiation is verified.
+APP_NAME: str = "chess-coach-v4-4bit-maia"
 VOLUME_NAME: str = "chess-coach-lora"          # shared volume (optional adapter copy)
 RUN_NAME: str = "chess-coach-v4"
 VOL_MOUNT: str = "/vol"
@@ -92,7 +104,7 @@ HF_ADAPTER_REPO: str = "khoilamalphaai/chess-coach-modal-backup"
 HF_ADAPTER_SUBFOLDER: str = "v4-lora-qwen3-32b"
 
 #: Human-readable label surfaced as ``meta.model`` / on /api/health.
-MODEL_LABEL: str = "Qwen3-32B + chess-coach-v4 QLoRA (vLLM bitsandbytes 4-bit, Modal)"
+MODEL_LABEL: str = "Qwen3-32B + chess-coach-v4 QLoRA (vLLM bitsandbytes 4-bit, Modal, Maia)"
 
 #: LoRA rank from the v4 adapter_config.json (r=32). vLLM needs this at engine init.
 LORA_RANK: int = 32
@@ -137,6 +149,19 @@ ENFORCE_EAGER: bool = True
 CUDA_TAG: str = "12.4.1-cudnn-devel-ubuntu22.04"
 PY_VERSION: str = "3.11"
 STOCKFISH_BIN: str = "/usr/games/stockfish"    # debian/ubuntu apt install location
+
+#: Maia (human-likelihood) grounding — the fix. lc0 is built CPU-only from this
+#: release inside the image; the tier nets are baked in at ``MAIA_DIR``. Reads by
+#: the UNCHANGED ``src.engine.maia_engine`` via the ``LC0_BIN`` / ``MAIA_DIR`` env.
+LC0_TAG: str = "v0.31.2"                        # lc0 release built into the image
+LC0_BIN: str = "/usr/local/bin/lc0"            # CPU-only build (no GPU backend)
+MAIA_DIR: str = "/root/models/maia"            # baked nets: maia-1100/1500/1900.pb.gz
+#: lc0's release build hard-codes ``-march=native`` (meson.build), which targets the
+#: BUILD host's exact CPU and can SIGILL on a different run host (Modal builds and
+#: runs on different machines). We patch that to a portable baseline that every
+#: modern GPU host supports and that still provides the f16c/popcnt lc0 expects
+#: (x86-64-v3 = AVX2 + F16C + BMI + POPCNT, Haswell 2013+).
+LC0_ARCH: str = "x86-64-v3"
 
 #: vLLM (brings a compatible torch/transformers/fastapi/pydantic/uvicorn) + fast HF
 #: DL + bitsandbytes (required for NF4 quant at load time).
@@ -193,12 +218,46 @@ image = (
     # which avoids a flaky build-sandbox Hub fetch; the snapshot then captures the
     # loaded LoRA so restores never re-pull it.
     .run_function(_bake_base_model, secrets=[hf_secret])
+    # --- Maia grounding: lc0 (CPU-only) built from source ---------------------
+    # Added as TAIL layers AFTER the ~37 GiB base bake above, so they never
+    # invalidate that cached layer (only these small layers + the source copy
+    # rebuild on edit). lc0 is built CPU-only: GPU backends (cudnn/plain_cuda/
+    # opencl/dx) are DISABLED, so the only computation backend is BLAS, which lc0
+    # always links against Eigen (`dependency('eigen3', fallback: eigen)`), so a
+    # ``go nodes 1`` Maia policy pass runs on CPU and never touches the GPU vLLM
+    # owns. Deps are minimal: system Eigen + zlib satisfy the two real deps (lc0's
+    # protobufs are compiled by its bundled pure-python compile_proto.py — no
+    # protoc/libprotobuf needed) and its net format is read from the baked nets.
+    .apt_install("build-essential", "zlib1g-dev", "libeigen3-dev")
+    .pip_install("meson", "ninja")
+    .run_commands(
+        f"git clone -b {LC0_TAG} --depth 1 --recurse-submodules --shallow-submodules "
+        "https://github.com/LeelaChessZero/lc0.git /opt/lc0",
+        # Replace lc0's build-host-specific ``-march=native`` with a portable
+        # baseline so the binary never SIGILLs on a different Modal run host.
+        f"sed -i 's/-march=native/-march={LC0_ARCH}/g' /opt/lc0/meson.build",
+        "cd /opt/lc0 && meson setup build --buildtype=release "
+        "-Dgtest=false -Dispc=false -Ddx=false "
+        "-Dcudnn=false -Dplain_cuda=false -Dopencl=false "
+        "-Dtensorflow=false -Donednn=false -Ddnnl=false "
+        "-Dmkl=false -Daccelerate=false -Dopenblas=false -Dblas=true "
+        "&& ninja -C build "
+        f"&& install -Dm755 build/lc0 {LC0_BIN}",
+        # Smoke-log the build + prove it runs on THIS arch (never fails the layer).
+        f"{LC0_BIN} --version || true",
+    )
+    # Point the UNCHANGED maia_engine at the built binary + baked nets. Set at the
+    # image level so it is present for every process before any import.
+    .env({"LC0_BIN": LC0_BIN, "MAIA_DIR": MAIA_DIR})
 )
 if modal.is_local():
     # Copy ONLY the packages the server imports (config / src / prompts) — keep the
     # image lean (no data/, models/, node_modules, .git).
     image = (
         image
+        # Maia nets (~3.8 MiB total) baked in FIRST so editing this serve script
+        # (which lives under src/) never invalidates this tiny layer.
+        .add_local_dir((REPO_ROOT / "models" / "maia").as_posix(), "/root/models/maia", copy=True)
         .add_local_dir((REPO_ROOT / "config").as_posix(), "/root/config", copy=True)
         .add_local_dir((REPO_ROOT / "src").as_posix(), "/root/src", copy=True)
         .add_local_dir((REPO_ROOT / "prompts").as_posix(), "/root/prompts", copy=True)
@@ -216,11 +275,26 @@ app = modal.App(APP_NAME)
 class _VLLMCoach:
     """Turns (system, user) into coaching text via Qwen3-32B (NF4) + the v4 LoRA.
 
-    Mirrors ``src.api.server.Coach.run`` and the BF16 serve: applies the model's
-    chat template with ``enable_thinking=False``, generates with the same Qwen3
-    non-thinking sampling, and strips any ``<think>`` block. Generation is
-    serialized behind a lock (one engine, one GPU); SamplingParams is left unseeded
-    so each gate retry samples a genuinely new draft.
+    Mirrors ``src.api.server.Coach.run`` and the BF16 serve (chat template with
+    ``enable_thinking=False``, ``<think>`` stripped, generation lock-serialized on
+    the single GPU) with ONE deliberate change for tier differentiation:
+
+    **Greedy-first decoding.** The tier-appropriate move is produced by the model's
+    per-tier conditioning (the Maia "human-likelihood at this tier" block +
+    tier/ply-cap in the prompt). That conditioning is a *bias*, and at the shipped
+    sampling temperature (0.7) it is drowned by sampling noise — so all three tiers
+    collapse onto the model's single dominant move (this is exactly why the local
+    tier analysis, ``scripts/divergence_analysis.py``, decodes GREEDY: "so tier
+    differences reflect genuine tier-conditioning, not sampling noise"). To make the
+    LIVE coach reproduce the LOCAL/showcase differentiation, the FIRST gate attempt
+    is decoded **greedily** (argmax, temperature 0) — deterministic and maximally
+    tier-conditioned, matching how the showcase was generated. If that first draft
+    fails the faithfulness verifier, subsequent gate attempts fall back to the
+    original stochastic sampling (temp ``COACH_GEN_TEMP``, default 0.7) so the
+    VERIFY-AND-REGENERATE loop still has genuinely different drafts to try. Net:
+    tier differentiation (greedy first) AND faithfulness recovery (sampled retries).
+    Overridable via env: ``COACH_FIRST_ATTEMPT_GREEDY=0`` (pure sampling, old
+    behavior) / ``COACH_GEN_TEMP`` (retry temperature).
     """
 
     MAX_TOKENS: int = 640
@@ -230,6 +304,7 @@ class _VLLMCoach:
     REPETITION_PENALTY: float = 1.15
 
     def __init__(self, llm, tokenizer, lora_request, strip_think) -> None:
+        import os
         import threading
 
         from vllm import SamplingParams
@@ -240,6 +315,18 @@ class _VLLMCoach:
         self._strip_think = strip_think
         self._SamplingParams = SamplingParams
         self._lock = threading.Lock()
+
+        # Retry (sampled) temperature + whether the first gate attempt is greedy.
+        self._temp = float(os.environ.get("COACH_GEN_TEMP", str(self.TEMP)))
+        self._first_greedy = (
+            os.environ.get("COACH_FIRST_ATTEMPT_GREEDY", "1").strip().lower()
+            not in ("0", "false", "no", "off")
+        )
+        # Per-(system,user) attempt counter so attempt 1 of each gate loop is greedy
+        # and its faithfulness re-samples are stochastic. run_gate calls run() with a
+        # fixed (system,user) per position/tier, sequentially; the lock serializes it.
+        self._last_key = None
+        self._attempt = 0
 
     def _render(self, system: str, user: str) -> str:
         messages = [
@@ -258,14 +345,32 @@ class _VLLMCoach:
 
     def run(self, system: str, user: str, max_tokens: int = MAX_TOKENS) -> str:
         prompt = self._render(system, user)
-        params = self._SamplingParams(
-            temperature=self.TEMP,
-            top_p=self.TOP_P,
-            top_k=self.TOP_K,
-            repetition_penalty=self.REPETITION_PENALTY,
-            max_tokens=max_tokens,
-        )
         with self._lock:
+            # Track which attempt this is for the current (system,user): attempt 1
+            # is greedy (deterministic, tier-conditioned); later gate re-samples are
+            # stochastic so the faithfulness loop has new drafts to try.
+            key = (system, user)
+            if key != self._last_key:
+                self._last_key = key
+                self._attempt = 0
+            self._attempt += 1
+            greedy = self._first_greedy and self._attempt == 1
+
+            if greedy:
+                # vLLM treats temperature==0 as argmax/greedy (top_p/top_k ignored).
+                params = self._SamplingParams(
+                    temperature=0.0,
+                    repetition_penalty=self.REPETITION_PENALTY,
+                    max_tokens=max_tokens,
+                )
+            else:
+                params = self._SamplingParams(
+                    temperature=self._temp,
+                    top_p=self.TOP_P,
+                    top_k=self.TOP_K,
+                    repetition_penalty=self.REPETITION_PENALTY,
+                    max_tokens=max_tokens,
+                )
             outputs = self.llm.generate(
                 [prompt], params, lora_request=self.lora_request, use_tqdm=False,
             )
@@ -350,6 +455,12 @@ class CoachV44bit:
 
         # Set the server's env-driven config BEFORE importing it (module-level consts).
         os.environ["STOCKFISH_PATH"] = shutil.which("stockfish") or STOCKFISH_BIN
+        # Maia: point the UNCHANGED src.engine.maia_engine at the CPU-only lc0 build
+        # + baked nets. Must be set BEFORE ``from src.api import server`` below,
+        # because maia_engine reads LC0_BIN / MAIA_DIR into module-level constants
+        # at import time. (Also set at the image level, so this is belt-and-braces.)
+        os.environ["LC0_BIN"] = shutil.which("lc0") or LC0_BIN
+        os.environ["MAIA_DIR"] = MAIA_DIR
         os.environ["COACH_MODEL_PATH"] = MODEL_LABEL          # -> meta.model + tuned=True
         os.environ["COACH_ADAPTER_PATH"] = ADAPTER_DIR        # -> _is_tuned() True
         # Keep the faithfulness gate ON; 4 attempts gives timeout-safety margin.
@@ -413,7 +524,32 @@ class CoachV44bit:
         coach = _VLLMCoach(llm, tok, lora_request, server._strip_think)
         server.Coach = lambda *a, **k: coach
         self._app = server.app
-        print("[serve] FastAPI coach app ready (v4 gated pipeline, vLLM NF4 backend)")
+
+        # Warm + self-test Maia: spawns the three tier lc0 engines once (so the
+        # first live request differentiates without paying the net-load latency)
+        # and makes a broken build/nets LOUD in the logs. It never aborts startup:
+        # if it fails, the coach simply degrades to ``maia: []`` (the old behavior).
+        try:
+            import chess as _chess
+
+            from src.engine.maia_engine import human_moves as _human_moves
+
+            t1 = time.time()
+            startpos = _chess.Board().fen()
+            tops = {}
+            for tier in ("beginner", "intermediate", "advanced"):
+                mv = _human_moves(startpos, tier, top_k=1)["moves"]
+                tops[tier] = mv[0]["san"] if mv else "-"
+            print(
+                f"[serve] Maia ({LC0_TAG}, CPU/Eigen) ready in {time.time() - t1:.1f}s — "
+                f"startpos top human move by tier: "
+                f"B={tops['beginner']} I={tops['intermediate']} A={tops['advanced']}"
+            )
+        except Exception as exc:  # noqa: BLE001 - Maia is a signal, not required
+            print(f"[serve] WARNING: Maia self-test FAILED ({exc!r}); the coach will "
+                  f"degrade to maia:[] and tiers may not differentiate.")
+
+        print("[serve] FastAPI coach app ready (v4 gated pipeline, vLLM NF4 backend + Maia)")
 
     @modal.asgi_app()
     def fastapi_app(self):

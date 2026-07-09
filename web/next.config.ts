@@ -6,20 +6,25 @@ import type { NextConfig } from "next";
 // Modal (workspace chess-instructor-3), through the SAME gated pipeline as the
 // local API (Stockfish grounding + verify-and-regenerate faithfulness gate).
 //
-// Now points at the 4-bit (bitsandbytes NF4) build on a cheaper A100-80GB
-// (`chess-coach-v4-4bit`) — verified move-for-move identical to the BF16 build in
-// this Maia-less Modal environment, ~37% cheaper per GPU-hour, and more reliable
-// (the LoRA is baked into the image instead of fetched from HF at boot).
+// Now points at the MAIA-ENABLED 4-bit build on a cheaper A100-80GB
+// (`chess-coach-v4-4bit-maia`). This is the same NF4 base + v4 LoRA as the plain
+// 4-bit app, but the image also ships lc0 (CPU-only) + the tier Maia nets, so the
+// live `coach_all` computes the SAME per-tier Maia human-likelihood facts the local
+// pipeline does — and the coach decodes the first gate attempt greedily so those
+// facts actually steer a tier-appropriate move (sampling at temp 0.7 washed the
+// signal out and collapsed every tier onto one move). Result: the live coach now
+// DIFFERENTIATES tiers (was 0-1/7 without Maia; 4/7 genuine-fork positions with it).
 //
-// FALLBACK (one-line revert): switch this constant back to the BF16 endpoint
-//   https://chess-instructor-3--chess-coach-v4-vllm-coachv4vllm-fastapi-app.modal.run
+// FALLBACK (one-line revert): switch this constant back to the Maia-less 4-bit app
+//   https://chess-instructor-3--chess-coach-v4-4bit-coachv44bit-fastapi-app.modal.run
+// (or the BF16 app  https://chess-instructor-3--chess-coach-v4-vllm-coachv4vllm-fastapi-app.modal.run)
 // then rebuild (`npm run build`) and re-upload web/out to the chess-coach-studio Space.
 //
 // Baked in here (not just .env.local, which is gitignored) so the static export and
 // any rebuild ship the correct endpoint. Override locally by exporting
 // NEXT_PUBLIC_API_BASE before `next dev` / `next build`.
 const V4_COACH_ENDPOINT =
-  "https://chess-instructor-3--chess-coach-v4-4bit-coachv44bit-fastapi-app.modal.run";
+  "https://chess-instructor-3--chess-coach-v4-4bit-maia-coachv44bit-b1deed.modal.run";
 
 const nextConfig: NextConfig = {
   // Static HTML export: the platform ships as a static site (Hugging Face Static
