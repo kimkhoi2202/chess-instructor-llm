@@ -382,32 +382,32 @@ function PositionCard({ position, focusModel }: { position: ShowdownPosition; fo
             </span>
           </div>
 
-          <div className="flex flex-col gap-1 text-xs text-muted">
-            <div className="flex items-center gap-1.5">
-              <span
-                aria-hidden
-                className="inline-block size-3 rounded-full ring-1 ring-border"
-                style={{ backgroundColor: position.side_to_move === "white" ? "var(--board-light)" : "var(--board-dark)" }}
-              />
-              {cap(position.side_to_move)} to move
-              {position.student_move?.san && (
-                <>
-                  <span className="text-faint">·</span> student played{" "}
-                  <span className="font-mono text-[color:var(--your-move)] tnum">{position.student_move.san}</span>
-                </>
-              )}
-            </div>
-            {position.tier_target && (
-              <div>
-                {cap(position.tier)} should find{" "}
-                <span className="font-mono text-ink tnum">{position.tier_target.san}</span>{" "}
-                <span className="text-faint">
-                  ({position.tier_target.is_engine_best ? "engine best" : `pool #${position.tier_target.pool_rank + 1}`}
-                  {position.tier_target.policy > 0 ? ` · ${Math.round(position.tier_target.policy * 100)}% human` : ""})
-                </span>
-              </div>
+        <div className="flex flex-col gap-1 text-xs text-muted">
+          <div className="flex items-center gap-1.5">
+            <span
+              aria-hidden
+              className="inline-block size-3 rounded-full ring-1 ring-border"
+              style={{ backgroundColor: position.side_to_move === "white" ? "var(--board-light)" : "var(--board-dark)" }}
+            />
+            {cap(position.side_to_move)} to move
+            {position.student_move?.san && (
+              <>
+                <span className="text-faint">·</span> student played{" "}
+                <span className="font-serif text-[color:var(--your-move)] tnum">{position.student_move.san}</span>
+              </>
             )}
           </div>
+          {position.tier_target && (
+            <div>
+              {cap(position.tier)} should find{" "}
+              <span className="font-serif text-ink tnum">{position.tier_target.san}</span>{" "}
+              <span className="text-faint">
+                ({position.tier_target.is_engine_best ? "engine best" : `pool #${position.tier_target.pool_rank + 1}`}
+                {position.tier_target.policy > 0 ? ` · ${Math.round(position.tier_target.policy * 100)}% human` : ""})
+              </span>
+            </div>
+          )}
+        </div>
 
           {position.ours_wins && <WinBadge position={position} />}
         </div>
@@ -497,7 +497,7 @@ function ModelRow({
           />
         </div>
       </div>
-      <span className={`shrink-0 font-mono text-base font-semibold tnum ${isOurs ? "text-signal" : "text-ink"}`}>
+      <span className={`shrink-0 font-serif text-base font-semibold tnum ${isOurs ? "text-signal" : "text-ink"}`}>
         {model.rec_san ?? "—"}
       </span>
     </button>
@@ -515,7 +515,7 @@ function CoachingPanel({ model }: { model: ShowdownModel }) {
           </span>
           <KindTag kind={model.kind} />
         </div>
-        <span className="font-mono text-sm font-semibold text-ink tnum">{model.rec_san ?? "—"}</span>
+        <span className="font-serif text-sm font-semibold text-ink tnum">{model.rec_san ?? "—"}</span>
       </div>
 
       {model.violations.length > 0 && (
