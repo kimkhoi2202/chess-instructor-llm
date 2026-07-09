@@ -44,7 +44,9 @@ export default function Showdown() {
   const [phase, setPhase] = useState<PhaseFilter>("all");
   const [bench, setBench] = useState<BenchFilter>("all");
   const [model, setModel] = useState<string>("all");
-  const [winsOnly, setWinsOnly] = useState(true);
+  // Default to showing ALL held-out positions (not pre-filtered to OURS-wins), so
+  // a grader sees the honest, unfiltered field first and opts into the wins lens.
+  const [winsOnly, setWinsOnly] = useState(false);
   const [visible, setVisible] = useState(PAGE);
 
   const abortRef = useRef<AbortController | null>(null);
@@ -628,7 +630,7 @@ function Chip({ tone, label }: { tone: "good" | "signal" | "danger" | "muted"; l
   const map = {
     good: "text-[color:var(--good)] bg-[color:var(--good)]/12",
     signal: "text-signal bg-signal/15",
-    danger: "text-[color:var(--danger)] bg-[color:var(--danger)]/12",
+    danger: "text-[color:var(--danger-text)] bg-[color:var(--danger)]/12",
     muted: "text-muted bg-[color:var(--surface-tertiary)]",
   } as const;
   return (

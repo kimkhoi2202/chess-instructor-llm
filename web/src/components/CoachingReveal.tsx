@@ -34,11 +34,14 @@ export default function CoachingReveal({
   result,
   tier,
   fen,
+  precomputed = false,
   onPlayLine,
 }: {
   result: CoachResponse;
   tier: Tier;
   fen: string;
+  /** True when this answer is cached from the benchmark (not a live model call). */
+  precomputed?: boolean;
   onPlayLine?: (pv: string[], count: number) => void;
 }) {
   const paragraphs = result.coaching
@@ -93,6 +96,25 @@ export default function CoachingReveal({
             <span>{result.side_to_move} to move</span>
           </span>
         </h2>
+        {precomputed && (
+          <div className="mt-2.5">
+            <Tooltip delay={200}>
+              <Tooltip.Trigger aria-label="What “precomputed” means">
+                <span className="inline-flex cursor-help items-center gap-1.5 rounded-full bg-[color:var(--surface-tertiary)] px-2.5 py-1 text-[11px] font-medium text-muted ring-1 ring-[color:var(--border)]">
+                  <span aria-hidden className="size-1.5 rounded-full bg-signal" />
+                  precomputed
+                </span>
+              </Tooltip.Trigger>
+              <Tooltip.Content showArrow className="max-w-[18rem]">
+                <Tooltip.Arrow />
+                <p className="leading-relaxed">
+                  This answer is precomputed (cached from the held-out benchmark) and shown
+                  instantly. Use “Run live” to recompute it on the hosted coach.
+                </p>
+              </Tooltip.Content>
+            </Tooltip>
+          </div>
+        )}
         {tag && (
           <p className="mt-3 max-w-[60ch] text-lg leading-relaxed text-ink text-pretty">{tag}</p>
         )}

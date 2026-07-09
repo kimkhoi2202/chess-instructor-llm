@@ -67,14 +67,14 @@ export default function EvidenceBar() {
       className="relative z-[1] mt-8 border-t border-[color:var(--separator)] bg-[color:var(--surface)]"
     >
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-5 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:py-4">
-        {/* The deterministic proof: the honest headline number, stated once. */}
+        {/* Held-out evidence: the honest headline number, stated once. */}
         <div className="flex min-w-0 flex-col gap-1.5">
           <h2
             id="evidence-heading"
             className="flex items-center gap-2 text-sm font-semibold text-ink"
           >
             <ShieldCheckIcon width={15} height={15} className="text-signal" />
-            Deterministic proof
+            Held-out evidence
           </h2>
           <p className="max-w-2xl text-pretty text-[13px] leading-relaxed text-muted">
             Tier-appropriate move selection lifts{" "}

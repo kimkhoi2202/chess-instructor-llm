@@ -69,14 +69,18 @@ export default function ChessgroundBoard(props: ChessgroundBoardProps) {
   // annotation/orientation update would wipe the user's arrows (see sync effect).
   const prevFenRef = useRef(fen);
   const onMoveRef = useRef(onMove);
+  // Latest fen, read by handleAfter so it can SNAP THE PIECE BACK to the reviewed
+  // (pre-move) position after a drag: the drag is an annotation, not a board move.
+  const fenRef = useRef(fen);
   // Latest annotation arrows, read by the bounds-guarded drawer below so a resize
   // (or a late first layout) always repaints the current shapes.
   const shapesRef = useRef(autoShapes);
-  // Keep the latest onMove + shapes without re-running the mount effect (updated
-  // post-render, before any board interaction can fire handleAfter).
+  // Keep the latest onMove + shapes + fen without re-running the mount effect
+  // (updated post-render, before any board interaction can fire handleAfter).
   useEffect(() => {
     onMoveRef.current = onMove;
     shapesRef.current = autoShapes;
+    fenRef.current = fen;
   });
 
   // Apply the annotation arrows, but ONLY once the board has real, non-zero bounds.
@@ -96,13 +100,21 @@ export default function ChessgroundBoard(props: ChessgroundBoardProps) {
     cg.setAutoShapes(shapesRef.current);
   }, []);
 
-  // Stable move handler: play the sound and report the move. The move "sticks"
-  // (the board keeps it); the parent advances its state and the sync effect
-  // confirms the resulting position (a no-op diff, so no flicker).
+  // Stable move handler: play the sound, report the move, then SNAP THE PIECE
+  // BACK. A drag on this board is a MOVE-REVIEW ANNOTATION, not a board advance:
+  // the parent keeps the reviewed (pre-move) position and only records the move as
+  // "your move" (student arrow), so we revert chessground's own optimistic drop by
+  // re-setting the current (pre-move) fen. The piece animates back to its origin
+  // and the position stays put, so the coach's arrows never contradict the board.
+  // (When no onMove consumer is wired — the read-only Showcase boards — nothing to
+  // revert, so we skip it.)
   const handleAfter = useCallback((orig: cg.Key, dest: cg.Key, meta: cg.MoveMetadata) => {
     if (meta?.captured) playCapture();
     else playMove();
-    onMoveRef.current?.(orig, dest);
+    const cb = onMoveRef.current;
+    if (!cb) return;
+    cb(orig, dest);
+    apiRef.current?.set({ fen: fenRef.current });
   }, []);
 
   // Mount once.

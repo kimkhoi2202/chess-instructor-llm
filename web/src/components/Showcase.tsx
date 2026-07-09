@@ -84,13 +84,13 @@ const TIER_BAND: Record<ShowcaseTier, string> = {
 };
 
 /**
- * The deterministic PRINCIPLE TAG for a precomputed cell's move: the honest "why
- * this move" for the reframed hero. Showcase cells carry no concept/takeaway (only
- * the regressed prose), so the tag is built from the objective verdict we actually
- * compete on: tier-appropriateness + soundness. This keeps the hero anchored to the
- * trained behavior (the level-appropriate move), never to the prose.
+ * The deterministic OBJECTIVE VERDICT for a precomputed cell's move: a one-line,
+ * engine-derived read of the move (whether it matches the tier-appropriate target
+ * and whether it is sound). This is NOT a chess "principle" and NOT from the
+ * coaching prose — showcase cells carry no concepts/takeaway — so the UI labels it
+ * as the objective verdict, never as a principle tag.
  */
-function cellMoveTag(cell: ViewCell, tier: ShowcaseTier): string | null {
+function cellVerdict(cell: ViewCell, tier: ShowcaseTier): string | null {
   if (!cell.move) return null;
   if (cell.tierFit) return `the ${cap(tier)}-appropriate move`;
   if (cell.sound) return `sound, but not the ${cap(tier)} target move`;
@@ -517,13 +517,13 @@ function ShowcaseHeader({
           </span>
         </div>
         <h1 className="text-2xl font-semibold tracking-tight text-balance text-ink sm:text-3xl">
-          The fine-tune reliably picks the level-appropriate move where its base (and the frontier)
-          can’t.
+          The fine-tune picks the level-appropriate move substantially more reliably than its base
+          or the frontier.
         </h1>
         <p className="max-w-3xl text-sm leading-relaxed text-muted sm:text-base">
-          <span className="text-signal">OURS</span> is a {sizeLabel}model running locally with one
-          job: <span className="text-ink">select the tier-appropriate move</span> for the player’s
-          rating.{" "}
+          <span className="text-signal">OURS</span> is a {sizeLabel}model served on a hosted
+          endpoint with one job: <span className="text-ink">select the tier-appropriate move</span>{" "}
+          for the player’s rating.{" "}
           {headline ? (
             <>
               Across these <span className="text-ink">curated fork positions</span>, on the same
@@ -545,7 +545,8 @@ function ShowcaseHeader({
               one{" "}
               <span className="tnum">({headline.frontierDistinct.toFixed(1)})</span>. That
               level-appropriate move is the behavior a prompt on the same weights can’t reproduce
-              (computed live from {headline.ours.cells.toLocaleString()} cells in this curated slice).
+              (computed in your browser from {headline.ours.cells.toLocaleString()} benchmark cells
+              in this curated slice).
               On the full held-out eval, OURS’s tier-fit is{" "}
               <span className="text-ink tnum">76.7%</span> vs the base’s{" "}
               <span className="text-ink tnum">34.7%</span> — the top of every model measured.
@@ -564,7 +565,7 @@ function ShowcaseHeader({
           frontier writes livelier explanations (see the council instructiveness grades in the
           leaderboard below), and we don’t claim the prose as the win. Pick a position, switch
           the model and the rating tier, and read each model’s move at every level side by side; only{" "}
-          <span className="text-signal">OURS</span> can be re-run live.
+          <span className="text-signal">OURS</span> can be re-run live against the hosted coach.
         </p>
       </div>
 
@@ -587,7 +588,7 @@ function ProvenanceNote({ meta }: { meta: ShowcaseView["meta"] }) {
   const dotCls = source === "showdown" ? "text-[color:var(--caution)]" : "text-signal";
   const title =
     source === "showcase"
-      ? "Live showcase data: showcase.json"
+      ? "Precomputed benchmark: showcase.json"
       : source === "interim"
         ? "Interim data: OURS re-scored at all three tiers"
         : "Preview data: showdown.json (held-out only)";
@@ -608,7 +609,7 @@ function ProvenanceNote({ meta }: { meta: ShowcaseView["meta"] }) {
         )}
         {source === "interim" && (
           <>
-            showcase.json isn’t here yet. OURS ({meta.ours.badge}) was re-run locally at{" "}
+            showcase.json isn’t here yet. OURS ({meta.ours.badge}) was re-run offline at{" "}
             <span className="text-ink">all three tiers</span>, so the tier-differentiation moat and
             the per-tier OURS-vs-best duel are live on the held-out set. Rivals stay at their single
             benchmarked tier, and the <span className="text-ink">training sample</span> +{" "}
@@ -1460,29 +1461,30 @@ function SelectedModelTiers({
  *  right beneath it. The move, not the prose, is the loudest element. */
 function VerdictRow({ model, cell, tier }: { model: ViewModel; cell: ViewCell; tier: ShowcaseTier }) {
   const isOurs = model.kind === "ours";
-  const tag = cellMoveTag(cell, tier);
+  const verdict = cellVerdict(cell, tier);
   return (
     <div className="flex flex-col gap-2.5 rounded-[10px] border-[1.5px] border-[color:var(--border)] bg-[color:var(--surface)] px-4 py-3.5">
-      {/* Move + principle tag: the single loudest element in the explorer. */}
+      {/* Move + objective verdict: the single loudest element in the explorer. */}
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span
           className="font-mono text-[2rem] font-semibold leading-none text-[color:var(--text-verdict)] tnum"
         >
           {cell.move ?? "–"}
         </span>
-        {tag && (
+        {verdict && (
           <span className="inline-flex items-center gap-1.5 text-sm text-muted">
-            {tag}
-            <InfoTip label="What the principle tag is">
+            {verdict}
+            <InfoTip label="What the objective verdict is">
               <p>
-                The <span className="font-medium">principle tag</span> is the one-line “why this
-                move”, derived deterministically from the objective verdict (whether the move is
-                the <span className="font-medium">tier-appropriate</span> target and whether it is{" "}
-                <span className="font-medium">sound</span>), not from the coaching prose.
+                This is the <span className="font-medium">objective verdict</span>: a deterministic,
+                engine-derived read of the move — whether it is the{" "}
+                <span className="font-medium">tier-appropriate</span> target and whether it is{" "}
+                <span className="font-medium">sound</span>. It is not a chess principle and not from
+                the coaching prose.
               </p>
               <p>
-                The move (and this tag) is the trained behavior; the full explanation below is a
-                secondary, optional layer.
+                The move is the trained behavior; the full explanation below is a secondary, optional
+                layer.
               </p>
             </InfoTip>
           </span>
@@ -2385,8 +2387,8 @@ function LeaderboardPanel({
         </span>
       </div>
       <p className="max-w-4xl text-xs leading-relaxed text-muted">
-        Every number here is computed live from the loaded cells: nothing is hardcoded, so it always
-        matches the OURS version on screen. These rates are over the{" "}
+        Every number here is computed in your browser from the loaded benchmark cells: nothing is
+        hardcoded, so it always matches the OURS version on screen. These rates are over the{" "}
         <span className="text-ink">curated fork positions</span> shown here — a hand-picked subset where
         OURS forks by level — so OURS’s tier-fit reads higher than on the full held-out eval (where it
         is <span className="text-ink tnum">76.7%</span> vs the base’s{" "}
@@ -2547,7 +2549,7 @@ function Chip({ tone, label }: { tone: "good" | "signal" | "danger" | "muted"; l
   const map = {
     good: "text-[color:var(--good)] bg-[color:var(--good)]/12",
     signal: "text-signal bg-signal/15",
-    danger: "text-[color:var(--danger)] bg-[color:var(--danger)]/12",
+    danger: "text-[color:var(--danger-text)] bg-[color:var(--danger)]/12",
     muted: "text-muted bg-[color:var(--surface-tertiary)]",
   } as const;
   return (

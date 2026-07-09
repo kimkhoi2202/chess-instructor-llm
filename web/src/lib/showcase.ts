@@ -338,7 +338,10 @@ export function deriveOursLabel(name: string | null | undefined): OursLabel {
   const raw = (name ?? "").trim();
   const version = raw.match(/v(\d+(?:\.\d+)?)/i)?.[0]?.toLowerCase() ?? null;
   const size = raw.match(/(\d+(?:\.\d+)?\s?B)\b/i)?.[1]?.replace(/\s+/g, "") ?? null;
-  const badge = `OURS · ${version ?? MODEL_VERSION}`;
+  // Never assert a version we couldn't parse. When the model name carries a
+  // "vN" we badge "OURS · vN"; otherwise we show the raw model name (or a bare
+  // "OURS") rather than hardcoding an unverified fallback version.
+  const badge = version ? `OURS · ${version}` : raw || "OURS";
   return { name: raw || "OURS", short: "OURS", version, size, badge };
 }
 

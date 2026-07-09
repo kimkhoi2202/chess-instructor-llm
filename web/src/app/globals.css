@@ -3,7 +3,7 @@
 
 /*
   THE TOURNAMENT HALL
-  A local-first AI chess coach: a precision instrument that MEASURES the
+  A hosted AI chess coach: a precision instrument that MEASURES the
   position and hands back a single, confident verdict.
 
   A drenched deep tournament-felt green surface, one warm brass/gold signal accent
@@ -38,7 +38,9 @@
   /* Tournament Felt Green */
   --ink: oklch(0.93 0.02 90); /* Cream/Parchment */
   --muted: oklch(0.78 0.02 90);
-  --faint: oklch(0.60 0.02 90);
+  /* Bumped from 0.60 → 0.76 so "faint" body text clears WCAG AA (≥ 4.5:1) even on
+     the lightest surface (--surface-tertiary). */
+  --faint: oklch(0.76 0.02 90);
 
   /* Warm Brass/Gold Signal */
   --signal: oklch(0.78 0.13 85);
@@ -95,12 +97,15 @@
   --warning: var(--caution);
   --warning-foreground: oklch(0.2 0.02 78);
 
-  --danger: oklch(0.64 0.17 25); /* Clay-red for loss */
+  --danger: oklch(0.64 0.17 25); /* Clay-red for loss (FILLS / borders / dots) */
   --danger-foreground: oklch(0.97 0.02 25);
+  /* Text-weight danger: lifted to ~L 0.72 so danger TEXT clears WCAG AA on our
+     dark surfaces. Use this for danger foreground text; keep --danger for fills. */
+  --danger-text: oklch(0.72 0.16 25);
 
   --field-background: oklch(0.30 0.04 155);
   --field-foreground: var(--foreground);
-  --field-placeholder: oklch(0.665 0.02 90);
+  --field-placeholder: oklch(0.68 0.02 90);
   --field-border: oklch(0.40 0.04 155);
 
   --segment: oklch(0.32 0.04 155);

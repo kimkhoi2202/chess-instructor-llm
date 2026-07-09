@@ -6,7 +6,7 @@ import Studio from "@/components/Studio";
 export const metadata: Metadata = {
   title: "Coach Studio · one move for your level",
   description:
-    "A locally fine-tuned chess coach whose one job is selecting the level-appropriate move. Set a position, pick your rating, and read the move plus a short principle tag.",
+    "A fine-tuned chess coach (served on a hosted endpoint) whose one job is selecting the level-appropriate move. Set a position, pick your rating, and read the move plus a short principle tag.",
 };
 
 export default function Page() {
