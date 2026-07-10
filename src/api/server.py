@@ -507,6 +507,24 @@ def _validate_position(fen_in: str) -> tuple[str, chess.Board]:
     fen = (fen_in or "").strip()
     if not fen:
         raise HTTPException(status_code=400, detail="A FEN is required.")
+    # Require a COMPLETE, standard 6-field FEN BEFORE building the board. Left to
+    # ``chess.Board`` alone, python-chess silently fills defaults for missing
+    # fields — a board-only string like "rnbqkbnr/..." parses to a *legal*
+    # position (white-to-move, no rights, zero clocks) and would be coached with an
+    # invented side-to-move instead of rejected. Every legitimate caller already
+    # sends the full six fields: the frontend derives FENs from chess.js
+    # ``game.fen()`` (always 6-field) and validates pasted FENs with chess.js
+    # ("must contain six space-delimited fields"), and every shipped example /
+    # preset / library / showcase / showdown position is a full FEN — so this
+    # rejects only genuinely truncated input and mirrors the client's own check.
+    if len(fen.split()) != 6:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "FEN must be a full 6-field FEN (placement + side-to-move + "
+                "castling + en passant + halfmove + fullmove)."
+            ),
+        )
     try:
         board = chess.Board(fen)
     except ValueError as exc:
