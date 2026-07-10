@@ -1,192 +1,214 @@
-# Demo Script — chess-instructor-llm (3–5 min)
+# Demo Script - chess-instructor-llm (3-5 min)
 
-A shot-by-shot script for the submission video. Target **~4:30** (hard cap 5:00). Each shot has
-**ON SCREEN** (what the viewer sees / what to click) and **SAY** (the voiceover line, trim to taste).
+A recordable, shot-by-shot script for the submission video. Target runtime **~4:00** (range 3:45-4:20,
+hard cap 5:00). Each beat has **SHOT** (what to film / click), **ON-SCREEN TEXT** (lower-third or
+slide callouts), and **SAY** (the voiceover, trim to taste).
 
-> **✅ Frame every number as `v2` — the current shipped model.** v2 improved faithfulness
-> (grounded fabrication 50% → 33%) and fixed tier-direction (27.5% → 39.2%); it still trails the
-> frontier on raw instructiveness — it *narrows* the gap (council rank 4.13 → 3.68). Say the win is
-> "reliable, local, ~$0, honest-about-its-gap coaching," not "beats GPT-5.5."
+The one thing this video proves: given a position and a player tier, the model picks the
+**tier-appropriate instructive move**, the thing a base model does not do reliably, and the thing a
+3000-Elo engine's "best move" is bad at because the best move is a bad teacher for a beginner. This is
+framed as **behavior from data**, not "smarter than a frontier model."
 
----
-
-## Pre-flight (before you hit record)
-
-- [ ] `cd chess-instructor-llm && ./run_platform.sh` → wait for `coach ready (tuned)` and the
-      Next.js `Ready` line. Confirm the badge reads **"Tuned coach"** (not "Base model").
-- [ ] Open **http://localhost:3000**; let the auto-run `2.Qh5?` reveal finish once so the model is warm.
-- [ ] Pick your "tier-difference" position in advance from the **differentiated library**
-      (`web/public/library_differentiated.json`, 41 positions where the move genuinely changes by
-      tier) so the Beginner→Advanced toggle visibly changes the recommendation on camera.
-- [ ] Open three tabs ready to show: `RESULTS_V2.md`, `RESULTS_BENCHMARK_v2.md`, and the HF Space
-      ([`spaces/khoilamalphaai/chess-coach-benchmark`](https://huggingface.co/spaces/khoilamalphaai/chess-coach-benchmark)).
-- [ ] (Optional) have `data/analysis/GAP_REPORT.md` open for the gap numbers.
+Everything said here matches the reproducible facts. Keep it plain, confident, and honest. No hype.
 
 ---
 
-## 0:00 – 0:30 — The hook: the gap
+## Pre-record checklist (do this before you hit record)
 
-**ON SCREEN:** The Analysis Room with the `1.e4 e5 2.Qh5?` position already coached. Cursor rests on
-the raw engine lines panel (centipawns + PVs) for a beat, then on the plain coaching text.
-
-**SAY:**
-> "Ask a 3000-Elo engine for the best move and it'll give you one — plus a wall of centipawns and a
-> grandmaster-only line. That's *true*, but it's useless to a 1200. The move a beginner would
-> actually *find* and *learn from* is usually a different move, explained a different way. We
-> measured whether frontier models get this right, and they mostly don't — same engine grounding,
-> and GPT-5.5, Claude, and Gemini recommend the *same* move regardless of rating about 78% of the
-> time. That gap is what this project fills — with a fine-tuned 1.7B model that runs on my laptop."
-
----
-
-## 0:30 – 2:00 — Live platform walkthrough
-
-### 0:30 – 0:50 — The library + coach-a-move
-
-**ON SCREEN:** Open the **position library** (the 45-position study set), click one position. Then on
-the board, **drag a piece** to mark "the move I was unsure about" (a rust arrow appears; the FEN
-doesn't change). Click **Coach**.
-
-**SAY:**
-> "You pick a position — or drop in your own — mark the move you weren't sure about, choose your
-> tier, and ask for coaching. Watch what comes back."
-
-### 0:50 – 1:15 — The reveal: one move, grounded + faithful
-
-**ON SCREEN:** The coaching reveal animates in — the brass **recommended-move arrow**, two–four
-sentences of plain coaching, and one **Takeaway** line. Point to the fact that there are **no
-centipawns and no jargon** in the coaching text.
-
-**SAY:**
-> "One move, drawn as the loudest thing on the board, and a plain-language explanation — why it's
-> good and how to think about finding it. No centipawns, no 'the engine says,' no ten-move line.
-> And every concrete claim here — every piece, square, and capture — was checked against the real
-> board before it reached me. If the model invents a fact, the backend catches it and re-generates;
-> if it can't get a clean answer, it falls back to an explanation that's true by construction."
-
-### 1:15 – 1:35 — Engine lines (show the grounding)
-
-**ON SCREEN:** Expand the **engine lines / analysis rail** (chess.com-style sound pool + PVs + your
-move's severity). Show the recommended move *is* one of the sound moves.
-
-**SAY:**
-> "The engine truth is still here for anyone who wants to verify — the sound-move pool, the lines,
-> and how bad my move was. The coach is grounded in exactly this. It never picks an unsound move; it
-> just chooses the most *instructive* sound one and hides the numbers."
-
-### 1:35 – 2:00 — Tier differences (the core behavior)
-
-**ON SCREEN:** On the pre-chosen differentiated position, toggle **Beginner → Intermediate →
-Advanced**. The recommended move and/or the explanation depth visibly change (e.g., beginner gets
-the more human-findable move / simpler idea; advanced gets the sharper line).
-
-**SAY:**
-> "Here's the whole point. Same position, three ratings. For the beginner it steers toward the move
-> a beginner would actually find and keeps the idea simple. Bump it to advanced and the pick sharpens
-> and the explanation goes deeper. Same board, different lesson — that's the level-calibration
-> behavior we trained in."
+- [ ] **Warm the Modal endpoint.** The live Space (`chess-coach-studio`) is backed by a scale-to-zero
+      Modal endpoint (`chess-coach-v4-4bit-maia`) with a **~2.5-3 min cold start**. Open the Space and
+      send one coach request 5 minutes before recording so the box is hot. If you do not warm it, the
+      first on-camera request will hang for minutes.
+- [ ] **Have a fallback ready: the precomputed Showcase.** The Showcase renders real, precomputed
+      per-tier coaching with **no backend call** (instant). If the endpoint is cold or flaky at record
+      time, demo the tier toggle on the Showcase instead. It is the canonical, deterministic proof.
+- [ ] **Pick the fork position in advance and copy its FEN.** Choose a genuine fork position from the
+      Showcase (Showcase positions are precomputed to differentiate by tier, so the move is guaranteed
+      to change on camera). Paste it here so you can reload it fast:
+      `FORK_FEN = ____________________________________`
+      Do not assert specific per-tier moves in narration beyond what is visibly on screen.
+- [ ] Have these tabs open: the **Space** (warmed), the **Showcase** (fallback), and one slide or file
+      with the **base-vs-tuned numbers** (from `RESULTS_HONEST_EVAL_V4.md`) for the proof beat.
+- [ ] Sanity check: toggle Beginner -> Advanced once on your chosen position and confirm the
+      recommended move actually changes before you record.
 
 ---
 
-## 2:00 – 3:00 — The proof: base-vs-tuned + the frontier benchmark
+## Beat 1 - Hook: the gap (~20s)
 
-### 2:00 – 2:30 — Base vs. tuned (why the fine-tune is justified)
+**SHOT:** A single position on a clean board. Show a 3000-Elo engine readout for a beat (best move plus
+centipawns and a deep line), then cut to a confused-beginner framing (or just let the jargon sit there).
 
-**ON SCREEN:** Switch to `RESULTS_V2.md`. Highlight the objective + judge deltas.
+**ON-SCREEN TEXT:** `The engine's best move is a bad teacher for a 1200.`
+
+**SAY:**
+> "Ask a 3000-Elo engine for the best move and it will give you one, plus a wall of centipawns and a
+> grandmaster line. That is true, and it is useless to a beginner. The move a 1200 would actually find
+> and learn from is usually a different move. Frontier models do not fix this: given the same position
+> at three different ratings, they hand back the same move about three times out of four. That gap is
+> what this project fills."
+
+---
+
+## Beat 2 - The behavior and the Behavior Spec (~30s)
+
+**SHOT:** A simple spec slide: INPUT -> OUTPUT, then the three pass/fail checks listed.
+
+**ON-SCREEN TEXT:**
+`INPUT: position + tier (Beginner ~1000-1200 / Intermediate ~1300-1600 / Advanced ~1700-2000)`
+`OUTPUT: the tier-appropriate move + a short principle (e.g. "Nf3, develop toward the center")`
+`GRADED pass/fail: (1) sound  (2) matches the canonical tier move  (3) distinct across levels`
+`Metric: tier-policy exact match = agreement with our select_tier_move rule`
+
+**SAY:**
+> "Here is the exact behavior, written down before training. Input: a position and the student's rating
+> tier. Output: one move, the instructive move for that tier, tagged with a short principle. It is
+> graded pass or fail on three things a stranger can check with no opinion in the loop. Is the move
+> sound. Does it match the canonical move our rule designates for that tier. And is it distinct across
+> levels, so a beginner and an advanced player are not handed the same move. We call the score
+> tier-policy exact match: agreement with our own move rule. That is the whole target."
+
+---
+
+## Beat 3 - How the data was made (~40s)
+
+**SHOT:** The data pipeline as a left-to-right flow. Animate each stage in as you say it.
+
+**ON-SCREEN TEXT:**
+`~6M raw positions (Lichess bank)  ->  ~6.8k curated training examples`
+`Stockfish sound pool  ->  Maia (human-likely move per tier)  ->  deterministic tier rule  ->  GPT-5.5 explanation  ->  hard filter + faithfulness gate`
+
+**SAY:**
+> "The data is where the behavior comes from. We start from a raw bank of about six million Lichess
+> positions. For each kept position, Stockfish gives the pool of sound moves, moves that are not
+> blunders. Maia, a human-move model, ranks which of those a player at each tier would actually
+> consider. A short deterministic rule then picks the canonical move for each tier from those two
+> signals, and GPT-5.5 writes the plain explanation grounded in that analysis. Then a hard filter
+> throws out anything unsound, jargon-heavy, or that fails a faithfulness check. What survives is about
+> sixty-eight hundred curated, contrastive, same-position-different-tier examples. That is what we
+> fine-tune on."
+
+---
+
+## Beat 4 - Live demo: the tier toggle changes the move (~60-90s)
+
+**SHOT:** The live **chess-coach-studio** Space (warmed). Load your fork position. Set tier to
+**Beginner**, coach it, let the recommended-move arrow and the short principle appear. Then toggle to
+**Intermediate**, then **Advanced**, re-coaching each time. The point of the shot is the move visibly
+**changing** between tiers on the same board. Zoom on the arrow and the principle line each time.
+
+> SHOT NOTE: if the endpoint is cold or slow, cut to the **Showcase** and do the exact same toggle
+> there. It is precomputed and instant, and it is the canonical deterministic proof of this behavior.
+
+**ON-SCREEN TEXT:**
+`Same position. Three ratings. The move changes.`
+`(Beginner: human-findable move  ->  Advanced: sharper move)`
+
+**SAY:**
+> "Here is the model doing the thing. Same fork position, and I am the student. As a beginner, it steers
+> me to the move a beginner would actually find, and keeps the idea simple. Watch the board as I change
+> only my rating. Intermediate. Advanced. The recommended move changes, and the principle changes with
+> it. Same board, three different lessons. A base model, and the frontier models, mostly give you one
+> move here regardless of level. That per-tier change is the behavior we trained in, and it is the
+> whole point."
+
+---
+
+## Beat 5 - The proof: base vs tuned (~45s)
+
+**SHOT:** The numbers slide or `RESULTS_HONEST_EVAL_V4.md`. Lead with the base-vs-tuned rows. Show the
+frontier and the ceiling as context, not as the headline.
+
+**ON-SCREEN TEXT:**
+`tier-policy exact match (120 held-out positions x 3 tiers, deterministic, no LLM judge)`
+`1.7B on-spec:  base 0.358  ->  tuned 0.578   (#2 of 20, above every frontier)`
+`32B shipped (v4):  base 0.347  ->  0.767 raw / 0.789 served`
+`best frontier (Gemini 3.1 Pro): 0.553     deterministic rule (ceiling): ~1.0`
 
 **SAY:**
 > "Does the fine-tune actually do anything, or could you just prompt the base model? We measured it,
-> cross-family — GPT-5.5 wrote the training data, so a *Claude* judge grades, no grading your own
-> homework. This is **v2**, our current model. The base 1.7B leaks engine-speak two times out of
-> three; the tuned model, never — 33% to 100%. Move-soundness 87 to 100. Level-calibration and
-> spec-adherence roughly double. And the truthfulness line that was *flat* in v1 finally moves — v2
-> nails the style and starts biting into faithfulness too."
-
-### 2:30 – 3:00 — The 5-model benchmark + the honest gap
-
-**ON SCREEN:** Switch to `RESULTS_BENCHMARK_v2.md`. Point to the fabrication row and the council-rank
-row (ours vs. frontier), then the cost row.
-
-**SAY:**
-> "We also ran a blinded, cross-family council — five models, grounded and ungrounded, ranked by
-> instructiveness. Two honest results. One: grounding is what moves truth — our fabrication rate
-> drops from 99% to 33% once the position is grounded, and v2 cut that grounded rate from v1's 50
-> down to 33. Two: the frontier still *out-teaches* us — it ranks higher on instructiveness even
-> grounded, though v2 narrowed the gap from 4.13 to 3.68. Our edge isn't being smarter; the whole
-> benchmark cost about $24 to run and our model was **$0** — local, private, offline."
+> deterministically, with grounding held identical on both sides and no model judge. The genuinely
+> small on-spec model carries the result: the 1.7B tune goes from 0.36 to 0.58 on tier-policy match,
+> second of a twenty-model field and above every frontier model. The shipped 32B model goes from 0.35
+> to 0.77, and 0.79 as the demo actually serves it. And the 1.7B tune beats the 4B tune, so the lift
+> comes from the data, not from size. Beating the frontier here is a bonus. The real win is that this
+> behavior distills into a small model's weights, and it is reproducible with one command."
 
 ---
 
-## 3:00 – 3:45 — The results dashboard (HF)
+## Beat 6 - Honest framing and what is next (~20s)
 
-**ON SCREEN:** Open the HF Space
-([`spaces/khoilamalphaai/chess-coach-benchmark`](https://huggingface.co/spaces/khoilamalphaai/chess-coach-benchmark)).
-Scroll the grid; hover the ours-vs-frontier comparison. Briefly show the model and dataset repos
-([model](https://huggingface.co/khoilamalphaai/qwen3-1.7b-chess-coach-mlx) ·
-[dataset](https://huggingface.co/datasets/khoilamalphaai/chess-coach-benchmark)).
+**SHOT:** A single honesty slide, three short lines. Keep it calm, not a disclaimer dump.
+
+**ON-SCREEN TEXT:**
+`Honest by design`
+`- Reliable GROUNDED execution: it uses Stockfish + Maia at inference. Not "the behavior is magically in the weights."`
+`- The metric is agreement with our tier rule, not proven best teaching.`
+`- Faithfulness = 0 verifier-detectable violations via a gate. Not "0% fabrication," not certified truth.`
+`Next: deeper engine pool + tablebases, Maia-as-constraint, titled-coach validation, a grounding-free local test.`
 
 **SAY:**
-> "Everything's public. The benchmark dataset — 100 held-out positions, five models, both
-> conditions, plus the blinded council rankings — is on the Hub, with a dashboard to explore it, and
-> the tuned model is published too. All of this is v2, reproducible with one command."
+> "One honest line, because the framing matters. This is reliable grounded execution: the model still
+> uses Stockfish and Maia at inference, so the behavior is not magically in the weights. The score is
+> agreement with our own tier rule, not proof of better teaching, and our faithfulness number means
+> zero violations a verifier can detect, not zero fabrication. A short deterministic rule already
+> computes this move, so the model is the local executor, not the moat. Next up: a deeper engine pool,
+> validation with titled coaches, and the fully-local test that would make the model load-bearing."
 
 ---
 
-## 3:45 – 4:30 — The honest arc: the gap v2 closed, and the one it didn't
+## Beat 7 - Close with the links (~15s)
 
-**ON SCREEN:** Back to `RESULTS_V2.md`, cursor on the **v1→v2 delta table** (fabrication 50 → 33,
-tier-differentiation 27.5 → 39.2, council 4.13 → 3.68).
+**SHOT:** A links card. Hold it long enough to read. End on the warmed Space or the Showcase reveal.
 
-**SAY:**
-> "The most important part isn't a single win — it's the honest arc. Fine-tuning fixed style
-> immediately, but in v1 it did *not* fix truthfulness: a 1.7B can't track 32 pieces from a FEN, and
-> we'd filtered the training data for format but not faithfulness. So v2 was a *data* fix — a
-> faithfulness filter that produced zero false labels, a strongly tier-aware teacher rule, and
-> contrastive same-position-different-tier pairs that were zero percent of v1. It worked: grounded
-> fabrication dropped from 50 to 33 percent, and tier-differentiation went from 27 to 39 percent with
-> the direction *corrected* — beginners now get the move a beginner would actually find. It still
-> doesn't out-teach GPT-5.5, and it isn't meant to. The thesis holds: dependability comes from the
-> engine, the grounding, and a non-LLM verifier — the fine-tune is the last-mile compressor for voice
-> and form factor. A reliable, local, honest coach."
-
-**ON SCREEN (close):** The Analysis Room, tuned coaching reveal on screen.
+**ON-SCREEN TEXT:**
+`Model (32B v4):  huggingface.co/khoilamalphaai/chess-coach-32b-v4-qlora`
+`Model (1.7B on-spec):  huggingface.co/khoilamalphaai/qwen3-1.7b-chess-coach-mlx`
+`Dataset:  huggingface.co/datasets/khoilamalphaai/chess-coach-move-review`
+`Demo (Space):  huggingface.co/spaces/khoilamalphaai/chess-coach-studio`
+`Code:  github.com/Alpha-AI-Engineering-Khoi/chess-instructor-llm`
 
 **SAY:**
-> "A reliable, level-calibrated chess coach — grounded, honest about its gap, and running locally.
-> Thanks for watching."
+> "Everything is public: the fine-tuned models, the dataset, the live demo, and the code, all
+> reproducible. A level-calibrated chess coach whose behavior came from the data. Thanks for watching."
 
 ---
 
-## Timing cheat-sheet
+## Runtime estimate
 
-| Segment | Window | Beat |
-|---|---|---|
-| Hook — the gap | 0:00–0:30 | 3000-Elo "best" fails a 1200; frontier ~78% same move across tiers |
-| Platform | 0:30–2:00 | library → coach-a-move → reveal → engine lines → **tier toggle** |
-| Proof | 2:00–3:00 | base→tuned deltas; benchmark fabrication + council + $0 cost |
-| Dashboard | 3:00–3:45 | HF Space + model + dataset, all public |
-| The v2 arc | 3:45–4:30 | v2 deltas (fabrication 50→33, tier-dir 27→39) → verifier thesis → standing win |
+| # | Beat | Window | Cumulative |
+|---|---|---|---|
+| 1 | Hook: the gap | ~20s | 0:20 |
+| 2 | The behavior + Behavior Spec | ~30s | 0:50 |
+| 3 | How the data was made | ~40s | 1:30 |
+| 4 | Live demo: tier toggle changes the move | ~60-90s | 2:30-3:00 |
+| 5 | The proof: base vs tuned | ~45s | 3:15-3:45 |
+| 6 | Honest framing + what is next | ~20s | 3:35-4:05 |
+| 7 | Close with the links | ~15s | 3:50-4:20 |
 
-## Key numbers to say out loud (all `v2` — current)
+**Total: ~3:50-4:20** (comfortably inside the 3-5 min window; keep beat 4 near 60s if you are running long).
 
-- Frontier same-move-across-tiers ≈ **78%** (tier-differentiation only **22.7%**); engine-mirror at
-  every tier **68.7%**; beginner findable-pick on the opportunity subset **20.5%**. *(the motivating
-  frontier gap — a measurement of the big models, unchanged by our retrain)*
-- Base → tuned (v2): no-engine-speak **33% → 100%**; move-soundness **87% → 100%**; level-calibration
-  **0.60 → 1.13**; truthfulness **no longer flat — 0.13 → 0.20**.
-- v1 → v2: grounded fabrication **50% → 33%**; tier-differentiation **27.5% → 39.2%** (direction
-  corrected); council rank **4.13 → 3.68**; top-1 instructiveness **2% → 8%**.
-- Benchmark (v2): our fabrication **99% → 33%** with grounding vs. frontier ≈ **3%**; council
-  instructiveness ours **3.68** vs. frontier ≈ **2.1** (1 = best of 5); total run cost ≈ **$24**,
-  our model **$0**.
+---
 
-## Fallback / gotchas
+## Key numbers to say out loud (all match the reproducible eval)
 
-- If **Maia** is unavailable on your machine, the human-likelihood panel shows "unavailable" — the
-  coach still runs; just don't dwell on that panel.
-- Pick the tier-difference position from `library_differentiated.json` **in advance** — differentiation
-  happens on ~39% of positions in v2 (up from ~25% in v1, and now correctly directed), so a random
-  position may still give the same move at every tier.
-- If a coaching reveal shows a "re-generated / verified" note, that's the faithfulness gate working —
-  you can point it out as a feature, not a bug.
-- Keep the engine-lines panel collapsed until the "grounding" beat so the reveal stays clean.
+- Frontier hands the same move to all three tiers about **77%** of the time (distinct-moves ~0.21-0.28).
+- **1.7B on-spec** tier-policy match: **0.358 -> 0.578**, #2 of 20, above every frontier.
+- **4B**: base 0.353 / prompt-base 0.378 / tuned 0.397 (tune > prompt > base; and 1.7B tune > 4B tune,
+  so it is the data, not capacity).
+- **32B shipped v4**: **0.347 -> 0.767** raw, **0.789** as served by the demo.
+- Best frontier (Gemini 3.1 Pro): **0.553**. Deterministic `select_tier_move` rule: **~1.0** (the ceiling).
+- v4 distinct-moves-per-level **0.730** (73 of 100 beginner!=advanced opportunities).
+- Eval: 120 held-out positions x 3 tiers, deterministic, no LLM judge, zero train/test leakage, Maia
+  symmetric across all 20 models, greedy decoding, re-scores exactly.
+
+## Do-not-say list (keep it honest)
+
+- Do not say "beats GPT-5.5 at chess" or "smarter than a frontier model." The claim is behavior from
+  data, and a bounded lead on our own tier metric.
+- Do not say "0% fabrication" or "guaranteed truthful." Say zero verifier-detectable violations.
+- Do not claim the behavior "lives in the weights." It needs Maia grounding at inference; without Maia
+  the tiers collapse to one move.
+- Do not present the 51-5-6 head-to-head as a win rate. It is a selection-conditioned subset; leave it
+  out of the video.
+- Do not imply pedagogy is validated. We measured agreement with our rule, not student outcomes.
