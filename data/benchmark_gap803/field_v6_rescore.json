@@ -1,0 +1,982 @@
+{
+  "benchmark": "gap803 full field re-scored on corrected v6 labels (free, cached gens)",
+  "extractor": "src.eval.evaluate.extract_recommended_move (vendored; reproduce_v4 asserts)",
+  "note": "extraction label-free; 0/2409 FEN & student-move changes v4->v6, so old vs v6 score differs ONLY by the label correction",
+  "results": {
+    "ours_v3": {
+      "display": "OURS-v3 (Qwen3-32B tuned)",
+      "family": "ours",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 0.9485,
+      "format_rate": 0.2794,
+      "old_labels": {
+        "tier_policy_match": 0.5679,
+        "per_tier": {
+          "beginner": 0.4471,
+          "intermediate": 0.5044,
+          "advanced": 0.7522
+        },
+        "per_tier_counts": {
+          "beginner": [
+            359,
+            803
+          ],
+          "intermediate": [
+            405,
+            803
+          ],
+          "advanced": [
+            604,
+            803
+          ]
+        },
+        "move_sound": 0.9336,
+        "distinct_rate": 0.4856,
+        "distinct_counts": [
+          320,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.4628,
+        "per_tier": {
+          "beginner": 0.4633,
+          "intermediate": 0.4408,
+          "advanced": 0.4844
+        },
+        "per_tier_counts": {
+          "beginner": [
+            372,
+            803
+          ],
+          "intermediate": [
+            354,
+            803
+          ],
+          "advanced": [
+            389,
+            803
+          ]
+        },
+        "move_sound": 0.8667,
+        "distinct_rate": 0.5086,
+        "distinct_counts": [
+          208,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.1051
+    },
+    "ours": {
+      "display": "OURS-v2 (Qwen3-1.7B tuned)",
+      "family": "ours",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.633,
+        "per_tier": {
+          "beginner": 0.7597,
+          "intermediate": 0.6513,
+          "advanced": 0.4882
+        },
+        "per_tier_counts": {
+          "beginner": [
+            610,
+            803
+          ],
+          "intermediate": [
+            523,
+            803
+          ],
+          "advanced": [
+            392,
+            803
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.4734,
+        "distinct_counts": [
+          312,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.5089,
+        "per_tier": {
+          "beginner": 0.5567,
+          "intermediate": 0.5318,
+          "advanced": 0.4384
+        },
+        "per_tier_counts": {
+          "beginner": [
+            447,
+            803
+          ],
+          "intermediate": [
+            427,
+            803
+          ],
+          "advanced": [
+            352,
+            803
+          ]
+        },
+        "move_sound": 0.8979,
+        "distinct_rate": 0.4768,
+        "distinct_counts": [
+          195,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.1241
+    },
+    "base": {
+      "display": "BASE (Qwen3-1.7B untuned)",
+      "family": "base",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 0.9988,
+      "format_rate": 0.9971,
+      "old_labels": {
+        "tier_policy_match": 0.3566,
+        "per_tier": {
+          "beginner": 0.5205,
+          "intermediate": 0.4458,
+          "advanced": 0.1034
+        },
+        "per_tier_counts": {
+          "beginner": [
+            418,
+            803
+          ],
+          "intermediate": [
+            358,
+            803
+          ],
+          "advanced": [
+            83,
+            803
+          ]
+        },
+        "move_sound": 0.9888,
+        "distinct_rate": 0.2974,
+        "distinct_counts": [
+          196,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.3582,
+        "per_tier": {
+          "beginner": 0.4209,
+          "intermediate": 0.3985,
+          "advanced": 0.2553
+        },
+        "per_tier_counts": {
+          "beginner": [
+            338,
+            803
+          ],
+          "intermediate": [
+            320,
+            803
+          ],
+          "advanced": [
+            205,
+            803
+          ]
+        },
+        "move_sound": 0.8248,
+        "distinct_rate": 0.3178,
+        "distinct_counts": [
+          130,
+          409
+        ]
+      },
+      "delta_tier_policy": 0.0016
+    },
+    "gpt": {
+      "display": "GPT-5.5",
+      "family": "frontier",
+      "n_scenarios": 450,
+      "n_positions": 150,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.4711,
+        "per_tier": {
+          "beginner": 0.38,
+          "intermediate": 0.48,
+          "advanced": 0.5533
+        },
+        "per_tier_counts": {
+          "beginner": [
+            57,
+            150
+          ],
+          "intermediate": [
+            72,
+            150
+          ],
+          "advanced": [
+            83,
+            150
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.2734,
+        "distinct_counts": [
+          35,
+          128
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.4044,
+        "per_tier": {
+          "beginner": 0.3933,
+          "intermediate": 0.3733,
+          "advanced": 0.4467
+        },
+        "per_tier_counts": {
+          "beginner": [
+            59,
+            150
+          ],
+          "intermediate": [
+            56,
+            150
+          ],
+          "advanced": [
+            67,
+            150
+          ]
+        },
+        "move_sound": 0.9178,
+        "distinct_rate": 0.3125,
+        "distinct_counts": [
+          30,
+          96
+        ]
+      },
+      "delta_tier_policy": -0.0667
+    },
+    "claude": {
+      "display": "Claude Opus 4.8",
+      "family": "frontier",
+      "n_scenarios": 450,
+      "n_positions": 150,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.52,
+        "per_tier": {
+          "beginner": 0.36,
+          "intermediate": 0.5333,
+          "advanced": 0.6667
+        },
+        "per_tier_counts": {
+          "beginner": [
+            54,
+            150
+          ],
+          "intermediate": [
+            80,
+            150
+          ],
+          "advanced": [
+            100,
+            150
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.2344,
+        "distinct_counts": [
+          30,
+          128
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.4667,
+        "per_tier": {
+          "beginner": 0.4467,
+          "intermediate": 0.46,
+          "advanced": 0.4933
+        },
+        "per_tier_counts": {
+          "beginner": [
+            67,
+            150
+          ],
+          "intermediate": [
+            69,
+            150
+          ],
+          "advanced": [
+            74,
+            150
+          ]
+        },
+        "move_sound": 0.9511,
+        "distinct_rate": 0.2396,
+        "distinct_counts": [
+          23,
+          96
+        ]
+      },
+      "delta_tier_policy": -0.0533
+    },
+    "gemini": {
+      "display": "Gemini 3.1 Pro",
+      "family": "frontier",
+      "n_scenarios": 450,
+      "n_positions": 150,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.5267,
+        "per_tier": {
+          "beginner": 0.3533,
+          "intermediate": 0.5133,
+          "advanced": 0.7133
+        },
+        "per_tier_counts": {
+          "beginner": [
+            53,
+            150
+          ],
+          "intermediate": [
+            77,
+            150
+          ],
+          "advanced": [
+            107,
+            150
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.2969,
+        "distinct_counts": [
+          38,
+          128
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.44,
+        "per_tier": {
+          "beginner": 0.4333,
+          "intermediate": 0.38,
+          "advanced": 0.5067
+        },
+        "per_tier_counts": {
+          "beginner": [
+            65,
+            150
+          ],
+          "intermediate": [
+            57,
+            150
+          ],
+          "advanced": [
+            76,
+            150
+          ]
+        },
+        "move_sound": 0.92,
+        "distinct_rate": 0.3333,
+        "distinct_counts": [
+          32,
+          96
+        ]
+      },
+      "delta_tier_policy": -0.0867
+    },
+    "q3_32b": {
+      "display": "Qwen3-32B (untuned v3 base)",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.3753,
+        "per_tier": {
+          "beginner": 0.3636,
+          "intermediate": 0.3848,
+          "advanced": 0.3773
+        },
+        "per_tier_counts": {
+          "beginner": [
+            292,
+            803
+          ],
+          "intermediate": [
+            309,
+            803
+          ],
+          "advanced": [
+            303,
+            803
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.3429,
+        "distinct_counts": [
+          226,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.3005,
+        "per_tier": {
+          "beginner": 0.2939,
+          "intermediate": 0.2951,
+          "advanced": 0.3126
+        },
+        "per_tier_counts": {
+          "beginner": [
+            236,
+            803
+          ],
+          "intermediate": [
+            237,
+            803
+          ],
+          "advanced": [
+            251,
+            803
+          ]
+        },
+        "move_sound": 0.8452,
+        "distinct_rate": 0.3399,
+        "distinct_counts": [
+          139,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.0748
+    },
+    "gemma3_27b": {
+      "display": "Gemma-3-27B-it",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.347,
+        "per_tier": {
+          "beginner": 0.2802,
+          "intermediate": 0.3412,
+          "advanced": 0.4197
+        },
+        "per_tier_counts": {
+          "beginner": [
+            225,
+            803
+          ],
+          "intermediate": [
+            274,
+            803
+          ],
+          "advanced": [
+            337,
+            803
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.2033,
+        "distinct_counts": [
+          134,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.296,
+        "per_tier": {
+          "beginner": 0.264,
+          "intermediate": 0.2765,
+          "advanced": 0.3474
+        },
+        "per_tier_counts": {
+          "beginner": [
+            212,
+            803
+          ],
+          "intermediate": [
+            222,
+            803
+          ],
+          "advanced": [
+            279,
+            803
+          ]
+        },
+        "move_sound": 0.8763,
+        "distinct_rate": 0.2152,
+        "distinct_counts": [
+          88,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.051
+    },
+    "q3_next80b": {
+      "display": "Qwen3-Next-80B-A3B",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 0.9996,
+      "old_labels": {
+        "tier_policy_match": 0.3188,
+        "per_tier": {
+          "beginner": 0.3362,
+          "intermediate": 0.3176,
+          "advanced": 0.3026
+        },
+        "per_tier_counts": {
+          "beginner": [
+            270,
+            803
+          ],
+          "intermediate": [
+            255,
+            803
+          ],
+          "advanced": [
+            243,
+            803
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.1973,
+        "distinct_counts": [
+          130,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.2557,
+        "per_tier": {
+          "beginner": 0.2503,
+          "intermediate": 0.264,
+          "advanced": 0.2528
+        },
+        "per_tier_counts": {
+          "beginner": [
+            201,
+            803
+          ],
+          "intermediate": [
+            212,
+            803
+          ],
+          "advanced": [
+            203,
+            803
+          ]
+        },
+        "move_sound": 0.807,
+        "distinct_rate": 0.1932,
+        "distinct_counts": [
+          79,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.0631
+    },
+    "llama33_70b": {
+      "display": "Llama-3.3-70B",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.3973,
+        "per_tier": {
+          "beginner": 0.3549,
+          "intermediate": 0.391,
+          "advanced": 0.4458
+        },
+        "per_tier_counts": {
+          "beginner": [
+            285,
+            803
+          ],
+          "intermediate": [
+            314,
+            803
+          ],
+          "advanced": [
+            358,
+            803
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.2185,
+        "distinct_counts": [
+          144,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.2993,
+        "per_tier": {
+          "beginner": 0.2765,
+          "intermediate": 0.2877,
+          "advanced": 0.3337
+        },
+        "per_tier_counts": {
+          "beginner": [
+            222,
+            803
+          ],
+          "intermediate": [
+            231,
+            803
+          ],
+          "advanced": [
+            268,
+            803
+          ]
+        },
+        "move_sound": 0.8547,
+        "distinct_rate": 0.2152,
+        "distinct_counts": [
+          88,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.098
+    },
+    "dsv32": {
+      "display": "DeepSeek-V3.2",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 0.9996,
+      "format_rate": 0.9917,
+      "old_labels": {
+        "tier_policy_match": 0.4114,
+        "per_tier": {
+          "beginner": 0.3362,
+          "intermediate": 0.3823,
+          "advanced": 0.5156
+        },
+        "per_tier_counts": {
+          "beginner": [
+            270,
+            803
+          ],
+          "intermediate": [
+            307,
+            803
+          ],
+          "advanced": [
+            414,
+            803
+          ]
+        },
+        "move_sound": 0.9992,
+        "distinct_rate": 0.3126,
+        "distinct_counts": [
+          206,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.3238,
+        "per_tier": {
+          "beginner": 0.2852,
+          "intermediate": 0.3101,
+          "advanced": 0.3761
+        },
+        "per_tier_counts": {
+          "beginner": [
+            229,
+            803
+          ],
+          "intermediate": [
+            249,
+            803
+          ],
+          "advanced": [
+            302,
+            803
+          ]
+        },
+        "move_sound": 0.8643,
+        "distinct_rate": 0.3178,
+        "distinct_counts": [
+          130,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.0876
+    },
+    "glm5": {
+      "display": "GLM-5",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 0.9979,
+      "old_labels": {
+        "tier_policy_match": 0.4583,
+        "per_tier": {
+          "beginner": 0.3462,
+          "intermediate": 0.4371,
+          "advanced": 0.5915
+        },
+        "per_tier_counts": {
+          "beginner": [
+            278,
+            803
+          ],
+          "intermediate": [
+            351,
+            803
+          ],
+          "advanced": [
+            475,
+            803
+          ]
+        },
+        "move_sound": 0.9996,
+        "distinct_rate": 0.2792,
+        "distinct_counts": [
+          184,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.3869,
+        "per_tier": {
+          "beginner": 0.3549,
+          "intermediate": 0.3761,
+          "advanced": 0.4296
+        },
+        "per_tier_counts": {
+          "beginner": [
+            285,
+            803
+          ],
+          "intermediate": [
+            302,
+            803
+          ],
+          "advanced": [
+            345,
+            803
+          ]
+        },
+        "move_sound": 0.8937,
+        "distinct_rate": 0.2861,
+        "distinct_counts": [
+          117,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.0714
+    },
+    "mistral3": {
+      "display": "Mistral-Large-3 (675B)",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 1.0,
+      "old_labels": {
+        "tier_policy_match": 0.3686,
+        "per_tier": {
+          "beginner": 0.3736,
+          "intermediate": 0.3748,
+          "advanced": 0.3574
+        },
+        "per_tier_counts": {
+          "beginner": [
+            300,
+            803
+          ],
+          "intermediate": [
+            301,
+            803
+          ],
+          "advanced": [
+            287,
+            803
+          ]
+        },
+        "move_sound": 0.9996,
+        "distinct_rate": 0.3293,
+        "distinct_counts": [
+          217,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.3034,
+        "per_tier": {
+          "beginner": 0.3026,
+          "intermediate": 0.2864,
+          "advanced": 0.3213
+        },
+        "per_tier_counts": {
+          "beginner": [
+            243,
+            803
+          ],
+          "intermediate": [
+            230,
+            803
+          ],
+          "advanced": [
+            258,
+            803
+          ]
+        },
+        "move_sound": 0.8402,
+        "distinct_rate": 0.3545,
+        "distinct_counts": [
+          145,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.0652
+    },
+    "kimi25": {
+      "display": "Kimi-K2.5",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 0.9992,
+      "old_labels": {
+        "tier_policy_match": 0.3645,
+        "per_tier": {
+          "beginner": 0.3474,
+          "intermediate": 0.3661,
+          "advanced": 0.3798
+        },
+        "per_tier_counts": {
+          "beginner": [
+            279,
+            803
+          ],
+          "intermediate": [
+            294,
+            803
+          ],
+          "advanced": [
+            305,
+            803
+          ]
+        },
+        "move_sound": 0.9992,
+        "distinct_rate": 0.3687,
+        "distinct_counts": [
+          243,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.2893,
+        "per_tier": {
+          "beginner": 0.2814,
+          "intermediate": 0.2877,
+          "advanced": 0.2989
+        },
+        "per_tier_counts": {
+          "beginner": [
+            226,
+            803
+          ],
+          "intermediate": [
+            231,
+            803
+          ],
+          "advanced": [
+            240,
+            803
+          ]
+        },
+        "move_sound": 0.8315,
+        "distinct_rate": 0.3716,
+        "distinct_counts": [
+          152,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.0752
+    },
+    "dsr1": {
+      "display": "DeepSeek-R1",
+      "family": "open",
+      "n_scenarios": 2409,
+      "n_positions": 803,
+      "named_rate": 1.0,
+      "format_rate": 0.9996,
+      "old_labels": {
+        "tier_policy_match": 0.44,
+        "per_tier": {
+          "beginner": 0.3786,
+          "intermediate": 0.4172,
+          "advanced": 0.5243
+        },
+        "per_tier_counts": {
+          "beginner": [
+            304,
+            803
+          ],
+          "intermediate": [
+            335,
+            803
+          ],
+          "advanced": [
+            421,
+            803
+          ]
+        },
+        "move_sound": 1.0,
+        "distinct_rate": 0.3156,
+        "distinct_counts": [
+          208,
+          659
+        ]
+      },
+      "v6_labels": {
+        "tier_policy_match": 0.3396,
+        "per_tier": {
+          "beginner": 0.3051,
+          "intermediate": 0.3263,
+          "advanced": 0.3873
+        },
+        "per_tier_counts": {
+          "beginner": [
+            245,
+            803
+          ],
+          "intermediate": [
+            262,
+            803
+          ],
+          "advanced": [
+            311,
+            803
+          ]
+        },
+        "move_sound": 0.8618,
+        "distinct_rate": 0.3252,
+        "distinct_counts": [
+          133,
+          409
+        ]
+      },
+      "delta_tier_policy": -0.1004
+    }
+  }
+}

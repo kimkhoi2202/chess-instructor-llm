@@ -40,8 +40,134 @@ Takeaways (full detail + per-tier + 95%-CI council in `RESULTS_STAGE4_CORRECTED.
   +0.433 (v4) and +0.453 (v6-dpo) tier-policy, matching the pre-correction gap.
 - The correction lifts every model's absolute grounded number slightly (cleaner
   grounding) but preserves the tuned-over-base and tuned-over-frontier ordering, so
-  the "beats-frontier on tier-appropriate selection" claim holds; a full 803 x 3
-  frontier re-score under corrected labels was out of scope for this stage (cost).
+  the "beats-frontier on tier-appropriate selection" claim holds. The full 803 x 3
+  frontier re-score under corrected labels — out of scope for the *generation* stage
+  (cost) — has now been done for **free** as a cached re-score: see the next section.
+
+## Corrected-benchmark (v6 labels) field table — full-field deterministic re-score
+
+_Added 2026-07-11. This REFRESHES the field-wide moat (§1–§2 below) against the
+corrected v6 labels. The historical pre-correction tables are kept intact underneath
+for provenance. **No model was re-run** — this is a free, cached re-score (0 GPU, 0
+network, $0 gateway spend)._
+
+**What changed.** The v6 rebuild re-derived the benchmark's canonical / sound labels
+on the SAME 803 positions (`data/benchmark_gap803/scenarios_v6.jsonl`): **45.2% of
+canonical tier targets moved** (1089/2409) and **28.9% of the old "sound" moves were
+removed** (4701/16257) under deeper Stockfish-17 search + Syzygy. The models' move
+CHOICES are unchanged (0/2409 FEN or student-move changes across the rebuild), so only
+their tier-policy SCORES had to be recomputed.
+
+**Method (byte-identical to the shipped scorer).** Each model's recommended move is
+extracted ONCE from its cached raw `output` with the vendored extractor
+`src.eval.evaluate.extract_recommended_move` (the one `scripts/reproduce_v4.py`
+asserts and Stage-4 uses), then scored against BOTH the old and the corrected labels.
+Because extraction depends only on `(text, fen, student_uci)` — all label-free — the
+**only** thing that moves a score is the label correction. Metric definitions match
+`scripts/stage4_rescore_committed.py` exactly (validated: q3_32b on the 120-TEST slice
+reproduces `base_grounded_committed` 0.2972 / sound 0.8583 / distinct 18-76 to 4 dp).
+Coverage is each model's cached set — 12 open/OURS at 803×3 = 2409, the 3 frontier
+references at the 150-subset ×3 = 450 (the same `n(det)` split as §1).
+Driver: `scripts/rescore_field_v6.py` → `data/benchmark_gap803/field_v6_rescore.json`.
+
+> **Scope caveat (read the ranking, not the ceiling).** These are the ORIGINAL
+> (v4-era-grounding) generations judged by the CORRECTED targets. As Stage-4's
+> continuity check shows, re-scoring old generations against the sharper targets
+> LOWERS absolute exact-match for *everyone*, whereas *re-generating* against the
+> corrected grounding raises it (fresh OURS-v4 = 0.861 on the 120 TEST — see
+> `RESULTS_STAGE4_CORRECTED.md`). The field was deliberately **not** re-generated (that
+> needs gateway $ + GPU, both off-limits here). So this table is valid for the
+> **relative / ranking** comparison — every model's old gens vs the same new labels,
+> fully apples-to-apples — not as each model's ceiling under fresh corrected grounding.
+> Numbers use the Stage-4 vendored extractor, so the "old-label" column is a like-for-
+> like re-derivation and will not exactly equal the historical §1 "tier-fit" (which
+> used the earlier `gap803_report` pipeline); the **Δ** is the load-bearing quantity.
+
+### The moat, corrected — tier-appropriate move selection (sorted by v6 tier-policy match)
+
+| # | Model | family | tier-policy v6↑ | B / I / A (v6) | Δ vs old | move-sound↑ | distinct↑ | names | format | n(det) |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | OURS-v2 (Qwen3-1.7B tuned) | ours | **0.509** | 0.557 / 0.532 / 0.438 | -0.124 | 0.898 | 0.477 (195/409) | 1.000 | 1.000 | 2409 |
+| 2 | Claude Opus 4.8 | frontier | 0.467 | 0.447 / 0.460 / 0.493 | -0.053 | 0.951 | 0.240 (23/96) | 1.000 | 1.000 | 450 |
+| 3 | OURS-v3 (Qwen3-32B tuned) | ours | 0.463 | 0.463 / 0.441 / 0.484 | -0.105 | 0.867 | 0.509 (208/409) | 0.949 | 0.279 | 2409 |
+| 4 | Gemini 3.1 Pro | frontier | 0.440 | 0.433 / 0.380 / 0.507 | -0.087 | 0.920 | 0.333 (32/96) | 1.000 | 1.000 | 450 |
+| 5 | GPT-5.5 | frontier | 0.404 | 0.393 / 0.373 / 0.447 | -0.067 | 0.918 | 0.312 (30/96) | 1.000 | 1.000 | 450 |
+| 6 | GLM-5 | open | 0.387 | 0.355 / 0.376 / 0.430 | -0.071 | 0.894 | 0.286 (117/409) | 1.000 | 0.998 | 2409 |
+| 7 | BASE (Qwen3-1.7B untuned) | base | 0.358 | 0.421 / 0.399 / 0.255 | +0.002 | 0.825 | 0.318 (130/409) | 0.999 | 0.997 | 2409 |
+| 8 | DeepSeek-R1 | open | 0.340 | 0.305 / 0.326 / 0.387 | -0.100 | 0.862 | 0.325 (133/409) | 1.000 | 1.000 | 2409 |
+| 9 | DeepSeek-V3.2 | open | 0.324 | 0.285 / 0.310 / 0.376 | -0.088 | 0.864 | 0.318 (130/409) | 1.000 | 0.992 | 2409 |
+| 10 | Mistral-Large-3 (675B) | open | 0.303 | 0.303 / 0.286 / 0.321 | -0.065 | 0.840 | 0.354 (145/409) | 1.000 | 1.000 | 2409 |
+| 11 | Qwen3-32B (untuned v3 base) | open | 0.300 | 0.294 / 0.295 / 0.313 | -0.075 | 0.845 | 0.340 (139/409) | 1.000 | 1.000 | 2409 |
+| 12 | Llama-3.3-70B | open | 0.299 | 0.277 / 0.288 / 0.334 | -0.098 | 0.855 | 0.215 (88/409) | 1.000 | 1.000 | 2409 |
+| 13 | Gemma-3-27B-it | open | 0.296 | 0.264 / 0.277 / 0.347 | -0.051 | 0.876 | 0.215 (88/409) | 1.000 | 1.000 | 2409 |
+| 14 | Kimi-K2.5 | open | 0.289 | 0.281 / 0.288 / 0.299 | -0.075 | 0.832 | 0.372 (152/409) | 1.000 | 0.999 | 2409 |
+| 15 | Qwen3-Next-80B-A3B | open | 0.256 | 0.250 / 0.264 / 0.253 | -0.063 | 0.807 | 0.193 (79/409) | 1.000 | 1.000 | 2409 |
+
+- **tier-policy v6** = mean over the 3 tiers of (pick == corrected `canonical_uci`).
+  **Δ vs old** = v6 minus the same-extractor score on the OLD labels (isolates the
+  correction). **move-sound** = pick in the corrected tier sound pool. **distinct** =
+  of positions whose corrected canonical beginner≠advanced, the share where the model's
+  beginner≠advanced picks (honest all-opportunities denominator, scoped to coverage).
+  **names/format** are label-independent (format = names a move AND closes with a
+  "Takeaway:" line; OURS-v3's low format reflects its terser output style, not a move
+  miss). **n(det)** = scenarios scored (frontier on the 150-subset ×3).
+- The instructiveness council is intentionally **SKIPPED** here (de-emphasized +
+  expensive); the existing §3 council stands and a corrected-label council can be run
+  **on request**.
+
+### Did the frontier ranking shift materially?
+
+**Partly — the field-level ordering holds, but the top of the frontier flips.** The
+correction lowered nearly every model's absolute exact-match (sharper, harder targets;
+only BASE-1.7B is flat at +0.002) and compressed the field. Family averages keep their
+order: **OURS 0.486 > frontier 0.437 > open 0.310** (was 0.600 > 0.506 > 0.387). The
+material moves:
+
+- **Best frontier flips Gemini → Claude.** Frontier internal order was
+  [Gemini, Claude, GPT] and is now **[Claude, Gemini, GPT]**; Claude climbs #4 → #2
+  overall. GPT-5.5 stays third of the three frontier coaches.
+- **OURS-v3 slips #2 → #3** as Claude edges past it (0.463 vs 0.467, ~0.4 pt).
+- Tail reshuffles are minor (Llama #9 → #12, Kimi #12 → #14; BASE rises #13 → #7 only
+  because it barely moved while others fell).
+
+So the *cross-family* story (OURS > frontier > open on the moat) is preserved, but the
+single strongest frontier competitor changed from Gemini to **Claude Opus 4.8**.
+
+### Where OURS stands vs the field (the bonus claim) — still holds
+
+- **OURS is still #1 on the moat.** OURS-v2 (Qwen3-1.7B tuned) tops the full field under
+  BOTH old (0.633) and corrected (0.509) labels — **+0.042 over the best frontier**
+  (Claude 0.467) and ahead of every open model on the corrected labels.
+- **Tuned-over-base is preserved:** OURS-v2 − BASE-1.7B = **+0.151** (0.509 vs 0.358);
+  OURS-v3 − Qwen3-32B-untuned = **+0.162** (0.463 vs 0.300).
+- **Best open unchanged: GLM-5** (#6, 0.387) — still the strongest open coach on the moat.
+- Both OURS models remain top-3; the "OURS beats the frontier field on tier-appropriate
+  selection" claim survives the correction (now led by OURS-v2, with Claude the single
+  strongest frontier competitor rather than Gemini).
+
+### Current-generation OURS on the corrected benchmark (reference — different scope)
+
+The shipped/stretch OURS adapters were re-evaluated FRESH on the corrected grounding
+over the **120 held-out TEST × 3** (not the 803 / 150 field slice above), in
+`RESULTS_STAGE4_CORRECTED.md`; reproduced here for orientation only — **do not compare
+cross-scope** to the field table above (fresh corrected grounding vs old grounding;
+120 TEST vs 803):
+
+| Model (corrected v6, 120 TEST, fresh grounding) | condition | tier-policy | move-sound | distinct | names |
+|---|---|---:|---:|---:|---:|
+| OURS-v6-dpo | grounded | **0.881** | 0.983 | 0.987 | 0.983 |
+| OURS-v4 (shipped) | grounded | 0.861 | 0.983 | 0.987 | 0.983 |
+| BASE (Qwen3-32B untuned) | grounded | 0.428 | 0.969 | 0.303 | 0.975 |
+| OURS-v6-distill | no-grounding | 0.325 | 0.653 | 0.461 | 0.983 |
+
+_OURS-v6-dpo2 (tier-targeted DPO) is being evaluated by a concurrent Stage-4 worker on
+the Modal GPU; its row will be added by that worker when the eval lands._
+
+**Artifacts (this section):** re-score driver `scripts/rescore_field_v6.py`; per-model
+old+v6 metrics `data/benchmark_gap803/field_v6_rescore.json`; corrected labels
+`data/benchmark_gap803/scenarios_v6.jsonl`; cached field gens
+`data/benchmark_gap803/gen/<model>.jsonl`.
+Reproduce (free, ~7 s, no GPU/network): `~/.venvs/mlx/bin/python scripts/rescore_field_v6.py`.
 
 ## Method & cost-smart scope
 
