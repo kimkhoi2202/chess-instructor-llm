@@ -42,9 +42,10 @@ shortened to "tier-policy match." The canonical move is a project rule, not vali
 
 Stretch adapters (research, not shipped; see the corrected-benchmark results below):
 
-- Preference-tuned: [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo) (v4 + DPO on tier-move pairs)
+- Preference-tuned, best DPO: [`khoilamalphaai/chess-coach-32b-v6-dpo2`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo2) (v4 + stronger tier-targeted DPO, checkpoint step 200; overall tier-policy 0.892 on the corrected 120 TEST, supersedes v6-dpo as the queued successor)
+- Preference-tuned, earlier DPO: [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo) (v4 + DPO on tier-move pairs)
 - Engine-distilled (no-grounding): [`khoilamalphaai/chess-coach-32b-v6-distill`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill) (tier rule distilled into the weights)
-- Stage-4 corrected-benchmark results: [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md)
+- Stage-4 corrected-benchmark results: [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md); full-field corrected re-score: [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md)
 
 ## Headline result (strict held-out eval)
 
@@ -91,12 +92,22 @@ loss). See [`RESULTS_HONEST_EVAL_V4.md`](RESULTS_HONEST_EVAL_V4.md).
 Corrected-benchmark stretch results (Stage-4): the benchmark labels were rebuilt under deeper
 Stockfish-17 search plus Syzygy (the 120 held-out test FENs are unchanged, only the canonical and
 engine-best targets moved), and every tuned model was re-scored in one controlled run. On the corrected
-grounded held-out benchmark, tier-policy match is base 0.428, v4 0.861, and the preference-tuned v6-dpo
-0.881, with soundness and distinct-moves identical for v4 and v6-dpo, so v6-dpo sharpens the moat
-(entirely at the intermediate tier, 0.808 vs 0.750, out of distribution) without regressing. Stripped of
-grounding, the untuned base collapses to tier-policy 0.022 (names-a-move 0.250) while the engine-distilled
-adapter recovers it to 0.325 (names-a-move 0.983), a behavior-in-weights result with an honest advanced-tier
-limit (0.217). v4 remains the shipped model; v6-dpo and v6-distill are stretch-ladder results. Full detail:
+grounded held-out benchmark, tier-policy match is base 0.428, v4 0.861, the preference-tuned v6-dpo 0.881,
+and the stronger tier-targeted v6-dpo2 0.892 (checkpoint step 200), the best DPO result. v6-dpo2 supersedes
+v6-dpo as the queued successor, but it is honestly a stronger v6-dpo, not a beginner or advanced breakthrough:
+the whole gain is the intermediate tier (0.842 vs v4 0.750, vs v6-dpo 0.808), while beginner (0.858) and
+advanced (0.975) are byte-identical to v4 and v6-dpo because both already sit at their ceiling under
+grounding; soundness (0.983) and distinct-moves (0.987) are unchanged, and format (0.925) is marginally
+under v4 (0.939), a token-cap prose-length artifact. Stripped of grounding, the untuned base collapses to
+tier-policy 0.022 (names-a-move 0.250) while the engine-distilled adapter recovers it to 0.325 (names-a-move
+0.983), a behavior-in-weights result with an honest advanced-tier limit (0.217). v4 remains the shipped
+model; v6-dpo2, v6-dpo, and v6-distill are stretch-ladder results. A free cached re-score of the full field
+against the corrected labels ([`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md)) keeps OURS on top of
+the moat (OURS-v2 #1, +0.042 over the best frontier; tuned-over-base +0.151 / +0.162) and preserves the
+cross-family order (OURS then frontier then open), while the frontier reshuffles internally so Claude Opus
+4.8 now edges Gemini 3.1 Pro as the strongest single frontier coach. Scope caveat: these are
+v4-era-grounding cached generations judged by the sharper v6 targets, so absolutes are lower than a
+fresh-grounding eval, valid for the relative and ranking read, not each model's ceiling. Full detail:
 [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md).
 
 Eval audited honest. Two independent audits back the base-vs-tuned comparison: the human-move model

@@ -53,9 +53,10 @@ pedagogy.
 | 3c | Grand eval (published on HF Hub) | [`datasets/khoilamalphaai/chess-coach-grand-eval`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-grand-eval): all 20 models on the same held-out slice, deterministic tier-policy match + selection-conditioned head-to-head + blinded council with 95% CIs |
 | 4 | BrainLift (behavior thesis + evidence) | [`BRAINLIFT.md`](BRAINLIFT.md): the one-behavior thesis, the 32B training story (v2 -> v3 -> v4 -> v5), DOK-4 spiky POVs, all tied to primary sources or the project's own measurement |
 | 5 | Demo video (3-5 min) | Script + shot list: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md). Runnable demo provided (live Space + `./run_platform.sh`); recording is the user's step |
-| 6 | Stretch: preference-tuned adapter | [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo): v4 + DPO on tier-move pairs (sharpens the moat, no regression) |
+| 6 | Stretch: preference-tuned adapter (best DPO, queued successor) | [`khoilamalphaai/chess-coach-32b-v6-dpo2`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo2): v4 + stronger tier-targeted DPO (checkpoint step 200); overall tier-policy 0.892 on the corrected 120 TEST, supersedes v6-dpo (all the gain is the intermediate tier; beginner/advanced ceilinged) |
+| 6b | Stretch: preference-tuned adapter (earlier DPO) | [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo): v4 + DPO on tier-move pairs (sharpens the moat, no regression) |
 | 7 | Stretch: engine-distilled adapter | [`khoilamalphaai/chess-coach-32b-v6-distill`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill): the tier rule distilled into the weights, scored no-grounding |
-| 7b | Stretch results (corrected benchmark) | [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md): v4 / base / v6-dpo / v6-distill on the deep-verified v6 labels, 120 held-out TEST |
+| 7b | Stretch results (corrected benchmark) | [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md): v4 / base / v6-dpo / v6-dpo2 / v6-distill on the deep-verified v6 labels, 120 held-out TEST. Full-field corrected re-score: [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md) |
 
 ---
 
@@ -102,7 +103,7 @@ shallow sound pool, not certified best-move truth (see honest gaps).
 
 The benchmark labels were rebuilt under deeper Stockfish-17 search plus Syzygy (the 120 held-out TEST
 FENs are unchanged, only the canonical and engine-best targets moved). Re-scored in one controlled run
-with the same strict extractor, GROUNDED for base/v4/v6-dpo and NO-GROUNDING for base/v6-distill
+with the same strict extractor, GROUNDED for base/v4/v6-dpo/v6-dpo2 and NO-GROUNDING for base/v6-distill
 ([`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md)):
 
 | Model | condition | tier-policy match | move-sound | distinct | names-a-move |
@@ -110,17 +111,30 @@ with the same strict extractor, GROUNDED for base/v4/v6-dpo and NO-GROUNDING for
 | BASE (Qwen3-32B untuned) | grounded | 0.428 | 0.969 | 0.303 | 0.975 |
 | OURS-v4 (shipped) | grounded | 0.861 | 0.983 | 0.987 | 0.983 |
 | OURS-v6-dpo | grounded | 0.881 | 0.983 | 0.987 | 0.983 |
+| OURS-v6-dpo2 (best DPO) | grounded | 0.892 | 0.983 | 0.987 | 0.986 |
 | BASE (Qwen3-32B untuned) | no-grounding | 0.022 | 0.081 | 0.040 | 0.250 |
 | OURS-v6-distill | no-grounding | 0.325 | 0.653 | 0.461 | 0.983 |
 
-- Preference tuning (v6-dpo) sharpens the moat with no regression: +0.0195 tier-policy over v4, all
-  from the intermediate tier (0.808 vs 0.750, out of distribution); soundness, distinct-moves,
-  beginner and advanced are identical to v4. v4 remains the shipped model; v6-dpo is a drop-in successor.
+- Preference tuning sharpens the moat with no regression. The stronger tier-targeted v6-dpo2 (checkpoint
+  step 200) is the best DPO result: overall tier-policy 0.892 (+0.031 vs v4, +0.011 vs v6-dpo), with the
+  entire gain at the intermediate tier (0.842 vs v4 0.750, vs v6-dpo 0.808, out of distribution). Beginner
+  (0.858) and advanced (0.975) are byte-identical to v4 and v6-dpo, already ceilinged under grounding, so it
+  is a stronger v6-dpo, not a beginner/advanced breakthrough; soundness (0.983) and distinct-moves (0.987)
+  are unchanged, names-a-move is nominally higher (0.986), and format (0.925) is marginally under v4 (0.939),
+  a token-cap prose-length artifact. v4 remains the shipped model; v6-dpo2 supersedes v6-dpo as the queued
+  drop-in successor.
 - Distillation puts the tier rule in the weights: stripped of grounding, the base collapses (0.022,
   names-a-move 0.250); the distilled adapter recovers it to 0.325 (names-a-move 0.983), with an honest
   advanced-tier limit (0.217, the sharpest move genuinely needs grounding).
 - Base-vs-tuned is preserved under the correction: grounded tuned-minus-base is +0.433 (v4) and +0.453
   (v6-dpo) tier-policy, matching the pre-correction gap.
+- Corrected full-field re-score (free, cached, no model re-run;
+  [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md)): OURS still tops the moat (OURS-v2 #1, +0.042 over
+  the best frontier; tuned-over-base +0.151 / +0.162) and the cross-family order holds (OURS then frontier
+  then open), while the frontier reshuffles internally so Claude Opus 4.8 now edges Gemini 3.1 Pro as the
+  strongest single frontier coach. Scope caveat: these are v4-era-grounding cached generations judged by the
+  sharper v6 targets, so absolutes are lower than a fresh-grounding eval, valid for the relative and ranking
+  read, not each model's ceiling.
 
 ---
 
