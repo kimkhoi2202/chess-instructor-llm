@@ -1,0 +1,43 @@
+{
+  "benchmark": "scenarios_v6 (corrected labels), 120 held-out TEST x 3 tiers",
+  "n_scenarios": 360,
+  "decode": {
+    "do_sample": false,
+    "repetition_penalty": 1.15,
+    "no_repeat_ngram_size": 4,
+    "grounded_max_new": 256
+  },
+  "scores": {
+    "v6dpo2_grounded": {
+      "tier_policy_match": 0.8917,
+      "per_tier": {
+        "beginner": 0.8583,
+        "intermediate": 0.8417,
+        "advanced": 0.975
+      },
+      "per_tier_counts": {
+        "beginner": [
+          103,
+          120
+        ],
+        "intermediate": [
+          101,
+          120
+        ],
+        "advanced": [
+          117,
+          120
+        ]
+      },
+      "move_sound": 0.9833,
+      "named_rate": 0.9861,
+      "format_rate": 0.925,
+      "distinct_rate": 0.9868,
+      "distinct_counts": [
+        75,
+        76
+      ],
+      "n": 360
+    }
+  }
+}

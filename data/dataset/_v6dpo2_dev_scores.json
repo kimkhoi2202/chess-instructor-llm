@@ -1,0 +1,138 @@
+{
+  "scores": {
+    "v4": {
+      "tier_policy_match": 0.8867,
+      "per_tier": {
+        "beginner": 0.92,
+        "intermediate": 0.76,
+        "advanced": 0.98
+      },
+      "per_tier_counts": {
+        "beginner": [
+          46,
+          50
+        ],
+        "intermediate": [
+          38,
+          50
+        ],
+        "advanced": [
+          49,
+          50
+        ]
+      },
+      "move_sound": 0.9733,
+      "named_rate": 1.0,
+      "format_rate": 0.9667,
+      "n": 150
+    },
+    "checkpoint-175": {
+      "tier_policy_match": 0.9,
+      "per_tier": {
+        "beginner": 0.92,
+        "intermediate": 0.8,
+        "advanced": 0.98
+      },
+      "per_tier_counts": {
+        "beginner": [
+          46,
+          50
+        ],
+        "intermediate": [
+          40,
+          50
+        ],
+        "advanced": [
+          49,
+          50
+        ]
+      },
+      "move_sound": 0.98,
+      "named_rate": 0.9933,
+      "format_rate": 0.9133,
+      "n": 150
+    },
+    "checkpoint-200": {
+      "tier_policy_match": 0.9,
+      "per_tier": {
+        "beginner": 0.92,
+        "intermediate": 0.8,
+        "advanced": 0.98
+      },
+      "per_tier_counts": {
+        "beginner": [
+          46,
+          50
+        ],
+        "intermediate": [
+          40,
+          50
+        ],
+        "advanced": [
+          49,
+          50
+        ]
+      },
+      "move_sound": 0.9867,
+      "named_rate": 1.0,
+      "format_rate": 0.96,
+      "n": 150
+    },
+    "checkpoint-225": {
+      "tier_policy_match": 0.9,
+      "per_tier": {
+        "beginner": 0.92,
+        "intermediate": 0.8,
+        "advanced": 0.98
+      },
+      "per_tier_counts": {
+        "beginner": [
+          46,
+          50
+        ],
+        "intermediate": [
+          40,
+          50
+        ],
+        "advanced": [
+          49,
+          50
+        ]
+      },
+      "move_sound": 0.9867,
+      "named_rate": 1.0,
+      "format_rate": 0.94,
+      "n": 150
+    }
+  },
+  "selected": "checkpoint-200",
+  "gate_ok": false,
+  "qualifying": [],
+  "v4": {
+    "tier_policy_match": 0.8867,
+    "per_tier": {
+      "beginner": 0.92,
+      "intermediate": 0.76,
+      "advanced": 0.98
+    },
+    "per_tier_counts": {
+      "beginner": [
+        46,
+        50
+      ],
+      "intermediate": [
+        38,
+        50
+      ],
+      "advanced": [
+        49,
+        50
+      ]
+    },
+    "move_sound": 0.9733,
+    "named_rate": 1.0,
+    "format_rate": 0.9667,
+    "n": 150
+  },
+  "delta_vs_v4": 0.013299999999999979
+}

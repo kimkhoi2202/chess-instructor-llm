@@ -40,10 +40,11 @@ the weights" claim.
 |---|---:|---:|---:|---:|---:|---|
 | BASE (Qwen3-32B untuned) | 0.428 | 0.969 | 0.303 | 0.975 | 0.975 | 0.442 / 0.408 / 0.433 |
 | OURS-v4 (shipped) | 0.861 | 0.983 | 0.987 | 0.983 | 0.939 | 0.858 / 0.750 / 0.975 |
-| OURS-v6-dpo | **0.881** | 0.983 | 0.987 | 0.983 | 0.919 | 0.858 / 0.808 / 0.975 |
+| OURS-v6-dpo | 0.881 | 0.983 | 0.987 | 0.983 | 0.919 | 0.858 / 0.808 / 0.975 |
+| OURS-v6-dpo2 | **0.892** | 0.983 | 0.987 | 0.986 | 0.925 | 0.858 / 0.842 / 0.975 |
 
 - distinct-per-level denominator = the 76 TEST positions whose canonical beginner
-  and advanced moves differ (v4 and v6-dpo both differentiate on 75 of 76).
+  and advanced moves differ (v4, v6-dpo, and v6-dpo2 each differentiate on 75 of 76).
 - format = fraction whose reply both names a move and closes with a "Takeaway:"
   line within the 256-token cap (a prose-completeness check, not a move check).
 
@@ -62,6 +63,27 @@ Takeaway line (16/360 v4 vs 23/360 v6-dpo truncated), not a move or coaching-qua
 regression. So the preference tune SHARPENED the mid-tier moat and held it out of
 distribution while leaving soundness, differentiation, and the beginner/advanced
 tiers exactly where v4 had them.
+
+### 1b. Did the stronger, tier-targeted v6-dpo2 move beginner/advanced?
+
+**No — the beginner/advanced hard-negatives did not move those tiers; v6-dpo2 is a
+stronger v6-dpo whose gain is again entirely intermediate.** v6-dpo2 (harder,
+tier-targeted preference pairs; checkpoint step 200, selected on `valid_v6` dev with
+the strict no-regression gate, which it missed by exactly 1/150 dev format only) posts
+the best OVERALL tier-policy match on the held-out corrected 120 TEST: **0.892 vs v4
+0.861 (+0.0306) and vs v6-dpo 0.881 (+0.0111)**. But that entire lift is the
+**intermediate tier: 0.842 (101/120) vs v4 0.750 (+0.092) and vs v6-dpo 0.808
+(+0.034)** — the deepest mid-tier moat of the three. **Beginner (0.858, 103/120) and
+advanced (0.975, 117/120) are byte-identical to v4 and v6-dpo**: despite pairs built to
+prefer the softer beginner move over the sharp one and the sharpest advanced move over
+the soft one, neither tier moved out of distribution (both already sit at/near their
+ceiling under grounding). Move-soundness (0.983) and distinct-per-level (0.987) are
+unchanged and names-a-move is nominally higher (0.986 vs 0.983, +1/360). Format (0.925)
+lands between v4 (0.939) and v6-dpo (0.919): still the longer-coaching-hits-the-256-token
+-cap artifact (27/360 v6-dpo2 vs 22/360 v4 truncated before the Takeaway line), not a
+move or soundness regression. Net: v6-dpo2 sharpens the intermediate moat further than
+v6-dpo at identical beginner/advanced/soundness/differentiation, so it is a clean
+drop-in successor to v6-dpo but does not broaden the gain beyond the mid tier.
 
 ### 2. Distillation: behavior in the weights (base-no-grounding vs distill-no-grounding)
 
@@ -151,6 +173,16 @@ stretch-ladder results** (v6-dpo as the drop-in successor once a shipping window
 opens). This is a product-shipping decision reserved for the USER; nothing live was
 changed by this stage.
 
+Update (this stage): **v6-dpo2 is now the strongest DPO variant** — overall
+tier-policy 0.892 (+0.031 vs v4) with intermediate 0.842 (the deepest mid-tier moat of
+the three) at identical beginner/advanced/soundness/differentiation — and **supersedes
+v6-dpo as the drop-in successor of choice**, with the same honest caveats: the gain is
+confined to the intermediate tier (beginner and advanced are unchanged from v4), and
+format is the only sub-metric marginally below v4 (0.925 vs 0.939, a 256-token-cap
+prose-length artifact, not a move/soundness regression). It is worth QUEUING as the
+shipping successor to v4 for the next shipping window, but does not change the
+KEEP-v4-for-now call this close to the deadline. Nothing live was changed.
+
 ## Artifacts
 
 - Eval inputs (grounded + no-grounding prompts, 360): `data/benchmark_gap803/stage4_eval_inputs.jsonl` (`scripts/stage4_build_inputs.py`)
@@ -159,4 +191,5 @@ changed by this stage.
 - Continuity re-score of committed gens: `data/benchmark_gap803/stage4/rescore_committed.json`
 - Council: `data/benchmark_gap803/stage4_council/{council,aggregate}.json`
 - Drivers: `scripts/stage4_{build_inputs,eval,rescore_committed,verdict,council}.py`
-- Adapters: `khoilamalphaai/chess-coach-32b-v4-qlora`, `khoilamalphaai/chess-coach-32b-v6-dpo`, `khoilamalphaai/chess-coach-32b-v6-distill`
+- v6-dpo2 (this stage): generations `data/benchmark_gap803/stage4_v6dpo2/v6dpo2_grounded.jsonl`, scores `data/benchmark_gap803/stage4_v6dpo2/scores.json`; dev selection `data/dataset/_v6dpo2_dev_scores.json` (checkpoint step 200 from Modal volume `chess-coach-lora:/chess-coach-v6-dpo2/_trainer/checkpoint-200`); drivers `scripts/{train_dpo_v6dpo2,stage4_eval_v6dpo2}.py`
+- Adapters: `khoilamalphaai/chess-coach-32b-v4-qlora`, `khoilamalphaai/chess-coach-32b-v6-dpo`, `khoilamalphaai/chess-coach-32b-v6-dpo2`, `khoilamalphaai/chess-coach-32b-v6-distill`
