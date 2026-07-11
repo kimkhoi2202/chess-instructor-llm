@@ -57,6 +57,7 @@ pedagogy.
 | 6b | Stretch: preference-tuned adapter (earlier DPO) | [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo): v4 + DPO on tier-move pairs (sharpens the moat, no regression) |
 | 7 | Stretch: engine-distilled adapter | [`khoilamalphaai/chess-coach-32b-v6-distill`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill): the tier rule distilled into the weights, scored no-grounding |
 | 7b | Stretch results (corrected benchmark) | [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md): v4 / base / v6-dpo / v6-dpo2 / v6-distill on the deep-verified v6 labels, 120 held-out TEST. Full-field corrected re-score: [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md) |
+| 7c | Stretch: deep-verified v6 labels (published on HF Hub) | [`datasets/khoilamalphaai/chess-coach-v6`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-v6): the corrected canonical/sound labels (deeper Stockfish-17 + Syzygy) behind the v6 stretch results above |
 
 ---
 

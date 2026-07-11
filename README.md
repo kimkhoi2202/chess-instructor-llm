@@ -45,6 +45,7 @@ Stretch adapters (research, not shipped; see the corrected-benchmark results bel
 - Preference-tuned, best DPO: [`khoilamalphaai/chess-coach-32b-v6-dpo2`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo2) (v4 + stronger tier-targeted DPO, checkpoint step 200; overall tier-policy 0.892 on the corrected 120 TEST, supersedes v6-dpo as the queued successor)
 - Preference-tuned, earlier DPO: [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo) (v4 + DPO on tier-move pairs)
 - Engine-distilled (no-grounding): [`khoilamalphaai/chess-coach-32b-v6-distill`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill) (tier rule distilled into the weights)
+- Deep-verified v6 labels (dataset): [`khoilamalphaai/chess-coach-v6`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-v6) (corrected canonical/sound labels, deeper Stockfish-17 + Syzygy, behind the v6 stretch results)
 - Stage-4 corrected-benchmark results: [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md); full-field corrected re-score: [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md)
 
 ## Headline result (strict held-out eval)

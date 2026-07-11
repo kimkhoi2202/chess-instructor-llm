@@ -155,13 +155,15 @@ cross-scope** to the field table above (fresh corrected grounding vs old groundi
 
 | Model (corrected v6, 120 TEST, fresh grounding) | condition | tier-policy | move-sound | distinct | names |
 |---|---|---:|---:|---:|---:|
-| OURS-v6-dpo | grounded | **0.881** | 0.983 | 0.987 | 0.983 |
+| OURS-v6-dpo2 | grounded | **0.892** | 0.983 | 0.987 | 0.986 |
+| OURS-v6-dpo | grounded | 0.881 | 0.983 | 0.987 | 0.983 |
 | OURS-v4 (shipped) | grounded | 0.861 | 0.983 | 0.987 | 0.983 |
 | BASE (Qwen3-32B untuned) | grounded | 0.428 | 0.969 | 0.303 | 0.975 |
 | OURS-v6-distill | no-grounding | 0.325 | 0.653 | 0.461 | 0.983 |
 
-_OURS-v6-dpo2 (tier-targeted DPO) is being evaluated by a concurrent Stage-4 worker on
-the Modal GPU; its row will be added by that worker when the eval lands._
+_OURS-v6-dpo2 (tier-targeted DPO, checkpoint step 200) is the strongest DPO variant: all
+its gain over v4 is the intermediate tier (B / I / A = 0.858 / 0.842 / 0.975); beginner and
+advanced are unchanged. Detail in `RESULTS_STAGE4_CORRECTED.md`._
 
 **Artifacts (this section):** re-score driver `scripts/rescore_field_v6.py`; per-model
 old+v6 metrics `data/benchmark_gap803/field_v6_rescore.json`; corrected labels
@@ -174,7 +176,7 @@ Reproduce (free, ~7 s, no GPU/network): `~/.venvs/mlx/bin/python scripts/rescore
 - **Deterministic metrics** (tier-fit, tier-differentiation, direction, move-safety, no-engine-speak) computed on **ALL 803 positions x 3 tiers** for the 2 local models (OURS-v2, BASE) + OURS-v3 + 9 open models — the 12 models with full generations. The **3 frontier references** are measured on a **balanced 150-position stratified subset x 3 tiers** — generating Claude Opus 4.8 on all 803 would add real cost for a *reference* row whose behavior is already established; the stratified subset gives a tight estimate.
 - **Tier-appropriate move (the moat):** each coach's recommended move is re-extracted with the instrumented, pool-restricted extractor and compared to the canonical tier move from `src/teacher/tier_select.select_tier_move` (beginner=most human-findable sound move, intermediate=eval/Maia blend, advanced=sharpest=engine best). `tier-fit` = pick == that canonical move (mean over the 3 tiers).
 - **Instructiveness:** one blinded cross-family council (3 frontier judges: GPT-5.5 + Claude Opus 4.8 + Gemini 3.1 Pro) RANKS the unified **15-model** field per item. It covers **all 450 (position×tier) items where every one of the 15 models has a generation** — the complete eligible set (the 3 frontier models were only generated on the 150-position frontier subset × 3 tiers, so a 15-way ranking is impossible elsewhere without fabricating outputs). Because each judge also grades its own lab's model, we report BOTH a raw and a **self-preference-corrected** ranking (§3).
-- **Faithfulness is a fairness FLOOR, not a scoring axis:** after the verify-and-regenerate gate, **every model ships 0% user-visible fabrication**. The same gate is applied to all, so raw pre-gate fabrication is intentionally **not** reported as a per-model comparison axis. Where models genuinely differ on truth is the semantic-judge residual (§4). Move-safety (no blunders) and no-engine-speak remain pass/fail gates.
+- **Faithfulness is a fairness FLOOR, not a scoring axis:** after the verify-and-regenerate gate, **every model ships zero verifier-detectable mechanical violations**. The same gate is applied to all, so raw pre-gate fabrication is intentionally **not** reported as a per-model comparison axis. Where models genuinely differ on truth is the semantic-judge residual (§4). Move-safety (no blunders) and no-engine-speak remain pass/fail gates.
 
 ## 1. Per-metric leaderboard (all 15 models)
 
@@ -199,7 +201,7 @@ Sorted by the balanced score (below). `tier-fit` is the moat metric; **instr ran
 | 15 | BASE (Qwen3-1.7B untuned) | base | 36% | 50% | 46% | 14.18 (0%) | 96% | 96% | yes | 2409 |
 
 - **tier-fit** = share of (position,tier) where the coach's pick equals the canonical `select_tier_move` move. **tier-diff** = share of positions where the pick changes across the 3 tiers. **direction** = share where the beginner pick is at least as human-findable (Maia rank) as the advanced pick (correct level gradient).
-- **safety** = share of picks that are not blunders (cp-loss < 250). **no-jargon** = no centipawn/engine-speak leaked. **n(det)** = deterministic positions x tiers scored (frontier on the 150-subset). Faithfulness is a gated fairness floor (0% user-visible fabrication for all models), so it is not a comparison column here — see §4.
+- **safety** = share of picks that are not blunders (cp-loss < 250). **no-jargon** = no centipawn/engine-speak leaked. **n(det)** = deterministic positions x tiers scored (frontier on the 150-subset). Faithfulness is a gated fairness floor (zero verifier-detectable mechanical violations for all models), so it is not a comparison column here — see §4.
 
 ## 2. Tier-appropriate move selection (the moat), per tier
 
@@ -259,7 +261,7 @@ Mean signed self-preference Δ = **-1.44** rank positions — all three judges f
 
 ## 4. Truthfulness — fairness floor + semantic-judge residual
 
-**Fairness floor (user-visible fabrication):** after the verify-and-regenerate gate, **every model ships 0% user-visible fabrication** — the deterministic board-fact checker finds no false board fact in any shipped cell. The same gate is applied to OURS, BASE, frontier and open alike, so faithfulness is **table-stakes, not a per-model differentiator**; raw pre-gate fabrication is intentionally NOT reported as a comparison axis.
+**Fairness floor (verifier-detectable mechanical violations):** after the verify-and-regenerate gate, **every model ships zero verifier-detectable mechanical violations** — the deterministic board-fact checker finds no false board fact in any shipped cell. The same gate is applied to OURS, BASE, frontier and open alike, so faithfulness is **table-stakes, not a per-model differentiator**; raw pre-gate fabrication is intentionally NOT reported as a comparison axis.
 
 **Semantic-truth residual (the honest differentiator):** an independent cross-family judge panel (GPT-5.5 + Claude Opus 4.8 + Gemini 3.1 Pro) fact-checks a stratified sample of the **gated** text for the multi-move / evaluative claims the deterministic layer cannot decide. Reported under three nested rules with 95% CIs: **any** (a single objection sinks the cell — a strict **lower bound**), **majority** (≥2 of 3), **unanimous** (only a 3/3 objection sinks it — a lenient **upper bound**). OURS trails the frontier here.
 
@@ -286,7 +288,7 @@ _Source: `data/showcase/truthfulness.json` — the 14-model gated showcase set. 
 
 ## 5. Weighted BALANCED ranking
 
-Transparent weighted score (each component normalized to 0-1, higher = better): **tier-appropriate move selection 45%** + **instructiveness (self-preference-corrected) 45%** + practical (local+cost) 10%. Safety + no-jargon are pass/fail gates. **Fabrication is not a scoring axis** — it is a gated fairness floor (0% for all), not a differentiator (§4). Score = weighted mean x 100.
+Transparent weighted score (each component normalized to 0-1, higher = better): **tier-appropriate move selection 45%** + **instructiveness (self-preference-corrected) 45%** + practical (local+cost) 10%. Safety + no-jargon are pass/fail gates. **Fabrication is not a scoring axis** — it is a gated fairness floor (zero verifier-detectable mechanical violations for all), not a differentiator (§4). Score = weighted mean x 100.
 
 | # | Model | family | tier(0.45) | instr(0.45) | practical(0.10) | **balanced** | gate |
 |---|---|---|---:|---:|---:|---:|:--:|
