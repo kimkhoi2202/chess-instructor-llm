@@ -1,6 +1,6 @@
 # FINDINGS — chess-instructor-llm (consolidated, honest, sourced)
 
-> **2026-07-09 honest reframe (read first) — supersedes this doc's earlier phrasing.** A converged audit reframed the submission into three separate claims. Canonical corrections that override anything below: (1) "tier-fit" is renamed **tier-policy exact match** (agreement with the `select_tier_move` rule — a PROJECT RULE, not validated pedagogy); (2) **"0% / zero user-visible fabrication" is retracted** to **"zero verifier-DETECTABLE mechanical violations after gating"** — the checker is high-precision / low-recall, so relational pawn-SAN claims, forks, threats, negations, and eval claims can still reach users; (3) the shipped model is **OURS-v4 (Qwen3-32B)** at tier-policy match **0.767**, distinct-moves **0.730** (73/100 canonical beginner!=advanced opportunities); the honest unbiased head-to-head is **56-24-12** over the 92 diverging positions (56-24-40 over all 120), and **51-5-6** over 62 is only the v4-success-conditioned subset (NOT a general win rate); (4) deployment-necessity is **false as built** — `select_tier_move` computes the canonical move at ~1.0 by construction, so the model approximates a policy the product already produces. See [`BRAINLIFT.md`](BRAINLIFT.md) and [`SUBMISSION.md`](SUBMISSION.md) for the canonical treatment.
+> **2026-07-09 honest reframe (read first) — supersedes this doc's earlier phrasing.** A converged audit reframed the submission into three separate claims. Canonical corrections that override anything below: (1) "tier-fit" is renamed **tier-policy exact match** (agreement with the `select_tier_move` rule — a PROJECT RULE, not validated pedagogy); (2) **"0% / zero user-visible fabrication" is retracted** to **"zero verifier-DETECTABLE mechanical violations after gating"** — the checker is high-precision / low-recall, so relational pawn-SAN claims, forks, threats, negations, and eval claims can still reach users; (3) the shipped model is **OURS-v4 (Qwen3-32B)** at tier-policy match **0.767**, distinct-moves **0.730** (73/100 canonical beginner!=advanced opportunities); the honest unbiased head-to-head is **56-24-12** over the 92 diverging positions (56-24-40 over all 120), and **51-5-6** over 62 is only the v4-success-conditioned subset (NOT a general win rate); (4) deployment-necessity is **false as built** — `select_tier_move` computes the canonical move at ~1.0 by construction, so the model approximates a policy the product already produces. The body below has been reconciled to the honest phrasing (zero verifier-detectable mechanical violations); the caveats in this banner still apply. See [`BRAINLIFT.md`](BRAINLIFT.md) and [`SUBMISSION.md`](SUBMISSION.md) for the canonical treatment.
 
 **What this is.** One place to read the whole project story end-to-end, in logical order,
 with exact numbers and a pointer to the source doc behind each claim. It supersedes nothing —
@@ -12,8 +12,8 @@ For a stated Elo tier, *leveled, human-findable "teaching-move" coaching* is **n
 delivered by a prompted frontier model** — and **can** be trained into a small local model to run
 reliably, cheaply, and privately. We do **not** beat the frontier at raw coaching instructiveness.
 Our defensible wins are three: **tier-appropriateness** (the behavior the frontier skips),
-**cost/locality** (local MLX, ~$0, private), and **verifier-guaranteed faithfulness** (0%
-user-visible fabrication for *any* model behind the gate).
+**cost/locality** (local MLX, ~$0, private), and **verifier-guaranteed faithfulness** (zero
+verifier-detectable mechanical violations for *any* model behind the gate).
 
 **Model naming.** `base` = `Qwen3-1.7B-4bit` (untuned) · `v1` = `chess-coach-v1` (1.7B QLoRA) ·
 `v2` = `chess-coach-v2` (1.7B QLoRA, shipped). Judge/council is always **cross-family** (GPT-5.5 +
@@ -23,8 +23,8 @@ _Compiled 2026-07-07 (UTC), covering the v2 + open-model + verifier runs and the
 803-position gap eval (§7), which is now complete and folded in._
 
 > **Fabrication-reporting policy (read this first).** Faithfulness is a **fairness floor, not a
-> per-model differentiator**: after the verify-and-regenerate gate, **every model ships 0%
-> user-visible fabrication** (§4). The current leaderboards therefore do **not** rank or compare
+> per-model differentiator**: after the verify-and-regenerate gate, **every model ships with
+> zero verifier-detectable mechanical violations** (§4). The current leaderboards therefore do **not** rank or compare
 > models on raw pre-gate fabrication. Where models genuinely differ on truth is the **cross-family
 > semantic-judge residual** (any / majority / unanimous truthful-rate + 95% CIs; §4). Any raw
 > pre-gate fabrication numbers that appear in the historical v1→v2 / open-model sections below are
@@ -43,12 +43,12 @@ QLoRA fine-tune of **Qwen3-32B** on the larger faithfulness-filtered contrastive
 |---|---:|---:|---:|
 | Tier-fit (the moat) | 53.1% | 36.9% | **53.2%** (field-leading; adv 83.6%, beg 29.6%) |
 | Instructiveness (**corrected** council rank, of 15; lower=better) | 10.26 | 9.30 | **6.93** (best local; top-1 22.6%) |
-| User-visible fabrication (after gate) | 0% | 0% | **0%** (fairness floor, all models) |
+| Verifier-detectable mechanical violations (after gate) | 0% | 0% | **0%** (fairness floor, all models) |
 | Balanced score (fab removed from score) | 47.9 | 47.8 | **58.0** (1st of 15 raw; see gate caveat) |
 
 **Read honestly.** (1) The capacity bet paid off *pre-gate*: the 32B base essentially removes
-the small-model board-tracking deficit on its own — but note **user-visible fabrication is
-already 0% for every model** behind the verify-and-regenerate gate, so this is a pre-gate
+the small-model board-tracking deficit on its own — but note **every model already ships
+zero verifier-detectable mechanical violations** behind the verify-and-regenerate gate, so this is a pre-gate
 capacity story, not a serve-time or ranking axis (raw pre-gate fabrication is no longer reported
 as a per-model comparison). (2) Instructiveness (self-preference-corrected council rank on all
 **450 items × 3 judges = 1,350 rankings**) jumped **10.26 → 6.93**; v3 is the **best
@@ -230,7 +230,7 @@ Takeaways:
 
 ## 4. The verifier — faithfulness becomes a guarantee, not a hope
 
-**Claim.** The production verify-and-regenerate gate drives **user-visible fabrication to 0% for
+**Claim.** The production verify-and-regenerate gate drives **verifier-detectable mechanical violations to zero for
 every model** — a structural guarantee, not a statistical nudge. The only honest differentiator
 left is the **fallback rate** (how often the gate must throw the model's answer away).
 
@@ -249,7 +249,7 @@ regenerate attempts, then a deterministic engine-derived fallback that is true b
 | BASE (1.7B) | 2% | 0% | 0.0% |
 | Gemini 3.1 Pro / Llama-3.3-70B | 0% | 0% | 0.0% (most self-sufficient) |
 
-- **All 14 models land at 0% GATED user-visible fabrication.** For OURS-v2 that is 40% → 0%
+- **All 14 models land at zero GATED verifier-detectable mechanical violations.** For OURS-v2 that is 40% → 0%
   (−40 pts): 15 of its 20 RAW fabrications were fixed by the model *regenerating clean within 4
   attempts*; 5 needed the verified fallback. 90% of finals are still the model's own prose.
 - **Independent audit:** re-running `verify_text` from scratch on all **700** stored GATED outputs
@@ -306,8 +306,8 @@ lever is the **verifier** (§4), not the prompt.
 
 Putting the six findings together:
 
-1. **Faithfulness is table-stakes, and it is now solved as a layer.** The verifier guarantees 0%
-   user-visible fabrication for *any* model (§4). So truthfulness is no longer a moat — it is a
+1. **Faithfulness is table-stakes, and it is now solved as a layer.** The verifier guarantees zero
+   verifier-detectable mechanical violations for *any* model (§4). So truthfulness is no longer a moat — it is a
    commodity gate every deployment can stand on. A model's fabrication rate now only sets its
    *fallback rate* (cost/UX), not whether it can lie to a student.
 
@@ -334,7 +334,7 @@ Putting the six findings together:
   council, grounded and ungrounded).
 - ✅ We **do** win on **tier-appropriateness** (leveled, human-findable move selection the frontier
   skips), **cost/locality/privacy** (local MLX, ~$0/query, no data leaves the machine), and
-  **verifier-guaranteed faithfulness** (0% user-visible fabrication, structurally).
+  **verifier-guaranteed faithfulness** (zero verifier-detectable mechanical violations, structurally).
 
 ---
 
@@ -344,7 +344,7 @@ Putting the six findings together:
 position is one where the tier-appropriate move differs from the engine's #1 for at least one tier),
 scored across the **full 15-model field** with byte-identical grounding, **OURS-v3 and OURS-v2 lead
 the entire field on tier-appropriate move selection** (tier-fit ~53%), the moat. With fabrication
-removed as a scoring axis (it is a gated fairness floor — 0% user-visible for every model, §4) and
+removed as a scoring axis (it is a gated fairness floor — zero verifier-detectable mechanical violations for every model, §4) and
 instructiveness **self-preference-corrected**, **OURS-v3 tops the raw balanced score (58.0)** — a
 hair above GPT-5.5 (57.7); it trips the strict 97% safety/no-jargon gate on *formatting* (not
 blunders), so among gate-passing models GPT-5.5 leads. OURS-v2 (the shipped 1.7B) sits mid-pack,
@@ -359,14 +359,14 @@ generation — 450 × 3 judges = 1,350 rankings** — reported raw and **self-pr
 with 95% CIs (cluster bootstrap by item; §3 of `RESULTS_FULL_EVAL_803_v3.md`). **Balanced score =
 tier-appropriate move selection 45% + self-preference-corrected instructiveness 45% + practical
 (local + cost) 10%**, with move-safety and no-jargon as pass/fail gates. **Fabrication is not a
-scoring axis** — every model ships 0% user-visible fabrication behind the gate (a fairness floor);
+scoring axis** — every model ships zero verifier-detectable mechanical violations behind the gate (a fairness floor);
 the honest truth differentiator is the semantic-judge residual (§4). Council cost **$62.27**
 (1,350 rankings); full gap803 eval spend (all generations + council) **$112.15**.
 
 ### 7a. Balanced leaderboard (all 15 models)
 
 `tier-fit` is the moat metric; `instr rank` is the **self-preference-corrected** council mean rank
-(lower = better, of 15). Faithfulness is a gated fairness floor (0% user-visible fabrication for
+(lower = better, of 15). Faithfulness is a gated fairness floor (zero verifier-detectable mechanical violations for
 every model), so it is **not** a comparison column here — the truth differentiator is §4.
 
 | # | Model | family | tier-fit ↑ (moat) | instr rank ↓ (corrected) | **balanced** ↑ | gate | local |
@@ -408,16 +408,16 @@ it, and the models trained *for* it lead.
 
 ### 7c. The deployed reading — why raw ≠ shipped
 
-Faithfulness is no longer a scoring penalty: it is a gated fairness floor (0% user-visible
-fabrication for **every** model, §4), so the balanced score no longer docks any model for raw
+Faithfulness is no longer a scoring penalty: it is a gated fairness floor (zero verifier-detectable
+mechanical violations for **every** model, §4), so the balanced score no longer docks any model for raw
 pre-gate fabrication. What remains for the shipped **OURS-v2** (balanced 47.9, mid-pack) is the one
 honest gap:
 - **Instructiveness (corrected council rank 10.26).** The 1.7B prose ceiling is real and is *not*
   removed by the verifier — this is the axis where OURS-v2 honestly trails. **OURS-v3** closes most
   of it (6.93, best local), at the cost of tripping the formatting gate.
 
-So the **deployed** OURS-v2 is the field's **tier-selection leader (with OURS-v3), at 0%
-user-visible fabrication, running free and locally** — trailing only on prose instructiveness. That
+So the **deployed** OURS-v2 is the field's **tier-selection leader (with OURS-v3), with zero
+verifier-detectable mechanical violations, running free and locally** — trailing only on prose instructiveness. That
 is the honest shape of the product: not the top of the raw balanced leaderboard, but the best at the
 one behavior that is the moat, with faithfulness handed to the verifier and cost/privacy to locality.
 
@@ -456,7 +456,7 @@ one behavior that is the moat, with faithfulness handed to the verifier and cost
 | 2 | v1 → v2 (dataset rebuild + deltas) | `RESULTS_V2.md` |
 | 3 | 5-model 2×2 grounded/ungrounded benchmark | `RESULTS_BENCHMARK.md`, `RESULTS_BENCHMARK_v1.md`, `RESULTS_BENCHMARK_v2.md` |
 | 3 | 9 bigger open models vs OURS / frontier | `RESULTS_OPEN_MODELS.md` |
-| 4 | Verifier → 0% user-visible fabrication (2-model) | `data/experiments/VERIFIER_EVAL.md` |
-| 4 | Verifier → 0% for all 14 models + audit | `data/experiments/VERIFIER_EVAL_ALL.md` |
+| 4 | Verifier → zero verifier-detectable mechanical violations (2-model) | `data/experiments/VERIFIER_EVAL.md` |
+| 4 | Verifier → zero verifier-detectable mechanical violations for all 14 models + audit | `data/experiments/VERIFIER_EVAL_ALL.md` |
 | 5 | Rich/structured grounding A/B (backfires) | `data/experiments/RICH_GROUNDING_AB.md` |
 | 7 | Definitive 803-position gap eval (all 14 models) | `RESULTS_FULL_EVAL_803.md`; `data/eval/GAP_POSITIONS_REPORT.md` (derivation) |
