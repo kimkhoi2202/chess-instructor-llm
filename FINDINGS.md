@@ -60,7 +60,7 @@ enforce the beginner move if wanted. (4) v3 **tops the raw balanced score (58.0,
 GPT-5.5's 57.7)** but trips the strict 97% safety/no-jargon gate (94.3% / 95.6%) — ~4–5% of raw
 outputs are malformed (leading rating-range fragment / prompt echo), *not* blunders (true blunder
 rate **1.3%**, ≈ v2), and caught at serve time; among gate-passing models GPT-5.5 leads. Detail:
-[`RESULTS_V3.md`](RESULTS_V3.md), [`RESULTS_FULL_EVAL_803_v3.md`](RESULTS_FULL_EVAL_803_v3.md).
+[`RESULTS_V3.md`](RESULTS_V3.md), [`docs/archive/RESULTS_FULL_EVAL_803_v3.md`](docs/archive/RESULTS_FULL_EVAL_803_v3.md).
 The live platform still serves v2.
 
 ---
@@ -217,13 +217,13 @@ Takeaways:
   our *own* family (Qwen3-32B) cuts fabrication 38% → 8% but coaches worst of the open field (6.68).
 
 > **Number reconciliation (honest):** OURS-v2 grounded fabrication reads **33%** in
-> `RESULTS_BENCHMARK_v2.md` and **38%** in `RESULTS_OPEN_MODELS.md`. Same outputs, *stricter
+> `docs/archive/RESULTS_BENCHMARK_v2.md` and **38%** in `RESULTS_OPEN_MODELS.md`. Same outputs, *stricter
 > current verifier* in the open-model re-score — the ranking and the size effect are unaffected.
 > Also note three benchmark files exist: `RESULTS_BENCHMARK.md` is the first 2×2 run; the matched
-> **`RESULTS_BENCHMARK_v1.md` / `RESULTS_BENCHMARK_v2.md`** pair is the v1-vs-v2 comparison cited
+> **`docs/archive/RESULTS_BENCHMARK_v1.md` / `docs/archive/RESULTS_BENCHMARK_v2.md`** pair is the v1-vs-v2 comparison cited
 > in §2 (v1 grounded fab 50% → v2 33%).
 
-**Sources:** `RESULTS_BENCHMARK.md`, `RESULTS_BENCHMARK_v1.md`, `RESULTS_BENCHMARK_v2.md`
+**Sources:** `RESULTS_BENCHMARK.md`, `docs/archive/RESULTS_BENCHMARK_v1.md`, `docs/archive/RESULTS_BENCHMARK_v2.md`
 (5-model 2×2) · `RESULTS_OPEN_MODELS.md` (9 bigger open models).
 
 ---
@@ -356,7 +356,7 @@ full generations (OURS-v2, OURS-v3, BASE + 9 open); the 3 frontier references ar
 balanced **150-position** stratified subset × 3 tiers. Instructiveness is one blinded cross-family
 council (GPT-5.5 + Claude Opus 4.8 + Gemini 3.1 Pro) over **all 450 items where every model has a
 generation — 450 × 3 judges = 1,350 rankings** — reported raw and **self-preference-corrected**
-with 95% CIs (cluster bootstrap by item; §3 of `RESULTS_FULL_EVAL_803_v3.md`). **Balanced score =
+with 95% CIs (cluster bootstrap by item; §3 of `docs/archive/RESULTS_FULL_EVAL_803_v3.md`). **Balanced score =
 tier-appropriate move selection 45% + self-preference-corrected instructiveness 45% + practical
 (local + cost) 10%**, with move-safety and no-jargon as pass/fail gates. **Fabrication is not a
 scoring axis** — every model ships zero verifier-detectable mechanical violations behind the gate (a fairness floor);
@@ -423,10 +423,11 @@ one behavior that is the moat, with faithfulness handed to the verifier and cost
 
 ### 7d. Recommendations (supersedes the 100-position picks in §3)
 
-- **Best overall coach, any provider: GPT-5.5** (balanced 62.3) — the frontier still coaches best;
-  it is the distillation-teacher benchmark, not a deployable base.
-- **Best OPEN coach: GLM-5** (balanced 55.3, best open instructiveness) — but it far exceeds 64 GB
-  and **cannot run locally**, so it is not a v3 base.
+- **Best overall coach, any provider: GPT-5.5** (balanced 57.7 under the current 45/45/10 weighting;
+  §7a) — the frontier still coaches best; it is the distillation-teacher benchmark, not a deployable
+  base.
+- **Best OPEN coach: GLM-5** (balanced 51.1 under the current 45/45/10 weighting, best open
+  instructiveness; §7a) — but it far exceeds 64 GB and **cannot run locally**, so it is not a v3 base.
 - **Best v3 *base*: Qwen3-32B ≈ Gemma-3-27B-it — a genuine tie** (re-weighted base-fit 72.6 vs 72.2,
   within noise). Qwen3-32B brings more capacity/tier-selection; **Gemma-3-27B is smaller and more
   faithful (fab 2% vs 6%)**. Either is a defensible 4-bit-local v3 base on a 64 GB Mac; prefer Gemma
@@ -454,7 +455,7 @@ one behavior that is the moat, with faithfulness handed to the verifier and cost
 | 1 | Puzzle solutions = engine-best, not findable (context ≠ labels) | `data/analysis/PUZZLES_REPORT.md` |
 | 2 | base → v1 (objective + Claude rubric, flat truthfulness) | `RESULTS.md` |
 | 2 | v1 → v2 (dataset rebuild + deltas) | `RESULTS_V2.md` |
-| 3 | 5-model 2×2 grounded/ungrounded benchmark | `RESULTS_BENCHMARK.md`, `RESULTS_BENCHMARK_v1.md`, `RESULTS_BENCHMARK_v2.md` |
+| 3 | 5-model 2×2 grounded/ungrounded benchmark | `RESULTS_BENCHMARK.md`, `docs/archive/RESULTS_BENCHMARK_v1.md`, `docs/archive/RESULTS_BENCHMARK_v2.md` |
 | 3 | 9 bigger open models vs OURS / frontier | `RESULTS_OPEN_MODELS.md` |
 | 4 | Verifier → zero verifier-detectable mechanical violations (2-model) | `data/experiments/VERIFIER_EVAL.md` |
 | 4 | Verifier → zero verifier-detectable mechanical violations for all 14 models + audit | `data/experiments/VERIFIER_EVAL_ALL.md` |

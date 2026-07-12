@@ -16,9 +16,9 @@ Everything said here matches the reproducible facts. Keep it plain, confident, a
 ## Pre-record checklist (do this before you hit record)
 
 - [ ] **Warm the Modal endpoint.** The live Space (`chess-coach-studio`) is backed by a scale-to-zero
-      Modal endpoint (`chess-coach-v4-4bit-maia`) with a **~2.5-3 min cold start**. Open the Space and
-      send one coach request 5 minutes before recording so the box is hot. If you do not warm it, the
-      first on-camera request will hang for minutes.
+      Modal endpoint (`chess-coach-v6dpo2-4bit-maia`, serving v6-dpo2) with a **~2.5-3 min cold
+      start**. Open the Space and send one coach request 5 minutes before recording so the box is hot.
+      If you do not warm it, the first on-camera request will hang for minutes.
 - [ ] **Have a fallback ready: the precomputed Showcase.** The Showcase renders real, precomputed
       per-tier coaching with **no backend call** (instant). If the endpoint is cold or flaky at record
       time, demo the tier toggle on the Showcase instead. It is the canonical, deterministic proof.
@@ -122,15 +122,15 @@ frontier and the ceiling as context, not as the headline.
 **ON-SCREEN TEXT:**
 `tier-policy exact match (120 held-out positions x 3 tiers, deterministic, no LLM judge)`
 `1.7B on-spec:  base 0.358  ->  tuned 0.578   (#2 of 20, above every frontier)`
-`32B shipped (v4):  base 0.347  ->  0.767 raw / 0.789 served`
+`32B v4 (SFT base):  base 0.347  ->  tuned 0.767`
 `best frontier (Gemini 3.1 Pro): 0.553     deterministic rule (ceiling): ~1.0`
 
 **SAY:**
 > "Does the fine-tune actually do anything, or could you just prompt the base model? We measured it,
 > deterministically, with grounding held identical on both sides and no model judge. The genuinely
 > small on-spec model carries the result: the 1.7B tune goes from 0.36 to 0.58 on tier-policy match,
-> second of a twenty-model field and above every frontier model. The shipped 32B model goes from 0.35
-> to 0.77, and 0.79 as the demo actually serves it. And the 1.7B tune beats the 4B tune, so the lift
+> second of a twenty-model field and above every frontier model. The 32B v4 model goes from 0.35
+> to 0.77. And the 1.7B tune beats the 4B tune, so the lift
 > comes from the data, not from size. Beating the frontier here is a bonus. The real win is that this
 > behavior distills into a small model's weights, and it is reproducible with one command."
 
@@ -196,7 +196,7 @@ frontier and the ceiling as context, not as the headline.
 - **1.7B on-spec** tier-policy match: **0.358 -> 0.578**, #2 of 20, above every frontier.
 - **4B**: base 0.353 / prompt-base 0.378 / tuned 0.397 (tune > prompt > base; and 1.7B tune > 4B tune,
   so it is the data, not capacity).
-- **32B shipped v4**: **0.347 -> 0.767** raw, **0.789** as served by the demo.
+- **32B v4 (SFT base)**: **0.347 -> 0.767** (the base-vs-tuned proof; the live demo serves v6-dpo2).
 - Best frontier (Gemini 3.1 Pro): **0.553**. Deterministic `select_tier_move` rule: **~1.0** (the ceiling).
 - v4 distinct-moves-per-level **0.730** (73 of 100 beginner!=advanced opportunities).
 - Eval: 120 held-out positions x 3 tiers, deterministic, no LLM judge, zero train/test leakage, Maia

@@ -12,9 +12,10 @@ checkpointed to Google Drive, so a disconnect or a compute-unit-out loses nothin
 ## What makes it faithful (comparable, not a re-implementation)
 
 - **Grounding**: the GROUNDED prompts are precomputed offline and are **byte-identical**
-  to the Stage-4 eval. They are verified against the committed `stage4_eval_inputs.jsonl`
-  (the 360 held-out TEST prompts match byte-for-byte) and reproduce all 2409 committed
-  canonical labels. They live on Hugging Face so Colab does not need a chess engine:
+  to the Stage-4 eval. When it is present locally they are verified against
+  `stage4_eval_inputs.jsonl` (the 360 held-out TEST prompts match byte-for-byte); that file
+  is gitignored, so on a clean clone the byte-identity guard is skipped. They reproduce all
+  2409 committed canonical labels and live on Hugging Face so Colab does not need a chess engine:
   **`https://huggingface.co/datasets/khoilamalphaai/chess-coach-803-eval-prompts`**
   (file `eval803_grounded_prompts.jsonl`, 2409 rows). Rebuild locally any time with
   `python scripts/precompute_grounded_prompts_803.py`.

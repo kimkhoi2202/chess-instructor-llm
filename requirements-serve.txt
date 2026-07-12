@@ -1,0 +1,8 @@
+# Serving deps for the local coach (The Analysis Room / quickstart).
+# The FastAPI backend (src/api/server.py) plus the MLX coach runtime and engine grounding.
+# Apple Silicon: mlx-lm provides the local coach; on the CUDA path swap it for the GPU stack.
+# Stockfish (engine) is installed separately (Homebrew / STOCKFISH_PATH); Maia nets are optional.
+fastapi>=0.111
+uvicorn>=0.30
+mlx-lm>=0.31          # Apple Silicon local coach runtime (mlx_lm)
+python-chess>=1.999

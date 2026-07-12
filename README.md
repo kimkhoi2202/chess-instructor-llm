@@ -3,8 +3,9 @@
 A level-calibrated, engine-grounded chess coach. The SFT base is `chess-coach-32b-v4`, a
 QLoRA fine-tune of Qwen3-32B (base `unsloth/Qwen3-32B-unsloth-bnb-4bit`) and the model behind the
 full reproducible evaluation below; the live demo now serves `chess-coach-32b-v6-dpo2` (0.892 on the
-corrected 120 TEST, a strict no-regression improvement over v4's 0.861), the best-DPO refinement of
-v4. The genuinely small, on-spec model is the 1.7B tune. It is trained to do one thing: given a position and the student's
+corrected 120 TEST, with no move or soundness regression over v4's 0.861: per-tier tier-policy,
+soundness, and distinct all >= v4, format marginally lower at 0.925 vs 0.939, a 256-token-cap prose
+artifact), the best-DPO refinement of v4. The genuinely small, on-spec model is the 1.7B tune. It is trained to do one thing: given a position and the student's
 rating tier (Beginner / Intermediate / Advanced), emit the move that a fixed rule, `select_tier_move`,
 designates as the canonical tier move, tagged with a short principle (for example, "Nf3, develop
 toward the center").
@@ -49,6 +50,7 @@ Stretch and refinement adapters (see the corrected-benchmark results below; v6-d
 - Engine-distilled (no-grounding): [`khoilamalphaai/chess-coach-32b-v6-distill`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill) (tier rule distilled into the weights)
 - Deep-verified v6 labels (dataset): [`khoilamalphaai/chess-coach-v6`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-v6) (corrected canonical/sound labels, deeper Stockfish-17 + Syzygy, behind the v6 stretch results)
 - Stage-4 corrected-benchmark results: [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md); full-field corrected re-score: [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md)
+- Adversarial / robustness (stretch): [`RESULTS_ADVERSARIAL.md`](RESULTS_ADVERSARIAL.md) (54 cases, five attack categories, two tracks). The fine-tune's clear win is injection resistance: raw base broke on 4 of 12 injections, raw and deployed v4 on 0. The deployed coach held 52 of 54 with 0 broke after the one malformed-FEN gap was fixed.
 
 ## Headline result (strict held-out eval)
 
@@ -137,12 +139,13 @@ the time regardless of the stated rating. The canonical failure is serving a 120
 the 3000-Elo engine-best move wrapped in a GM-level line: sound, but not findable and not
 instructive for that student.
 
-Learnability is the point, validated at 1.7B and 4B. Holding the same weights and only swapping the
-system prompt, a fine-tune reaches the policy where an engineered prompt on the base does not, at
-1.7B and 4B; at 1.7B the prompt actually hurt the behavior. Move selection under the rule has to be
-added by data, not prompting. Honesty correction: the matched same-backend 32B prompt control was
-never run, so 32B un-promptability is a falsifiable HYPOTHESIS (future work), not a result. The full
-controlled experiment is in [`BRAINLIFT.md`](BRAINLIFT.md).
+Learnability is the point, validated at 1.7B, 4B, and 32B. Holding the same weights and only swapping
+the system prompt, a fine-tune reaches the policy where an engineered prompt on the base does not; at
+1.7B the prompt actually hurt the behavior. Move selection under the rule has to be added by data, not
+prompting. The matched same-backend 32B prompt control was run: spec-exact-prompted base 0.428 vs
+v4-tuned 0.767 (closing only ~19% of the base-to-tune gap, and extra prompt optimization does not
+help), so 32B un-promptability is a RESULT, not a hypothesis. The full controlled experiment is in
+[`RESULTS_PROMPT_CONTROL.md`](RESULTS_PROMPT_CONTROL.md).
 
 ### Where the canonical move comes from (and why the model is not load-bearing as built)
 

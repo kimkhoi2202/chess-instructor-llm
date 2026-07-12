@@ -59,8 +59,8 @@ advanced (0.975), move-soundness (0.983), distinct-moves (0.987), and names-a-mo
 (0.983) are all **identical** to v4. The one movement against v6-dpo is format
 (0.919 vs 0.939): with named-a-move and soundness identical, this is v6-dpo writing
 marginally longer coaching that occasionally hits the 256-token cap before the
-Takeaway line (16/360 v4 vs 23/360 v6-dpo truncated), not a move or coaching-quality
-regression. So the preference tune SHARPENED the mid-tier moat and held it out of
+Takeaway line (22/360 v4 vs 29/360 v6-dpo truncated, matching format 0.939 vs 0.919),
+not a move or coaching-quality regression. So the preference tune SHARPENED the mid-tier moat and held it out of
 distribution while leaving soundness, differentiation, and the beginner/advanced
 tiers exactly where v4 had them.
 
@@ -69,7 +69,8 @@ tiers exactly where v4 had them.
 **No — the beginner/advanced hard-negatives did not move those tiers; v6-dpo2 is a
 stronger v6-dpo whose gain is again entirely intermediate.** v6-dpo2 (harder,
 tier-targeted preference pairs; checkpoint step 200, selected on `valid_v6` dev with
-the strict no-regression gate, which it missed by exactly 1/150 dev format only) posts
+the no-regression gate of per-tier tier-policy, soundness, and distinct all >= v4,
+which it missed by exactly 1/150 dev format only) posts
 the best OVERALL tier-policy match on the held-out corrected 120 TEST: **0.892 vs v4
 0.861 (+0.0306) and vs v6-dpo 0.881 (+0.0111)**. But that entire lift is the
 **intermediate tier: 0.842 (101/120) vs v4 0.750 (+0.092) and vs v6-dpo 0.808
@@ -82,8 +83,8 @@ unchanged and names-a-move is nominally higher (0.986 vs 0.983, +1/360). Format 
 lands between v4 (0.939) and v6-dpo (0.919): still the longer-coaching-hits-the-256-token
 -cap artifact (27/360 v6-dpo2 vs 22/360 v4 truncated before the Takeaway line), not a
 move or soundness regression. Net: v6-dpo2 sharpens the intermediate moat further than
-v6-dpo at identical beginner/advanced/soundness/differentiation, so it is a clean
-drop-in successor to v6-dpo but does not broaden the gain beyond the mid tier.
+v6-dpo at identical beginner/advanced/soundness/differentiation, so it supersedes
+v6-dpo but does not broaden the gain beyond the mid tier.
 
 ### 2. Distillation: behavior in the weights (base-no-grounding vs distill-no-grounding)
 
@@ -153,35 +154,52 @@ move moat (Q1) without paying for it in coaching instructiveness.
 ## Frontier moat
 
 The tier-appropriate-selection moat over the frontier is established in
-`RESULTS_FULL_EVAL_803.md` (full 803 x 3, all 15 models). Those numbers were
-computed on the pre-correction labels; the deterministic head-to-head above shows
-the label correction lifts absolute grounded tier-policy match while preserving the
-tuned-over-base and tuned-over-frontier ordering, so the "beats-frontier on
-tier-appropriate selection" claim holds on the corrected benchmark. A full 803 x 3
-frontier re-score under corrected labels was not run this stage (cost); the 120 TEST
-result is the headline and the 803 numbers remain the frontier-field reference.
+`RESULTS_FULL_EVAL_803.md` (full 803 x 3, all 15 models, pre-correction labels) and
+confirmed directly on the corrected benchmark by the matched-frontier panel below.
 
-## Recommendation (promote vs keep) — decision for the USER
+The matched-frontier re-score WAS run this stage: the three frontier coaches were
+generated on the SAME 360 grounded prompts (`stage4_eval_inputs.jsonl`) that produced
+v6-dpo2's 0.892, then scored against the corrected v6 labels with the same vendored
+extractor. So OURS and the frontier are compared on identical grounded inputs and
+corrected targets (source: `data/benchmark_gap803/stage4_frontier/scores.json`;
+`docs/VERSION_COMPARISON.md` section 3):
 
-The DPO gain is real but small (+0.0195 overall tier-policy, +0.0583 intermediate)
-with no regression; the distillation result is a research-grade behavior-in-weights
-proof with an honest advanced-tier limit and grounding-free soundness (0.653) below
-the deployable grounded soundness (0.98). Weighed against the churn of re-shipping
-the live coach, reseeding the platform, and re-validating this close to the deadline,
-the recommendation is to **KEEP v4 shipped and present v6-dpo + v6-distill as
-stretch-ladder results** (v6-dpo as the drop-in successor once a shipping window
-opens). This is a product-shipping decision reserved for the USER; nothing live was
-changed by this stage.
+| Model (grounded, corrected v6, 120 held-out TEST) | tier-policy match | B / I / A | move-sound | distinct | names |
+|---|---:|---|---:|---:|---:|
+| OURS-v6-dpo2 | 0.892 (89.2%) | 0.858 / 0.842 / 0.975 | 0.983 | 0.987 | 0.986 |
+| Claude Opus 4.8 | 0.614 (61.4%) | 0.558 / 0.575 / 0.708 | 1.000 | 0.303 | 1.000 |
+| Gemini 3.1 Pro | 0.614 (61.4%) | 0.558 / 0.575 / 0.708 | 1.000 | 0.171 | 1.000 |
+| GPT-5.5 | 0.578 (57.8%) | 0.583 / 0.533 / 0.617 | 1.000 | 0.224 | 1.000 |
 
-Update (this stage): **v6-dpo2 is now the strongest DPO variant** — overall
-tier-policy 0.892 (+0.031 vs v4) with intermediate 0.842 (the deepest mid-tier moat of
-the three) at identical beginner/advanced/soundness/differentiation — and **supersedes
-v6-dpo as the drop-in successor of choice**, with the same honest caveats: the gain is
-confined to the intermediate tier (beginner and advanced are unchanged from v4), and
-format is the only sub-metric marginally below v4 (0.925 vs 0.939, a 256-token-cap
-prose-length artifact, not a move/soundness regression). It is worth QUEUING as the
-shipping successor to v4 for the next shipping window, but does not change the
-KEEP-v4-for-now call this close to the deadline. Nothing live was changed.
+v6-dpo2 leads the best frontier by **+27.8 points** on tier-policy match (0.892 vs
+0.614) on identical grounded prompts. The frontier is 100% sound and 100%
+names-a-move but differentiates tiers on only 17-30% of positions vs 98.7% for OURS,
+which is the leveled-move moat. So the "beats-frontier on tier-appropriate selection"
+claim holds directly on the corrected benchmark, not only on the pre-correction 803
+field. Scope note: this is the matched fresh-grounding 120-TEST panel; do NOT line it
+up against the 803 field table in `RESULTS_FULL_EVAL_803.md` (that field re-scores OLD
+cached frontier generations against corrected labels, a different scope). The 803
+numbers remain the full-field frontier reference.
+
+## Deployment status and stretch-ladder framing
+
+The DPO gain is real but small (+0.0195 overall tier-policy for v6-dpo, +0.0306 for
+v6-dpo2, in both cases entirely from the intermediate tier) with no move or soundness
+regression; the distillation result is a research-grade behavior-in-weights proof with
+an honest advanced-tier limit and grounding-free soundness (0.653) below the deployable
+grounded soundness (0.98).
+
+**v6-dpo2 is the live-served coach on the demo** (Modal app
+`chess-coach-v6dpo2-4bit-maia`, tuned:true), the best-DPO refinement of v4. v4 is the
+SFT base, the model behind the full reproducible evaluation, and the fallback endpoint
+(`chess-coach-v4-4bit-maia`). v6-dpo and v6-distill remain stretch-ladder results.
+
+The honest caveats are unchanged: v6-dpo2's overall tier-policy 0.892 (+0.031 vs v4) is
+confined to the intermediate tier (0.842, the deepest mid-tier moat of the three), while
+beginner (0.858) and advanced (0.975) are byte-identical to v4 and soundness (0.983) and
+distinct-moves (0.987) are unchanged; format is the only sub-metric marginally below v4
+(0.925 vs 0.939, a 256-token-cap prose-length artifact, not a move or soundness
+regression).
 
 ## Artifacts
 

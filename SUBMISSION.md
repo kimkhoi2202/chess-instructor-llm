@@ -4,8 +4,10 @@ Project: Train Your Own Small Learning Model. A level-calibrated chess coach fin
 one preregistered policy, tier-appropriate move selection, end to end (dataset -> model -> platform
 -> eval -> thesis -> demo). The SFT base is v4, a QLoRA fine-tune of Qwen3-32B (base
 `unsloth/Qwen3-32B-unsloth-bnb-4bit`) and the model behind the full reproducible evaluation; the live
-demo now serves v6-dpo2 (0.892 on the corrected 120 TEST, a strict no-regression improvement over
-v4's 0.861), the best-DPO refinement of v4. The genuinely small, on-spec model is the 1.7B tune.
+demo now serves v6-dpo2 (0.892 on the corrected 120 TEST, with no move or soundness regression over
+v4's 0.861: per-tier tier-policy, soundness, and distinct all >= v4, format marginally lower at 0.925
+vs 0.939, a 256-token-cap prose artifact), the best-DPO refinement of v4. The genuinely small, on-spec
+model is the 1.7B tune.
 
 The one trained behavior: given a position and the student's rating tier (Beginner / Intermediate /
 Advanced), emit the move that a fixed rule, `select_tier_move`, designates as the canonical tier
@@ -49,18 +51,25 @@ pedagogy.
 |---|---|---|
 | 1 | Dataset (published on HF Hub) | [`datasets/khoilamalphaai/chess-coach-move-review`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-move-review), default config = v4: the engine-grounded, contrastive multi-tier SFT set built by `positions -> Stockfish -> Maia -> GPT-5.5 (tier-aware) -> hard filter + faithfulness gate` |
 | 2 | Fine-tuned model (published on HF Hub) | [`khoilamalphaai/chess-coach-32b-v4-qlora`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v4-qlora): QLoRA adapter on the 4-bit Qwen3-32B base |
+| 2c | Fine-tuned model, small on-spec (published on HF Hub) | [`khoilamalphaai/qwen3-1.7b-chess-coach-mlx`](https://huggingface.co/khoilamalphaai/qwen3-1.7b-chess-coach-mlx): the 1.7B tune, the learnability headline (tier-policy 0.358 -> 0.578, #2 of 20, above every frontier), MLX-ready for local Apple Silicon |
 | 2b | Running demo | Live Space: [`spaces/khoilamalphaai/chess-coach-studio`](https://huggingface.co/spaces/khoilamalphaai/chess-coach-studio) (https://khoilamalphaai-chess-coach-studio.static.hf.space), now backed by the Modal endpoint `chess-coach-v6dpo2-4bit-maia` serving v6-dpo2 (a verbatim clone of the v4 serving app with only the LoRA adapter swapped; Maia-enabled, scale-to-zero, ~2.5-3 min cold start); the v4 endpoint `chess-coach-v4-4bit-maia` stays deployed as the fallback. Also local: The Analysis Room, `./run_platform.sh` |
 | 3 | Eval harness | `src/eval/` (base-vs-tuned `evaluate.py` · blinded council `benchmark/` · honest gated `honest/`) · `scripts/honest_v4.py` (v4 regression + selection-conditioned head-to-head) · `scripts/grand_eval.py` (20-model leaderboard). Protocol + pass bar: [`docs/EVAL_AND_ITERATE.md`](docs/EVAL_AND_ITERATE.md) |
 | 3b | Base-vs-tuned results | [`RESULTS_HONEST_EVAL_V4.md`](RESULTS_HONEST_EVAL_V4.md) + `data/benchmark_honest/report_v4.json` (strict, deterministic) · [`data/benchmark_grand/GRAND_EVAL_LEADERBOARD.md`](data/benchmark_grand/GRAND_EVAL_LEADERBOARD.md) (20-model field) |
 | 3c | Grand eval (published on HF Hub) | [`datasets/khoilamalphaai/chess-coach-grand-eval`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-grand-eval): all 20 models on the same held-out slice, deterministic tier-policy match + selection-conditioned head-to-head + blinded council with 95% CIs |
 | 3d | Interactive benchmark (live Space) | [`spaces/khoilamalphaai/chess-coach-benchmark`](https://huggingface.co/spaces/khoilamalphaai/chess-coach-benchmark) (https://khoilamalphaai-chess-coach-benchmark.static.hf.space): the corrected-v6 tier-policy leaderboard rendered as a static page (v4 SFT base + v6-dpo2 live, historical v1/v2/v3/v5 labeled superseded) |
 | 4 | BrainLift (behavior thesis + evidence) | [`BRAINLIFT.md`](BRAINLIFT.md): the one-behavior thesis, the 32B training story (v2 -> v3 -> v4 -> v5), DOK-4 spiky POVs, all tied to primary sources or the project's own measurement |
-| 5 | Demo video (3-5 min) | Script + shot list: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md). Runnable demo provided (live Space + `./run_platform.sh`); recording is the user's step |
+| 5 | Demo video (3-5 min) | Video: <link pending>. Script + shot list: [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md). Runnable demo provided (live Space + `./run_platform.sh`); recording is the user's step |
+
+### Stretch deliverables
+
+| # | Deliverable | Artifact: path / URL |
+|---|---|---|
 | 6 | Stretch: preference-tuned adapter (best DPO, now live-served) | [`khoilamalphaai/chess-coach-32b-v6-dpo2`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo2): v4 + stronger tier-targeted DPO (checkpoint step 200); overall tier-policy 0.892 on the corrected 120 TEST, supersedes v6-dpo and is now the live-served model on the demo, the best-DPO refinement of v4 (all the gain is the intermediate tier; beginner/advanced ceilinged) |
 | 6b | Stretch: preference-tuned adapter (earlier DPO) | [`khoilamalphaai/chess-coach-32b-v6-dpo`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo): v4 + DPO on tier-move pairs (sharpens the moat, no regression) |
 | 7 | Stretch: engine-distilled adapter | [`khoilamalphaai/chess-coach-32b-v6-distill`](https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill): the tier rule distilled into the weights, scored no-grounding |
 | 7b | Stretch results (corrected benchmark) | [`RESULTS_STAGE4_CORRECTED.md`](RESULTS_STAGE4_CORRECTED.md): v4 / base / v6-dpo / v6-dpo2 / v6-distill on the deep-verified v6 labels, 120 held-out TEST. Full-field corrected re-score: [`RESULTS_FULL_EVAL_803.md`](RESULTS_FULL_EVAL_803.md) |
 | 7c | Stretch: deep-verified v6 labels (published on HF Hub) | [`datasets/khoilamalphaai/chess-coach-v6`](https://huggingface.co/datasets/khoilamalphaai/chess-coach-v6): the corrected canonical/sound labels (deeper Stockfish-17 + Syzygy) behind the v6 stretch results above |
+| 7d | Stretch: adversarial / robustness | [`RESULTS_ADVERSARIAL.md`](RESULTS_ADVERSARIAL.md): 54 cases across five attack categories, two tracks (deployed endpoint + raw base-vs-v4). Injection resistance is the fine-tune's clear win (raw base broke 4/12, raw and deployed v4 0/12); the deployed coach held 52/54 with 0 broke after the malformed-FEN fix |
 
 ---
 
@@ -79,10 +88,11 @@ extractor). Metric = tier-policy exact match (agreement with `select_tier_move`)
 | best frontier (Gemini 3.1 Pro) | 0.553 | #4 overall, all-scenario |
 
 - Learnability (validated): the fine-tune reproduces the policy where the base cannot, at 1.7B, 4B,
-  and 32B, on identical grounding. At 1.7B and 4B a same-backend engineered-prompt control was run and
-  the tune beats it; at 1.7B the prompt actually hurt cross-tier coherence.
-- Un-promptability at 32B is a FALSIFIABLE HYPOTHESIS, not a result: the matched same-backend 32B
-  prompt control was never run. It is listed as future work.
+  and 32B, on identical grounding. A same-backend engineered-prompt control was run at 1.7B, 4B, and
+  32B and the tune beats it; at 1.7B the prompt actually hurt cross-tier coherence.
+- Un-promptability at 32B is a RESULT, not a hypothesis: the matched same-backend 32B prompt control
+  was run (spec-exact-prompted base 0.428 vs v4-tuned 0.767, closing only ~19% of the base-to-tune
+  gap; extra prompt optimization does not help). Source: [`RESULTS_PROMPT_CONTROL.md`](RESULTS_PROMPT_CONTROL.md).
 - All-scenario lead (the primary unbiased number): across all 120 x 3 scenarios, v4 tier-policy match
   0.767 vs the best frontier 0.553 (Gemini, #4). The tuned checkpoints take 4 of the top 5. (v4
   distinct-moves-per-level 0.730 = 73/100 canonical beginner!=advanced opportunities.)
