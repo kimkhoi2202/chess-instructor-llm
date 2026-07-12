@@ -1,88 +1,46 @@
-"""Assemble the Space's index.html from the template + real data.
+"""Build the Chess-Coach Benchmark Space's index.html from the template.
 
-- ``DATA`` (the v1/v2 comparison blob) is reused **verbatim** from the currently
-  deployed index.html (it is correct + curated), extracted once into
-  ``data_blob.json`` so the build is reproducible from the repo afterwards.
-- ``TIERDIFF`` is the divergence-harness differentiation (verified against
-  ``data/analysis/divergence_compare_v2.json``).
-- ``HEADTOHEAD`` is the real same-input faithfulness slice built by
-  ``scripts/build_headtohead.py``.
+The page is a fully STATIC, self-contained dashboard: every number is embedded
+verbatim from the committed corrected-benchmark docs (``RESULTS_STAGE4_CORRECTED.md``
+for the current v4 / v6-dpo / v6-dpo2 lineup on the 120 held-out TEST, and
+``RESULTS_FULL_EVAL_803.md`` for the 803-position, 15-model field moat). There is no
+runtime data injection, so "assembling" is a validate-and-copy: it guards against
+leftover ``__PLACEHOLDER__`` tokens and writes the built file out.
 
 Usage:
-    python scripts/space/assemble.py --headtohead data/benchmark_v2/headtohead.json \
-        --out /tmp/space/index.html [--old-index /tmp/space/index.html]
+    python scripts/space/assemble.py [--out /tmp/space_bench/index.html]
 """
 
 from __future__ import annotations
 
 import argparse
-import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parent.parent
 TEMPLATE = HERE / "index.template.html"
-DATA_BLOB = HERE / "data_blob.json"
-TIERDIFF = {"v1": 0.275, "v2": 0.392}  # divergence_compare_v2.json (120 matched)
-# Blunder-only re-score ("Move safety — no blunders", cp-loss >= 250), produced by
-# scripts/rescore_move_safety.py from the stored picks + Stockfish evals.
-SAFETY = {
-    "v2": REPO / "data" / "benchmark_v2" / "move_safety.json",
-    "v1": REPO / "data" / "benchmark_v1" / "move_safety.json",
-}
+DEFAULT_OUT = Path("/tmp/space_bench/index.html")
+
+# any run of >=2 leading/trailing underscores around CAPS is a build placeholder
+_PLACEHOLDER = re.compile(r"__[A-Z0-9_]+__")
 
 
-def inject_move_safety(data: dict) -> None:
-    """Layer the re-scored ``move_safe`` metric onto each version's objective."""
-    for ver, path in SAFETY.items():
-        if ver in data and path.exists():
-            data[ver]["objective"]["move_safe"] = json.loads(
-                path.read_text(encoding="utf-8")
-            )["move_safe"]
-            print(f"[assemble] injected move_safe ({ver}) from {path}")
-
-
-def extract_data_blob(old_index: Path) -> dict:
-    text = old_index.read_text(encoding="utf-8")
-    marker = "const DATA = "
-    i = text.index(marker) + len(marker)
-    j = text.index(";", i)
-    return json.loads(text[i:j])
+def build(out: Path) -> Path:
+    html = TEMPLATE.read_text(encoding="utf-8")
+    leftover = sorted(set(_PLACEHOLDER.findall(html)))
+    if leftover:
+        raise SystemExit(f"template still has unsubstituted placeholders: {leftover}")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(html, encoding="utf-8")
+    print(f"[assemble] wrote {out} ({len(html):,} bytes)")
+    return out
 
 
 def main() -> int:
-    p = argparse.ArgumentParser()
-    p.add_argument("--headtohead", required=True)
-    p.add_argument("--out", required=True)
-    p.add_argument("--old-index", help="deployed index.html to extract the DATA blob from (first run)")
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--out", default=str(DEFAULT_OUT), help="output index.html path")
     args = p.parse_args()
-
-    if args.old_index:
-        data = extract_data_blob(Path(args.old_index))
-        DATA_BLOB.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
-        print(f"[assemble] extracted DATA blob → {DATA_BLOB}")
-    elif DATA_BLOB.exists():
-        data = json.loads(DATA_BLOB.read_text(encoding="utf-8"))
-        print(f"[assemble] reused DATA blob from {DATA_BLOB}")
-    else:
-        raise SystemExit("no --old-index and no data_blob.json; provide --old-index once")
-
-    inject_move_safety(data)
-
-    headtohead = json.loads(Path(args.headtohead).read_text(encoding="utf-8"))
-    tpl = TEMPLATE.read_text(encoding="utf-8")
-    html = (
-        tpl.replace("__DATA__", json.dumps(data, ensure_ascii=False))
-        .replace("__TIERDIFF__", json.dumps(TIERDIFF))
-        .replace("__HEADTOHEAD__", json.dumps(headtohead, ensure_ascii=False))
-    )
-    for ph in ("__DATA__", "__TIERDIFF__", "__HEADTOHEAD__"):
-        assert ph not in html, f"placeholder {ph} not substituted"
-
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(html, encoding="utf-8")
-    print(f"[assemble] wrote {out} · {len(html):,} bytes · headtohead positions={len(headtohead)}")
+    build(Path(args.out))
     return 0
 
 

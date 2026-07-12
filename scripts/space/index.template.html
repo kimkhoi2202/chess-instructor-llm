@@ -2,20 +2,20 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chess-Coach Benchmark: definitive 803-position, 14-model eval (plus earlier 100-position run)</title>
+<title>Chess-Coach Benchmark: tier-appropriate move selection (corrected v6)</title>
+<meta name="description" content="Honest eval of a Qwen3-32B QLoRA chess coach. OURS leads tier-appropriate move selection; the frontier leads prose; best open model is GLM-5. v4 is the SFT base and full-eval model; v6-dpo2 is live.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Merriweather:wght@400;700;900&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* THE TOURNAMENT HALL: drenched felt-green surface, one warm brass signal for the
-   recommended/OURS accent, cream ink. All OKLCH; never flat #000/#fff. */
+/* THE TOURNAMENT HALL: a drenched felt-green surface, one warm brass signal for the
+   OURS accent, cream ink. All OKLCH; never flat #000/#fff. */
 :root{
   --bg:oklch(0.28 0.045 155); --panel:oklch(0.32 0.04 155); --panel2:oklch(0.35 0.04 155);
   --line:oklch(0.40 0.04 155); --line2:oklch(0.44 0.04 155);
   --ink:oklch(0.93 0.02 90); --muted:oklch(0.78 0.02 90); --dim:oklch(0.60 0.02 90);
   --accent:oklch(0.735 0.09 236); --good:oklch(0.742 0.115 158); --warn:oklch(0.808 0.12 78);
-  --bad:oklch(0.64 0.17 25); --ours:oklch(0.78 0.13 85); --ours-ink:oklch(0.24 0.03 85);
-  --chip:oklch(0.35 0.04 155);
+  --bad:oklch(0.64 0.17 25); --ours:oklch(0.78 0.13 85); --chip:oklch(0.35 0.04 155);
   --font-ui:Archivo,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --font-mono:"Spline Sans Mono",ui-monospace,Menlo,monospace;
   --font-serif:Merriweather,Georgia,serif;
@@ -23,733 +23,259 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font:15px/1.55 var(--font-ui);
-  -webkit-font-smoothing:antialiased;
-}
-.wrap{max-width:1080px;margin-inline:auto;padding:32px 22px 72px}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--font-ui);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin-inline:auto;padding:40px 22px 80px}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
-.label{font-size:12.5px;color:var(--muted);font-weight:650}
-h1{font-size:30px;line-height:1.15;margin:8px 0 6px;font-weight:750;letter-spacing:-.02em}
-h1 .sub{color:var(--muted);font-weight:600}
-.framing{font-size:16.5px;color:var(--ink);font-weight:650;max-width:80ch;margin:6px 0 10px;letter-spacing:-.01em}
-.framing b{color:var(--ours)}
+.label{font-size:12.5px;color:var(--muted);font-weight:650;letter-spacing:.01em}
+h1{font-size:33px;line-height:1.12;margin:6px 0 10px;font-weight:780;letter-spacing:-.022em}
+.framing{font-size:17px;line-height:1.5;color:var(--ink);font-weight:600;max-width:70ch;margin:6px 0 12px;letter-spacing:-.005em}
+.framing b{color:var(--ours);font-weight:750}
 .framing b.ts{color:var(--good)}
-.lede{color:var(--muted);font-size:15px;max-width:82ch;margin:0 0 18px}
-.pill{display:inline-block;padding:3px 10px;border:1px solid var(--line2);border-radius:999px;background:var(--chip);color:var(--muted);font-size:12.5px;margin:0 6px 6px 0}
+.lede{color:var(--muted);font-size:15px;max-width:74ch;margin:0 0 18px}
+.lede b{color:var(--ink);font-weight:650}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.pill{display:inline-block;padding:4px 11px;border:1px solid var(--line2);border-radius:999px;background:var(--chip);color:var(--muted);font-size:12.5px}
 .pill b{color:var(--ink)}
-.pill.cur{border-color:rgba(51,194,127,.5);background:rgba(51,194,127,.12);color:#a7e9c9}
-.controls{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:14px 0 2px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-.controls .lbl{font-size:12px;color:var(--muted);font-weight:600;margin-right:2px}
-h2{font-size:20px;margin:38px 0 4px;letter-spacing:-.01em}
-h2 .sub{color:var(--muted);font-weight:600;font-size:15px}
-h3{font-size:14.5px;margin:0 0 4px;font-weight:650}
-.hint{color:var(--muted);font-size:13.5px;margin:0 0 14px}
-/* hero-metric KPI grid removed; the summary numbers now live in native tables */
-.summary td.num{font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
-.summary td.num.good{color:var(--good)} .summary td.num.bad{color:var(--bad)}
-.summary td.num.accent{color:var(--accent)} .summary td.num.ours{color:var(--ours);font-weight:700} .summary td.num.warn{color:var(--warn)}
-.arrow{color:var(--dim);font-weight:600}
-.toggle{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;margin:2px 0}
-.toggle button{background:transparent;color:var(--muted);border:0;padding:7px 14px;font:inherit;font-size:13.5px;cursor:pointer}
-.toggle button.on{background:var(--accent);color:#08101f;font-weight:650}
-.toggle.ver button.on{background:var(--ours);color:#0a0713}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 4px;overflow-x:auto}
-/* headline hero: the moat */
-.hero{border:1px solid rgba(212,165,74,.55);background:rgba(212,165,74,.06);border-radius:16px;padding:16px 18px 20px;margin:14px 0 6px}
-.hero-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:2px}
-.hero h2{margin:6px 0 4px}
-.stakes-band{display:inline-block;font-size:12.5px;font-weight:700;color:#7be3b1;background:rgba(51,194,127,.1);border:1px solid rgba(51,194,127,.32);border-radius:8px;padding:3px 10px;margin-bottom:2px}
+.pill.ours{border-color:rgba(212,165,74,.5);background:rgba(212,165,74,.12);color:#e8cf9a}
+.pill.good{border-color:rgba(51,194,127,.45);background:rgba(51,194,127,.12);color:#a7e9c9}
+section{margin-top:44px}
+h2{font-size:21px;margin:0 0 3px;letter-spacing:-.012em;font-weight:720}
+h2 .sub{display:block;color:var(--muted);font-weight:500;font-size:13.5px;letter-spacing:0;margin-top:3px}
+.hint{color:var(--muted);font-size:13.5px;max-width:88ch;margin:8px 0 14px}
+.hint code{font-family:var(--font-mono);font-size:12.5px;color:var(--ink)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow-x:auto}
+.panel.pad{padding:16px 18px}
+/* native tables for every leaderboard / matrix */
 table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{padding:9px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+th,td{padding:9px 13px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
-thead th{color:var(--muted);font-weight:600;font-size:12.5px;border-bottom:1px solid var(--line2)}
+thead th{color:var(--muted);font-weight:600;font-size:12px;border-bottom:1px solid var(--line2)}
 tbody tr:last-child td{border-bottom:0}
-tr.ours td{background:rgba(212,165,74,.12)}
-tr.good td{background:rgba(51,194,127,.07)}
+tr.ours td{background:rgba(212,165,74,.1)}
+tr.total td{border-top:1px solid var(--line2);font-weight:650}
+.num{font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
+td.ours-v{color:var(--ours);font-weight:700}
+td.g{color:var(--good)} td.b{color:var(--bad)} .mut{color:var(--muted)}
 .mname{font-weight:600}
-.mtag{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:5px;margin-left:7px;vertical-align:1px}
-.mtag.ours{background:rgba(212,165,74,.18);color:#e8cf9a}
-.mtag.local{background:rgba(51,194,127,.16);color:#7be3b1}
-.mtag.frontier{background:rgba(110,168,254,.15);color:#a9cbff}
-.mtag.open{background:rgba(110,168,254,.12);color:#9fc0f5}
-.mtag.base{background:rgba(154,164,184,.16);color:#c2cadb}
-.g{color:var(--good)} .b{color:var(--bad)} .w{color:var(--warn)} .mut{color:var(--muted)}
-.bars{display:grid;gap:9px;margin-top:6px}
-.barrow{display:grid;grid-template-columns:200px 1fr 96px;align-items:center;gap:12px}
-.barrow .nm{font-size:13.5px}
-.track{background:var(--panel2);border:1px solid var(--line);border-radius:8px;height:22px;position:relative;overflow:hidden}
-.fill{height:100%;border-radius:7px;background:var(--accent)}
+.san{font-family:var(--font-serif)}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:5px;margin-left:7px;vertical-align:1px}
+.tag.ours{background:rgba(212,165,74,.18);color:#e8cf9a}
+.tag.live{background:rgba(51,194,127,.18);color:#7be3b1}
+.tag.frontier{background:rgba(110,168,254,.16);color:#a9cbff}
+.tag.open{background:rgba(110,168,254,.1);color:#9fc0f5}
+.tag.base{background:rgba(154,164,184,.18);color:#c8cfdd}
+.tag.hist{background:transparent;border:1px solid var(--line2);color:var(--muted);font-weight:600}
+/* horizontal bars: OURS fill in brass, everyone else in a calm slate */
+.bars{display:grid;gap:9px}
+.barrow{display:grid;grid-template-columns:230px 1fr 62px;align-items:center;gap:14px}
+.barrow .nm{font-size:13px}
+.track{background:var(--panel2);border:1px solid var(--line);border-radius:7px;height:22px;overflow:hidden}
+.fill{height:100%;border-radius:6px 3px 3px 6px;background:var(--dim);transform-origin:left}
 .fill.ours{background:var(--ours)}
-.barrow .val{font-size:13px;text-align:right;font-weight:650;color:var(--muted)}
-.barrow .val.g{color:var(--good)} .barrow .val.b{color:var(--bad)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:820px){.two{grid-template-columns:1fr}.barrow{grid-template-columns:120px 1fr 80px}}
-.note{color:var(--muted);font-size:13px;margin-top:10px}
-.callout{border-radius:13px;padding:14px 16px;margin:16px 0;border:1px solid var(--line2);background:var(--panel)}
-.callout .ct{font-weight:700;color:#fff;margin-bottom:5px;font-size:14.5px}
-.callout.info{border-color:rgba(110,168,254,.4);background:rgba(110,168,254,.07)}
+.barrow .val{font-size:13px;text-align:right;font-weight:650;color:var(--muted);font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
+.barrow .val.g{color:var(--good)}
+.callout{border-radius:13px;padding:14px 16px;margin:16px 0 0;border:1px solid var(--line2);background:var(--panel)}
+.callout .ct{font-weight:700;margin-bottom:4px;font-size:14px}
+.callout p{margin:0;color:var(--muted);font-size:13.6px;line-height:1.55;max-width:92ch}
+.callout p b{color:var(--ink)}
 .callout.good{border-color:rgba(51,194,127,.4);background:rgba(51,194,127,.08)}
-.callout.warn{border-color:rgba(242,176,74,.4);background:rgba(242,176,74,.07)}
-.callout p{margin:0;color:#cfd6e6;font-size:13.8px}
-.callout b{color:#fff}
-.legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:6px 0 2px;font-size:13px;color:var(--muted)}
+.callout.good .ct{color:#a7e9c9}
+.callout.info{border-color:rgba(110,168,254,.4);background:rgba(110,168,254,.07)}
+.callout.info .ct{color:#a9cbff}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 2px 0;font-size:12.5px;color:var(--muted)}
 .legend .it{display:flex;align-items:center;gap:7px}
-.legend .sw{width:13px;height:13px;border-radius:3px;flex-shrink:0}
-.legend .dot{width:9px;height:9px;border-radius:99px;flex-shrink:0}
-/* head-to-head */
-.hh-nav{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
-.hh-nav a{font-size:12px;padding:4px 9px;border:1px solid var(--line2);border-radius:8px;background:var(--chip);color:var(--muted)}
-.hh-nav a:hover{border-color:var(--accent);text-decoration:none;color:var(--ink)}
-.hh-item{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px;margin:14px 0}
-.hh-head{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:12px}
-.chip{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:7px;padding:2px 9px;margin:0;color:var(--ink);font-size:12.5px}
-.chip.tier{text-transform:capitalize;border-color:var(--line2)}
-.chip.mv{background:rgba(212,165,74,.14);border-color:rgba(212,165,74,.4);color:#e8cf9a}
-.chip.mv b,.hh-rec b{font-family:var(--font-serif)}
-.hh-facts{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:12px}
-@media(max-width:640px){.hh-facts{grid-template-columns:1fr}}
-pre.board{font:12.5px/1.3 var(--font-mono);background:oklch(0.24 0.04 155);border:1px solid var(--line);color:var(--ink);padding:10px 12px;border-radius:9px;display:inline-block;margin:0}
-.hh-fsum{font-size:13.5px;color:#dbe1ee}
-.hh-fsum .k{color:var(--good);font-weight:700}
-.hh-facts details{margin-top:9px}
-.hh-facts summary{cursor:pointer;color:var(--accent);font-size:12.5px}
-pre.facts{font:12px/1.4 var(--font-mono);white-space:pre-wrap;background:oklch(0.24 0.04 155);border:1px solid var(--line);color:var(--muted);padding:10px 12px;border-radius:9px;margin:8px 0 0}
-.hh-models{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-@media(max-width:760px){.hh-models{grid-template-columns:1fr}}
-.hh-model{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:var(--panel2)}
-.hh-model.ours{grid-column:1 / -1;border-color:rgba(212,165,74,.5);background:rgba(212,165,74,.06)}
-.hh-model.frontier{border-color:rgba(110,168,254,.28)}
-.hh-mh{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:6px}
-.hh-mh .mname{font-size:13.5px}
-.hh-rec{font-size:11.5px;color:var(--muted);margin-left:auto}
-.hh-badge{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px}
-.hh-badge.faithful{background:rgba(51,194,127,.16);color:#7be3b1}
-.hh-badge.fab{background:rgba(242,104,95,.16);color:#f4a29c}
-.hh-txt{color:#dbe1ee;font-size:13.5px;line-height:1.5}
-mark.false{background:rgba(242,104,95,.26);color:#ffd9d5;border-bottom:2px solid var(--bad);border-radius:2px;padding:0 2px}
-.hh-flag{margin-top:8px;font-size:12.5px;color:#f4cd8c;background:rgba(242,176,74,.09);border:1px solid rgba(242,176,74,.32);border-radius:8px;padding:7px 10px}
-.hh-flag b{color:#ffdd9e}
-/* viewer */
-.viewer{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
-.vbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
-.vbar button{background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:9px;padding:7px 13px;font:inherit;font-size:13.5px;cursor:pointer}
-.vbar button:hover{border-color:var(--accent)}
-.vbar .prog{color:var(--muted);font-size:13px}
-.vbar select{background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:9px;padding:6px 10px;font:inherit;font-size:13px}
-.vmeta{color:var(--muted);font-size:13px;margin-bottom:10px}
-.vmeta .chip{margin:0 6px 6px 0}
-.resp{border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin:10px 0;background:var(--panel2)}
-.resp .rh{display:flex;align-items:center;gap:9px;margin-bottom:5px}
-.resp .lab{font-weight:750;font-size:13px;width:20px;height:20px;display:inline-grid;place-items:center;background:var(--chip);border:1px solid var(--line2);border-radius:6px}
-.resp .who{font-size:12px;font-weight:700;padding:1px 7px;border-radius:6px;display:none}
-.resp.revealed .who{display:inline-block}
-.resp .txt{color:#dbe1ee;font-size:14px;white-space:pre-wrap}
-.badge{font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px;display:none}
-.resp.revealed .badge{display:inline-block}
-.badge.snd{background:rgba(51,194,127,.16);color:#7be3b1}
-.badge.uns{background:rgba(242,104,95,.16);color:#f4a29c}
-.badge.fab{background:rgba(242,176,74,.16);color:#f4cd8c}
-.footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.legend .sw{width:22px;height:10px;border-radius:3px;flex-shrink:0}
+.footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.6}
 .footer a{color:var(--accent)}
-.warnbox{background:rgba(242,176,74,.08);border:1px solid rgba(242,176,74,.35);border-radius:10px;padding:11px 13px;color:#f4cd8c;font-size:13.5px}
+.footer .fl{margin:0 0 8px}
+@media(max-width:720px){
+  .wrap{padding:28px 16px 64px}
+  h1{font-size:27px}
+  .barrow{grid-template-columns:130px 1fr 52px;gap:10px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .reveal{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
 </style>
 </head>
 <body><div class="wrap">
 
+<header class="reveal">
 <div class="label">Evaluation dashboard</div>
-<h1>Chess-Coach Benchmark <span class="sub">· OURS-v2 vs frontier</span></h1>
-<p class="framing">We optimize for <b>tier-appropriate move selection</b>; safety, no-jargon, and faithfulness are <b class="ts">table-stakes</b> (faithfulness is verifier-guaranteed).</p>
-<p class="lede">A 1.7B <b>on-device</b> chess-coaching fine-tune benchmarked head-to-head against GPT-5.5, Claude Opus 4.8, and Gemini 3.1 Pro on <b>100 held-out positions</b>, in two conditions (with / without engine grounding), scored by <b>deterministic</b> objective verifiers <b>and</b> a blinded cross-family LLM council. <b>v2 is the current shipped model</b>; v1 is the matched baseline (same 100 positions). Every model saw the byte-identical grounded input. <b>The definitive comparison (803 held-out positions across 14 models) is right below;</b> this 100-position head-to-head is retained as the earlier run.</p>
-<div>
-  <span class="pill cur"><b>803</b> held-out positions</span>
-  <span class="pill"><b>14</b> models &times; <b>3</b> tiers</span>
-  <span class="pill"><b>OURS-v2</b> leads the moat</span>
-  <span class="pill"><b>$65.45</b> total eval spend</span>
+<h1>Chess-Coach Benchmark</h1>
+<p class="framing">We optimize for one thing: <b>tier-appropriate move selection</b> (the moat). Safety, no-jargon, and faithfulness are <b class="ts">table-stakes</b> floors every competent coach clears. Faithfulness is guaranteed at inference by a deterministic verify-and-regenerate gate, so verifier-detectable fabrication is <b class="ts">0 for every model</b>.</p>
+<p class="lede">OURS is a <b>Qwen3-32B QLoRA</b> chess coach grounded by Stockfish, Maia, and a truthfulness verifier. <b>v4</b> is our SFT base: the model behind the full reproducible evaluation and the starting point for the DPO refinements. <b>v6-dpo2</b> is the live-served best-DPO refinement of v4. All figures are the corrected v6 benchmark, verbatim from <code>RESULTS_STAGE4_CORRECTED.md</code> and <code>RESULTS_FULL_EVAL_803.md</code>.</p>
+<div class="pills">
+  <span class="pill ours"><b>OURS</b> leads the moat</span>
+  <span class="pill">Frontier leads prose</span>
+  <span class="pill">Best open: <b>GLM-5</b></span>
+  <span class="pill good">Faithfulness gated to <b>0</b></span>
+  <span class="pill">Corrected v6 labels</span>
 </div>
+</header>
 
+<!-- ============ 1. CURRENT LINEUP (LEAD) ============ -->
+<section class="reveal">
+<h2>Current lineup on the corrected benchmark<span class="sub">120 held-out TEST positions across 3 tiers, fresh grounding, one controlled session</span></h2>
+<p class="hint">Corrected v6 labels (canonical and engine-best moves re-derived under deep Stockfish-17 search plus Syzygy). The base Qwen3-32B is loaded once, adapters are swapped, every condition uses the same greedy decode, and scoring is deterministic with the vendored move extractor. <b>tier-policy match</b> = agreement with the preregistered canonical tier move (beginner: most human-findable sound move; intermediate: eval and Maia blend; advanced: sharpest).</p>
 
-<!-- ==================== DEFINITIVE 803-POSITION / 14-MODEL EVAL ==================== -->
-<section id="def803" style="margin-top:20px">
-<div class="hero" style="border-color:rgba(51,194,127,.5);background:rgba(51,194,127,.07)">
-  <div class="hero-top">
-    <span class="stakes-band">Definitive eval · authoritative comparison</span>
-    <span class="pill cur" style="margin:0"><b>803</b> held-out positions</span>
-    <span class="pill" style="margin:0"><b>14</b> models &times; <b>3</b> tiers</span>
-    <span class="pill" style="margin:0">zero train/valid leakage</span>
-  </div>
-  <h2 style="font-size:24px;margin:8px 0 4px">Definitive eval: 803 held-out positions, 14 models</h2>
-  <p class="framing" style="max-width:90ch">OURS-v2 <b class="ts">leads tier-appropriate move selection</b> (~50–53%, <b>the moat</b>) across the entire field, but its <b>raw</b> balanced score is mid-pack, dragged down by raw fabrication (<b class="ts">verifier-fixed to 0% in deployment</b>) and instructiveness. Best open coach = <b style="color:#a9cbff">GLM-5</b> (too big to run local); best v3 base = <b class="ts">Qwen3-32B ≈ Gemma-3-27B</b>.</p>
-  <div class="panel"><table class="summary">
-    <tbody>
-      <tr><th>OURS-v2 tier-fit, the moat <span class="mut">field-leading, 803&times;3 tiers</span></th><td class="num ours">53%</td></tr>
-      <tr><th>Best OPEN coach, balanced <span class="mut">strongest open, too big for local</span></th><td class="num accent">GLM-5 · 55.3</td></tr>
-      <tr><th>Best v3 BASE, local + fine-tunable <span class="mut">&asymp; Gemma-3-27B 72.2 (tie)</span></th><td class="num good">Qwen3-32B · 72.6</td></tr>
-      <tr><th>Definitive-eval spend <span class="mut">local rows free</span></th><td class="num">$65.45</td></tr>
-    </tbody>
-  </table></div>
-  <p class="hint" style="margin-top:10px">Every model coaches the <b>same</b> 803 positions at all 3 tiers with byte-identical grounding (sound-move pool + Maia block). Deterministic metrics on all 803&times;3 for the 2 local + 9 open models; the 3 frontier references on a balanced 150-position stratified subset. Instructiveness = one blinded cross-family council (GPT-5.5 + Claude Opus 4.8 + Gemini 3.1 Pro) over a stratified 120-item slice.</p>
+<div class="panel pad reveal">
+<div class="bars">
+  <div class="barrow"><div class="nm">BASE (Qwen3-32B untuned) <span class="tag base">base</span></div><div class="track"><div class="fill" style="width:42.8%"></div></div><div class="val">42.8%</div></div>
+  <div class="barrow"><div class="nm">OURS-v4 (SFT base, full eval) <span class="tag ours">OURS</span></div><div class="track"><div class="fill ours" style="width:86.1%"></div></div><div class="val g">86.1%</div></div>
+  <div class="barrow"><div class="nm">OURS-v6-dpo <span class="tag ours">OURS</span></div><div class="track"><div class="fill ours" style="width:88.1%"></div></div><div class="val g">88.1%</div></div>
+  <div class="barrow"><div class="nm">OURS-v6-dpo2 (live) <span class="tag live">live</span></div><div class="track"><div class="fill ours" style="width:89.2%"></div></div><div class="val g">89.2%</div></div>
 </div>
-
-<div class="callout warn">
-  <div class="ct">How to read the balanced score, honestly</div>
-  <p>The moat we fine-tune IN (<b class="g">tier-appropriate move selection</b>) is where OURS-v2 leads the whole field (53% tier-fit). Its <b>raw</b> balanced rank is mid-pack because (1) <b>raw</b> fabrication is 30%, but the deployed <b>verify-and-regenerate</b> gate drives user-visible fabrication to <b class="g">&approx;0%</b>, so it is table-stakes here and down-weighted; and (2) a 1.7B model is simply less instructive than giants. The balanced winner (GLM-5) and the pragmatic base pick (Qwen3-32B) <b>differ</b>: tier-appropriateness is what we ADD by fine-tuning, while capacity + faithfulness + local-runnability are what a base must bring.</p>
-</div>
-
-<h3 style="margin:22px 0 2px">Tier-appropriate move selection: the moat <span class="mut" style="font-weight:400">(tier-fit mean, all 14 · higher better)</span></h3>
-<p class="hint" style="margin:2px 0 8px">Share of (position, tier) where the coach's pick equals the canonical <code>select_tier_move</code> move (beginner = most human-findable sound move, advanced = sharpest). This is the trained behavior: weak field-wide, led by OURS-v2.</p>
-<div class="panel" style="padding:16px"><div class="bars">
-<div class="barrow"><div class="nm">OURS-v2 (Qwen3-1.7B tuned) <span class="mtag ours">OURS · on-device</span></div><div class="track"><div class="fill ours" style="width:100.0%"></div></div><div class="val g">53%</div></div>
-<div class="barrow"><div class="nm">Gemini 3.1 Pro <span class="mtag frontier">frontier</span></div><div class="track"><div class="fill" style="width:91.2%"></div></div><div class="val ">48%</div></div>
-<div class="barrow"><div class="nm">Claude Opus 4.8 <span class="mtag frontier">frontier</span></div><div class="track"><div class="fill" style="width:86.2%"></div></div><div class="val ">46%</div></div>
-<div class="barrow"><div class="nm">GLM-5 <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:84.2%"></div></div><div class="val ">45%</div></div>
-<div class="barrow"><div class="nm">DeepSeek-R1 <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:82.8%"></div></div><div class="val ">44%</div></div>
-<div class="barrow"><div class="nm">GPT-5.5 <span class="mtag frontier">frontier</span></div><div class="track"><div class="fill" style="width:81.2%"></div></div><div class="val ">43%</div></div>
-<div class="barrow"><div class="nm">DeepSeek-V3.2 <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:77.2%"></div></div><div class="val ">41%</div></div>
-<div class="barrow"><div class="nm">Llama-3.3-70B <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:74.5%"></div></div><div class="val ">40%</div></div>
-<div class="barrow"><div class="nm">Qwen3-32B <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:69.4%"></div></div><div class="val ">37%</div></div>
-<div class="barrow"><div class="nm">Mistral-Large-3 (675B) <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:69.2%"></div></div><div class="val ">37%</div></div>
-<div class="barrow"><div class="nm">BASE (Qwen3-1.7B untuned) <span class="mtag base">base</span></div><div class="track"><div class="fill" style="width:68.7%"></div></div><div class="val ">36%</div></div>
-<div class="barrow"><div class="nm">Kimi-K2.5 <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:68.1%"></div></div><div class="val ">36%</div></div>
-<div class="barrow"><div class="nm">Gemma-3-27B-it <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:65.4%"></div></div><div class="val ">35%</div></div>
-<div class="barrow"><div class="nm">Qwen3-Next-80B-A3B <span class="mtag open">open</span></div><div class="track"><div class="fill" style="width:60.0%"></div></div><div class="val b">32%</div></div>
-</div></div>
-
-<h3 style="margin:26px 0 2px">Balanced leaderboard <span class="mut" style="font-weight:400">· weighted score (higher better)</span></h3>
-<p class="hint" style="margin:2px 0 10px">tier-appropriate move selection <b>40%</b> + instructiveness <b>40%</b> + faithfulness (1&minus;fab) <b>10%</b> + practical (local+cost) <b>10%</b>, each normalized 0–1. Safety &amp; no-jargon are pass/fail <b>gates</b>. Score = weighted mean &times; 100.</p>
-<div class="panel"><table>
-<thead><tr><th>#</th><th>Model</th><th>tier (.40)</th><th>instr (.40)</th><th>1&minus;fab (.10)</th><th>practical (.10)</th><th>balanced</th><th>gate</th></tr></thead>
-<tbody>
-<tr class=""><td class="mut">1</td><td class="mname">GPT-5.5 <span class="mtag frontier">frontier</span><span class="mtag" style="background:rgba(51,194,127,.12);color:#7be3b1">best overall</span></td><td>39.9</td><td>83.0</td><td>96.7</td><td>35.0</td><td><b>62.3</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">2</td><td class="mname">Gemini 3.1 Pro <span class="mtag frontier">frontier</span></td><td>42.3</td><td>69.6</td><td>95.8</td><td>35.0</td><td><b>57.8</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">3</td><td class="mname">Claude Opus 4.8 <span class="mtag frontier">frontier</span></td><td>42.3</td><td>74.8</td><td>95.3</td><td>0.0</td><td><b>56.4</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">4</td><td class="mname">GLM-5 <span class="mtag open">open</span><span class="mtag" style="background:rgba(110,168,254,.18);color:#a9cbff">best open</span></td><td>44.4</td><td>60.8</td><td>92.7</td><td>39.1</td><td><b>55.3</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">5</td><td class="mname">Qwen3-32B <span class="mtag open">open</span><span class="mtag" style="background:rgba(51,194,127,.16);color:#7be3b1">best v3 base</span></td><td>43.3</td><td>41.7</td><td>93.9</td><td>99.7</td><td><b>53.4</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">6</td><td class="mname">Kimi-K2.5 <span class="mtag open">open</span></td><td>44.4</td><td>55.9</td><td>91.7</td><td>38.6</td><td><b>53.2</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">7</td><td class="mname">DeepSeek-R1 <span class="mtag open">open</span></td><td>44.5</td><td>50.3</td><td>98.0</td><td>37.0</td><td><b>51.4</b></td><td><span class="g">pass</span></td></tr>
-<tr class="ours"><td class="mut">8</td><td class="mname">OURS-v2 (Qwen3-1.7B tuned) <span class="mtag ours">OURS · on-device</span></td><td>50.3</td><td>35.7</td><td>69.8</td><td>100.0</td><td><b>51.4</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">9</td><td class="mname">Llama-3.3-70B <span class="mtag open">open</span></td><td>37.9</td><td>46.0</td><td>99.7</td><td>75.4</td><td><b>51.1</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">10</td><td class="mname">Gemma-3-27B-it <span class="mtag open">open</span></td><td>35.1</td><td>40.9</td><td>97.5</td><td>99.8</td><td><b>50.1</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">11</td><td class="mname">DeepSeek-V3.2 <span class="mtag open">open</span></td><td>43.8</td><td>46.9</td><td>94.9</td><td>39.6</td><td><b>49.7</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">12</td><td class="mname">Qwen3-Next-80B-A3B <span class="mtag open">open</span></td><td>35.9</td><td>45.8</td><td>92.9</td><td>75.6</td><td><b>49.5</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">13</td><td class="mname">Mistral-Large-3 (675B) <span class="mtag open">open</span></td><td>43.3</td><td>43.8</td><td>92.7</td><td>36.4</td><td><b>47.8</b></td><td><span class="g">pass</span></td></tr>
-<tr class=""><td class="mut">14</td><td class="mname">BASE (Qwen3-1.7B untuned) <span class="mtag base">base</span></td><td>44.2</td><td>4.8</td><td>85.5</td><td>100.0</td><td><b>38.1</b></td><td><span class="b">FAIL</span></td></tr>
-</tbody></table></div>
-
-<h3 style="margin:26px 0 2px">Per-model metrics <span class="mut" style="font-weight:400">· the moat + table-stakes</span></h3>
-<p class="hint" style="margin:2px 0 10px">tier-fit = moat; instr rank = council mean rank of 14 (lower better, top-1% in parens); fab is the <b>raw</b> model (verifier-neutralized at serve time); local = 4-bit runnable on a 64GB Mac; n(det) = deterministic positions&times;tiers scored (frontier on the 150-subset).</p>
-<div class="panel"><table>
-<thead><tr><th>Model</th><th>tier-fit&uarr;</th><th>tier-diff&uarr;</th><th>direction&uarr;</th><th>instr rank&darr; (top1)</th><th>safety&uarr;</th><th>no-jargon&uarr;</th><th>fab&darr;</th><th>local</th><th>n(det)</th></tr></thead>
-<tbody>
-<tr class=""><td class="mname">GPT-5.5 <span class="mtag frontier">frontier</span></td><td class="">43%</td><td>31%</td><td>46%</td><td>3.21 <span class="mut">(32%)</span></td><td>99%</td><td>100%</td><td class="g">3%</td><td><span class="mut">no</span></td><td class="mut">450</td></tr>
-<tr class=""><td class="mname">Gemini 3.1 Pro <span class="mtag frontier">frontier</span></td><td class="">48%</td><td>28%</td><td>50%</td><td>4.96 <span class="mut">(16%)</span></td><td>99%</td><td>100%</td><td class="g">4%</td><td><span class="mut">no</span></td><td class="mut">450</td></tr>
-<tr class=""><td class="mname">Claude Opus 4.8 <span class="mtag frontier">frontier</span></td><td class="">46%</td><td>31%</td><td>50%</td><td>4.28 <span class="mut">(24%)</span></td><td>98%</td><td>100%</td><td class="g">5%</td><td><span class="mut">no</span></td><td class="mut">450</td></tr>
-<tr class=""><td class="mname">GLM-5 <span class="mtag open">open</span></td><td class="">45%</td><td>37%</td><td>52%</td><td>6.10 <span class="mut">(6%)</span></td><td>100%</td><td>100%</td><td class="w">7%</td><td><span class="mut">no</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">Qwen3-32B <span class="mtag open">open</span></td><td class="">37%</td><td>45%</td><td>48%</td><td>8.58 <span class="mut">(1%)</span></td><td>100%</td><td>99%</td><td class="w">6%</td><td><span class="g">yes</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">Kimi-K2.5 <span class="mtag open">open</span></td><td class="">36%</td><td>49%</td><td>48%</td><td>6.73 <span class="mut">(5%)</span></td><td>100%</td><td>99%</td><td class="w">8%</td><td><span class="mut">no</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">DeepSeek-R1 <span class="mtag open">open</span></td><td class="">44%</td><td>39%</td><td>50%</td><td>7.47 <span class="mut">(1%)</span></td><td>100%</td><td>100%</td><td class="g">2%</td><td><span class="mut">no</span></td><td class="mut">2409</td></tr>
-<tr class="ours"><td class="mname">OURS-v2 (Qwen3-1.7B tuned) <span class="mtag ours">OURS · on-device</span></td><td class="g">53%</td><td>44%</td><td>54%</td><td>9.36 <span class="mut">(9%)</span></td><td>99%</td><td>100%</td><td class="b">30%</td><td><span class="g">yes</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">Llama-3.3-70B <span class="mtag open">open</span></td><td class="">40%</td><td>27%</td><td>48%</td><td>8.02 <span class="mut">(1%)</span></td><td>100%</td><td>100%</td><td class="g">0%</td><td><span class="w">tight</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">Gemma-3-27B-it <span class="mtag open">open</span></td><td class="">35%</td><td>23%</td><td>48%</td><td>8.69 <span class="mut">(1%)</span></td><td>100%</td><td>100%</td><td class="g">2%</td><td><span class="g">yes</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">DeepSeek-V3.2 <span class="mtag open">open</span></td><td class="">41%</td><td>41%</td><td>50%</td><td>7.90 <span class="mut">(1%)</span></td><td>100%</td><td>100%</td><td class="g">5%</td><td><span class="mut">no</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">Qwen3-Next-80B-A3B <span class="mtag open">open</span></td><td class="">32%</td><td>25%</td><td>51%</td><td>8.04 <span class="mut">(0%)</span></td><td>100%</td><td>100%</td><td class="w">7%</td><td><span class="w">tight</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">Mistral-Large-3 (675B) <span class="mtag open">open</span></td><td class="">37%</td><td>44%</td><td>49%</td><td>8.30 <span class="mut">(3%)</span></td><td>100%</td><td>100%</td><td class="w">7%</td><td><span class="mut">no</span></td><td class="mut">2409</td></tr>
-<tr class=""><td class="mname">BASE (Qwen3-1.7B untuned) <span class="mtag base">base</span></td><td class="">36%</td><td>50%</td><td>46%</td><td>13.38 <span class="mut">(0%)</span></td><td>96%</td><td>96%</td><td class="w">15%</td><td><span class="g">yes</span></td><td class="mut">2409</td></tr>
-</tbody></table></div>
-
-<h3 style="margin:26px 0 2px">Tier-appropriate move selection, per tier <span class="mut" style="font-weight:400">(fit = pick == canonical tier move)</span></h3>
-<p class="hint" style="margin:2px 0 10px">A strong leveled coach has high beginner/intermediate fit (finding the <b>human</b> move) while advanced fit &asymp; engine-mirror (the sharp move is correct there). <span class="mut">mirror = share of picks matching the engine best.</span></p>
-<div class="panel"><table>
-<thead><tr><th>Model</th><th>fit B</th><th>fit I</th><th>fit A</th><th>mirror B</th><th>mirror I</th><th>mirror A</th><th>diff</th><th>mirror@all</th></tr></thead>
-<tbody>
-<tr class="ours"><td class="mname">OURS-v2 (Qwen3-1.7B tuned)</td><td>48%</td><td>50%</td><td>61%</td><td class="mut">65%</td><td class="mut">59%</td><td class="mut">63%</td><td>44%</td><td class="mut">42%</td></tr>
-<tr class=""><td class="mname">Gemini 3.1 Pro</td><td>29%</td><td>47%</td><td>69%</td><td class="mut">69%</td><td class="mut">70%</td><td class="mut">74%</td><td>28%</td><td class="mut">60%</td></tr>
-<tr class=""><td class="mname">Claude Opus 4.8</td><td>30%</td><td>46%</td><td>61%</td><td class="mut">59%</td><td class="mut">60%</td><td class="mut">65%</td><td>31%</td><td class="mut">47%</td></tr>
-<tr class=""><td class="mname">GLM-5</td><td>34%</td><td>43%</td><td>57%</td><td class="mut">53%</td><td class="mut">57%</td><td class="mut">59%</td><td>37%</td><td class="mut">42%</td></tr>
-<tr class=""><td class="mname">DeepSeek-R1</td><td>38%</td><td>42%</td><td>52%</td><td class="mut">43%</td><td class="mut">47%</td><td class="mut">52%</td><td>39%</td><td class="mut">34%</td></tr>
-<tr class=""><td class="mname">GPT-5.5</td><td>31%</td><td>45%</td><td>54%</td><td class="mut">52%</td><td class="mut">51%</td><td class="mut">57%</td><td>31%</td><td class="mut">43%</td></tr>
-<tr class=""><td class="mname">DeepSeek-V3.2</td><td>33%</td><td>38%</td><td>52%</td><td class="mut">47%</td><td class="mut">50%</td><td class="mut">52%</td><td>41%</td><td class="mut">37%</td></tr>
-<tr class=""><td class="mname">Llama-3.3-70B</td><td>35%</td><td>39%</td><td>44%</td><td class="mut">40%</td><td class="mut">43%</td><td class="mut">45%</td><td>27%</td><td class="mut">35%</td></tr>
-<tr class=""><td class="mname">Qwen3-32B</td><td>34%</td><td>38%</td><td>38%</td><td class="mut">45%</td><td class="mut">41%</td><td class="mut">39%</td><td>45%</td><td class="mut">28%</td></tr>
-<tr class=""><td class="mname">Mistral-Large-3 (675B)</td><td>37%</td><td>37%</td><td>36%</td><td class="mut">35%</td><td class="mut">37%</td><td class="mut">37%</td><td>44%</td><td class="mut">24%</td></tr>
-<tr class=""><td class="mname">BASE (Qwen3-1.7B untuned)</td><td>31%</td><td>39%</td><td>40%</td><td class="mut">51%</td><td class="mut">43%</td><td class="mut">41%</td><td>50%</td><td class="mut">28%</td></tr>
-<tr class=""><td class="mname">Kimi-K2.5</td><td>34%</td><td>36%</td><td>38%</td><td class="mut">34%</td><td class="mut">36%</td><td class="mut">38%</td><td>49%</td><td class="mut">22%</td></tr>
-<tr class=""><td class="mname">Gemma-3-27B-it</td><td>28%</td><td>34%</td><td>42%</td><td class="mut">43%</td><td class="mut">42%</td><td class="mut">43%</td><td>23%</td><td class="mut">36%</td></tr>
-<tr class=""><td class="mname">Qwen3-Next-80B-A3B</td><td>33%</td><td>32%</td><td>30%</td><td class="mut">30%</td><td class="mut">31%</td><td class="mut">30%</td><td>25%</td><td class="mut">24%</td></tr>
-</tbody></table></div>
-
-<h3 style="margin:26px 0 2px">Best v3 <b>base</b> ranking <span class="mut" style="font-weight:400">· re-weighted for what's hard to ADD</span></h3>
-<p class="hint" style="margin:2px 0 10px">For a fine-tuning base, tier-appropriateness is what we ADD, so it is down-weighted; the hard-to-add qualities dominate: <b>instructiveness/capacity 35%</b>, <b>faithfulness 20%</b>, <b>local-runnability+cost 35%</b>, tier 10%. Only locally fine-tunable/runnable models are viable bases.</p>
-<div class="panel"><table>
-<thead><tr><th>#</th><th>Model</th><th>base-fit</th><th>local</th><th style="text-align:left">note</th></tr></thead>
-<tbody>
-<tr class=""><td class="mut">1</td><td class="mname">Qwen3-32B <span class="mtag open">open</span></td><td><b>72.6</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">4-bit ~18GB, comfortable</td></tr>
-<tr class=""><td class="mut">2</td><td class="mname">Gemma-3-27B-it <span class="mtag open">open</span></td><td><b>72.2</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">4-bit ~15GB, comfortable</td></tr>
-<tr class="ours"><td class="mut">3</td><td class="mname">OURS-v2 (Qwen3-1.7B tuned) <span class="mtag ours">OURS · on-device</span></td><td><b>66.5</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">already local</td></tr>
-<tr class=""><td class="mut">4</td><td class="mname">Llama-3.3-70B <span class="mtag open">open</span></td><td><b>66.2</b></td><td><span class="w">tight</span></td><td class="mut" style="text-align:left">4-bit ~40GB, tight on 64GB</td></tr>
-<tr class=""><td class="mut">5</td><td class="mname">Qwen3-Next-80B-A3B <span class="mtag open">open</span></td><td><b>64.7</b></td><td><span class="w">tight</span></td><td class="mut" style="text-align:left">4-bit ~43GB, tight but fits; 3B active = fast</td></tr>
-<tr class=""><td class="mut">6</td><td class="mname">GPT-5.5 <span class="mtag frontier">frontier</span></td><td><b>64.6</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">API-only</td></tr>
-<tr class=""><td class="mut">7</td><td class="mname">Gemini 3.1 Pro <span class="mtag frontier">frontier</span></td><td><b>60.0</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">API-only</td></tr>
-<tr class=""><td class="mut">8</td><td class="mname">BASE (Qwen3-1.7B untuned) <span class="mtag base">base</span></td><td><b>58.2</b></td><td><span class="g">yes</span></td><td class="mut" style="text-align:left">already local</td></tr>
-<tr class=""><td class="mut">9</td><td class="mname">GLM-5 <span class="mtag open">open</span></td><td><b>57.9</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">far exceeds 64GB</td></tr>
-<tr class=""><td class="mut">10</td><td class="mname">Kimi-K2.5 <span class="mtag open">open</span></td><td><b>55.9</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">far exceeds 64GB</td></tr>
-<tr class=""><td class="mut">11</td><td class="mname">DeepSeek-R1 <span class="mtag open">open</span></td><td><b>54.6</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">far exceeds 64GB</td></tr>
-<tr class=""><td class="mut">12</td><td class="mname">DeepSeek-V3.2 <span class="mtag open">open</span></td><td><b>53.7</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">far exceeds 64GB</td></tr>
-<tr class=""><td class="mut">13</td><td class="mname">Mistral-Large-3 (675B) <span class="mtag open">open</span></td><td><b>51.0</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">far exceeds 64GB</td></tr>
-<tr class=""><td class="mut">14</td><td class="mname">Claude Opus 4.8 <span class="mtag frontier">frontier</span></td><td><b>49.5</b></td><td><span class="mut">no</span></td><td class="mut" style="text-align:left">API-only</td></tr>
-</tbody></table></div>
-<div class="callout good">
-  <div class="ct">Recommendation</div>
-  <p><b>Best overall (any provider):</b> GPT-5.5 (the distillation teacher, not a deployable base). <b>Best OPEN coach (balanced):</b> <b>GLM-5</b> (<b>not</b> Gemma-3-27B), but far too large to run locally. <b>Best open v3 base:</b> <b>Qwen3-32B</b> (72.6), effectively tied with <b>Gemma-3-27B-it</b> (72.2): prefer Gemma-3-27B if faithfulness/size is paramount (fab 2% vs 6%), Qwen3-32B if raw capacity is. The balanced winner and the base pick differ because tier-appropriateness (where giants lead) is exactly what fine-tuning adds.</p>
-</div>
-
-<h3 style="margin:26px 0 2px">Cost: definitive eval</h3>
-<p class="hint" style="margin:2px 0 10px">Open + frontier prices are best-effort Bedrock/gateway estimates; local (OURS-v2, BASE) is free.</p>
-<div class="panel"><table>
-<thead><tr><th>group</th><th>calls</th><th>in tok</th><th>out tok</th><th>est. USD</th></tr></thead>
-<tbody>
-<tr><td class="mname">open (9 models)</td><td class="mut">21,681</td><td class="mut">21,910,715</td><td class="mut">4,266,729</td><td class="">$28.17</td></tr><tr><td class="mname">frontier gen (3 refs)</td><td class="mut">1,350</td><td class="mut">1,531,055</td><td class="mut">495,278</td><td class="">$21.71</td></tr><tr><td class="mname">council judges</td><td class="mut">360</td><td class="mut">1,085,518</td><td class="mut">346,804</td><td class="">$15.57</td></tr><tr><td class="mname">local (OURS + BASE)</td><td class="mut">4,818</td><td class="mut">0</td><td class="mut">0</td><td class="g">$0.00</td></tr>
-<tr><td class="mname"><b>Total</b></td><td colspan="3"></td><td><b>$65.45</b></td></tr>
-</tbody></table></div>
-<p class="note">Artifacts: the full per-model generations, objective flags, council sheet and <code>leaderboard.json</code> live in the <a href="https://huggingface.co/datasets/khoilamalphaai/chess-coach-benchmark">companion dataset</a> under <code>gap803/</code>. Positions are curated to be 100% discriminating with zero leakage vs train/valid.</p>
-</section>
-<!-- ==================== /DEFINITIVE 803 EVAL ==================== -->
-
-<h2 id="earlier" style="margin-top:48px">Earlier run <span class="sub">· 100 held-out positions · 5 models (v1 / v2)</span></h2>
-<p class="hint">The original 100-position head-to-head (OURS-v1 / v2 vs GPT-5.5 / Claude Opus 4.8 / Gemini 3.1 Pro), retained for provenance. The <a href="#def803">803-position, 14-model eval above</a> is the definitive comparison. The toggles below drive the panels in this earlier-run section only.</p>
-<div style="margin:6px 0 2px">
-  <span class="pill cur"><b>v2</b> current</span>
-  <span class="pill"><b>5</b> models &times; <b>2</b> conditions &times; <b>100</b> positions</span>
-  <span class="pill"><b>1000</b> generations</span>
-  <span class="pill"><b>600</b> council judgments</span>
-  <span class="pill"><b>6</b> faithfulness face-offs</span>
-</div>
-<div class="controls">
-  <span class="lbl">Model version</span>
-  <div class="toggle ver" id="verTog">
-    <button data-v="v2" class="on">v2 (current)</button>
-    <button data-v="v1">v1 (baseline)</button>
-  </div>
-  <span class="lbl" style="margin-left:10px">Condition</span>
-  <div class="toggle" id="objTog">
-    <button data-c="grounded" class="on">WITH grounding (deployed)</button>
-    <button data-c="ungrounded">WITHOUT grounding</button>
-  </div>
-</div>
-<p class="hint" style="margin-top:8px">The <b>instructiveness</b> and <b>table-stakes</b> panels follow these toggles. The headline (tier-appropriate move selection) is a separate greedy analysis, independent of the toggles. Grounded = the condition the product actually deploys (Stockfish + Maia in the loop).</p>
-
-<!-- Honest framing -->
-<div class="callout info">
-  <div class="ct">How to read this, honestly</div>
-  <p>OURS-v2 is a 1.7B <b>local</b> model. This ordering reflects what matters for a <b>leveled coach</b>, not a scoreboard we won. It leads on the one thing we train for: <b class="g">tier-appropriate move selection</b> (39.2% vs frontier ~22.7%, now direction-corrected), and on <b class="g">cost</b> ($0, on-device). It still <b class="b">trails the frontier on judged instructiveness</b> (council rank 3.68 vs ~2.09). Safety, no-jargon and faithfulness are <b>table-stakes</b> floors every competent coach clears; faithfulness is guaranteed at inference by a deterministic <b>verify-and-regenerate</b> gate, so user-visible fabrication is ≈0.</p>
-</div>
-
 <div class="legend">
-  <span class="it"><span class="sw" style="background:var(--ours)"></span>OURS-v2</span>
-  <span class="it"><span class="sw" style="background:var(--dim)"></span>BASE / frontier</span>
-  <span class="it"><span class="dot" style="background:var(--good)"></span>best on this axis</span>
-  <span class="it"><span class="dot" style="background:var(--bad)"></span>weakest on this axis</span>
+  <span class="it"><span class="sw" style="background:var(--ours)"></span>OURS (tuned)</span>
+  <span class="it"><span class="sw" style="background:var(--dim)"></span>untuned base</span>
+  <span class="it">tier-policy match, grounded, higher is better</span>
+</div>
 </div>
 
-<!-- (a) HEADLINE: the moat -->
-<div class="hero">
-  <div class="hero-top">
-    <span class="label">What we optimize for</span>
-    <span class="pill" style="margin:0">separate greedy analysis · not affected by the toggles</span>
-  </div>
-  <h2>Tier-appropriate move selection</h2>
-  <p class="hint">Does the coach recommend a <b>different, level-suited</b> move to a beginner vs an advanced player in the <b>same</b> position? This is the moat: a leveled coach, not one-size-fits-all engine output. Higher = more level-awareness. OURS-v2 on 120 matched held-out; frontier on 50 held-out (GAP report).</p>
-  <div class="panel"><table class="summary">
-    <tbody>
-      <tr><th>OURS-v2 tier-appropriate <span class="mut">120 matched held-out</span></th><td class="num ours">39.2%</td></tr>
-      <tr><th>Frontier average <span class="mut">50 held-out (GAP report)</span></th><td class="num">~22.7%</td></tr>
-      <tr><th>v1 &rarr; v2 <span class="mut">27.5% &rarr; 39.2%, re-directed</span></th><td class="num good">+11.7 pts</td></tr>
-    </tbody>
-  </table></div>
-  <div class="panel" style="padding:16px;margin-top:6px"><div class="bars" id="tierBars"></div></div>
-  <div class="callout good">
-    <div class="ct">Direction corrected in v2</div>
-    <p>v1's differentiation was <b>mis-directed</b>: beginners got the sharper engine move. v2 flips it: beginners are steered to the more <b>human-findable</b> move, advanced to the sharpest. So the 39.2% now points the right way.</p>
-  </div>
-  <div class="panel"><table id="tierDirTbl"></table></div>
+<div class="panel reveal" style="margin-top:14px"><table>
+<thead><tr><th>Model (grounded)</th><th>tier-policy match</th><th>move-sound</th><th>distinct / level</th><th>names a move</th><th>format</th><th>B / I / A</th></tr></thead>
+<tbody>
+<tr><td class="mname">BASE (Qwen3-32B untuned) <span class="tag base">base</span></td><td class="num">42.8%</td><td class="num">96.9%</td><td class="num">30.3%</td><td class="num">97.5%</td><td class="num">97.5%</td><td class="num mut">44.2 / 40.8 / 43.3</td></tr>
+<tr class="ours"><td class="mname">OURS-v4 <span class="tag ours">SFT base, full eval</span></td><td class="num ours-v">86.1%</td><td class="num">98.3%</td><td class="num">98.7%</td><td class="num">98.3%</td><td class="num">93.9%</td><td class="num mut">85.8 / 75.0 / 97.5</td></tr>
+<tr class="ours"><td class="mname">OURS-v6-dpo</td><td class="num ours-v">88.1%</td><td class="num">98.3%</td><td class="num">98.7%</td><td class="num">98.3%</td><td class="num">91.9%</td><td class="num mut">85.8 / 80.8 / 97.5</td></tr>
+<tr class="ours"><td class="mname">OURS-v6-dpo2 <span class="tag live">live</span></td><td class="num ours-v">89.2%</td><td class="num">98.3%</td><td class="num">98.7%</td><td class="num">98.6%</td><td class="num">92.5%</td><td class="num mut">85.8 / 84.2 / 97.5</td></tr>
+</tbody></table></div>
+<p class="hint" style="margin-top:8px">distinct / level = share of the 76 TEST positions whose canonical beginner and advanced moves differ, where the model differentiates (each tuned model differentiates 75 of 76). format = names a move and closes with a Takeaway line inside the 256-token cap (a prose-completeness check, not a move check). B / I / A = per-tier tier-policy match.</p>
+
+<div class="callout good reveal">
+  <div class="ct">Tuning is the load-bearing factor</div>
+  <p>Grounded tier-policy match rises <b>+0.433</b> from base to v4 (42.8% to 86.1%) and <b>+0.453</b> to v6-dpo, with distinct-per-level up <b>+0.684</b>. v6-dpo2 (live) posts the best overall at <b>89.2%</b>; its entire gain over v4 is the intermediate tier (84.2% vs 75.0%), while beginner (85.8%), advanced (97.5%), soundness (98.3%), and differentiation (98.7%) are identical to v4. The DPO tune sharpens the mid-tier moat without regressing anything else.</p>
+</div>
+<div class="callout info reveal">
+  <div class="ct">Distillation: behavior in the weights</div>
+  <p>Strip the engine and Maia grounding and the untuned base collapses (tier-policy 2.2%, names-a-move 25.0%, it invents illegal or unsound moves). The <b>v6-distill</b> adapter recovers the tier rule from its weights alone: tier-policy <b>32.5%</b> (about 15x the base), names-a-move 98.3%, with an honest advanced-tier limit (21.7%: the sharpest move genuinely needs grounding). This is a behavior-in-weights proof, not a claim that grounding is unnecessary in production.</p>
+</div>
+</section>
+
+<!-- ============ 2. THE MOAT ACROSS THE FIELD ============ -->
+<section class="reveal">
+<h2>Tier-appropriate move selection across the field<span class="sub">803 held-out positions across 3 tiers, 15 models, corrected v6 labels</span></h2>
+<p class="hint">The full field, apples-to-apples: every model coaches the same 803 zero-leakage positions at all 3 tiers with byte-identical grounding, deterministically re-scored against the corrected v6 targets (the 3 frontier references on a balanced 150-position subset). <b>Scope note:</b> these are the original generations judged by the sharper corrected targets, so this table is valid for the ranking, not for each model's ceiling under fresh grounding. Do not compare it cross-scope to the 120-TEST lineup above (fresh grounding, higher absolute numbers).</p>
+
+<div class="panel pad reveal">
+<div class="bars">
+  <div class="barrow"><div class="nm">OURS-v2 (1.7B tuned) <span class="tag hist">superseded</span></div><div class="track"><div class="fill ours" style="width:92.5%"></div></div><div class="val g">50.9%</div></div>
+  <div class="barrow"><div class="nm">Claude Opus 4.8 <span class="tag frontier">frontier</span></div><div class="track"><div class="fill" style="width:84.9%"></div></div><div class="val">46.7%</div></div>
+  <div class="barrow"><div class="nm">OURS-v3 (32B tuned) <span class="tag hist">superseded</span></div><div class="track"><div class="fill ours" style="width:84.2%"></div></div><div class="val g">46.3%</div></div>
+  <div class="barrow"><div class="nm">Gemini 3.1 Pro <span class="tag frontier">frontier</span></div><div class="track"><div class="fill" style="width:80.0%"></div></div><div class="val">44.0%</div></div>
+  <div class="barrow"><div class="nm">GPT-5.5 <span class="tag frontier">frontier</span></div><div class="track"><div class="fill" style="width:73.5%"></div></div><div class="val">40.4%</div></div>
+  <div class="barrow"><div class="nm">GLM-5 <span class="tag open">best open</span></div><div class="track"><div class="fill" style="width:70.4%"></div></div><div class="val">38.7%</div></div>
+  <div class="barrow"><div class="nm">BASE (1.7B untuned) <span class="tag base">base</span></div><div class="track"><div class="fill" style="width:65.1%"></div></div><div class="val">35.8%</div></div>
+  <div class="barrow"><div class="nm">DeepSeek-R1 <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:61.8%"></div></div><div class="val">34.0%</div></div>
+  <div class="barrow"><div class="nm">DeepSeek-V3.2 <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:58.9%"></div></div><div class="val">32.4%</div></div>
+  <div class="barrow"><div class="nm">Mistral-Large-3 <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:55.1%"></div></div><div class="val">30.3%</div></div>
+  <div class="barrow"><div class="nm">Qwen3-32B (untuned) <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:54.5%"></div></div><div class="val">30.0%</div></div>
+  <div class="barrow"><div class="nm">Llama-3.3-70B <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:54.4%"></div></div><div class="val">29.9%</div></div>
+  <div class="barrow"><div class="nm">Gemma-3-27B-it <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:53.8%"></div></div><div class="val">29.6%</div></div>
+  <div class="barrow"><div class="nm">Kimi-K2.5 <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:52.5%"></div></div><div class="val">28.9%</div></div>
+  <div class="barrow"><div class="nm">Qwen3-Next-80B-A3B <span class="tag open">open</span></div><div class="track"><div class="fill" style="width:46.5%"></div></div><div class="val">25.6%</div></div>
+</div>
 </div>
 
-<!-- (b) Instructiveness: the honest axis -->
-<h2>Instructiveness <span class="sub">(blinded, cross-family council)</span></h2>
-<p class="hint">How good is the explanation? GPT-5.5 + Claude + Gemini each rank the 5 <b>anonymized</b> outputs per item. Number = mean rank (1 = best of 5); bar length = more instructive. <b>Frontier still leads</b>; we report it straight.</p>
-<div class="panel" style="padding:16px"><div class="bars" id="rankBars"></div></div>
-<div class="callout info"><div class="ct">Frontier still wins instructiveness</div><p id="gapNote"></p></div>
-<div class="two" style="margin-top:14px">
-  <div class="panel"><table id="winTbl"></table></div>
-  <div class="panel"><table id="rubTbl"></table></div>
+<div class="panel reveal" style="margin-top:14px"><table>
+<thead><tr><th>#</th><th>Model</th><th>tier-policy</th><th>B / I / A</th><th>move-sound</th><th>distinct</th><th>names</th><th>format</th><th>n</th></tr></thead>
+<tbody>
+<tr class="ours"><td class="mut">1</td><td class="mname">OURS-v2 (1.7B tuned) <span class="tag hist">superseded</span></td><td class="num ours-v">50.9%</td><td class="num mut">55.7 / 53.2 / 43.8</td><td class="num">89.8%</td><td class="num">47.7%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">2</td><td class="mname">Claude Opus 4.8 <span class="tag frontier">frontier</span></td><td class="num">46.7%</td><td class="num mut">44.7 / 46.0 / 49.3</td><td class="num">95.1%</td><td class="num">24.0%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">450</td></tr>
+<tr class="ours"><td class="mut">3</td><td class="mname">OURS-v3 (32B tuned) <span class="tag hist">superseded</span></td><td class="num ours-v">46.3%</td><td class="num mut">46.3 / 44.1 / 48.4</td><td class="num">86.7%</td><td class="num">50.9%</td><td class="num">94.9%</td><td class="num">27.9%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">4</td><td class="mname">Gemini 3.1 Pro <span class="tag frontier">frontier</span></td><td class="num">44.0%</td><td class="num mut">43.3 / 38.0 / 50.7</td><td class="num">92.0%</td><td class="num">33.3%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">450</td></tr>
+<tr><td class="mut">5</td><td class="mname">GPT-5.5 <span class="tag frontier">frontier</span></td><td class="num">40.4%</td><td class="num mut">39.3 / 37.3 / 44.7</td><td class="num">91.8%</td><td class="num">31.2%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">450</td></tr>
+<tr><td class="mut">6</td><td class="mname">GLM-5 <span class="tag open">best open</span></td><td class="num">38.7%</td><td class="num mut">35.5 / 37.6 / 43.0</td><td class="num">89.4%</td><td class="num">28.6%</td><td class="num">100%</td><td class="num">99.8%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">7</td><td class="mname">BASE (1.7B untuned) <span class="tag base">base</span></td><td class="num">35.8%</td><td class="num mut">42.1 / 39.9 / 25.5</td><td class="num">82.5%</td><td class="num">31.8%</td><td class="num">99.9%</td><td class="num">99.7%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">8</td><td class="mname">DeepSeek-R1 <span class="tag open">open</span></td><td class="num">34.0%</td><td class="num mut">30.5 / 32.6 / 38.7</td><td class="num">86.2%</td><td class="num">32.5%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">9</td><td class="mname">DeepSeek-V3.2 <span class="tag open">open</span></td><td class="num">32.4%</td><td class="num mut">28.5 / 31.0 / 37.6</td><td class="num">86.4%</td><td class="num">31.8%</td><td class="num">100%</td><td class="num">99.2%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">10</td><td class="mname">Mistral-Large-3 (675B) <span class="tag open">open</span></td><td class="num">30.3%</td><td class="num mut">30.3 / 28.6 / 32.1</td><td class="num">84.0%</td><td class="num">35.4%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">11</td><td class="mname">Qwen3-32B (untuned) <span class="tag open">open</span></td><td class="num">30.0%</td><td class="num mut">29.4 / 29.5 / 31.3</td><td class="num">84.5%</td><td class="num">34.0%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">12</td><td class="mname">Llama-3.3-70B <span class="tag open">open</span></td><td class="num">29.9%</td><td class="num mut">27.7 / 28.8 / 33.4</td><td class="num">85.5%</td><td class="num">21.5%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">13</td><td class="mname">Gemma-3-27B-it <span class="tag open">open</span></td><td class="num">29.6%</td><td class="num mut">26.4 / 27.7 / 34.7</td><td class="num">87.6%</td><td class="num">21.5%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">14</td><td class="mname">Kimi-K2.5 <span class="tag open">open</span></td><td class="num">28.9%</td><td class="num mut">28.1 / 28.8 / 29.9</td><td class="num">83.2%</td><td class="num">37.2%</td><td class="num">100%</td><td class="num">99.9%</td><td class="num mut">2409</td></tr>
+<tr><td class="mut">15</td><td class="mname">Qwen3-Next-80B-A3B <span class="tag open">open</span></td><td class="num">25.6%</td><td class="num mut">25.0 / 26.4 / 25.3</td><td class="num">80.7%</td><td class="num">19.3%</td><td class="num">100%</td><td class="num">100%</td><td class="num mut">2409</td></tr>
+</tbody></table></div>
+<p class="hint" style="margin-top:8px">n = scenarios scored (frontier on the 150-position subset across 3 tiers = 450). distinct is scoped to each model's coverage. names and format are label-independent (OURS-v3's low format reflects its terser output style, not a move miss).</p>
+
+<div class="callout good reveal">
+  <div class="ct">OURS leads the field on the moat</div>
+  <p>Family averages hold the story: <b>OURS 0.486, frontier 0.437, open 0.310</b>. OURS tops the field (OURS-v2 at 50.9%, <b>+0.042 over the best frontier</b>, Claude Opus 4.8 at 46.7%) and ahead of every open model. Best open coach: <b>GLM-5</b> (38.7%). The OURS-v2 (1.7B) and OURS-v3 (32B) rows are the OURS models that ran in this field study; both are superseded by the current v4 and v6-dpo2 lineup above, which pushes the moat far higher on the held-out TEST.</p>
+</div>
+</section>
+
+<!-- ============ 3. INSTRUCTIVENESS ============ -->
+<section class="reveal">
+<h2>Instructiveness: blinded cross-family council<span class="sub">current lineup, grounded, 90-item stratified sample, bootstrap 95% CIs</span></h2>
+<p class="hint">One blinded council (GPT-5.5, Claude Opus 4.8, Gemini 3.1 Pro) ranks the current lineup (v4, v6-dpo, base) plus the three frontier coaches on instructiveness for the stated tier, with labels shuffled per item. 90 items times 3 judges = 270 rankings, 0 failures. Lower mean rank is better.</p>
+<div class="panel reveal"><table>
+<thead><tr><th>Model (grounded)</th><th>mean rank (1 = best)</th><th>95% CI</th></tr></thead>
+<tbody>
+<tr><td class="mname">Claude Opus 4.8 <span class="tag frontier">frontier</span></td><td class="num">2.585</td><td class="num mut">[2.378, 2.804]</td></tr>
+<tr><td class="mname">GPT-5.5 <span class="tag frontier">frontier</span></td><td class="num">2.637</td><td class="num mut">[2.393, 2.896]</td></tr>
+<tr><td class="mname">Gemini 3.1 Pro <span class="tag frontier">frontier</span></td><td class="num">2.970</td><td class="num mut">[2.719, 3.230]</td></tr>
+<tr class="ours"><td class="mname">OURS-v6-dpo <span class="tag ours">OURS</span></td><td class="num ours-v">3.926</td><td class="num mut">[3.678, 4.170]</td></tr>
+<tr class="ours"><td class="mname">OURS-v4 <span class="tag ours">OURS</span></td><td class="num ours-v">4.030</td><td class="num mut">[3.748, 4.304]</td></tr>
+<tr><td class="mname">BASE (Qwen3-32B untuned) <span class="tag base">base</span></td><td class="num">4.852</td><td class="num mut">[4.633, 5.067]</td></tr>
+</tbody></table></div>
+<div class="callout info reveal">
+  <div class="ct">The frontier leads on prose; OURS leads the move</div>
+  <p>This is the honest split: OURS leads tier-appropriate move selection, the frontier leads the explanation. Both tuned models rank above the untuned base, and v6-dpo does not regress instructiveness versus v4 (their CIs overlap). Beyond the mechanical faithfulness gate, an independent semantic panel finds the frontier more truthful on the hardest multi-move claims, where OURS trails: reported honestly, not hidden.</p>
+</div>
+</section>
+
+<!-- ============ 4. FAITHFULNESS (GATED) ============ -->
+<section class="reveal">
+<h2>Faithfulness: a gated fairness floor</h2>
+<div class="callout good reveal" style="margin-top:6px">
+  <div class="ct">Zero verifier-detectable mechanical violations, for every model</div>
+  <p>Faithfulness is table-stakes, not a scoring axis. The deployed coach runs a <b>verify-and-regenerate</b> gate: re-sample the answer against a deterministic board-fact verifier and keep the first that passes, else fall back to an engine-derived explanation that is true by construction. After the gate, every model ships <b>0% verifier-detectable mechanical violations</b>. The same gate is applied to OURS, base, frontier, and open alike, so raw pre-gate fabrication is intentionally not reported as a per-model axis. The gated 0% is the only fabrication figure this benchmark stands behind.</p>
+</div>
+</section>
+
+<!-- ============ 5. COST ============ -->
+<section class="reveal">
+<h2>Cost: definitive eval</h2>
+<p class="hint">Open and frontier prices are best-effort gateway estimates; local rows (OURS, base) run on Apple-silicon MLX at no cost.</p>
+<div class="panel reveal"><table>
+<thead><tr><th>Group</th><th>calls</th><th>in tokens</th><th>out tokens</th><th>est. USD</th></tr></thead>
+<tbody>
+<tr><td class="mname">open (9 models)</td><td class="num mut">21,681</td><td class="num mut">21,910,715</td><td class="num mut">4,266,729</td><td class="num">$28.17</td></tr>
+<tr><td class="mname">frontier generation (3 refs)</td><td class="num mut">1,350</td><td class="num mut">1,531,055</td><td class="num mut">495,278</td><td class="num">$21.71</td></tr>
+<tr><td class="mname">council judges</td><td class="num mut">1,350</td><td class="num mut">4,376,779</td><td class="num mut">1,376,176</td><td class="num">$62.27</td></tr>
+<tr><td class="mname">local (OURS, base)</td><td class="num mut">7,227</td><td class="num mut">2,639,131</td><td class="num mut">0</td><td class="num g">$0.00</td></tr>
+<tr class="total"><td class="mname">Total definitive-eval spend</td><td class="num mut" colspan="3"></td><td class="num">$112.15</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ============ 6. VERSION LINEAGE ============ -->
+<section class="reveal">
+<h2>Version lineage<span class="sub">what is current, and what is superseded</span></h2>
+<div class="panel reveal"><table>
+<thead><tr><th>Version</th><th style="text-align:left">Role</th><th style="text-align:left">Status</th></tr></thead>
+<tbody>
+<tr class="ours"><td class="mname">v4 <span class="tag ours">Qwen3-32B QLoRA</span></td><td style="text-align:left">SFT base; the model behind the full reproducible evaluation and the base for DPO</td><td style="text-align:left" class="g">current (full-eval)</td></tr>
+<tr class="ours"><td class="mname">v6-dpo2 <span class="tag live">live</span></td><td style="text-align:left">Best-DPO refinement of v4; sharpest intermediate-tier moat</td><td style="text-align:left" class="g">current (live-served)</td></tr>
+<tr><td class="mname">v6-dpo</td><td style="text-align:left">DPO refinement of v4; drop-in predecessor of v6-dpo2</td><td class="mut" style="text-align:left">stretch ladder</td></tr>
+<tr><td class="mname">v6-distill</td><td style="text-align:left">No-grounding distillation; research proof of behavior in the weights</td><td class="mut" style="text-align:left">research</td></tr>
+<tr><td class="mname">v1, v2 <span class="tag hist">1.7B</span></td><td style="text-align:left">Early on-device MLX coaches (v2 topped the 803 field study)</td><td class="mut" style="text-align:left">historical / superseded</td></tr>
+<tr><td class="mname">v3 <span class="tag hist">32B</span></td><td style="text-align:left">First Qwen3-32B QLoRA coach</td><td class="mut" style="text-align:left">historical / superseded</td></tr>
+<tr><td class="mname">v5 <span class="tag hist">32B</span></td><td style="text-align:left">Early 32B attempt, confounded and under-optimized</td><td class="mut" style="text-align:left">historical / superseded</td></tr>
+</tbody></table></div>
+</section>
+
+<div class="footer reveal">
+  <p class="fl"><b>Adapters:</b>
+    <a href="https://huggingface.co/khoilamalphaai/chess-coach-32b-v4-qlora">chess-coach-32b-v4-qlora</a> (SFT base) ·
+    <a href="https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo2">chess-coach-32b-v6-dpo2</a> (live) ·
+    <a href="https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-dpo">chess-coach-32b-v6-dpo</a> ·
+    <a href="https://huggingface.co/khoilamalphaai/chess-coach-32b-v6-distill">chess-coach-32b-v6-distill</a></p>
+  <p class="fl"><b>Data and artifacts:</b> companion dataset <a href="https://huggingface.co/datasets/khoilamalphaai/chess-coach-benchmark">chess-coach-benchmark</a> (per-model generations, objective flags, council sheet, corrected v6 labels).</p>
+  <p class="fl"><b>Reproduce:</b> the 803-field re-score is free and label-only (<code>python scripts/rescore_field_v6.py</code>, about 7 seconds, no GPU); the 120-TEST lineup is one controlled session (<code>scripts/stage4_eval.py</code>).</p>
+  <p class="mut">Provenance: numbers are verbatim from <code>RESULTS_STAGE4_CORRECTED.md</code> (120 TEST) and <code>RESULTS_FULL_EVAL_803.md</code> (803 field). Deterministic metrics use the vendored move extractor; instructiveness is a blinded, cross-family LLM-judge proxy with self-preference measured. This Space displays numbers only, with no runtime or GPU.</p>
 </div>
 
-<!-- (c) TABLE STAKES: the floors -->
-<h2>Table stakes <span class="sub">· every competent coach clears these; not the differentiator</span></h2>
-<p class="hint">Deterministic non-LLM checks: the <b>floor</b>, not the moat. Follows the toggles. n = 100 per model. <span class="mut">Grounded (deployed), every model clears the safety floor at 93–100%.</span></p>
-<div class="two">
-  <div class="panel" style="padding:14px 16px">
-    <h3>Move safety: no blunders (%) <span class="mut" style="font-weight:400">· higher better</span></h3>
-    <p class="hint" style="margin:2px 0 8px">Recommended move is <b>not a blunder</b> (Stockfish cp-loss &lt; 250). A usable coach must not hang pieces. Re-scored blunder-only from the stored picks + engine evals.</p>
-    <div class="bars" id="safeBars"></div>
-  </div>
-  <div class="panel" style="padding:14px 16px">
-    <h3>Fabrication rate (%) <span class="mut" style="font-weight:400">· lower better</span></h3>
-    <p class="hint" style="margin:2px 0 8px">Answer states &ge;1 false board fact (deterministic verifier). This is the <b>raw model</b>; the deployed gate makes what the learner sees ≈0 (see below).</p>
-    <div class="bars" id="fabBars"></div>
-  </div>
-</div>
-<div class="panel" style="margin-top:14px"><table id="objTbl"></table></div>
-<p class="note">No-engine-speak is a solved floor: 100% for every model (Claude 99% ungrounded); ply-cap is likewise 100% for all and omitted here. The real story on this axis is that in the deployed (grounded) condition, <b>nobody blunders much</b>.</p>
-<div class="callout good">
-  <div class="ct">Faithfulness is verifier-guaranteed</div>
-  <p>The grounded fabrication rate above is the <b>raw model</b>. The deployed app runs a <b>verify-and-regenerate gate</b>: re-sample the answer up to 4&times; and keep the first one that passes a deterministic board-fact verifier; if none pass, fall back to an engine-derived explanation that is <b>true by construction</b>. So <b>user-visible fabrication is ≈0</b>: measured 50% &rarr; 0% on the grounded-fabrication cases tested. Sources: <span class="mut">src/api/server.py, src/engine/faithfulness.py, VERIFIER_EVAL.md</span>.</p>
-</div>
-
-<!-- Same-input faithfulness head-to-head (the fabrication number, made concrete) -->
-<h2>Same-input faithfulness head-to-head <span class="pill cur" style="vertical-align:3px">v2 · real outputs</span></h2>
-<p class="hint">The raw fabrication number, made concrete. Below are <b id="hhCount">6</b> grounded positions where <b>every model received the byte-identical VERIFIED-FACTS input</b> and <b>all four models recommend the same move</b>, yet OURS-v2 states a <b class="b">demonstrably false board fact</b> in its explanation while all three frontier models stay faithful. The false sentence is <mark class="false">highlighted</mark> and named by the deterministic verifier. This is the raw-model failure the production verify-and-regenerate gate catches before it reaches a learner. Text is verbatim from <span class="mut">generations.jsonl</span>; flags from <span class="mut">objective.jsonl</span>.</p>
-<div class="hh-nav" id="hhNav"></div>
-<div id="hhBody"><div class="warnbox">Loading head-to-head…</div></div>
-
-<h2>v1 &rarr; v2 improvement <span class="sub">(OURS, grounded)</span></h2>
-<p class="hint">Matched comparison on the same 100 held-out positions (grounded = deployed). Every measured axis moved the right way.</p>
-<div class="panel"><table id="deltaTbl"></table></div>
-<p class="note" id="deltaNote"></p>
-
-<h2>Cost: 100-position benchmark run</h2>
-<p class="hint">Generation + council-judge API spend for this run. OURS and BASE run locally on Apple-silicon MLX ($0). Lower is better.</p>
-<div class="panel" style="padding:16px"><div class="bars" id="costBars"></div></div>
-<div class="panel" style="margin-top:14px"><table id="costTbl"></table></div>
-
-<h2>Bias / self-preference check</h2>
-<p class="hint">Mean rank each judge gives each model (pooled across conditions). A judge favoring its own lab shows a <b>lower</b> number in its own column (marked &#9733;).</p>
-<div class="panel"><table id="biasTbl"></table></div>
-<p class="note" id="biasNote"></p>
-
-<h2>Blinded example viewer</h2>
-<p class="hint">Step through the exact anonymized items the council ranked (version follows the toggle above). Reveal to see which lab wrote each A–E answer, plus the objective flags.</p>
-<div class="viewer" id="viewer">
-  <div class="vbar">
-    <button id="prev">&larr; Prev</button>
-    <button id="next">Next &rarr;</button>
-    <select id="condSel"><option value="grounded">grounded</option><option value="ungrounded">ungrounded</option></select>
-    <button id="reveal">Reveal models</button>
-    <button id="rand">Random</button>
-    <span class="prog" id="vprog"></span>
-  </div>
-  <div id="vbody"><div class="warnbox">Loading examples…</div></div>
-</div>
-
-<div class="footer">
-  <p><b>v2 current.</b> Model: <a href="https://huggingface.co/khoilamalphaai/qwen3-1.7b-chess-coach-mlx">qwen3-1.7b-chess-coach-mlx</a>
-  · Dataset &amp; artifacts: <a href="https://huggingface.co/datasets/khoilamalphaai/chess-coach-benchmark">chess-coach-benchmark</a>
-  · Raw blinded labeling sheet: <a href="blind_label.html">v2</a> / <a href="blind_label_v1.html">v1</a>
-  · This Space displays numbers only, no runtime/GPU.</p>
-  <p class="mut">Objective checks are deterministic; council instructiveness is an LLM-judge proxy (blinded, cross-family, self-preference measured). "Move safety" is re-scored blunder-only (cp-loss &ge; 250) from the stored picks + Stockfish; a pick is safe unless it is a blunder. Ungrounded fabrication rose 87%&rarr;99% (the concreteness trade); the product always runs grounded with an inference-time verify-and-regenerate gate. Sources: <span class="mut">results.json, move_safety.json, divergence_compare_v2.json, GAP_REPORT.md, VERIFIER_EVAL.md</span>.</p>
-</div>
-
-<script>
-const DATA = __DATA__;
-const TIERDIFF = __TIERDIFF__;
-const HEADTOHEAD = __HEADTOHEAD__;
-
-let ver = "v2", cond = "grounded";
-const A = () => DATA[ver];
-const ML = () => A().meta.models;
-const ORDER = () => A().meta.model_order;
-const SHORT = {ours:"OURS", base:"BASE", gpt:"GPT-5.5", claude:"Claude", gemini:"Gemini"};
-const pct = x => Math.round(x*100)+"%";
-const pct1 = x => (x*100).toFixed(1)+"%";
-const f2 = x => Number(x).toFixed(2);
-const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const tagFor = m => m==="ours" ? '<span class="mtag ours">OURS · on-device</span>'
-  : m==="base" ? '<span class="mtag local">local</span>' : '<span class="mtag frontier">frontier</span>';
-// move_safe was layered on by scripts/space/assemble.py; fall back to move_sound if absent.
-const safeVal = (O,m,c) => (O.move_safe ? O.move_safe[m][c] : O.move_sound[m][c]);
-
-/* ---- generic horizontal bars: identity color = OURS accent; value color = best/worst ---- */
-function renderBars(el, rows, max, dir){
-  const vals = rows.map(r=>r.value);
-  const best = dir==="higher" ? Math.max(...vals) : Math.min(...vals);
-  const worst = dir==="higher" ? Math.min(...vals) : Math.max(...vals);
-  let h="";
-  for(const r of rows){
-    const w = max>0 ? Math.max(1.5, Math.min(100, (r.value/max)*100)) : 0;
-    let vc=""; if(best!==worst && r.value===best) vc="g"; else if(best!==worst && r.value===worst) vc="b";
-    h+=`<div class="barrow"><div class="nm">${r.name} ${r.isOurs?tagFor("ours"):(r.tag||"")}</div>`+
-       `<div class="track"><div class="fill ${r.isOurs?'ours':''}" style="width:${w.toFixed(1)}%"></div></div>`+
-       `<div class="val ${vc}">${r.display}</div></div>`;
-  }
-  el.innerHTML=h;
-}
-
-/* ---- Table stakes: move safety + fabrication bars ---- */
-function objBars(){
-  const O=A().objective;
-  const safe=ORDER().map(m=>({name:SHORT[m],value:safeVal(O,m,cond),display:pct(safeVal(O,m,cond)),isOurs:m==="ours"}));
-  const fb=ORDER().map(m=>({name:SHORT[m],value:O.fabrication_rate[m][cond],display:pct(O.fabrication_rate[m][cond]),isOurs:m==="ours"}));
-  renderBars(document.getElementById("safeBars"), safe, 1, "higher");
-  renderBars(document.getElementById("fabBars"), fb, 1, "lower");
-}
-function objTable(){
-  const O=A().objective;
-  let h='<thead><tr><th>Model</th><th>move safety &uarr;</th><th>no engine-speak &uarr;</th><th>fabrication &darr;</th><th>avg viol.</th><th>n</th></tr></thead><tbody>';
-  for(const m of ORDER()){
-    const sa=safeVal(O,m,cond), ns=O.no_engine_speak[m][cond],
-          fb=O.fabrication_rate[m][cond], av=O.avg_violations[m][cond];
-    h+=`<tr class="${m==='ours'?'ours':''}"><td class="mname">${ML()[m]} ${tagFor(m)}</td>`+
-       `<td class="${sa>=0.99?'g':(sa<0.9?'b':'w')}">${pct(sa)}</td>`+
-       `<td class="${ns>=1?'g':'w'}">${pct(ns)}</td>`+
-       `<td class="${fb<=0.06?'g':(fb>=0.3?'b':'w')}">${pct(fb)}</td>`+
-       `<td class="mut">${f2(av)}</td><td class="mut">100</td></tr>`;
-  }
-  document.getElementById('objTbl').innerHTML=h+'</tbody>';
-}
-
-/* ---- Council ---- */
-function rankBars(){
-  const MR=A().council.mean_rank;
-  const rows=ORDER().map(m=>({m, r:MR[m][cond]})).sort((a,b)=>a.r-b.r);
-  const best=Math.min(...rows.map(r=>r.r)), worst=Math.max(...rows.map(r=>r.r));
-  let h='';
-  for(const {m,r} of rows){
-    const w=Math.max(2,((5-r)/4)*100);
-    const vc = r===best?'g':(r===worst?'b':'');
-    h+=`<div class="barrow"><div class="nm">${ML()[m]} ${tagFor(m)}</div>`+
-       `<div class="track"><div class="fill ${m==='ours'?'ours':''}" style="width:${w.toFixed(1)}%"></div></div>`+
-       `<div class="val ${vc}">rank ${f2(r)}</div></div>`;
-  }
-  document.getElementById('rankBars').innerHTML=h;
-}
-function councilGap(){
-  const MR=A().council.mean_rank;
-  const our=MR.ours[cond], fb=Math.min(MR.gpt[cond],MR.claude[cond],MR.gemini[cond]);
-  document.getElementById('gapNote').innerHTML =
-    `OURS-v2 mean rank <b>${f2(our)}</b> vs the best frontier model <b>${f2(fb)}</b>, a gap of <b>+${(our-fb).toFixed(2)}</b>. `+
-    `We are <b>closing</b> it (grounded gap v1 +2.22 &rarr; v2 +1.60), not winning it. The reorder reflects what matters for a leveled coach, not a scoreboard we won.`;
-}
-function winTable(){
-  const W=A().council.win_rate;
-  const rows=ORDER().map(m=>({m,v:W[m][cond]})).sort((a,b)=>b.v-a.v);
-  let h='<thead><tr><th>Model</th><th>top-1 win% (share judged best)</th></tr></thead><tbody>';
-  for(const {m,v} of rows) h+=`<tr class="${m==='ours'?'ours':''}"><td class="mname">${ML()[m]}</td><td>${pct1(v)}</td></tr>`;
-  document.getElementById('winTbl').innerHTML=h+'</tbody>';
-}
-function rubTable(){
-  const R=A().council.rubric;
-  let h='<thead><tr><th>Model</th><th>tier_cal</th><th>clarity</th><th>correct</th></tr></thead><tbody>';
-  for(const m of ORDER()) h+=`<tr class="${m==='ours'?'ours':''}"><td class="mname">${ML()[m]}</td>`+
-     `<td>${f2(R.tier_calibration[m][cond])}</td><td>${f2(R.clarity[m][cond])}</td><td>${f2(R.correctness[m][cond])}</td></tr>`;
-  document.getElementById('rubTbl').innerHTML=h+'</tbody>';
-}
-
-/* ---- Bias ---- */
-function biasTable(){
-  const P=A().council.by_judge_pooled_mean_rank, J=A().meta.judges;
-  let h='<thead><tr><th>Model \\ Judge</th>'+J.map(j=>`<th>${SHORT[j]}</th>`).join('')+'</tr></thead><tbody>';
-  for(const m of ORDER()){
-    h+=`<tr class="${m==='ours'?'ours':''}"><td class="mname">${ML()[m]}</td>`;
-    for(const j of J){ const v=P[j][m]; const own=(j===m); h+=`<td class="${own?'g':''}">${f2(v)}${own?' &#9733;':''}</td>`; }
-    h+='</tr>';
-  }
-  document.getElementById('biasTbl').innerHTML=h+'</tbody>';
-  const sp=A().council.self_preference;
-  document.getElementById('biasNote').innerHTML=
-    `Mean signed self-preference across judges: <b>+${sp._mean_signed_delta.toFixed(2)}</b> rank (positive = judges favor their own lab). `+
-    `Per judge &Delta; (peers &minus; own): GPT-5.5 +${sp.gpt.self_pref_delta.toFixed(2)}, Claude +${sp.claude.self_pref_delta.toFixed(2)}, Gemini +${sp.gemini.self_pref_delta.toFixed(2)}. Small next to the coaching gap.`;
-}
-
-/* ---- Cost ---- */
-function costBars(){
-  const C=A().cost.per_model;
-  const rows=ORDER().map(m=>({name:SHORT[m],value:C[m].total_cost_usd,display:"$"+C[m].total_cost_usd.toFixed(2),isOurs:m==="ours"}))
-                    .sort((a,b)=>a.value-b.value);
-  const maxv=Math.max(...rows.map(r=>r.value));
-  renderBars(document.getElementById("costBars"), rows, maxv||1, "lower");
-}
-function costTable(){
-  const C=A().cost.per_model;
-  let h='<thead><tr><th>Model</th><th>gen calls</th><th>judge calls</th><th>in tok</th><th>out tok</th><th>est. USD</th></tr></thead><tbody>';
-  for(const m of ORDER()){
-    const c=C[m];
-    const intok=(c.gen_prompt_tokens||0)+(c.judge_prompt_tokens||0), outtok=(c.gen_completion_tokens||0)+(c.judge_completion_tokens||0);
-    const free=c.total_cost_usd===0;
-    h+=`<tr class="${m==='ours'?'ours':''}"><td class="mname">${ML()[m]} ${tagFor(m)}</td>`+
-       `<td class="mut">${c.gen_calls}</td><td class="mut">${c.judge_calls}</td>`+
-       `<td class="mut">${intok.toLocaleString()}</td><td class="mut">${outtok.toLocaleString()}</td>`+
-       `<td class="${free?'g':''}">$${c.total_cost_usd.toFixed(2)}</td></tr>`;
-  }
-  h+=`<tr><td class="mname"><b>Total</b></td><td colspan="4"></td><td><b>$${A().cost.total_cost_usd.toFixed(2)}</b></td></tr>`;
-  document.getElementById('costTbl').innerHTML=h+'</tbody>';
-}
-
-/* ---- Tier-appropriateness (v2 vs frontier; independent of toggles) ---- */
-function tierSection(){
-  const rows=[
-    {name:"OURS-v2", value:39.2, display:"39.2%", isOurs:true, tag:'<span class="mtag ours">120 matched</span>'},
-    {name:"GPT-5.5", value:24.0, display:"24.0%", isOurs:false, tag:'<span class="mtag frontier">50 held-out</span>'},
-    {name:"Claude Opus 4.8", value:24.0, display:"24.0%", isOurs:false, tag:'<span class="mtag frontier">50 held-out</span>'},
-    {name:"Gemini 3.1 Pro", value:20.0, display:"20.0%", isOurs:false, tag:'<span class="mtag frontier">50 held-out</span>'},
-  ];
-  renderBars(document.getElementById("tierBars"), rows, 45, "higher");
-  const dir=[
-    ["Beginner pick pool-rank (findable, higher better)","0.43","0.78"],
-    ["Advanced pick pool-rank (sharp, lower better)","0.62","0.45"],
-    ["Beginner move == human/Maia top","39.2%","61.7%"],
-    ["Direction (beginner more findable than advanced)","Wrong","Correct"],
-  ];
-  let h='<thead><tr><th>Move-selection direction (OURS)</th><th>v1</th><th>v2</th></tr></thead><tbody>';
-  for(const r of dir){
-    const good = r[2]==="Correct" ? '<span class="g">Correct</span>' : r[2];
-    h+=`<tr class="good"><td>${r[0]}</td><td class="mut">${r[1]}</td><td>${good}</td></tr>`;
-  }
-  document.getElementById('tierDirTbl').innerHTML=h+'</tbody>';
-}
-
-/* ---- v1 -> v2 delta ---- */
-function deltaTable(){
-  const g=DATA.v1, h2=DATA.v2;
-  const rows=[
-    ["Tier-differentiation (higher better)", pct1(TIERDIFF.v1), pct1(TIERDIFF.v2), "+11.7 pts"],
-    ["Council mean rank (1 = best)", f2(g.council.mean_rank.ours.grounded), f2(h2.council.mean_rank.ours.grounded), "-0.45"],
-    ["Fabrication rate (lower better)", pct(g.objective.fabrication_rate.ours.grounded), pct(h2.objective.fabrication_rate.ours.grounded), "-17 pts"],
-    ["Move safety: no blunders (higher better)", pct(safeVal(g.objective,"ours","grounded")), pct(safeVal(h2.objective,"ours","grounded")), "+2 pts"],
-    ["Top-1 council win rate", pct(g.council.win_rate.ours.grounded), pct(h2.council.win_rate.ours.grounded), "+6 pts"],
-  ];
-  let h='<thead><tr><th>Metric (OURS, grounded)</th><th>v1</th><th>v2</th><th>Change</th></tr></thead><tbody>';
-  for(const r of rows) h+=`<tr class="good"><td>${r[0]}</td><td class="mut">${r[1]}</td><td>${r[2]}</td><td class="g">${r[3]}</td></tr>`;
-  document.getElementById('deltaTbl').innerHTML=h+'</tbody>';
-  const gap1=DATA.v1.council.mean_rank.ours.grounded-Math.min(DATA.v1.council.mean_rank.gpt.grounded,DATA.v1.council.mean_rank.claude.grounded,DATA.v1.council.mean_rank.gemini.grounded);
-  const gap2=DATA.v2.council.mean_rank.ours.grounded-Math.min(DATA.v2.council.mean_rank.gpt.grounded,DATA.v2.council.mean_rank.claude.grounded,DATA.v2.council.mean_rank.gemini.grounded);
-  document.getElementById("deltaNote").innerHTML=
-    `Gap to the best frontier model (grounded council rank) narrows <b>+${gap1.toFixed(2)} &rarr; +${gap2.toFixed(2)}</b>. `+
-    `<b>Honest caveat:</b> ungrounded, v2 is <b>more</b> brittle (fabrication ${pct(DATA.v1.objective.fabrication_rate.ours.ungrounded)} &rarr; ${pct(DATA.v2.objective.fabrication_rate.ours.ungrounded)}) because it teaches more concretely; the product always runs <b>grounded</b> with an inference-time verifier.`;
-}
-
-/* ---- Same-input faithfulness head-to-head ---- */
-function highlightFalse(text, viols){
-  let out = esc(text);
-  for(const v of (viols||[])){
-    const needle = esc(v.sentence);
-    if(out.includes(needle)) out = out.split(needle).join(`<mark class="false">${needle}</mark>`);
-  }
-  return out;
-}
-function hhModelCard(m, key){
-  const cls = key==="ours" ? "ours" : (key==="base" ? "base" : "frontier");
-  const fab = m.fabricated;
-  const badge = fab
-    ? `<span class="hh-badge fab">fabricates ${m.violations.length||1} fact${(m.violations.length>1)?'s':''}</span>`
-    : `<span class="hh-badge faithful">faithful · 0 false facts</span>`;
-  const rec = `<span class="hh-rec">move: <b>${esc(m.rec_san||"?")}</b> ${m.move_sound?'✓ sound':'✗ unsound'}</span>`;
-  const body = highlightFalse(m.output, m.violations);
-  let flag="";
-  if(fab && m.violations.length){
-    flag = `<div class="hh-flag"><b>Verifier-flagged false claim:</b> “${esc(m.violations[0].sentence)}”: <b>${esc(m.violations[0].reason)}</b>`+
-           (m.violations.length>1?` <span class="mut">(+${m.violations.length-1} more)</span>`:"")+`</div>`;
-  }
-  return `<div class="hh-model ${cls}"><div class="hh-mh"><span class="mname">${esc(m.name)}</span> ${key==="ours"?tagFor("ours"):(key==="base"?tagFor("base"):tagFor("gpt"))} ${badge} ${rec}</div>`+
-         `<div class="hh-txt">${body}</div>${flag}</div>`;
-}
-function renderHeadToHead(){
-  document.getElementById("hhCount").textContent = HEADTOHEAD.length;
-  let nav="";
-  HEADTOHEAD.forEach((it,i)=>{ nav+=`<a href="#hh${i}">${i+1}. ${it.tier}/${it.phase}</a>`; });
-  document.getElementById("hhNav").innerHTML=nav;
-  const modelOrder=["ours","gpt","claude","gemini","base"];
-  let h="";
-  HEADTOHEAD.forEach((it,i)=>{
-    const recs=[it.models.ours,it.models.gpt,it.models.claude,it.models.gemini].map(m=>m.rec_san);
-    const allSame = recs.every(r=>r===recs[0]);
-    const mvChip = allSame
-      ? `<span class="chip mv">all four models recommend <b>${esc(recs[0])}</b>, only the explanations differ</span>`
-      : `<span class="chip mv">OURS plays <b>${esc(it.models.ours.rec_san)}</b></span>`;
-    h+=`<div class="hh-item" id="hh${i}">`+
-       `<div class="hh-head"><span class="chip tier">${esc(it.tier)}</span><span class="chip">${esc(it.phase)}</span>`+
-       `<span class="chip">${esc(it.severity)}</span><span class="chip">student played <b>${esc(it.student_move_san)}</b></span>`+
-       `<span class="chip">${esc(it.side_to_move)} to move</span>${mvChip}</div>`+
-       `<div class="hh-facts"><pre class="board">${esc(it.board_ascii)}</pre>`+
-       `<div><div class="hh-fsum"><span class="k">Identical grounded input →</span> ${esc(it.facts_summary)}</div>`+
-       `<details><summary>Show the exact VERIFIED-FACTS block all 5 models received</summary><pre class="facts">${esc(it.facts_full)}</pre></details></div></div>`+
-       `<div class="hh-models">`+ modelOrder.map(k=>hhModelCard(it.models[k],k)).join("") +`</div></div>`;
-  });
-  document.getElementById("hhBody").innerHTML=h;
-}
-
-/* ---- render pipeline ---- */
-function renderToggled(){ objBars(); objTable(); rankBars(); councilGap(); winTable(); rubTable(); biasTable(); costBars(); costTable(); }
-function renderStatic(){ tierSection(); deltaTable(); renderHeadToHead(); }
-
-document.querySelectorAll('#objTog button').forEach(b=>b.onclick=()=>{
-  cond=b.dataset.c;
-  document.querySelectorAll('#objTog button').forEach(x=>x.classList.toggle('on',x===b));
-  renderToggled();
-});
-document.querySelectorAll('#verTog button').forEach(b=>b.onclick=()=>{
-  ver=b.dataset.v;
-  document.querySelectorAll('#verTog button').forEach(x=>x.classList.toggle('on',x===b));
-  renderToggled(); loadViewer();
-});
-renderToggled();
-renderStatic();
-
-/* ---------- Blinded example viewer (version-aware) ---------- */
-const MODEL_COLOR={ours:'#d4a54a',base:'#33c27f',gpt:'#6ea8fe',claude:'#f2b04a',gemini:'#f4a29c'};
-let ITEMS=[], KEY={}, OBJ={}, idx=0, revealed=false, viewList=[];
-function objKey(sid,model,cnd){return sid+'::'+model+'::'+cnd;}
-async function loadViewer(){
-  ITEMS=[];KEY={};OBJ={};idx=0;
-  document.getElementById('vbody').innerHTML='<div class="warnbox">Loading examples…</div>';
-  try{
-    const [bl,bk,ob]=await Promise.all([
-      fetch(`blind_label_${ver}.jsonl`).then(r=>{if(!r.ok)throw 0;return r.text();}),
-      fetch(`blind_key_${ver}.json`).then(r=>r.ok?r.json():{}),
-      fetch(`objective_${ver}.jsonl`).then(r=>r.ok?r.text():'')
-    ]);
-    ITEMS=bl.trim().split('\n').map(l=>JSON.parse(l));
-    KEY=bk||{};
-    if(ob){for(const l of ob.trim().split('\n')){const o=JSON.parse(l);OBJ[objKey(o.scenario_id,o.model,o.condition)]=o;}}
-    filterCond();
-  }catch(e){
-    document.getElementById('vbody').innerHTML='<div class="warnbox">Couldn\'t load the example files here. Browse them in the <a href="https://huggingface.co/datasets/khoilamalphaai/chess-coach-benchmark">dataset viewer</a> instead.</div>';
-  }
-}
-function filterCond(){
-  const c=document.getElementById('condSel').value;
-  viewList=ITEMS.filter(it=>it.condition===c);
-  idx=0; renderItem();
-}
-function renderItem(){
-  if(!viewList.length){document.getElementById('vprog').textContent='';return;}
-  const it=viewList[idx];
-  const key=KEY[it.item_id]||{};
-  document.getElementById('vprog').textContent=`item ${idx+1} / ${viewList.length} · ${ver}`;
-  let h=`<div class="vmeta"><span class="chip">${it.tier}</span><span class="chip">${it.phase}</span><span class="chip">${it.severity}</span>`+
-        `<span class="chip">student played <b>${it.student_move_san}</b></span><span class="chip">${it.side_to_move} to move</span></div>`;
-  h+=`<pre class="board">${it.board_ascii.replace(/</g,'&lt;')}</pre>`;
-  for(const r of it.responses){
-    const model=key[r.label];
-    const o=model?OBJ[objKey(it.scenario_id,model,it.condition)]:null;
-    let badges='';
-    if(o){
-      badges+=o.move_sound?'<span class="badge snd">sound move</span>':'<span class="badge uns">unsound move</span>';
-      if(o.fabricated)badges+=' <span class="badge fab">fabricates '+o.n_violations+' fact'+(o.n_violations>1?'s':'')+'</span>';
-    }
-    const who=model?`<span class="who" style="background:${MODEL_COLOR[model]}22;color:${MODEL_COLOR[model]}">${ML()[model]}</span>`:'';
-    h+=`<div class="resp ${revealed?'revealed':''}"><div class="rh"><span class="lab">${r.label}</span>${who} ${badges}</div>`+
-       `<div class="txt">${r.text.replace(/</g,'&lt;')}</div></div>`;
-  }
-  document.getElementById('vbody').innerHTML=h;
-}
-document.getElementById('prev').onclick=()=>{if(viewList.length){idx=(idx-1+viewList.length)%viewList.length;renderItem();}};
-document.getElementById('next').onclick=()=>{if(viewList.length){idx=(idx+1)%viewList.length;renderItem();}};
-document.getElementById('rand').onclick=()=>{if(viewList.length){idx=Math.floor(Math.random()*viewList.length);renderItem();}};
-document.getElementById('condSel').onchange=filterCond;
-document.getElementById('reveal').onclick=()=>{revealed=!revealed;document.getElementById('reveal').textContent=revealed?'Hide models':'Reveal models';renderItem();};
-loadViewer();
-</script>
 </div></body></html>
