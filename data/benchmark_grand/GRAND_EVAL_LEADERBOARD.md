@@ -70,7 +70,7 @@ On positions where OURS gives distinct, sound, correctly-graded per-tier moves A
 | OURS-v4 (Qwen3-32B tuned) | 1.000 | 1.000 | 0.983 | 0.444 |
 | OURS-v5 (Qwen3-32B tuned, v5) | 1.000 | 1.000 | 0.992 | 0.444 |
 
-_Once gated, tuned soundness/format hit a shared ~100% floor (0 user-visible fabrication by construction) — a fairness floor, not a differentiator; the differentiators are tier-fit / distinct-moves / instructiveness._
+_Once gated, tuned soundness/format hit a shared ~100% floor (zero verifier-detectable mechanical violations by construction) — a fairness floor, not a differentiator; the differentiators are tier-fit / distinct-moves / instructiveness._
 
 ## Deterministic gate axes (raw draft for ungated rows; telemetry for gated 4B)
 

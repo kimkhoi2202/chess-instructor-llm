@@ -533,7 +533,7 @@ def _write_md(rep, grade, ci, ranks, tier, dist, gate, coh, gated, proof, field,
         A(f"| {META[ok]['name']} | {F(gv.get('gated_move_sound'))} | {F(gv.get('gated_well_formed'))} "
           f"| {F(gv.get('gated_no_engine_speak'))} | {F(gv.get('gated_fallback_rate'))} |")
     A("")
-    A("_Once gated, tuned soundness/format hit a shared ~100% floor (0 user-visible fabrication by "
+    A("_Once gated, tuned soundness/format hit a shared ~100% floor (zero verifier-detectable mechanical violations by "
       "construction) — a fairness floor, not a differentiator; the differentiators are tier-fit / "
       "distinct-moves / instructiveness._\n")
 
