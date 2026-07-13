@@ -333,6 +333,15 @@ export default function Studio() {
     return [];
   }, [activeStatus, activeResult, studentUci, fen, coachedFen]);
 
+  // Position eval for the left eval bar: the best move's centipawns (side-to-move
+  // POV) from the ACTIVE tier's engine facts, only while the board is on the
+  // coached position. Engine facts are position-level (identical across tiers), so
+  // switching tiers keeps the bar correct; an un-coached FEN shows a neutral bar.
+  const evalCp = useMemo<number | null>(
+    () => (fen === coachedFen && activeResult ? activeResult.engine.best_cp : null),
+    [fen, coachedFen, activeResult],
+  );
+
   // Dragging a legal move REVIEWS it in place: the board does NOT advance
   // (ChessgroundBoard snaps the piece back to the reviewed position). We record it
   // as "your move" on the CURRENT position and start a fresh session; the coach
@@ -600,6 +609,7 @@ export default function Studio() {
             fen={fen}
             orientation={orientation}
             arrows={arrows}
+            evalCp={evalCp}
             lastMove={lastMove}
             loading={false}
             interactive
