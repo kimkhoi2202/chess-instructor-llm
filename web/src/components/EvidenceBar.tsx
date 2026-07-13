@@ -14,7 +14,6 @@ import {
   GitHubIcon,
   LayersIcon,
   RocketIcon,
-  ShieldCheckIcon,
 } from "./icons";
 
 type EvidenceLink = {
@@ -73,7 +72,6 @@ export default function EvidenceBar() {
             id="evidence-heading"
             className="flex items-center gap-2 text-sm font-semibold text-ink"
           >
-            <ShieldCheckIcon width={15} height={15} className="text-signal" />
             Held-out evidence
           </h2>
           <p className="max-w-2xl text-pretty text-[13px] leading-relaxed text-muted">
@@ -85,9 +83,9 @@ export default function EvidenceBar() {
             the top tier-fit of every model measured, past the best frontier at{" "}
             <span className="font-mono text-ink tnum">55.3%</span> (corrected v6 numbers are on the
             Benchmark Space). On the{" "}
-            <span className="font-mono text-ink tnum">62</span> held-out positions where OURS diverges
+            <span className="font-mono text-ink tnum">92</span> held-out positions where OURS diverges
             from the best frontier, it wins the tier-appropriate move{" "}
-            <span className="font-mono font-semibold text-signal tnum">51&ndash;5</span> (6 ties).
+            <span className="font-mono font-semibold text-signal tnum">56&ndash;24</span> (12 ties).
           </p>
         </div>
 
