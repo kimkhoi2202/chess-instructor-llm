@@ -802,12 +802,9 @@ export default function Studio() {
 
               <Separator />
 
-              {/* Advanced: paste any FEN or set a move */}
-              <details className="group">
-                <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-ink">
-                  <span className="text-faint transition-transform group-open:rotate-90">›</span>
-                  Paste a FEN or set a move
-                </summary>
+              {/* Advanced: paste any FEN or set a move (always available) */}
+              <div>
+                <span className="text-sm font-medium text-muted">Paste a FEN or set a move</span>
                 <div className="mt-3 flex flex-col gap-3">
                   <TextField
                     className="flex flex-col gap-1.5"
@@ -904,7 +901,7 @@ export default function Studio() {
                     )}
                   </div>
                 </div>
-              </details>
+              </div>
             </div>
           </div>
         </section>
