@@ -849,10 +849,13 @@ export default function Studio() {
                     isInvalid={!fenDraftState.ok}
                   >
                     <Label className="text-xs font-normal text-muted">Position (FEN)</Label>
+                    {/* Auto-size to content: one line for a normal FEN, growing to
+                        ~3 lines when it wraps, then scrolls. `field-sizing: content`
+                        drives the height; rows={1} is the min + fallback. */}
                     <TextArea
-                      rows={2}
+                      rows={1}
                       spellCheck={false}
-                      className="w-full resize-none font-mono leading-snug"
+                      className="w-full resize-none overflow-y-auto font-mono leading-snug [field-sizing:content] max-h-[4.5rem]"
                     />
                     {!fenDraftState.ok && (
                       <FieldError className="text-xs text-[color:var(--caution)]">
