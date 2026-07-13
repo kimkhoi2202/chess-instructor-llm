@@ -263,7 +263,7 @@ export interface OursLabel {
   short: string;
   version: string | null;
   size: string | null;
-  /** "OURS · v4" style chip text. */
+  /** Version-only chip text, e.g. "v6-dpo2" (raw name when no version parsed). */
   badge: string;
 }
 
@@ -342,9 +342,9 @@ export function deriveOursLabel(name: string | null | undefined): OursLabel {
   const version = raw.match(/v\d+(?:\.\d+)?(?:-[a-z0-9]+)*/i)?.[0]?.toLowerCase() ?? null;
   const size = raw.match(/(\d+(?:\.\d+)?\s?B)\b/i)?.[1]?.replace(/\s+/g, "") ?? null;
   // Never assert a version we couldn't parse. When the model name carries a
-  // "vN" we badge "OURS · vN"; otherwise we show the raw model name (or a bare
-  // "OURS") rather than hardcoding an unverified fallback version.
-  const badge = version ? `OURS · ${version}` : raw || "OURS";
+  // "vN" the badge is just that version (e.g. "v6-dpo2"); otherwise we show the
+  // raw model name (or a bare "OURS") rather than hardcoding an unverified version.
+  const badge = version ? version : raw || "OURS";
   return { name: raw || "OURS", short: "OURS", version, size, badge };
 }
 
