@@ -798,10 +798,6 @@ export default function Studio() {
                     );
                   })}
                 </div>
-                <p className="text-[11px] leading-relaxed text-faint">
-                  Recognizable openings plus three “moat” demos (one per game phase) where the tuned
-                  model adapts the move by level. Loads instantly; press “Run live” to coach it.
-                </p>
               </div>
 
               <Separator />
