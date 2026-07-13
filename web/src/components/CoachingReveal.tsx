@@ -92,8 +92,6 @@ export default function CoachingReveal({
                 </p>
               </Tooltip.Content>
             </Tooltip>
-            <span aria-hidden className="text-faint">·</span>
-            <span>{result.side_to_move} to move</span>
           </span>
         </h2>
         {precomputed && (
