@@ -111,7 +111,7 @@ leading artifact — this is almost certainly a chunk of the eval's reported
   *principle library / commentary*, not the examples — handled in
   `principle_library_v5.md` §D.
 
-## 6. Small v5 A/B proof (sanctioned, sparing TFY — 4 calls of `openai-group/gpt-5.5`, $0.03)
+## 6. Small v5 A/B proof (sanctioned, sparing TFY — 4 calls of `openai-group/gpt-5.5`)
 
 Reused **identical grounded prompts** from train_v4; only upgraded the teacher
 instruction to the v5 spec (named principle in takeaway; ≤2-sentence reusable
@@ -185,8 +185,7 @@ new text. No full ~7k re-spend.
 
 ### Targeted teacher top-up (sanctioned, sparing)
 Only regenerate: takeaway-gate failures + coherence-changed intermediate rows +
-new beginner contrastive triads. Estimate **~1–2k calls** at medium effort ≈
-**$8–15** (demo measured $0.0075/call), vs v3's $141 full run.
+new beginner contrastive triads. Estimate **~1–2k calls** at medium effort.
 
 ### Validate BEFORE training (cheap gate — prefer data over hparams)
 Re-run `audit_v5_instructiveness.py` on v5 and require:

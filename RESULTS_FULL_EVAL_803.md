@@ -49,7 +49,7 @@ Takeaways (full detail + per-tier + 95%-CI council in `RESULTS_STAGE4_CORRECTED.
 _Added 2026-07-11. This REFRESHES the field-wide moat (§1–§2 below) against the
 corrected v6 labels. The historical pre-correction tables are kept intact underneath
 for provenance. **No model was re-run** — this is a free, cached re-score (0 GPU, 0
-network, $0 gateway spend)._
+network)._
 
 **What changed.** The v6 rebuild re-derived the benchmark's canonical / sound labels
 on the SAME 803 positions (`data/benchmark_gap803/scenarios_v6.jsonl`): **45.2% of
@@ -337,18 +337,6 @@ For a fine-tuning *base*, tier-appropriateness is what we ADD, so it is down-wei
 - **Best open v3 base: Gemma-3-27B-it** — the best mix of coaching capacity and 4-bit local fine-tunability/runnability on a 64GB Mac (faithfulness is a gated fairness floor for every model, so it is not a tie-breaker).
 - **It is effectively a tie with Qwen3-32B (untuned v3 base)** (base-fit 68.1 vs 67.5 — within noise). Gemma-3-27B-it edges it on tier-selection/capacity; Qwen3-32B (untuned v3 base) is smaller. Either is a defensible v3 base; prefer Qwen3-32B (untuned v3 base) if size / local-runnability is paramount, Gemma-3-27B-it if raw capacity is.
 - **The balanced winner and the base pick differ:** GLM-5 wins the raw open balanced score, but it far exceeds 64GB — not a viable local base. Gemma-3-27B-it is the pragmatic v3 base because tier-appropriateness (where the giant coaches lead) is exactly what we fine-tune IN, while capacity + faithfulness + local-runnability are what a base must bring.
-
-## 8. Cost
-
-| group | calls | in tok | out tok | est. USD |
-|---|---:|---:|---:|---:|
-| open | 21,681 | 21,910,715 | 4,266,729 | $28.17 |
-| frontier_gen | 1,350 | 1,531,055 | 495,278 | $21.71 |
-| council | 1,350 | 4,376,779 | 1,376,176 | $62.27 |
-| local | 7,227 | 2,639,131 | 0 | $0.00 |
-| **TOTAL** | | | | **$112.15** |
-
-_Open-model + frontier prices are best-effort Bedrock/gateway estimates; local (OURS-v2, BASE) is free. Total definitive-eval spend: **$112.15**._
 
 ## Artifacts
 

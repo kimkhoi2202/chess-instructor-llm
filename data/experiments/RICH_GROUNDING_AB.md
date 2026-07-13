@@ -127,12 +127,6 @@ FEN: `r1bqk2r/ppp4p/4p1p1/4Q3/3np3/8/PPP2PPP/R3KBNR b KQkq - 1 13`
 
 > I'd play Nxc2+. Castling is usually good, but it misses the chance to capture White’s c2 pawn while White has a forcing reply on e4. Nxc2+ uses your active knight to capture the loose c2 pawn and also gives check to the king on e1. That is why it is strong: it turns an active piece against a loose piece instead of only moving forward. How to find it: When the position is loose, do not play a normal castling move first. Run this quick checklist: 1) Which of my pieces can capture something? 2) Does that capture also give check or improve my position? Here, the knight on c3 can capture c2, so you should compare it with a normal castling move before choosing. Takeaway: Before castling, check whether you can capture a loose piece while improving your piece with check.
 
-## Cost
-
-- **OURS-v2: $0.00** (local `mlx_lm`, 100 generations).
-- **openai-group/gpt-5.5: $0.1188** (29,355 prompt + 8,214 completion tokens @ $1.25/$10.0 per 1M).
-- **Total: $0.1188.**
-
 ## Reproduce
 
 ```bash

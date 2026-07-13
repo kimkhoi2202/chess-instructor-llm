@@ -116,12 +116,6 @@ FEN: `r1bq1r1k/ppp3pp/2n2p2/2bn4/2B5/2P2N2/PP1BNPPP/R2QK2R w KQ - 1 12`
 
 **openai-group/gpt-5.5** confirms the pattern at frontier quality: 7% → 0% user-visible fabrication with a 7% fallback rate — the gate is a near-free safety net for a model that rarely fabricates, and the expensive fallback is reserved for the small model that needs it.
 
-## Cost
-
-- **OURS-v2: $0.00** (local `mlx_lm`; 89 generations across the gate).
-- **openai-group/gpt-5.5: $0.1375** (35,413 prompt + 9,319 completion tokens @ $1.25/$10.0 per 1M).
-- **Total: $0.1375.**
-
 ## Reproduce
 
 ```bash

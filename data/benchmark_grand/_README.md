@@ -55,8 +55,6 @@ One fresh, apples-to-apples comparison of **all 20 models** — our tuned specia
 
 Every TFY gateway model was regenerated **FRESH** on these exact positions (never reusing the old frontier gens); our Modal/MLX tuned models are deterministic given their adapter (reused where noted). ours_v5 is the finish-v5 controller's fresh Modal Volume gen.
 
-**New TFY spend:** gen $21.61 + council $32.35 = **$53.96** (under the $60 cap). The council on all 120 positions would cost ~$51.77 (total ~$73.37) at the measured $0.144/scenario — hence the 75-position council + full-field deterministic layer. Modal spend from this run ≈ $0 (v5 reused from the controller's Volume gen; v3/v4/4B reused).
-
 **Frontier reachability:** the 14-model lineup = 3 frontier APIs + 11 open candidates; **12 reachable** (dsr1 via `bedrock-oss-group/deepseek-r1`), **2 blocked**: `llama4-maverick` (400, Meta Llama access denied) and `kimi-k2-thinking` (403, not authorized).
 
 ## Metric framing (2026-07-09 honest reframe)

@@ -214,17 +214,14 @@ not fresh grounding.
 The reason is cost, stated plainly:
 
 - The definitive **803 x 3 grand eval with the blinded cross-family council was a
-  one-time run costing about $112.15** (open-model generation $28.17, frontier generation
-  $21.71, council $62.27, local $0) (`RESULTS_FULL_EVAL_803.md` section 8). The council
-  alone was $62.27 of that.
+  one-time run** (`RESULTS_FULL_EVAL_803.md`).
 - That budget was spent while the lineage was at **v2 / v3**. Re-running the full 803 x 3
   generation for each later adapter (v4 -> v6) would repeat the gateway + GPU spend for a
   reference field whose ordering is already established, so later versions were instead
   scored on the **cheaper, representative 120 held-out TEST** (scope (b)/(c)) to conserve
   Modal / gateway credits. The adversarial and prompt-control runs were kept deliberately
-  small for the same reason (about $3.45 and about $4.71 respectively;
-  `RESULTS_ADVERSARIAL.md`, `RESULTS_PROMPT_CONTROL.md`).
-- The corrected-label full-803 field table (scope (a)) was produced for **$0** as a
+  small for the same reason (`RESULTS_ADVERSARIAL.md`, `RESULTS_PROMPT_CONTROL.md`).
+- The corrected-label full-803 field table (scope (a)) was produced as a
   cached re-score (no model re-run) precisely because re-generating the field was
   off-limits on cost (`RESULTS_FULL_EVAL_803.md`).
 - To close the gap for the current live model without spending project credits, a
@@ -267,7 +264,7 @@ matched-frontier comparison lives on the 120 TEST (scope (c)) instead.
 | Source doc | What it anchors |
 |---|---|
 | `RESULTS_STAGE4_CORRECTED.md` | Scope (b) corrected 120 TEST (base/v4/v6-dpo/v6-dpo2 grounded; base/v6-distill no-grounding); base-vs-tuned +0.433 / +0.453; scope (e) |
-| `RESULTS_FULL_EVAL_803.md` | Scope (a) 803 re-score field (v2 0.509, v3 0.463, bases, open, frontier); the $112.15 one-time cost |
+| `RESULTS_FULL_EVAL_803.md` | Scope (a) 803 re-score field (v2 0.509, v3 0.463, bases, open, frontier) |
 | `data/benchmark_gap803/stage4_frontier/scores.json` (commit 9c64749) | Scope (c) matched-frontier 120 panel (exact per-model numbers) |
 | `RESULTS_HONEST_EVAL_V4.md` | Scope (d) v4 0.767 / served 0.789; head-to-head 56-24-12; base-vs-tuned +0.433 / +0.453; grand-eval leaderboard |
 | `RESULTS_PROMPT_CONTROL.md` | prompt-control 0.428 vs 0.767 (base-32B vs v4, same backend) |

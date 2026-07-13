@@ -60,8 +60,7 @@ Everything is v3-suffixed.
 | Train / valid | 2,457 / 129 | **6,772 / 356** |
 | Local inference | 4-bit MLX (0.9 GB) | 4-bit MLX (~18 GB) — 32B, still on-device on Apple Silicon |
 
-Teacher (GPT-5.5 via TrueFoundry, `--all-triples`): **7,266 labels, 0 failures,
-$141.13**, fully checkpoint/resumed across interruptions.
+Teacher (GPT-5.5 via TrueFoundry, `--all-triples`): **7,266 labels, 0 failures**, fully checkpoint/resumed across interruptions.
 
 ---
 
@@ -158,18 +157,7 @@ gated fairness floor for every model, so it is not a delta axis here.
 
 ---
 
-## Cost (v3 increment)
-
-| Item | Cost |
-|---|---:|
-| Teacher v3 generation (GPT-5.5, 7,266 labels) | $141.13 |
-| Modal QLoRA training (A100-80GB, incl. retries/resumes) | ~$12 |
-| Modal eval generation (A100-80GB, 2,409 coachings, incl. re-run) | ~$8 |
-| 15-model council (3 frontier judges × **450 items = 1,350 rankings**) | **$62.27** (~$46 added to expand the 120-item pilot → 450) |
-| **v3 increment total** | **~$223** |
-
-Open-model + frontier *coaching* generations were reused from the v2 803 run (not
-re-billed). Every long stage (teacher gen, training, eval gen, council) is
+Open-model + frontier *coaching* generations were reused from the v2 803 run. Every long stage (teacher gen, training, eval gen, council) is
 checkpoint/resumable and survived multiple interruptions with no lost work.
 
 ---

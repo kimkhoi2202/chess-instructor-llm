@@ -125,20 +125,6 @@ Self-preference (a judge vs its peers, on its own lab's model):
 Mean signed self-preference Δ across judges: **+0.48** rank (positive = judges favor their own lab). Mean magnitude: 0.48.
 
 
-## Cost
-
-| Model | gen calls | judge calls | in tok | out tok | est. USD |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| OURS (chess-coach-v1, 1.7B tuned) | 200 | 0 | 0 | 0 | $0.00 |
-| BASE (Qwen3-1.7B-4bit, untuned) | 200 | 0 | 0 | 0 | $0.00 |
-| GPT-5.5 | 200 | 200 | 412,631 | 327,509 | $3.79 |
-| Claude Opus 4.8 | 200 | 200 | 615,328 | 90,086 | $15.99 |
-| Gemini 3.1 Pro | 200 | 200 | 427,284 | 328,207 | $3.82 |
-
-
-**Total estimated cost: $23.59** (local MLX models are free; frontier prices are per-1M-token estimates, see per-model rows). Generations: 1000, council judgments: 600.
-
-
 ## Artifacts
 
 - Scenario set: `data/benchmark/scenarios.jsonl`

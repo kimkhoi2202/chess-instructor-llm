@@ -48,7 +48,7 @@ jobs): mean pick pool‑rank **beginner 1.70 > intermediate 0.88 > advanced 0.07
 | Multi‑tier contrastive FENs | 0 | **348** (same position → per‑tier move + method) |
 | Teacher fabrication at generation | 6.3% (unfiltered) | 1.6% residual (grounding + retry) → 0% after reject |
 
-Teacher generation cost **$50.36** (GPT‑5.5, 2,797 calls, 0 failures; fully
+Teacher generation (GPT‑5.5, 2,797 calls, 0 failures; fully
 checkpoint/resumed through two interruptions).
 
 ---
@@ -158,17 +158,6 @@ per item) is at `data/benchmark_v2/blind_label.html` for the user's own ranking.
   c3…"). It is applied identically to all 5 models, so the deltas are fair.
 
 ---
-
-## Cost & time
-
-| Item | Cost |
-|---|---:|
-| Teacher v2 generation (GPT‑5.5, 2,797 calls) | $50.36 |
-| Benchmark frontier generation (once) | $10.21 |
-| Benchmark v2 council + v1 council | $13.55 + $13.38 |
-| Rubric eval (Claude judge) | ~$1 |
-| Modal QLoRA training (A10G, 616 steps, ~20 min) | ~$1 |
-| **Total** | **~$90** |
 
 Every long stage is checkpoint/resumable (teacher gen, benchmark phases,
 divergence); the run survived two transient interruptions with no lost work or

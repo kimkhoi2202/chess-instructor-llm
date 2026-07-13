@@ -77,29 +77,6 @@ One blinded council ranks a **single field of 10 anonymized coaches** (the 5 v2 
 > **Bias caveat:** the three judges are also the top-3 competitors. The v2 run measured mean self-preference at +0.43 rank — small next to the ~2.7-position open→frontier gap — and it does not distort the open-vs-OURS-v2 comparison, since neither is any judge's own lab.
 
 
-## Cost (this open-model extension only)
-
-| Model | gen calls | judge calls | in tok | out tok | est. USD |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| OURS (chess-coach-v2, 1.7B tuned) | 100 | 0 | 0 | 0 | $0.00 |
-| BASE (Qwen3-1.7B-4bit, untuned) | 100 | 0 | 0 | 0 | $0.00 |
-| GPT-5.5 | 100 | 50 | 196,644 | 78,097 | $1.03 |
-| Claude Opus 4.8 | 100 | 50 | 293,101 | 41,500 | $7.51 |
-| Gemini 3.1 Pro | 100 | 50 | 204,108 | 120,298 | $1.46 |
-| Qwen3-32B | 100 | 0 | 98,316 | 10,361 | $0.02 |
-| Qwen3-Next-80B-A3B | 100 | 0 | 97,916 | 13,142 | $0.03 |
-| Gemma-3-27B-it | 100 | 0 | 99,703 | 12,711 | $0.02 |
-| Llama-3.3-70B | 100 | 0 | 98,795 | 13,447 | $0.08 |
-| DeepSeek-V3.2 | 100 | 0 | 95,960 | 11,140 | $0.03 |
-| GLM-5 | 100 | 0 | 96,201 | 11,443 | $0.06 |
-| Mistral-Large-3 (675B) | 100 | 0 | 98,901 | 13,721 | $0.28 |
-| Kimi-K2.5 | 100 | 0 | 98,029 | 13,633 | $0.09 |
-| DeepSeek-R1 (reasoning) | 100 | 0 | 96,060 | 75,709 | $0.54 |
-
-
-**Total estimated cost of this extension: $11.14** — grounded generation for the open models + the unified council. Open-model prices are best-effort Bedrock on-demand estimates; frontier judge prices are the same per-1M-token figures the v2 run used. The v2 five-model run itself cost ~$24 and is reused here for free.
-
-
 ## Artifacts
 
 - Scenarios (same as v2): `data/benchmark_open/scenarios.jsonl`

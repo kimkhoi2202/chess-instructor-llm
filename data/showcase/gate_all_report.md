@@ -6,8 +6,7 @@ Every displayed coaching cell in `web/public/showcase.json` is now GATED: the ra
 - Raw fabrication (widened checker, pre-gate): **4,472** cells (**24.7%**).
 - Post-gate deterministic residual: **0** cells (**0.0%**) — should be ~0.
 - Re-generations spent: **7,305**; verified-fallbacks: **708**.
-- New spend (this gate run, frontier/open re-gen): **$44.35** (local OURS/BASE re-gen = $0).
-- LLM-judge residual sample: **378** gated cells × 3 judges = **1134** calls, **$13.05**.
+- LLM-judge residual sample: **378** gated cells × 3 judges = **1134** calls.
 
 ## Per-model: RAW → GATED (deterministic) → JUDGE residual
 
@@ -45,7 +44,7 @@ Every displayed coaching cell in `web/public/showcase.json` is now GATED: the ra
 ## Where gating barely moved a model vs did heavy lifting
 
 - **Under the WIDENED checker, frontier was NOT 'mostly clean'.** Raw fabrication was Claude 33.9%, Gemini 16.9%, GPT-5.5 16.3% — so the deterministic gate had real work to do on frontier too (Claude needed the most frontier cleanup by far: 500 flagged cells). The narrow legacy checker had understated this; the widened `verify_text_ext` catches the relational / move-consequence / turn / material lies it missed.
-- **OURS/BASE needed the heaviest lifting.** OURS raw-fab 49.4% and BASE 35.0%; together they consumed 2,810 re-samples and fell back to the engine-derived explanation on the cells even re-sampling couldn't fix. Local re-gen is free, so this cost $0 — the point of running them on-device.
+- **OURS/BASE needed the heaviest lifting.** OURS raw-fab 49.4% and BASE 35.0%; together they consumed 2,810 re-samples and fell back to the engine-derived explanation on the cells even re-sampling couldn't fix. Local re-gen is free — the point of running them on-device.
 - **Deterministically the gate equalises everyone to 0% mechanical fabrication** (that is the fairness guarantee). The honest *quality* gap only appears in the LLM-judge layer: GPT-5.5 79.5% truthful and Llama-3.3-70B 72.2% at the top, OURS 23.1% and BASE 0.0% at the bottom — the 1.7B models say true-sounding but unsupported things that only a semantic judge can catch.
 
 ## Artifacts

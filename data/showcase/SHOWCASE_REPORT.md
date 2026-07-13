@@ -74,19 +74,6 @@ OURS + 10 of the API models coached every position. During the NEW-position run 
 | discriminating + eligible | 5862 |
 | **selected (strongest)** | **210** |
 
-## Cost (frontier via TrueFoundry; local OURS/BASE free)
-
-| bucket | calls | in tok | out tok | est. USD |
-|---|---:|---:|---:|---:|
-| train_gen | 4,113 | 4,295,072 | 1,072,030 | $23.17 |
-| test_new_gen | 5,670 | 5,887,242 | 1,586,636 | $35.57 |
-| council | 4,428 | 11,688,198 | 3,190,377 | $141.57 |
-| local_gen_free | 2,952 | 0 | 0 | $0.00 |
-| reused_803_gen | 5,400 | 5,559,123 | 1,297,152 | $26.96 |
-| **NEW SPEND (this run)** | | | | **$200.31** |
-
-_New spend this run = train gens + new-Lichess gens + council = **$200.31**. The reused 803 generations ($26.96 of value) were already paid for by the definitive benchmark and cost $0 here. Local OURS-v2 + BASE are free._
-
 ## Artifacts
 
 - Per split: `data/showcase/{train,test_new,test_reuse}/scenarios.jsonl`, `gen/<model>.jsonl`, `objective.jsonl`, `council.jsonl`.

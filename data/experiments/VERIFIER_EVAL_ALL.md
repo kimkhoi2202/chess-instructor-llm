@@ -7,7 +7,6 @@ _Generated 2026-07-07T02:48:05.890963+00:00. **Gate** = production `src/api/serv
 - **Every one of the 14 models lands at **0%** GATED user-visible fabrication** — RAW fabrication ranges from 0% to 40% (OURS-v2 (chess-coach-v2, 1.7B tuned)) before the gate.
 - **Answer to "does any model fail to hit 0% after the gate?" — NO.** All 14 models reach 0% user-visible fabrication after the gate. This is by design: the gate only ever serves text that passes `verify_text`, or the engine-derived fallback (true by construction), so the guarantee is model-agnostic.
 - **The honest differentiator is the fallback rate** (how often the gate had to replace the model with the verified template). Most self-sufficient: **Gemini 3.1 Pro** (0.0% fallback); most dependent on the safety net: **OURS-v2 (chess-coach-v2, 1.7B tuned)** (10.0%).
-- **Total cost: $3.1286** (locals free; API usage on TrueFoundry).
 
 ## Method (identical to the prior 2-model run, extended to 14)
 
@@ -66,28 +65,6 @@ Every model reaches ~0% GATED, so fabrication rate no longer separates them. Wha
 | 14 | OURS-v2 (chess-coach-v2, 1.7B tuned) | 10.0% | 40% | 90% / 10% | a1:30, a2:10, a3:1, a4:4, fallback:5 |
 
 _Attempts-to-clean legend: `aK:n` = n positions where the model produced a clean reply on attempt K (K≤4); `fallback:n` = n positions where no attempt passed in budget and the verified engine-derived explanation was served._
-
-## Cost
-
-| Model | Prompt tok | Completion tok | Cost (USD) |
-|---|---|---|---|
-| OURS-v2 (chess-coach-v2, 1.7B tuned) | — | — | $0.0000 (local) |
-| BASE (Qwen3-1.7B-4bit, untuned) | — | — | $0.0000 (local) |
-| GPT-5.5 | 51,773 | 13,344 | $0.1982 |
-| Claude Opus 4.8 | 76,129 | 10,448 | $1.9255 |
-| Gemini 3.1 Pro | 50,373 | 31,270 | $0.3757 |
-| Qwen3-32B | 53,298 | 5,682 | $0.0114 |
-| Qwen3-Next-80B-A3B | 53,349 | 5,560 | $0.0151 |
-| Gemma-3-27B-it | 52,757 | 6,479 | $0.0079 |
-| Llama-3.3-70B | 50,466 | 6,060 | $0.0407 |
-| DeepSeek-V3.2 | 52,183 | 4,787 | $0.0180 |
-| GLM-5 | 53,126 | 6,471 | $0.0316 |
-| Mistral-Large-3 (675B) | 58,713 | 8,210 | $0.1667 |
-| Kimi-K2.5 | 54,294 | 8,095 | $0.0528 |
-| DeepSeek-R1 (reasoning) | 52,085 | 39,749 | $0.2850 |
-| **Total** | | | **$3.1286** |
-
-_API prices are the per-model estimates in `src/eval/benchmark/config.py` (frontier priced exactly; open-model Bedrock on-demand best-effort). Locals are free._
 
 ## Reproduce
 

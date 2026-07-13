@@ -12,7 +12,7 @@ For a stated Elo tier, *leveled, human-findable "teaching-move" coaching* is **n
 delivered by a prompted frontier model** — and **can** be trained into a small local model to run
 reliably, cheaply, and privately. We do **not** beat the frontier at raw coaching instructiveness.
 Our defensible wins are three: **tier-appropriateness** (the behavior the frontier skips),
-**cost/locality** (local MLX, ~$0, private), and **verifier-guaranteed faithfulness** (zero
+**cost/locality** (local MLX, private), and **verifier-guaranteed faithfulness** (zero
 verifier-detectable mechanical violations for *any* model behind the gate).
 
 **Model naming.** `base` = `Qwen3-1.7B-4bit` (untuned) · `v1` = `chess-coach-v1` (1.7B QLoRA) ·
@@ -333,7 +333,7 @@ Putting the six findings together:
 - ❌ We do **not** beat frontier models at coaching instructiveness (they still out-rank us on the
   council, grounded and ungrounded).
 - ✅ We **do** win on **tier-appropriateness** (leveled, human-findable move selection the frontier
-  skips), **cost/locality/privacy** (local MLX, ~$0/query, no data leaves the machine), and
+  skips), **cost/locality/privacy** (local MLX, no data leaves the machine), and
   **verifier-guaranteed faithfulness** (zero verifier-detectable mechanical violations, structurally).
 
 ---
@@ -360,8 +360,7 @@ with 95% CIs (cluster bootstrap by item; §3 of `docs/archive/RESULTS_FULL_EVAL_
 tier-appropriate move selection 45% + self-preference-corrected instructiveness 45% + practical
 (local + cost) 10%**, with move-safety and no-jargon as pass/fail gates. **Fabrication is not a
 scoring axis** — every model ships zero verifier-detectable mechanical violations behind the gate (a fairness floor);
-the honest truth differentiator is the semantic-judge residual (§4). Council cost **$62.27**
-(1,350 rankings); full gap803 eval spend (all generations + council) **$112.15**.
+the honest truth differentiator is the semantic-judge residual (§4).
 
 ### 7a. Balanced leaderboard (all 15 models)
 

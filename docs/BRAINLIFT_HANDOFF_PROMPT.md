@@ -20,7 +20,7 @@ A BrainLift is a research artifact that produces a **depth-gated menu of candida
 
 **The bet (NOT "a 1.7B plays better chess than a frontier model" — it never will).** The narrow, measurable claim is: **one specific behavior — leveled, human-findable "teaching-move" coaching in a steady no-engine-speak voice — is not reliably delivered by a prompted frontier model, and can be trained into a small model to run reliably, cheaply, and locally.**
 
-**Money / product goal (the honest win).** The small local model's defensible advantage is **form factor + register consistency**: ~$0 marginal inference cost (local 4-bit MLX), **private** (data stays on-device), **offline**, low-latency, and a low-variance jargon-free voice. Concretely: running the 100-position 5-model benchmark cost ~$24 total, of which the two local models (ours + base) were **$0.00** while the three frontier models cost the rest per API pricing. The economics are treated as a **secondary, low-confidence** advantage — real in kind, never used as a load-bearing number.
+**Money / product goal (the honest win).** The small local model's defensible advantage is **form factor + register consistency**: local 4-bit MLX, **private** (data stays on-device), **offline**, low-latency, and a low-variance jargon-free voice. The economics are treated as a **secondary, low-confidence** advantage — real in kind, never used as a load-bearing number.
 
 **Published artifacts (v1 baseline):** model `khoilamalphaai/qwen3-1.7b-chess-coach-mlx`, dataset `khoilamalphaai/chess-coach-benchmark`, and a results Space, all on Hugging Face Hub under `khoilamalphaai`.
 

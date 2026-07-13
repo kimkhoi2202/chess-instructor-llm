@@ -223,5 +223,3 @@ Artifacts: `data/prompt_control_32b/prompts.jsonl` (the 720 prompts),
   A100-80GB, greedy (`do_sample=False`, `repetition_penalty=1.15`,
   `no_repeat_ngram_size=4`), 512 new tokens, `enable_thinking=False`,
   `_strip_think` + `_clean_lead` — identical to `eval_modal_v4*.py`.
-- **Workspace / credits used:** `chess-instructor-3` — spend $21.75 → $26.46 =
-  **≈ $4.71** for the run (720 generations, ~42 min A100 wall).

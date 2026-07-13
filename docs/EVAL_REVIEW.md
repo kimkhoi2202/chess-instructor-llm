@@ -129,12 +129,11 @@ Honest caveats (say these out loud):
   this earlier would have saved a re-eval cycle (`RESULTS_FULL_EVAL_803.md`,
   `RESULTS_HONEST_EVAL_V4.md`).
 - Run the matched prompt-control from day 1. The 32B un-promptability claim sat as a
-  hypothesis for most of the project and was only settled at the end for about 4.71 dollars;
+  hypothesis for most of the project and was only settled at the end;
   it should gate the thesis from the start (`RESULTS_PROMPT_CONTROL.md`).
 - Avoid the v5 under-optimization mistake: change one variable at a time, select checkpoints
   on a dev set, and do not guess epochs (`BRAINLIFT.md`).
-- Manage council cost earlier: the instructiveness council was 62.27 dollars of the 112.15
-  dollar 803 eval, so scope the blinded panel and reuse generations deliberately
+- Manage council cost earlier: scope the blinded panel and reuse generations deliberately
   (`RESULTS_FULL_EVAL_803.md`).
 - Ship the spec-honest small model as the headline and treat the 32B as the stretch, since
   learnability is led by the small model and is the honest form factor

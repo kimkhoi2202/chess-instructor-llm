@@ -28,9 +28,9 @@ Given a position + student tier (beginner ≈1000–1200 / intermediate ≈1300�
 5. Council instructiveness **plateaus** (no gain over 3 iterations) or reaches parity with the best *prompted* model on the tier axis.
 
 ## Compute rotation (cheap → overflow) — SECRETS NEVER IN THIS REPO
-Small 4B QLoRA runs are cheap (~$2–5). **kim-lam is BILLING-BLOCKED (overdue invoice) — DO NOT USE IT for anything.** Use in order, rotate when a workspace errors on credits:
-1. **chess-instructor-2** ($30 fresh) — start here (no v4 competition).
-2. **chess-instructor** (~$28, shared with the running v4 32B — do NOT disturb v4; the 4B run is small enough to coexist).
+Small 4B QLoRA runs are cheap. **kim-lam is BILLING-BLOCKED (overdue invoice) — DO NOT USE IT for anything.** Use in order, rotate when a workspace errors on credits:
+1. **chess-instructor-2** (fresh) — start here (no v4 competition).
+2. **chess-instructor** (shared with the running v4 32B — do NOT disturb v4; the 4B run is small enough to coexist).
 Modal auth is via named CLI profiles (`--profile <name>`) in `~/.modal.toml` and tokens in the **gitignored** `.env` — never write tokens into RALPH_TASK.md, .ralph/, or any committed file.
 
 ## Guardrails (see .ralph/guardrails.md for the living list)
