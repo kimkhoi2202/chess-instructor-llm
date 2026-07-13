@@ -617,13 +617,6 @@ export default function Studio() {
           {/* Board toolbar */}
           <div className="flex min-h-11 flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <span
-                aria-hidden
-                className="inline-block size-3 rounded-full ring-1 ring-border"
-                style={{
-                  backgroundColor: toMove === "white" ? "var(--board-light)" : "var(--board-dark)",
-                }}
-              />
               <span className="text-sm text-muted">
                 {toMove === "white" ? "White" : "Black"} to move
               </span>
@@ -1075,11 +1068,6 @@ function IdlePanel({
         </div>
       )}
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-[color:var(--separator)] pt-5 text-sm text-muted">
-        <span
-          aria-hidden
-          className="inline-block size-3 rounded-full ring-1 ring-border"
-          style={{ backgroundColor: toMove === "white" ? "var(--board-light)" : "var(--board-dark)" }}
-        />
         {toMove === "white" ? "White" : "Black"} to move
         {studentSan && (
           <>
