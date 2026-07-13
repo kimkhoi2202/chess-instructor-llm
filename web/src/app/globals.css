@@ -512,3 +512,14 @@ body .cg-wrap coords coord {
     1px 1px 0 rgba(23, 16, 9, 0.95),
     0 0 3px rgba(23, 16, 9, 0.9) !important;
 }
+
+/* Tooltip wrapping: HeroUI's global `.tooltip` sets `word-break: break-all`, which
+   splits words mid-character (e.g. "t/his", "ada/pt"). Break only at natural word
+   boundaries instead; the readable max-width (var(--container-xs) ≈ 20rem) already
+   set by HeroUI keeps lines short so text still wraps cleanly. `!important` is
+   needed because HeroUI's rule may sit in an earlier/unlayered cascade layer. */
+.tooltip {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
