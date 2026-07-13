@@ -24,7 +24,7 @@ export default function NavBar() {
 
   return (
     <header
-      className="sticky top-0 z-40 border-b border-[color:var(--border)]"
+      className="nav-in sticky top-0 z-40 border-b border-[color:var(--border)]"
       style={{ backgroundColor: "color-mix(in oklab, var(--background) 90%, transparent)" }}
     >
       <nav
@@ -34,7 +34,7 @@ export default function NavBar() {
         <Link
           href="/"
           aria-label="Chess Coach — Studio home"
-          className="group inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60"
+          className="mi group inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60"
         >
           <span
             aria-hidden
@@ -53,7 +53,7 @@ export default function NavBar() {
                 key={l.href}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
-                className={`inline-flex min-h-9 cursor-pointer items-center rounded-full px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 motion-reduce:transition-none ${
+                className={`mi inline-flex min-h-9 cursor-pointer items-center rounded-full px-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
                   active
                     ? "bg-signal/15 text-signal ring-1 ring-signal/40"
                     : "text-muted hover:bg-[color:var(--surface-tertiary)] hover:text-ink"
@@ -67,7 +67,7 @@ export default function NavBar() {
             href={BENCHMARK_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-9 cursor-pointer items-center gap-1 rounded-full px-3 text-sm font-medium text-muted transition-colors hover:bg-[color:var(--surface-tertiary)] hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 motion-reduce:transition-none"
+            className="mi inline-flex min-h-9 cursor-pointer items-center gap-1 rounded-full px-3 text-sm font-medium text-muted hover:bg-[color:var(--surface-tertiary)] hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60"
           >
             Benchmark
             <span aria-hidden className="text-faint">↗</span>

@@ -88,7 +88,7 @@ export default function PositionLibrary({
               type="button"
               onClick={() => setFilter(f.id)}
               aria-pressed={active}
-              className={`inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
+              className={`mi inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
                 active
                   ? "bg-signal text-[color:var(--signal-ink)]"
                   : "text-muted ring-1 ring-[color:var(--border)] hover:text-ink hover:ring-[color:var(--field-border)]"
@@ -140,7 +140,7 @@ export default function PositionLibrary({
                       disabled={disabled}
                       onClick={() => onSelect(e)}
                       aria-pressed={active}
-                      className={`group flex w-full cursor-pointer items-center gap-3 px-3.5 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-signal/60 disabled:cursor-default disabled:opacity-50 ${
+                      className={`mi group flex w-full cursor-pointer items-center gap-3 px-3.5 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-signal/60 disabled:cursor-default disabled:opacity-50 ${
                         active
                           ? "bg-signal/12"
                           : "hover:bg-[color:var(--surface-tertiary)]"

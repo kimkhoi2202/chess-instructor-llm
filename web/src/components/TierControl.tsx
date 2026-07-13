@@ -44,7 +44,7 @@ export default function TierControl({
           <ToggleButton
             key={t.id}
             id={t.id}
-            className="min-h-11"
+            className="mi min-h-11"
             // Announce the rating band with the tier so the choice is unambiguous
             // to a screen reader (the band is only shown visually otherwise).
             aria-label={`${t.label}, rated ${t.band}`}

@@ -50,11 +50,14 @@ export default function EvalBar({ cp, sideToMove, orientation }: EvalBarProps) {
       ? "top"
       : "bottom";
 
+  // Fill the whole bar and scale it from White's end: a compositor-only transform
+  // (no height/layout animation), so the fill glides when the eval changes.
   const fillStyle: CSSProperties = {
-    height: `${whitePct}%`,
     backgroundColor: "var(--board-light)",
+    transform: `scaleY(${whitePct / 100})`,
+    transformOrigin: whiteEnd,
+    willChange: "transform",
   };
-  fillStyle[whiteEnd] = 0;
 
   const labelStyle: CSSProperties = {
     color: whiteLeads ? "var(--signal-ink)" : "var(--board-light)",
@@ -76,7 +79,7 @@ export default function EvalBar({ cp, sideToMove, orientation }: EvalBarProps) {
     >
       {/* White's advantage: cream fill anchored to White's end of the bar. */}
       <div
-        className="absolute inset-x-0 transition-[height] duration-300 motion-reduce:transition-none"
+        className="absolute inset-0 transition-transform duration-300 ease-out motion-reduce:transition-none"
         style={fillStyle}
       />
       {/* Brass hairline at the 50% (equal) mark. */}

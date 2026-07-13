@@ -113,7 +113,7 @@ export default function Showdown() {
   return (
     <div className="relative z-[1] mx-auto flex min-h-dvh w-full max-w-[1240px] flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {/* Header */}
-      <header className="flex flex-col gap-4">
+      <header className="enter enter-1 flex flex-col gap-4">
         <div className="flex items-center justify-end gap-3">
           {doc && (
             <span className="hidden font-mono text-xs text-faint tnum sm:inline">
@@ -215,7 +215,7 @@ export default function Showdown() {
 
       {/* Filter bar */}
       {status === "ready" && (
-        <section className="flex flex-col gap-3">
+        <section className="enter enter-2 flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
             <PillGroup
               label="Tier"
@@ -274,7 +274,7 @@ export default function Showdown() {
                 role="switch"
                 aria-checked={winsOnly}
                 onClick={() => setWinsOnly((w) => !w)}
-                className={`inline-flex min-h-9 items-center gap-2 rounded-full px-3.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
+                className={`mi inline-flex min-h-9 items-center gap-2 rounded-full px-3.5 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
                   winsOnly
                     ? "bg-signal text-[color:var(--signal-ink)]"
                     : "text-muted ring-1 ring-[color:var(--border)] hover:text-ink"
@@ -299,7 +299,7 @@ export default function Showdown() {
       )}
 
       {/* Body */}
-      <main className="flex flex-1 flex-col gap-4">
+      <main className="enter enter-3 flex flex-1 flex-col gap-4">
         {status === "loading" && (
           <div className="flex flex-col gap-4" role="status" aria-busy="true" aria-live="polite">
             <span className="sr-only">Loading the model showdown…</span>

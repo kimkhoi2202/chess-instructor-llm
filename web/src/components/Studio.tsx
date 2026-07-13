@@ -26,6 +26,7 @@ import { STUDIO_DEFAULT_TIERS } from "@/lib/studioDefault";
 import { playCapture, playMove } from "@/lib/sound";
 import BoardStage, { type StageArrow } from "./BoardStage";
 import TierControl from "./TierControl";
+import Collapsible from "./Collapsible";
 import CoachingReveal from "./CoachingReveal";
 import PositionLibrary, { type LibStatus } from "./PositionLibrary";
 import CopyFenButton from "./CopyFenButton";
@@ -540,7 +541,7 @@ export default function Studio() {
           reliably than its base or the frontier; the coaching prose is a
           secondary, optional layer, and the cross-model views are the bonus
           comparison. */}
-      <header className="flex flex-col gap-5">
+      <header className="enter enter-1 flex flex-col gap-5">
         <div className="flex max-w-3xl flex-wrap items-center gap-x-3 gap-y-2">
           <h1 className="text-2xl font-semibold leading-tight tracking-tight text-balance text-ink sm:text-[2rem]">
             The right move for your level
@@ -557,13 +558,11 @@ export default function Studio() {
 
         {/* GRADER 30-SECOND ORIENTATION: the one behavior + three-step loop, in a
             collapsed-by-default toggle so the hero stays clean. */}
-        <details className="group rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)]">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm font-medium text-ink [&::-webkit-details-marker]:hidden">
-            <span aria-hidden className="text-faint transition-transform group-open:rotate-90">
-              ›
-            </span>
-            How it works
-          </summary>
+        <Collapsible
+          label="How it works"
+          rootClassName="rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)]"
+          summaryClassName="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-xl px-4 py-3 text-left text-sm font-medium text-ink"
+        >
           <div className="flex flex-col gap-3 px-4 pb-4 sm:flex-row sm:items-center sm:gap-5">
             <p className="text-sm leading-relaxed text-muted sm:max-w-[15rem]">
               The model&apos;s one job is to pick the move that fits your rating, not to lecture.
@@ -589,7 +588,7 @@ export default function Studio() {
             ))}
             </ol>
           </div>
-        </details>
+        </Collapsible>
       </header>
 
       {/* Board-centric console. Desktop: board + controls in the left column, the
@@ -598,7 +597,7 @@ export default function Studio() {
         {/* Board + toolbar */}
         <section
           ref={boardZoneRef}
-          className="order-1 flex flex-col gap-4 lg:col-start-1 lg:row-start-1"
+          className="enter enter-2 order-1 flex flex-col gap-4 lg:col-start-1 lg:row-start-1"
         >
           {/* The board is NEVER gated by a coaching call — it stays interactive
               through cold starts and live runs so the position is always usable.
@@ -658,7 +657,7 @@ export default function Studio() {
 
         {/* Coaching console: unboxed onto the felt. On desktop a 1px divider (not
             a card) separates it from the board column. */}
-        <section className="order-2 flex lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        <section className="enter enter-3 order-2 flex lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="flex flex-1 flex-col lg:min-h-[660px] lg:border-l lg:border-[color:var(--separator)] lg:pl-8">
             <div className="flex flex-1 flex-col pt-1" aria-live="polite">
               {activeStatus === "done" && activeResult ? (
@@ -697,7 +696,7 @@ export default function Studio() {
         </section>
 
         {/* Controls: unboxed onto the felt, sections divided by 1px rules. */}
-        <section className="order-3 lg:col-start-1 lg:row-start-2">
+        <section className="enter enter-4 order-3 lg:col-start-1 lg:row-start-2">
           <div className="flex flex-col">
             <div className="flex flex-col gap-5">
               {/* Always enabled: switching bands reads from the per-tier cache, so
@@ -737,7 +736,7 @@ export default function Studio() {
                     <Button
                       variant="primary"
                       size="lg"
-                      className="min-h-12 w-full font-medium"
+                      className="mi min-h-12 w-full font-medium"
                       onPress={runLiveActive}
                     >
                       Run live
@@ -803,13 +802,10 @@ export default function Studio() {
               <Separator />
 
               {/* Advanced: paste any FEN or set a move (collapsed by default) */}
-              <details className="group">
-                <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-ink [&::-webkit-details-marker]:hidden">
-                  <span aria-hidden className="text-faint transition-transform group-open:rotate-90">
-                    ›
-                  </span>
-                  Paste a FEN or set a move
-                </summary>
+              <Collapsible
+                label="Paste a FEN or set a move"
+                summaryClassName="mi flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-md text-left text-sm font-medium text-muted hover:text-ink"
+              >
                 <div className="mt-3 flex flex-col gap-3">
                   <TextField
                     className="flex flex-col gap-1.5"
@@ -871,7 +867,7 @@ export default function Studio() {
                       <Button
                         variant="secondary"
                         size="md"
-                        className="min-h-11"
+                        className="mi min-h-11"
                         isDisabled={!fenDraftState.ok || fenDraftState.gameOver}
                         onPress={loadFen}
                       >
@@ -885,7 +881,7 @@ export default function Studio() {
                       <Button
                         variant="tertiary"
                         size="md"
-                        className="min-h-11"
+                        className="mi min-h-11"
                         isDisabled={!draftUci}
                         onPress={setMoveFromDraft}
                       >
@@ -900,7 +896,7 @@ export default function Studio() {
                         isIconOnly
                         variant="tertiary"
                         size="md"
-                        className="min-h-11 min-w-11"
+                        className="mi min-h-11 min-w-11"
                         aria-label="Clear your move"
                         onPress={clearMove}
                       >
@@ -909,7 +905,7 @@ export default function Studio() {
                     )}
                   </div>
                 </div>
-              </details>
+              </Collapsible>
             </div>
           </div>
         </section>
@@ -986,7 +982,7 @@ function ErrorPanel({ error, onRetry }: { error: string | null; onRetry: () => v
         Your position is saved. This usually means the coaching service is restarting: give it a
         moment and try again.
       </p>
-      <Button variant="primary" size="md" className="min-h-11" onPress={onRetry}>
+      <Button variant="primary" size="md" className="mi min-h-11" onPress={onRetry}>
         Try again
       </Button>
       {error && (

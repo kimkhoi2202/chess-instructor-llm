@@ -39,7 +39,7 @@ export default function MoveNav({
       isIconOnly
       variant="tertiary"
       size="sm"
-      className="min-h-9 min-w-9"
+      className="mi min-h-9 min-w-9"
       aria-label={label}
       isDisabled={disabled}
       onPress={() => onJump(to)}
@@ -77,7 +77,7 @@ export default function MoveNav({
                 type="button"
                 onClick={() => onJump(idx)}
                 aria-current={active ? "true" : undefined}
-                className={`cursor-pointer rounded px-1 font-serif tnum transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
+                className={`mi cursor-pointer rounded px-1 font-serif tnum focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/60 ${
                   active
                     ? "bg-signal/20 font-semibold text-ink"
                     : "text-muted hover:bg-[color:var(--surface-tertiary)] hover:text-ink"

@@ -350,7 +350,7 @@ export default function Showcase() {
             filteredCount={filtered.length}
           />
 
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+          <div className="enter enter-3 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
             {/* Curated library */}
             <section className="flex flex-col gap-3" aria-label="Curated position library">
               <div className="flex items-baseline justify-between gap-2">
@@ -381,7 +381,7 @@ export default function Showcase() {
                     <Button
                       variant="tertiary"
                       size="md"
-                      className="min-h-11 self-center rounded-full"
+                      className="mi min-h-11 self-center rounded-full"
                       onPress={() => setVisible((v) => v + LIB_PAGE)}
                     >
                       Show more ({filtered.length - visible} left)
@@ -482,7 +482,7 @@ function ShowcaseHeader({
   const sizeLabel = ours?.size ? `${ours.size} ` : "";
   const modelCount = meta?.modelCount ?? 0;
   return (
-    <header className="flex flex-col gap-4">
+    <header className="enter enter-1 flex flex-col gap-4">
       <div className="flex items-center justify-end gap-3">
         <span
           className="rounded-full px-2.5 py-1 font-mono text-xs text-signal ring-1 ring-signal/40 tnum"
@@ -591,7 +591,7 @@ function ControlBar({
   const trainDisabled = !meta.hasTrain;
 
   return (
-    <section className="flex flex-col gap-4">
+    <section className="enter enter-2 flex flex-col gap-4">
       {/* Split: Training vs Test as real HeroUI Tabs, honestly labelled */}
       <div className="flex flex-wrap items-center gap-2">
         <Tabs
@@ -801,7 +801,7 @@ function LibraryCard({
           onSelect();
         }
       }}
-      className={`cursor-pointer p-2.5 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-signal/60 ${
+      className={`mi cursor-pointer p-2.5 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-signal/60 ${
         active ? "bg-signal/12" : "hover:bg-[color:var(--surface-tertiary)]"
       }`}
     >
@@ -1788,14 +1788,14 @@ function RerunPanel({
       <div className="flex flex-wrap items-center justify-end gap-2">
         <div className="flex items-center gap-2">
           {liveActive && (
-            <Button variant="tertiary" size="sm" className="min-h-9" onPress={onClear}>
+            <Button variant="tertiary" size="sm" className="mi min-h-9" onPress={onClear}>
               Clear
             </Button>
           )}
           <Button
             variant="primary"
             size="md"
-            className="min-h-10"
+            className="mi min-h-10"
             isDisabled={loading}
             aria-busy={loading}
             onPress={onRun}

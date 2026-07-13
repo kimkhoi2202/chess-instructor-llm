@@ -255,6 +255,82 @@ body {
   animation: shimmer 1.4s ease-in-out infinite;
 }
 
+/* --------------------------------------------------------------------------
+   Interaction motion: an orchestrated page-load reveal, a subtle nav drop-in,
+   and hover/press micro-interactions. transform + opacity ONLY (never layout,
+   never `all`). Every rule here is neutralized by the prefers-reduced-motion
+   block below, which also cancels the hover/press transforms outright.
+   -------------------------------------------------------------------------- */
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* One orchestrated page-load reveal (ease-out); stagger via .enter-N delays so
+   the panels arrive as a single wave rather than scattered pops. */
+.enter {
+  animation: enter 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.enter-1 {
+  animation-delay: 40ms;
+}
+.enter-2 {
+  animation-delay: 100ms;
+}
+.enter-3 {
+  animation-delay: 160ms;
+}
+.enter-4 {
+  animation-delay: 220ms;
+}
+.enter-5 {
+  animation-delay: 280ms;
+}
+.nav-in {
+  animation: nav-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Micro-interactions. `.mi` unifies the transition (transform + the usual color
+   set — never `all`); `.mi:active` is a subtle press; `.mi-lift:hover` a 1px
+   raise, gated to real hover pointers so touch taps never trigger it. Unlayered
+   so it wins over HeroUI/Tailwind transitions on the same element. */
+.mi {
+  transition-property: transform, background-color, border-color, color, box-shadow, opacity;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+.mi:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) {
+  .mi-lift:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Native <details>: content eases in on open (transform/opacity — the box grows
+   natively, no height animation). Close stays instant. */
+details[open] > :not(summary) {
+  animation: enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -282,6 +358,20 @@ body {
   .rise,
   .board-settle {
     animation: none !important;
+  }
+  /* Interaction motion: cancel the page entrance, nav drop-in, and details
+     reveal entirely, and drop the hover/press transforms so nothing moves. */
+  .enter,
+  .nav-in,
+  details[open] > :not(summary) {
+    animation: none !important;
+  }
+  .mi {
+    transition: none !important;
+  }
+  .mi:active,
+  .mi-lift:hover {
+    transform: none !important;
   }
 }
 
